@@ -5,6 +5,7 @@ import { createMcpCentralSessionCheck, readMcpServerEnvironment } from '../../li
 import { currentActor } from '../../lib/session';
 import type { createCentralStudio } from '@eps/central';
 import { getSpecsService } from '../../lib/specs';
+import { getScenesService } from '../../lib/scenes';
 import { getJobs } from '../../lib/jobs';
 import { failure } from '../../lib/http';
 import { getStudio } from '../../lib/studio';
@@ -29,7 +30,7 @@ async function handle(request: Request) {
       const studio = await getStudio() as Awaited<ReturnType<typeof createCentralStudio>>;
       return { studio, specs: await getSpecsService(), jobs: await getJobs(), candidates: await getCandidatesService(),
         casting: await getCastingService(), review: await getReviewService(), presentation: await getPresentationService(),
-        sharing: await optionalSharing(getReviewLinkService), settings: await getSettingsService() };
+        sharing: await optionalSharing(getReviewLinkService), settings: await getSettingsService(), scenes: await getScenesService() };
     }
     return createMcpHttpHandler({ config, runtime: runtimeConfig, authorizationTrace,
       verifiedTokenLog: value => console.info('EPS MCP verified token', JSON.stringify(value)),

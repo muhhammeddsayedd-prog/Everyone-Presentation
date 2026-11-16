@@ -11493,6 +11493,1064 @@ paths:
           $ref: '#/components/schemas/Id'
       description: Private JPEG bytes of a ready candidate photo or its thumbnail, read with the caller's own session (cast.read). Archive photos
         never change, so the response may be kept privately for a day.
+  /workspaces/{workspace_id}/scenes:
+    get:
+      operationId: list_scenes
+      summary: List active scenes with their role occurrences, in order
+      description: Active scenes ordered by sort_order; each includes its role occurrences. Pages use the last scene id as cursor. A role is the
+        canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example
+        a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Scene'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_scenes
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+    post:
+      operationId: create_scene
+      summary: Create a confirmed scene at the end of the scene order
+      description: Creates a confirmed scene appended last. Link roles to it with link_scene_occurrence. A role is the canonical character; all
+        occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create
+        a new role with create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Scene'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: create_scene
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneCreate'
+  /scenes/{scene_id}:
+    patch:
+      operationId: update_scene
+      summary: Correct scene number, title, sequence, setting, notes or requirements
+      description: Revision-fenced partial update of the scene record; source_refs and status are read-only here. A role is the canonical character;
+        all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father),
+        create a new role with create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Scene'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: update_scene
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: scene_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScenePatch'
+  /workspaces/{workspace_id}/scene-order:
+    put:
+      operationId: reorder_scenes
+      summary: Reorder all active scenes
+      description: Supply exactly the full active scene set in its new order with the workspace row_version; returns the new workspace row_version.
+        A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person
+        (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/SceneOrder'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: reorder_scenes
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneReorder'
+  /scenes/{scene_id}/archive:
+    post:
+      operationId: archive_scene
+      summary: Archive a scene and its occurrences
+      description: Archives the scene and its occurrences only. Archiving a scene never touches roles, slots, assignments or candidates; affected_ids
+        lists the scene and archived occurrence ids. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup
+        and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks
+        the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Success'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: archive_scene
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: scene_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneVersionRequest'
+  /scenes/{scene_id}/occurrences:
+    post:
+      operationId: link_scene_occurrence
+      summary: Link an existing role to a scene
+      description: Links a role to the scene explicitly by role_id (never by name); returns the parent scene. slot_ids [] or omitted = every slot
+        of the role. Re-linking a role whose link was removed reactivates it. A role is the canonical character; all occurrences of a role share
+        its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role.
+        Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Scene'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: link_scene_occurrence
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: scene_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneOccurrenceLink'
+  /scene-occurrences/{occurrence_id}:
+    patch:
+      operationId: update_scene_occurrence
+      summary: Change which slots, title, setting or deck placement a scene occurrence shows
+      description: Revision-fenced update of one occurrence; returns the parent scene. Casting decisions stay on the role and its slots. A role
+        is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for
+        example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Scene'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: update_scene_occurrence
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: occurrence_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneOccurrencePatch'
+  /scene-occurrences/{occurrence_id}/unlink:
+    post:
+      operationId: unlink_scene_occurrence
+      summary: Remove a role from a scene
+      description: Removes the occurrence and returns the parent scene; the role, its slots and assignments are unchanged. A role is the canonical
+        character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger
+        Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Scene'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: unlink_scene_occurrence
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: occurrence_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneVersionRequest'
+  /roles/{role_id}/occurrences:
+    get:
+      operationId: list_role_occurrences
+      summary: List the scenes a role appears in
+      description: Every active occurrence of the role in active scene order (at most 500, one page). A role is the canonical character; all occurrences
+        of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role
+        with create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    maxItems: 500
+                    items:
+                      $ref: '#/components/schemas/RoleOccurrence'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_role_occurrences
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+  /workspaces/{workspace_id}/scene-proposals/confirm:
+    post:
+      operationId: confirm_scene_proposals
+      summary: Confirm proposed scenes and occurrences from specs extraction
+      description: Scenes and occurrences proposed by specs extraction stay proposed until confirmed or rejected. Omit scene_ids and occurrence_ids
+        to confirm every active proposal in the workspace; supply the workspace row_version. A proposed occurrence whose role changed since the
+        import (proposal_stale) is never confirmed over that edit; it is returned in skipped_occurrence_ids. A role is the canonical character;
+        all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father),
+        create a new role with create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/SceneProposalConfirmResult'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: confirm_scene_proposals
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneProposalConfirm'
+  /workspaces/{workspace_id}/scene-proposals/reject:
+    post:
+      operationId: reject_scene_proposals
+      summary: Reject proposed scenes and occurrences from specs extraction
+      description: Rejects proposals (confirmed rows are not affected; use archive_scene or unlink_scene_occurrence for those). Rejecting a scene
+        also removes its links. Rejected proposals are kept as reviewed history and a later import does not propose the same scene again. Omit
+        both lists to reject every active proposal; supply the workspace row_version. A role is the canonical character; all occurrences of a
+        role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with
+        create_role. Every scene change marks the draft as having unpublished changes.
+      tags:
+      - scenes
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/SceneProposalRejectResult'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.write
+      x-mcp-exposed: true
+      x-shared-service-operation: reject_scene_proposals
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneProposalConfirm'
 components:
   securitySchemes:
     InternalBearer:
@@ -15674,4 +16732,510 @@ components:
       - height
       - asset_id
       - thumb_asset_id
+    SceneRequirements:
+      type: object
+      additionalProperties: false
+      properties:
+        items:
+          type: array
+          maxItems: 50
+          items:
+            type: string
+            minLength: 1
+            maxLength: 500
+      required:
+      - items
+    SceneOccurrence:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        scene_id:
+          $ref: '#/components/schemas/Id'
+        role_id:
+          $ref: '#/components/schemas/Id'
+        role_name:
+          type: string
+        slot_ids:
+          type: array
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+          description: Subset of the role's active slots shown for this scene; [] = every slot of the role.
+        display_title:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        setting_override:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        presentation_note:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
+        deck_placement:
+          type: string
+          enum:
+          - auto
+          - repeat
+          - hidden
+          description: auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed
+            here.
+        status:
+          type: string
+          enum:
+          - proposed
+          - confirmed
+        source_refs:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/SourceReference'
+        sort_order:
+          type: integer
+          minimum: 0
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        proposal_stale:
+          type: boolean
+          description: True for a proposal made against an older version of the role (renamed or requirements changed since); confirming skips
+            it. Review and link again or reject it.
+      required:
+      - id
+      - scene_id
+      - role_id
+      - role_name
+      - slot_ids
+      - display_title
+      - setting_override
+      - presentation_note
+      - deck_placement
+      - status
+      - source_refs
+      - sort_order
+      - row_version
+      - proposal_stale
+      description: A canonical role (character) appearing in a scene. Every occurrence of one role shares its slots, Main/Option/Backup and shortlist.
+    Scene:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        scene_number:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 40
+          - type: 'null'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 300
+          pattern: \S
+          description: Scene title; not blank.
+        sequence_label:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        setting:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        notes:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 4000
+          - type: 'null'
+        requirements:
+          $ref: '#/components/schemas/SceneRequirements'
+        source_refs:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/SourceReference'
+          description: Read-only provenance from specs extraction.
+        status:
+          type: string
+          enum:
+          - proposed
+          - confirmed
+        sort_order:
+          type: integer
+          minimum: 0
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        archived:
+          type: boolean
+        occurrences:
+          type: array
+          maxItems: 200
+          items:
+            $ref: '#/components/schemas/SceneOccurrence'
+      required:
+      - id
+      - workspace_id
+      - scene_number
+      - title
+      - sequence_label
+      - setting
+      - notes
+      - requirements
+      - source_refs
+      - status
+      - sort_order
+      - row_version
+      - archived
+      - occurrences
+      description: A structured scene of the project. Scenes reference roles only through occurrences; casting stays on roles and slots.
+    RoleOccurrence:
+      type: object
+      additionalProperties: false
+      properties:
+        occurrence_id:
+          $ref: '#/components/schemas/Id'
+        scene_id:
+          $ref: '#/components/schemas/Id'
+        scene_number:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 40
+          - type: 'null'
+        scene_title:
+          type: string
+          minLength: 1
+          maxLength: 300
+          pattern: \S
+          description: Scene title; not blank.
+        setting:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        scene_position:
+          type: integer
+          minimum: 1
+          description: 1-based position in the active scene order.
+        scene_status:
+          type: string
+          enum:
+          - proposed
+          - confirmed
+        status:
+          type: string
+          enum:
+          - proposed
+          - confirmed
+      required:
+      - occurrence_id
+      - scene_id
+      - scene_number
+      - scene_title
+      - setting
+      - scene_position
+      - scene_status
+      - status
+    SceneCreate:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 300
+          pattern: \S
+          description: Scene title; not blank.
+        scene_number:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 40
+          - type: 'null'
+        sequence_label:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        setting:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        notes:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 4000
+          - type: 'null'
+        requirements:
+          $ref: '#/components/schemas/SceneRequirements'
+      required:
+      - title
+    ScenePatch:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        title:
+          type: string
+          minLength: 1
+          maxLength: 300
+          pattern: \S
+          description: Scene title; not blank.
+        scene_number:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 40
+          - type: 'null'
+        sequence_label:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        setting:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        notes:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 4000
+          - type: 'null'
+        requirements:
+          $ref: '#/components/schemas/SceneRequirements'
+      required:
+      - row_version
+      minProperties: 2
+    SceneReorder:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+          description: The workspace row_version.
+        scene_ids:
+          type: array
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+          description: Exactly the full active scene set in its new order.
+      required:
+      - row_version
+      - scene_ids
+    SceneOrder:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        scene_ids:
+          type: array
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+      required:
+      - workspace_id
+      - row_version
+      - scene_ids
+    SceneVersionRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - row_version
+    SceneOccurrenceLink:
+      type: object
+      additionalProperties: false
+      properties:
+        role_id:
+          $ref: '#/components/schemas/Id'
+        slot_ids:
+          type: array
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+          description: Subset of the role's active slots shown for this scene; [] = every slot of the role.
+        display_title:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        setting_override:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        presentation_note:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
+        deck_placement:
+          type: string
+          enum:
+          - auto
+          - repeat
+          - hidden
+          description: auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed
+            here.
+      required:
+      - role_id
+    SceneOccurrencePatch:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        slot_ids:
+          type: array
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+          description: Subset of the role's active slots shown for this scene; [] = every slot of the role.
+        display_title:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        setting_override:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 300
+          - type: 'null'
+        presentation_note:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
+        deck_placement:
+          type: string
+          enum:
+          - auto
+          - repeat
+          - hidden
+          description: auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed
+            here.
+      required:
+      - row_version
+      minProperties: 2
+    SceneProposalConfirm:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+          description: The workspace row_version.
+        scene_ids:
+          type: array
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+        occurrence_ids:
+          type: array
+          maxItems: 1000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+      required:
+      - row_version
+      description: Omit both lists to confirm every active proposal in the workspace.
+    SceneProposalConfirmResult:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        confirmed_scene_ids:
+          type: array
+          maxItems: 10000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+        confirmed_occurrence_ids:
+          type: array
+          maxItems: 10000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+        skipped_occurrence_ids:
+          type: array
+          maxItems: 10000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+          description: Stale proposals left for review (the role changed since the proposal).
+      required:
+      - workspace_id
+      - row_version
+      - confirmed_scene_ids
+      - confirmed_occurrence_ids
+      - skipped_occurrence_ids
+    SceneProposalRejectResult:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        rejected_scene_ids:
+          type: array
+          maxItems: 10000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+        rejected_occurrence_ids:
+          type: array
+          maxItems: 10000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+      required:
+      - workspace_id
+      - row_version
+      - rejected_scene_ids
+      - rejected_occurrence_ids
 x-contract-status: implementation specification; verify with generated routes and contract tests

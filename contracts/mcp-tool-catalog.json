@@ -23644,6 +23644,3934 @@
         "idempotentHint": true,
         "openWorldHint": false
       }
+    },
+    {
+      "name": "list_scenes",
+      "description": "Active scenes ordered by sort_order; each includes its role occurrences. Pages use the last scene id as cursor. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "list_scenes",
+      "http": {
+        "method": "GET",
+        "path": "/workspaces/{workspace_id}/scenes"
+      },
+      "capability": "workspaces.read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25
+          }
+        },
+        "required": [
+          "workspace_id"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Scene"
+            }
+          },
+          "page": {
+            "$ref": "#/$defs/Page"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data",
+          "page"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "NullableText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "Page": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "next_cursor": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "next_cursor"
+            ]
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Scene": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "sequence_label": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "notes": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/SceneRequirements"
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                },
+                "description": "Read-only provenance from specs extraction."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "archived": {
+                "type": "boolean"
+              },
+              "occurrences": {
+                "type": "array",
+                "maxItems": 200,
+                "items": {
+                  "$ref": "#/$defs/SceneOccurrence"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "workspace_id",
+              "scene_number",
+              "title",
+              "sequence_label",
+              "setting",
+              "notes",
+              "requirements",
+              "source_refs",
+              "status",
+              "sort_order",
+              "row_version",
+              "archived",
+              "occurrences"
+            ],
+            "description": "A structured scene of the project. Scenes reference roles only through occurrences; casting stays on roles and slots."
+          },
+          "SceneOccurrence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_name": {
+                "type": "string"
+              },
+              "slot_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+              },
+              "display_title": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting_override": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deck_placement": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "repeat",
+                  "hidden"
+                ],
+                "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                }
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "proposal_stale": {
+                "type": "boolean",
+                "description": "True for a proposal made against an older version of the role (renamed or requirements changed since); confirming skips it. Review and link again or reject it."
+              }
+            },
+            "required": [
+              "id",
+              "scene_id",
+              "role_id",
+              "role_name",
+              "slot_ids",
+              "display_title",
+              "setting_override",
+              "presentation_note",
+              "deck_placement",
+              "status",
+              "source_refs",
+              "sort_order",
+              "row_version",
+              "proposal_stale"
+            ],
+            "description": "A canonical role (character) appearing in a scene. Every occurrence of one role shares its slots, Main/Option/Backup and shortlist."
+          },
+          "SceneRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              }
+            },
+            "required": [
+              "items"
+            ]
+          },
+          "SourceReference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "page": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "paragraph": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "segment_index": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "start_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "end_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "quote": {
+                "$ref": "#/$defs/NullableText"
+              }
+            },
+            "required": [
+              "asset_id",
+              "page",
+              "paragraph",
+              "segment_index",
+              "start_ms",
+              "end_ms",
+              "quote"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "create_scene",
+      "description": "Creates a confirmed scene appended last. Link roles to it with link_scene_occurrence. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "create_scene",
+      "http": {
+        "method": "POST",
+        "path": "/workspaces/{workspace_id}/scenes"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/SceneCreate"
+          }
+        },
+        "required": [
+          "workspace_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "SceneCreate": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "sequence_label": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "notes": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/SceneRequirements"
+              }
+            },
+            "required": [
+              "title"
+            ]
+          },
+          "SceneRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              }
+            },
+            "required": [
+              "items"
+            ]
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/Scene"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "NullableText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Scene": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "sequence_label": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "notes": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/SceneRequirements"
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                },
+                "description": "Read-only provenance from specs extraction."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "archived": {
+                "type": "boolean"
+              },
+              "occurrences": {
+                "type": "array",
+                "maxItems": 200,
+                "items": {
+                  "$ref": "#/$defs/SceneOccurrence"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "workspace_id",
+              "scene_number",
+              "title",
+              "sequence_label",
+              "setting",
+              "notes",
+              "requirements",
+              "source_refs",
+              "status",
+              "sort_order",
+              "row_version",
+              "archived",
+              "occurrences"
+            ],
+            "description": "A structured scene of the project. Scenes reference roles only through occurrences; casting stays on roles and slots."
+          },
+          "SceneOccurrence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_name": {
+                "type": "string"
+              },
+              "slot_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+              },
+              "display_title": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting_override": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deck_placement": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "repeat",
+                  "hidden"
+                ],
+                "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                }
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "proposal_stale": {
+                "type": "boolean",
+                "description": "True for a proposal made against an older version of the role (renamed or requirements changed since); confirming skips it. Review and link again or reject it."
+              }
+            },
+            "required": [
+              "id",
+              "scene_id",
+              "role_id",
+              "role_name",
+              "slot_ids",
+              "display_title",
+              "setting_override",
+              "presentation_note",
+              "deck_placement",
+              "status",
+              "source_refs",
+              "sort_order",
+              "row_version",
+              "proposal_stale"
+            ],
+            "description": "A canonical role (character) appearing in a scene. Every occurrence of one role shares its slots, Main/Option/Backup and shortlist."
+          },
+          "SceneRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              }
+            },
+            "required": [
+              "items"
+            ]
+          },
+          "SourceReference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "page": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "paragraph": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "segment_index": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "start_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "end_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "quote": {
+                "$ref": "#/$defs/NullableText"
+              }
+            },
+            "required": [
+              "asset_id",
+              "page",
+              "paragraph",
+              "segment_index",
+              "start_ms",
+              "end_ms",
+              "quote"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "update_scene",
+      "description": "Revision-fenced partial update of the scene record; source_refs and status are read-only here. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "update_scene",
+      "http": {
+        "method": "PATCH",
+        "path": "/scenes/{scene_id}"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scene_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/ScenePatch"
+          }
+        },
+        "required": [
+          "scene_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "ScenePatch": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "sequence_label": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "notes": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/SceneRequirements"
+              }
+            },
+            "required": [
+              "row_version"
+            ],
+            "minProperties": 2
+          },
+          "SceneRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              }
+            },
+            "required": [
+              "items"
+            ]
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/Scene"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "NullableText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Scene": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "sequence_label": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "notes": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/SceneRequirements"
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                },
+                "description": "Read-only provenance from specs extraction."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "archived": {
+                "type": "boolean"
+              },
+              "occurrences": {
+                "type": "array",
+                "maxItems": 200,
+                "items": {
+                  "$ref": "#/$defs/SceneOccurrence"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "workspace_id",
+              "scene_number",
+              "title",
+              "sequence_label",
+              "setting",
+              "notes",
+              "requirements",
+              "source_refs",
+              "status",
+              "sort_order",
+              "row_version",
+              "archived",
+              "occurrences"
+            ],
+            "description": "A structured scene of the project. Scenes reference roles only through occurrences; casting stays on roles and slots."
+          },
+          "SceneOccurrence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_name": {
+                "type": "string"
+              },
+              "slot_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+              },
+              "display_title": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting_override": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deck_placement": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "repeat",
+                  "hidden"
+                ],
+                "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                }
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "proposal_stale": {
+                "type": "boolean",
+                "description": "True for a proposal made against an older version of the role (renamed or requirements changed since); confirming skips it. Review and link again or reject it."
+              }
+            },
+            "required": [
+              "id",
+              "scene_id",
+              "role_id",
+              "role_name",
+              "slot_ids",
+              "display_title",
+              "setting_override",
+              "presentation_note",
+              "deck_placement",
+              "status",
+              "source_refs",
+              "sort_order",
+              "row_version",
+              "proposal_stale"
+            ],
+            "description": "A canonical role (character) appearing in a scene. Every occurrence of one role shares its slots, Main/Option/Backup and shortlist."
+          },
+          "SceneRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              }
+            },
+            "required": [
+              "items"
+            ]
+          },
+          "SourceReference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "page": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "paragraph": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "segment_index": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "start_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "end_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "quote": {
+                "$ref": "#/$defs/NullableText"
+              }
+            },
+            "required": [
+              "asset_id",
+              "page",
+              "paragraph",
+              "segment_index",
+              "start_ms",
+              "end_ms",
+              "quote"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "reorder_scenes",
+      "description": "Supply exactly the full active scene set in its new order with the workspace row_version; returns the new workspace row_version. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "reorder_scenes",
+      "http": {
+        "method": "PUT",
+        "path": "/workspaces/{workspace_id}/scene-order"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/SceneReorder"
+          }
+        },
+        "required": [
+          "workspace_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneReorder": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "row_version": {
+                "$ref": "#/$defs/RowVersion",
+                "description": "The workspace row_version."
+              },
+              "scene_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Exactly the full active scene set in its new order."
+              }
+            },
+            "required": [
+              "row_version",
+              "scene_ids"
+            ]
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/SceneOrder"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneOrder": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "scene_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              }
+            },
+            "required": [
+              "workspace_id",
+              "row_version",
+              "scene_ids"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "archive_scene",
+      "description": "Archives the scene and its occurrences only. Archiving a scene never touches roles, slots, assignments or candidates; affected_ids lists the scene and archived occurrence ids. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "archive_scene",
+      "http": {
+        "method": "POST",
+        "path": "/scenes/{scene_id}/archive"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scene_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/SceneVersionRequest"
+          }
+        },
+        "required": [
+          "scene_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneVersionRequest": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              }
+            },
+            "required": [
+              "row_version"
+            ]
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/Success"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "Success": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "success": {
+                "type": "boolean",
+                "const": true
+              },
+              "affected_ids": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              }
+            },
+            "required": [
+              "success",
+              "affected_ids"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "link_scene_occurrence",
+      "description": "Links a role to the scene explicitly by role_id (never by name); returns the parent scene. slot_ids [] or omitted = every slot of the role. Re-linking a role whose link was removed reactivates it. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "link_scene_occurrence",
+      "http": {
+        "method": "POST",
+        "path": "/scenes/{scene_id}/occurrences"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scene_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/SceneOccurrenceLink"
+          }
+        },
+        "required": [
+          "scene_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "SceneOccurrenceLink": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "role_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "slot_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+              },
+              "display_title": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting_override": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deck_placement": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "repeat",
+                  "hidden"
+                ],
+                "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+              }
+            },
+            "required": [
+              "role_id"
+            ]
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/Scene"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "NullableText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Scene": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "sequence_label": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "notes": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/SceneRequirements"
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                },
+                "description": "Read-only provenance from specs extraction."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "archived": {
+                "type": "boolean"
+              },
+              "occurrences": {
+                "type": "array",
+                "maxItems": 200,
+                "items": {
+                  "$ref": "#/$defs/SceneOccurrence"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "workspace_id",
+              "scene_number",
+              "title",
+              "sequence_label",
+              "setting",
+              "notes",
+              "requirements",
+              "source_refs",
+              "status",
+              "sort_order",
+              "row_version",
+              "archived",
+              "occurrences"
+            ],
+            "description": "A structured scene of the project. Scenes reference roles only through occurrences; casting stays on roles and slots."
+          },
+          "SceneOccurrence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_name": {
+                "type": "string"
+              },
+              "slot_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+              },
+              "display_title": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting_override": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deck_placement": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "repeat",
+                  "hidden"
+                ],
+                "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                }
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "proposal_stale": {
+                "type": "boolean",
+                "description": "True for a proposal made against an older version of the role (renamed or requirements changed since); confirming skips it. Review and link again or reject it."
+              }
+            },
+            "required": [
+              "id",
+              "scene_id",
+              "role_id",
+              "role_name",
+              "slot_ids",
+              "display_title",
+              "setting_override",
+              "presentation_note",
+              "deck_placement",
+              "status",
+              "source_refs",
+              "sort_order",
+              "row_version",
+              "proposal_stale"
+            ],
+            "description": "A canonical role (character) appearing in a scene. Every occurrence of one role shares its slots, Main/Option/Backup and shortlist."
+          },
+          "SceneRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              }
+            },
+            "required": [
+              "items"
+            ]
+          },
+          "SourceReference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "page": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "paragraph": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "segment_index": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "start_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "end_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "quote": {
+                "$ref": "#/$defs/NullableText"
+              }
+            },
+            "required": [
+              "asset_id",
+              "page",
+              "paragraph",
+              "segment_index",
+              "start_ms",
+              "end_ms",
+              "quote"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "update_scene_occurrence",
+      "description": "Revision-fenced update of one occurrence; returns the parent scene. Casting decisions stay on the role and its slots. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "update_scene_occurrence",
+      "http": {
+        "method": "PATCH",
+        "path": "/scene-occurrences/{occurrence_id}"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "occurrence_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/SceneOccurrencePatch"
+          }
+        },
+        "required": [
+          "occurrence_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneOccurrencePatch": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "slot_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+              },
+              "display_title": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting_override": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deck_placement": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "repeat",
+                  "hidden"
+                ],
+                "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+              }
+            },
+            "required": [
+              "row_version"
+            ],
+            "minProperties": 2
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/Scene"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "NullableText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Scene": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "sequence_label": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "notes": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/SceneRequirements"
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                },
+                "description": "Read-only provenance from specs extraction."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "archived": {
+                "type": "boolean"
+              },
+              "occurrences": {
+                "type": "array",
+                "maxItems": 200,
+                "items": {
+                  "$ref": "#/$defs/SceneOccurrence"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "workspace_id",
+              "scene_number",
+              "title",
+              "sequence_label",
+              "setting",
+              "notes",
+              "requirements",
+              "source_refs",
+              "status",
+              "sort_order",
+              "row_version",
+              "archived",
+              "occurrences"
+            ],
+            "description": "A structured scene of the project. Scenes reference roles only through occurrences; casting stays on roles and slots."
+          },
+          "SceneOccurrence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_name": {
+                "type": "string"
+              },
+              "slot_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+              },
+              "display_title": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting_override": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deck_placement": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "repeat",
+                  "hidden"
+                ],
+                "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                }
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "proposal_stale": {
+                "type": "boolean",
+                "description": "True for a proposal made against an older version of the role (renamed or requirements changed since); confirming skips it. Review and link again or reject it."
+              }
+            },
+            "required": [
+              "id",
+              "scene_id",
+              "role_id",
+              "role_name",
+              "slot_ids",
+              "display_title",
+              "setting_override",
+              "presentation_note",
+              "deck_placement",
+              "status",
+              "source_refs",
+              "sort_order",
+              "row_version",
+              "proposal_stale"
+            ],
+            "description": "A canonical role (character) appearing in a scene. Every occurrence of one role shares its slots, Main/Option/Backup and shortlist."
+          },
+          "SceneRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              }
+            },
+            "required": [
+              "items"
+            ]
+          },
+          "SourceReference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "page": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "paragraph": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "segment_index": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "start_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "end_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "quote": {
+                "$ref": "#/$defs/NullableText"
+              }
+            },
+            "required": [
+              "asset_id",
+              "page",
+              "paragraph",
+              "segment_index",
+              "start_ms",
+              "end_ms",
+              "quote"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "unlink_scene_occurrence",
+      "description": "Removes the occurrence and returns the parent scene; the role, its slots and assignments are unchanged. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "unlink_scene_occurrence",
+      "http": {
+        "method": "POST",
+        "path": "/scene-occurrences/{occurrence_id}/unlink"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "occurrence_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/SceneVersionRequest"
+          }
+        },
+        "required": [
+          "occurrence_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneVersionRequest": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              }
+            },
+            "required": [
+              "row_version"
+            ]
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/Scene"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "NullableText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Scene": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "sequence_label": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "notes": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "requirements": {
+                "$ref": "#/$defs/SceneRequirements"
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                },
+                "description": "Read-only provenance from specs extraction."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "archived": {
+                "type": "boolean"
+              },
+              "occurrences": {
+                "type": "array",
+                "maxItems": 200,
+                "items": {
+                  "$ref": "#/$defs/SceneOccurrence"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "workspace_id",
+              "scene_number",
+              "title",
+              "sequence_label",
+              "setting",
+              "notes",
+              "requirements",
+              "source_refs",
+              "status",
+              "sort_order",
+              "row_version",
+              "archived",
+              "occurrences"
+            ],
+            "description": "A structured scene of the project. Scenes reference roles only through occurrences; casting stays on roles and slots."
+          },
+          "SceneOccurrence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "role_name": {
+                "type": "string"
+              },
+              "slot_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+              },
+              "display_title": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "setting_override": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deck_placement": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "repeat",
+                  "hidden"
+                ],
+                "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "source_refs": {
+                "type": "array",
+                "maxItems": 100,
+                "items": {
+                  "$ref": "#/$defs/SourceReference"
+                }
+              },
+              "sort_order": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "proposal_stale": {
+                "type": "boolean",
+                "description": "True for a proposal made against an older version of the role (renamed or requirements changed since); confirming skips it. Review and link again or reject it."
+              }
+            },
+            "required": [
+              "id",
+              "scene_id",
+              "role_id",
+              "role_name",
+              "slot_ids",
+              "display_title",
+              "setting_override",
+              "presentation_note",
+              "deck_placement",
+              "status",
+              "source_refs",
+              "sort_order",
+              "row_version",
+              "proposal_stale"
+            ],
+            "description": "A canonical role (character) appearing in a scene. Every occurrence of one role shares its slots, Main/Option/Backup and shortlist."
+          },
+          "SceneRequirements": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "items": {
+                "type": "array",
+                "maxItems": 50,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              }
+            },
+            "required": [
+              "items"
+            ]
+          },
+          "SourceReference": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "asset_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "page": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "paragraph": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "segment_index": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "start_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "end_ms": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "quote": {
+                "$ref": "#/$defs/NullableText"
+              }
+            },
+            "required": [
+              "asset_id",
+              "page",
+              "paragraph",
+              "segment_index",
+              "start_ms",
+              "end_ms",
+              "quote"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_role_occurrences",
+      "description": "Every active occurrence of the role in active scene order (at most 500, one page). A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "list_role_occurrences",
+      "http": {
+        "method": "GET",
+        "path": "/roles/{role_id}/occurrences"
+      },
+      "capability": "workspaces.read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role_id": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "required": [
+          "role_id"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "maxItems": 500,
+            "items": {
+              "$ref": "#/$defs/RoleOccurrence"
+            }
+          },
+          "page": {
+            "$ref": "#/$defs/Page"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data",
+          "page"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "Page": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "next_cursor": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "next_cursor"
+            ]
+          },
+          "RoleOccurrence": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "occurrence_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "scene_number": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "scene_title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300,
+                "pattern": "\\S",
+                "description": "Scene title; not blank."
+              },
+              "setting": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "scene_position": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "1-based position in the active scene order."
+              },
+              "scene_status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "proposed",
+                  "confirmed"
+                ]
+              }
+            },
+            "required": [
+              "occurrence_id",
+              "scene_id",
+              "scene_number",
+              "scene_title",
+              "setting",
+              "scene_position",
+              "scene_status",
+              "status"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "confirm_scene_proposals",
+      "description": "Scenes and occurrences proposed by specs extraction stay proposed until confirmed or rejected. Omit scene_ids and occurrence_ids to confirm every active proposal in the workspace; supply the workspace row_version. A proposed occurrence whose role changed since the import (proposal_stale) is never confirmed over that edit; it is returned in skipped_occurrence_ids. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "confirm_scene_proposals",
+      "http": {
+        "method": "POST",
+        "path": "/workspaces/{workspace_id}/scene-proposals/confirm"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/SceneProposalConfirm"
+          }
+        },
+        "required": [
+          "workspace_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneProposalConfirm": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "row_version": {
+                "$ref": "#/$defs/RowVersion",
+                "description": "The workspace row_version."
+              },
+              "scene_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "occurrence_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              }
+            },
+            "required": [
+              "row_version"
+            ],
+            "description": "Omit both lists to confirm every active proposal in the workspace."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/SceneProposalConfirmResult"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneProposalConfirmResult": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "confirmed_scene_ids": {
+                "type": "array",
+                "maxItems": 10000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "confirmed_occurrence_ids": {
+                "type": "array",
+                "maxItems": 10000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "skipped_occurrence_ids": {
+                "type": "array",
+                "maxItems": 10000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Stale proposals left for review (the role changed since the proposal)."
+              }
+            },
+            "required": [
+              "workspace_id",
+              "row_version",
+              "confirmed_scene_ids",
+              "confirmed_occurrence_ids",
+              "skipped_occurrence_ids"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "reject_scene_proposals",
+      "description": "Rejects proposals (confirmed rows are not affected; use archive_scene or unlink_scene_occurrence for those). Rejecting a scene also removes its links. Rejected proposals are kept as reviewed history and a later import does not propose the same scene again. Omit both lists to reject every active proposal; supply the workspace row_version. A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with create_role. Every scene change marks the draft as having unpublished changes.",
+      "operationId": "reject_scene_proposals",
+      "http": {
+        "method": "POST",
+        "path": "/workspaces/{workspace_id}/scene-proposals/reject"
+      },
+      "capability": "workspaces.write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "workspace_id": {
+            "$ref": "#/$defs/Id"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 16,
+            "maxLength": 200
+          },
+          "body": {
+            "$ref": "#/$defs/SceneProposalConfirm"
+          }
+        },
+        "required": [
+          "workspace_id",
+          "idempotency_key",
+          "body"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneProposalConfirm": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "row_version": {
+                "$ref": "#/$defs/RowVersion",
+                "description": "The workspace row_version."
+              },
+              "scene_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "occurrence_ids": {
+                "type": "array",
+                "maxItems": 1000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              }
+            },
+            "required": [
+              "row_version"
+            ],
+            "description": "Omit both lists to confirm every active proposal in the workspace."
+          }
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/$defs/SceneProposalRejectResult"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/Warning"
+            }
+          }
+        },
+        "required": [
+          "request_id",
+          "data"
+        ],
+        "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "SceneProposalRejectResult": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "workspace_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              },
+              "rejected_scene_ids": {
+                "type": "array",
+                "maxItems": 10000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "rejected_occurrence_ids": {
+                "type": "array",
+                "maxItems": 10000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                }
+              }
+            },
+            "required": [
+              "workspace_id",
+              "row_version",
+              "rejected_scene_ids",
+              "rejected_occurrence_ids"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          }
+        }
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
     }
   ],
   "excluded_operations": [
