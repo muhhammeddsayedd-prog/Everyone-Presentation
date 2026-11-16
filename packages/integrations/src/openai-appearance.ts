@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import type { ResponseCreateParamsNonStreaming, ResponseInputContent } from 'openai/resources/responses/responses';
-import taxonomy from '../../../contracts/appearance-taxonomy.json' with { type: 'json' };
+import { APPEARANCE_TAXONOMY_SOURCE } from '../../domain/src/appearance-taxonomy.ts';
+const taxonomy = APPEARANCE_TAXONOMY_SOURCE as unknown as { version: string; forbidden_terms: string[]; attributes: Record<string, { values: { key: string }[] }> };
 import { IntegrationError, record, safeIdentifier } from './errors.ts';
 import { requestMediaResponse, type OpenAIMediaConfig } from './openai-media.ts';
 import { APPEARANCE_PROMPT, APPEARANCE_PROMPT_VERSION } from './prompts/appearance-v1.ts';
@@ -13,7 +14,9 @@ export const APPEARANCE_TAXONOMY_VERSION = taxonomy.version;
 const ATTRIBUTES = taxonomy.attributes as Record<string, { values: { key: string }[] }>;
 export const APPEARANCE_ATTRIBUTE_KEYS = Object.freeze(Object.keys(ATTRIBUTES));
 const CATEGORIES = ['portfolio_photo', 'headshot', 'full_body', 'video_frame'] as const;
-const fold = (value: string) => ` ${value.toLowerCase().replace(/[\u0640\u064B-\u065F\u0670]/gu, '').replace(/[\u0623\u0625\u0622\u0671]/gu, '\u0627').replace(/\u0649/gu, '\u064A')
+const ARABIC_MARK = (code: number) => code === 0x640 || code >= 0x64b && code <= 0x65f || code === 0x670;
+const stripArabicMarks = (text: string) => [...text].filter(char => !ARABIC_MARK(char.codePointAt(0)!)).join('');
+const fold = (value: string) => ` ${stripArabicMarks(value.toLowerCase()).replace(/[\u0623\u0625\u0622\u0671]/gu, '\u0627').replace(/\u0649/gu, '\u064A')
   .replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
 const FORBIDDEN_TERMS = (taxonomy.forbidden_terms as string[]).map(term => fold(term));
 /** Identity terms (race, ethnicity, nationality, religion, gender identity and look-alike phrasing) never allowed in model free text. */

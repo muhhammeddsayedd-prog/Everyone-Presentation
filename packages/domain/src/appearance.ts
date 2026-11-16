@@ -1,4 +1,4 @@
-import taxonomyJson from '../../../contracts/appearance-taxonomy.json' with { type: 'json' };
+import { APPEARANCE_TAXONOMY_SOURCE as taxonomyJson } from './appearance-taxonomy.ts';
 import { DomainError } from './types.ts';
 
 /** Neutral observable appearance taxonomy (contracts/appearance-taxonomy.json). Closed vocabularies only. */
@@ -11,7 +11,7 @@ export interface AppearanceTaxonomy {
   supplied_values: Record<string, { key: string; label: string; label_ar: string }[]>;
   facets: { key: string; label: string; label_ar: string; sources: string[] }[];
 }
-export const APPEARANCE_TAXONOMY = taxonomyJson as AppearanceTaxonomy;
+export const APPEARANCE_TAXONOMY = taxonomyJson as unknown as AppearanceTaxonomy;
 export const APPEARANCE_ATTRIBUTES = Object.freeze(Object.keys(APPEARANCE_TAXONOMY.attributes)) as readonly string[];
 export const FACET_KEYS = Object.freeze(APPEARANCE_TAXONOMY.facets.map(facet => facet.key)) as readonly string[];
 export type AppearanceConfidence = 'low' | 'medium' | 'high';
@@ -60,9 +60,11 @@ export function appearanceValues(attribute: string): string[] { return APPEARANC
 export function isAppearanceValue(attribute: string, value: string) { return value === 'unknown' ? Object.hasOwn(APPEARANCE_TAXONOMY.attributes, attribute) : appearanceValues(attribute).includes(value); }
 export function isForbiddenAttribute(name: string) { return APPEARANCE_TAXONOMY.forbidden_attributes.includes(name.trim().toLowerCase().replace(/[\s-]+/gu, '_')); }
 
+const ARABIC_MARK = (code: number) => code === 0x640 || code >= 0x64b && code <= 0x65f || code === 0x670;
+const stripArabicMarks = (text: string) => [...text].filter(char => !ARABIC_MARK(char.codePointAt(0)!)).join('');
 /** Same normalisation as eps.appearance_norm: case, whitespace, tatweel, Arabic diacritics, alef forms, alef maqsura. */
 export function normalizeSearchText(value: string | null | undefined): string | null {
-  const text = (value ?? '').toLowerCase().replace(/[\u0640\u064B-\u065F\u0670]/gu, '').replace(/[\u0623\u0625\u0622\u0671]/gu, '\u0627').replace(/\u0649/gu, '\u064A')
+  const text = stripArabicMarks((value ?? '').toLowerCase()).replace(/[\u0623\u0625\u0622\u0671]/gu, '\u0627').replace(/\u0649/gu, '\u064A')
     .replace(/\s+/gu, ' ').trim();
   return text || null;
 }

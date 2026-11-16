@@ -70,3 +70,9 @@ test('facet filters round-trip through URL params and reject unsupported facets'
   assert.equal(effectiveObservationValue({ status: 'suggested', suggested_value: 'black', override_value: null }), null);
   assert.equal(effectiveObservationValue({ status: 'overridden', suggested_value: 'black', override_value: 'brown' }), 'brown');
 });
+test('generated TypeScript taxonomy (sealed into worker images) equals the JSON contract', async () => {
+  const { APPEARANCE_TAXONOMY_SOURCE } = await import('../../packages/domain/src/appearance-taxonomy.ts');
+  assert.deepEqual(APPEARANCE_TAXONOMY_SOURCE, JSON.parse(readFileSync(new URL('../../contracts/appearance-taxonomy.json', import.meta.url), 'utf8')));
+  const sqlTerms = /appearance_forbidden_terms\(\) returns text\[\] language sql immutable set search_path='' as \$\$select array\[([^\]]+)\]/u.exec(migration)![1].split(',').map(term => term.slice(1, -1).replace(/''/gu, "'"));
+  assert.deepEqual(sqlTerms, [...APPEARANCE_TAXONOMY_SOURCE.forbidden_terms]);
+});
