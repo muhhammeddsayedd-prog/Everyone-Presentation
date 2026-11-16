@@ -59,8 +59,8 @@ const silhouette = (label: string | null): Portrait => ({ source: null, alt: lab
 
 interface Body { layout: LayoutId; sources: number[]; portraits: Portrait[]; labels: boolean; note: string | null }
 const join = (notes: (string | null)[]) => { const kept = notes.filter((value): value is string => Boolean(value)); return kept.length ? kept.join(' ') : null; };
-/** Pages of one role. A slot with a Main or a Backup gives labelled Main | Backup pages (one Backup per page, the
- * Main repeated beside each further Backup; a missing Main or Backup is the silhouette). Everyone else in the role
+/** Pages of one role. A slot with a Main or a Backup gives a labelled Main | Backup page (a missing Main or Backup is
+ * the silhouette) and labelled Backup continuation pages for further Backups (two per page; nobody is drawn twice). Everyone else in the role
  * (Options) is shown unlabelled in option pages. A role with nobody cast is one silhouette page. A slot note goes on
  * the page with that slot's last person; the role or scene note on the role's last page. */
 function rolePages(review: DeckReview, role: Role, roleNote: string | null): Body[] {
@@ -77,10 +77,14 @@ function rolePages(review: DeckReview, role: Role, roleNote: string | null): Bod
     const others = slot.people.filter(item => item !== main && !backups.includes(item));
     if (main || backups.length) {
       flush();
-      const pairs: (Person | null)[] = backups.length ? backups : [null];
-      pairs.forEach((backup, n) => bodies.push({ layout: 'cast_main_backup', sources: [main?.source, backup?.source].filter((value): value is number => value !== undefined),
-        portraits: [main ? portrait(review, main, POSITION_LABELS.main) : silhouette(POSITION_LABELS.main), backup ? portrait(review, backup, POSITION_LABELS.backup) : silhouette(POSITION_LABELS.backup)],
-        labels: true, note: !others.length && n === pairs.length - 1 ? slot.note : null }));
+      // Main | first Backup (a missing one is the silhouette, as in the reference); further Backups follow on
+      // labelled continuation pages, two per page. No person is drawn twice.
+      const rest: Person[][] = []; for (let n = 1; n < backups.length; n += 2) rest.push(backups.slice(n, n + 2));
+      bodies.push({ layout: 'cast_main_backup', sources: [main?.source, backups[0]?.source].filter((value): value is number => value !== undefined),
+        portraits: [main ? portrait(review, main, POSITION_LABELS.main) : silhouette(POSITION_LABELS.main), backups[0] ? portrait(review, backups[0], POSITION_LABELS.backup) : silhouette(POSITION_LABELS.backup)],
+        labels: true, note: !others.length && !rest.length ? slot.note : null });
+      rest.forEach((pair, n) => bodies.push({ layout: 'cast_main_backup', sources: pair.map(item => item.source), portraits: pair.map(item => portrait(review, item, POSITION_LABELS.backup)),
+        labels: true, note: !others.length && n === rest.length - 1 ? slot.note : null }));
     }
     pool.push(...others.map(person => ({ person, slot })));
   }

@@ -8,9 +8,12 @@ export interface PresentationSeries {
   id: string; workspace_id: string; output_type: CastingOutput; audience_preset_id: string; audience_snapshot: AudiencePreset;
   title: string; latest_ready_version_id: string | null; latest_ready_version_no: number | null; row_version: number; archived: boolean;
   template_key: string; template_version: string; template_content_sha256: string; font_key: string;
+  /** Highlighted cover note (template 1.4.0); absent from servers before m18. */
+  cover_note?: string | null;
 }
-export interface SeriesCreate { workspace_id: string; output_type: CastingOutput; audience_preset_id: string; title?: string }
-export interface SeriesPatch { row_version: number; title?: string; archived?: boolean }
+/** Without `audience_preset_id` the configured default review audience is used. */
+export interface SeriesCreate { workspace_id: string; output_type: CastingOutput; audience_preset_id?: string; title?: string }
+export interface SeriesPatch { row_version: number; title?: string; archived?: boolean; cover_note?: string | null }
 export interface SeriesListOptions { workspace_id?: string; output_type?: CastingOutput; cursor?: string; limit?: number }
 export interface ReviewOptions { series_id: string; output_type?: CastingOutput }
 export interface ReviewIssue { code: string; severity: 'information' | 'warning' | 'blocking'; entity_id: string | null; field: string | null; message: string; repair_action: string | null }

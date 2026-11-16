@@ -41,17 +41,19 @@ function specDto(value: unknown): Spec {
   return structuredClone({ ...row, ...editable }) as unknown as Spec;
 }
 function roleDto(value: unknown): Role {
-  const row = exact(value, ['id', 'workspace_id', 'name', 'headcount', 'category', 'requirements', 'clarifications', 'sort_order', 'row_version', 'archived']);
+  const hasNote = Boolean(value && typeof value === 'object' && Object.hasOwn(value, 'presentation_note'));
+  const row = exact(value, ['id', 'workspace_id', 'name', 'headcount', 'category', 'requirements', 'clarifications', 'sort_order', 'row_version', 'archived', ...(hasNote ? ['presentation_note'] : [])]);
   if (!isId(row.id) || !isId(row.workspace_id) || !(row.headcount === null || nonnegative(row.headcount) && row.headcount > 0)
     || !nonnegative(row.sort_order) || typeof row.archived !== 'boolean') fail();
   const editable = checkedResponse(() => parseRolePatch({ row_version: row.row_version, name: row.name,
-    category: row.category, requirements: row.requirements, clarifications: row.clarifications }));
+    category: row.category, requirements: row.requirements, clarifications: row.clarifications, ...(hasNote ? { presentation_note: row.presentation_note } : {}) }));
   return structuredClone({ ...row, ...editable }) as unknown as Role;
 }
 function slotDto(value: unknown): Slot {
-  const row = exact(value, ['id', 'role_id', 'label', 'sort_order', 'row_version', 'archived']);
+  const hasNote = Boolean(value && typeof value === 'object' && Object.hasOwn(value, 'presentation_note'));
+  const row = exact(value, ['id', 'role_id', 'label', 'sort_order', 'row_version', 'archived', ...(hasNote ? ['presentation_note'] : [])]);
   if (!isId(row.id) || !isId(row.role_id) || !nonnegative(row.sort_order) || typeof row.archived !== 'boolean') fail();
-  const editable = checkedResponse(() => parseSlotPatch({ row_version: row.row_version, label: row.label }));
+  const editable = checkedResponse(() => parseSlotPatch({ row_version: row.row_version, label: row.label, ...(hasNote ? { presentation_note: row.presentation_note } : {}) }));
   return { ...row, ...editable } as unknown as Slot;
 }
 function archiveInput(value: unknown): SpecsArchiveInput {

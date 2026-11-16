@@ -76,6 +76,8 @@ export interface Role {
   sort_order: number;
   row_version: number;
   archived: boolean;
+  /** Highlighted note on this role's last 1.4.0 page (absent from servers before m18). */
+  presentation_note?: string | null;
 }
 export interface RolePatch {
   row_version: number;
@@ -83,10 +85,12 @@ export interface RolePatch {
   category?: string | null;
   requirements?: RoleRequirements;
   clarifications?: SpecsClarification[];
+  presentation_note?: string | null;
 }
 export interface ResizeSlots { row_version: number; desired_count: number; retire_slot_ids?: string[] }
-export interface Slot { id: string; role_id: string; label: string; sort_order: number; row_version: number; archived: boolean }
-export interface SlotPatch { row_version: number; label: string }
+export interface Slot { id: string; role_id: string; label: string; sort_order: number; row_version: number; archived: boolean; presentation_note?: string | null }
+/** A label change, a presentation note change (1.4.0), or both. */
+export interface SlotPatch { row_version: number; label?: string; presentation_note?: string | null }
 
 /** Internal state: never spread these fields into the public Role/Slot response. */
 export interface WorkingRole extends Role { readonly source: Readonly<ExtractedRole> | null }

@@ -72,13 +72,19 @@ export function parseRoleCreate(value: unknown): RoleCreate {
   if (Object.hasOwn(item, 'category')) result.category = nullableText(item.category);
   return result;
 }
+/** A template 1.4.0 presentation note: 1-500 characters after trimming, or null to clear. */
+export function parsePresentationNote(value: unknown): string | null {
+  if (value === null) return null;
+  const checked = text(value); if (checked.length > 500 || !checked.trim() || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(checked)) invalid(); return checked;
+}
 export function parseRolePatch(value: unknown): RolePatch {
-  const item = object(value, ['row_version', 'name', 'category', 'requirements', 'clarifications'], ['row_version']);
+  const item = object(value, ['row_version', 'name', 'category', 'requirements', 'clarifications', 'presentation_note'], ['row_version']);
   const result: RolePatch = { row_version: integer(item.row_version, 1) };
   if (Object.hasOwn(item, 'name')) result.name = text(item.name);
   if (Object.hasOwn(item, 'category')) result.category = nullableText(item.category);
   if (Object.hasOwn(item, 'requirements')) result.requirements = parseRoleRequirements(item.requirements);
   if (Object.hasOwn(item, 'clarifications')) result.clarifications = clarifications(item.clarifications);
+  if (Object.hasOwn(item, 'presentation_note')) result.presentation_note = parsePresentationNote(item.presentation_note);
   return result;
 }
 export function parseSpecPatch(value: unknown): SpecPatch {
@@ -89,8 +95,9 @@ export function parseSpecPatch(value: unknown): SpecPatch {
   return result;
 }
 export function parseSlotPatch(value: unknown): SlotPatch {
-  const item = object(value, ['row_version', 'label'], ['row_version', 'label']);
-  return { row_version: integer(item.row_version, 1), label: text(item.label) };
+  const item = object(value, ['row_version', 'label', 'presentation_note'], ['row_version']);
+  if (!Object.hasOwn(item, 'label') && !Object.hasOwn(item, 'presentation_note')) invalid();
+  return { row_version: integer(item.row_version, 1), ...(Object.hasOwn(item, 'label') ? { label: text(item.label) } : {}), ...(Object.hasOwn(item, 'presentation_note') ? { presentation_note: parsePresentationNote(item.presentation_note) } : {}) };
 }
 export function parseResizeSlots(value: unknown): { row_version: number; desired_count: number; retire_slot_ids: string[] } {
   const item = object(value, ['row_version', 'desired_count', 'retire_slot_ids'], ['row_version', 'desired_count']);
@@ -238,7 +245,7 @@ export function editSlot(current: SpecsDraft, slotId: string, value: unknown): S
   const input = parseSlotPatch(value); const slot = current.slots.find(item => item.id === slotId && !item.archived);
   if (!slot) throw new DomainError('RESOURCE_NOT_FOUND', 'Active slot not found.', 404);
   activeRole(current, slot.role_id); compareVersion(input.row_version, slot.row_version);
-  return { ...current, slots: current.slots.map(item => item.id === slotId ? { ...item, label: input.label, row_version: next(item.row_version) } : item),
+  return { ...current, slots: current.slots.map(item => item.id === slotId ? { ...item, label: input.label ?? item.label, ...(input.presentation_note !== undefined ? { presentation_note: input.presentation_note } : {}), row_version: next(item.row_version) } : item),
     draft_revision: next(current.draft_revision) };
 }
 
