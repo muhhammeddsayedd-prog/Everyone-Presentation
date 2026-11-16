@@ -12,7 +12,7 @@ type JobView = { id: string; status: NonNullable<CandidateUploadRow['job']>['sta
   error: { code: string; retryable: boolean } | null; candidate_result?: { candidate_id: string; workspace_candidate_id: string | null } };
 function withJob(row: CandidateUploadRow, job: JobView): CandidateUploadRow {
   const state: CandidateUploadRow['state'] = job.status === 'succeeded' ? 'ready' : job.status === 'waiting_for_input' ? 'needs_attention' : job.status === 'failed' ? 'failed' : job.status === 'cancelled' ? 'cancelled' : 'processing';
-  return { ...row, state, job: { id: job.id, status: job.status, stage: job.stage, error_code: job.error?.code ?? null, retryable: job.error?.retryable ?? false, row_version: job.row_version, updated_at: job.updated_at },
+  return { ...row, state, job: { id: job.id, status: job.status, stage: job.stage, error_code: job.error?.code ?? null, retryable: false, row_version: job.row_version, updated_at: job.updated_at },
     candidate_id: job.candidate_result?.candidate_id ?? row.candidate_id, workspace_candidate_id: job.candidate_result?.workspace_candidate_id ?? row.workspace_candidate_id };
 }
 const TONE: Record<CandidateUploadRow['state'], string> = { uploading: 'info', processing: 'info', ready: 'ok', needs_attention: 'warn', failed: 'bad', cancelled: 'outline', expired: 'outline' };
@@ -52,7 +52,9 @@ export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, pre
     const jobs = await Promise.all(processing.map(row => api<JobView>(`/api/v1/jobs/${encodeURIComponent(row.job!.id)}`, { signal }).then(result => result.data)));
     const byId = new Map(jobs.map(job => [job.id, job]));
     publish(rowsRef.current.map(row => { const job = row.job && byId.get(row.job.id); return job ? withJob(row, job) : row; }));
-  }, [publish]);
+    // A failed job is re-read from the uploads list: only the server knows whether a retry is still allowed.
+    if (jobs.some(job => job.status === 'failed')) await read(signal);
+  }, [publish, read]);
   useEffect(() => {
     const controller = new AbortController(); let timer: ReturnType<typeof setTimeout> | undefined; let stopped = false; let first = true;
     async function tick() {
@@ -91,7 +93,7 @@ export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, pre
         {outcome && <span className="small" role="status">{outcome}</span>}
         {row.state === 'needs_attention' && <span className="small">The source changed while processing. <Link href={`/processing?job=${row.job?.id ?? ''}`}>Open Processing</Link></span>}
         {row.state === 'failed' && <span className="small">Processing failed.{row.job?.error_code ? ` (${row.job.error_code})` : ''}</span>}
-        {row.state === 'failed' && row.job && canRetry && <button type="button" className="button button-small" disabled={busy} onClick={() => void retry(row)}>{busy ? 'Retrying…' : 'Retry'}</button>}
+        {row.state === 'failed' && row.job?.retryable && canRetry && <button type="button" className="button button-small" disabled={busy} onClick={() => void retry(row)}>{busy ? 'Retrying…' : 'Retry'}</button>}
         {retrying[row.upload_id] && <span className="small text-bad" role="alert">{retrying[row.upload_id]}</span>}
       </li>;
     })}</ul>

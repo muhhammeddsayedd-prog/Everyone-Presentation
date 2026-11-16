@@ -57,7 +57,7 @@ async function fixture(page: Page, setup: Partial<State> = {}) {
     }
     if (path === `/api/v1/workspaces/${workspace}/candidate-uploads`) return list(state.uploads.map(row => ({ workspace_id: workspace, asset_id: `asset-${row.upload_id}`, filename: `${row.upload_id}.mp4`,
       size_bytes: 1000, mime_type: 'video/mp4', target_candidate_id: null, created_at: '2026-11-16T09:00:00Z', upload_status: 'completed', ...row,
-      job: row.job ? { ...row.job, stage: 'prepare_candidate', error_code: row.state === 'failed' ? 'PROCESSING_FAILED' : null, retryable: false, row_version: 2, updated_at: '2026-11-16T09:00:00Z' } : null })));
+      job: row.job ? { stage: 'prepare_candidate', error_code: row.state === 'failed' ? 'PROCESSING_FAILED' : null, retryable: false, row_version: 2, updated_at: '2026-11-16T09:00:00Z', ...row.job } : null })));
     const job = path.match(/^\/api\/v1\/jobs\/([^/]+)(\/retry)?$/u);
     if (job && job[2] && method === 'POST') {
       state.retries += 1; const upload = state.uploads.find(row => row.job?.id === job[1])!; upload.state = 'processing'; upload.job!.status = 'queued';
@@ -123,7 +123,7 @@ test('a pending upload row is restored after reload and resolves after completio
 });
 
 test('retrying a failed upload job adds the person once', async ({ page }) => {
-  const state = await fixture(page, { uploads: [{ upload_id: 'upload-3', state: 'failed', job: { id: 'job-3', status: 'failed' }, candidate_id: null, workspace_candidate_id: null }],
+  const state = await fixture(page, { uploads: [{ upload_id: 'upload-3', state: 'failed', job: { id: 'job-3', status: 'failed', retryable: true }, candidate_id: null, workspace_candidate_id: null }],
     jobPolls: { 'job-3': ['running', 'succeeded'] } });
   await page.goto(cast);
   const status = page.getByRole('region', { name: 'Your uploads in this project' });
@@ -132,6 +132,15 @@ test('retrying a failed upload job adds the person once', async ({ page }) => {
   await expect(status.getByText('Added to this project · Saved in Library')).toBeVisible({ timeout: 20_000 });
   expect(state.retries).toBe(1);
   await expect(projectList(page).getByRole('heading', { name: 'Synthetic Uploaded Person' })).toHaveCount(1);
+});
+
+test('a failed upload whose retry budget is spent offers no Retry', async ({ page }) => {
+  const state = await fixture(page, { uploads: [{ upload_id: 'upload-4', state: 'failed', job: { id: 'job-4', status: 'failed', retryable: false, error_code: 'DEPENDENCY_UNAVAILABLE' }, candidate_id: null, workspace_candidate_id: null }] });
+  await page.goto(cast);
+  const status = page.getByRole('region', { name: 'Your uploads in this project' });
+  await expect(status.getByText('Failed', { exact: true })).toBeVisible();
+  await expect(status.getByRole('button', { name: 'Retry', exact: true })).toHaveCount(0);
+  expect(state.retries).toBe(0);
 });
 
 test('repeat and concurrent Add converge on one membership; state survives navigation and removal', async ({ page }) => {
