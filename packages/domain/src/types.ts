@@ -37,7 +37,7 @@ export interface UploadSession {
   chunk_size?: 6291456;
 }
 export interface MediaAsset {
-  id: string; purpose: 'client_logo' | 'specs' | 'candidate_video' | 'candidate_support' | 'candidate_frame' | 'audio' | 'transcript' | 'preview_video' | 'presentation_pdf' | 'presentation_preview' | 'presentation_manifest' | 'document_text' | 'document_page'; filename: string; mime_type: string; size_bytes: number; sha256: string | null;
+  id: string; purpose: 'client_logo' | 'specs' | 'candidate_video' | 'candidate_support' | 'candidate_frame' | 'candidate_photo' | 'audio' | 'transcript' | 'preview_video' | 'presentation_pdf' | 'presentation_preview' | 'presentation_manifest' | 'document_text' | 'document_page'; filename: string; mime_type: string; size_bytes: number; sha256: string | null;
   status: 'uploading' | 'ready' | 'failed' | 'quarantined' | 'archived'; duration_ms: number | null;
   width: number | null; height: number | null; source_asset_id: string | null; source_timestamp_ms: number | null; created_at: string;
 }

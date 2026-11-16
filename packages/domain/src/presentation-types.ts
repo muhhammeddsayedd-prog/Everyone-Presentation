@@ -1,7 +1,7 @@
 import type { Actor, AudiencePreset, MutationContext, Page } from './types.ts';
 import type { AssignmentPosition, CastingOutput } from './casting-types.ts';
 import type { RoleRequirements } from './specs-types.ts';
-import type { ReviewFields, ReviewFrame, ReviewJobAccepted, TemplateIdentity, WorkspaceReview } from './review-types.ts';
+import type { PresentationContext, ReviewFields, ReviewFrame, ReviewJobAccepted, TemplateIdentity, WorkspaceReview } from './review-types.ts';
 
 export interface GenerateVersion {
   expected_workspace_row_version: number; expected_draft_revision: number; expected_input_fingerprint: string;
@@ -14,7 +14,7 @@ export interface VersionSlide {
   frame_asset_ids: string[]; video_asset_id: string | null; logo_asset_id: string | null;
 }
 export interface ManifestAsset {
-  asset_id: string; sha256: string; asset_kind: 'client_logo' | 'candidate_frame' | 'candidate_video'; mime_type: string; byte_size: number;
+  asset_id: string; sha256: string; asset_kind: 'client_logo' | 'candidate_frame' | 'candidate_video' | 'candidate_photo'; mime_type: string; byte_size: number;
 }
 export interface FrozenAsset extends ManifestAsset {
   bucket: string; object_key: string; width: number | null; height: number | null; duration_ms: number | null;
@@ -31,6 +31,8 @@ export interface RenderSnapshot {
   template: TemplateIdentity & { font_hashes: Record<string, string> };
   render_configuration: { renderer_version: 'everyone-casting-pdf-v1'; application_origin: string };
   audience_snapshot: AudiencePreset; cover: WorkspaceReview['cover']; slides: FrozenSlide[]; asset_inventory: FrozenAsset[];
+  /** Template 1.4.0 only: notes, scenes and presentation portraits (candidate_photo assets are admitted only here). */
+  presentation?: PresentationContext;
 }
 /** Closed published manifest: deliberately excludes private asset destinations. */
 export interface PresentationManifest {
@@ -38,11 +40,13 @@ export interface PresentationManifest {
   template_version: string; template_content_hash: string; asset_inventory: ManifestAsset[];
   project_name: string; client_name: string | null; logo_asset_id: string | null; logo_placement: 'cover' | 'every_slide';
   input_draft_revision: number; input_fingerprint: string; slides: VersionSlide[]; created_at: string;
+  presentation?: PresentationContext;
 }
 export interface PresentationRenderContext {
   cover: WorkspaceReview['cover']; template: TemplateIdentity;
   slide_contexts: { slide_id: string; role_id: string | null; slot_id: string | null; provisional: boolean;
     review_status: 'reviewed' | 'unreviewed' | null; frames: ReviewFrame[] }[];
+  presentation?: PresentationContext;
 }
 export interface PresentationVersion {
   id: string; series_id: string; version_no: number; status: 'queued' | 'rendering' | 'ready' | 'failed';

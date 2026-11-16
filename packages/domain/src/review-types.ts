@@ -24,6 +24,18 @@ export interface ReviewSlide {
   requirements: RoleRequirements; provisional: boolean;
   fields: ReviewFields; source_fields: ReviewFields; frames: ReviewFrame[]; video_asset_id: string | null;
 }
+/** Template 1.4.0 presentation context, captured beside the slides (never changes 1.0-1.3 reviews).
+ * `slides[n]` belongs to `slides[n]` of the review (cover excluded). */
+export type PictureState = 'unset' | 'pinned' | 'intentionally_empty';
+/** `focal` is the crop focus in thousandths of width/height (integers keep canonical hashing exact). */
+export interface PresentationPortrait { asset_id: string; source: 'frame' | 'photo'; width: number; height: number; sha256: string; focal: [number, number] }
+export interface PresentationSlideContext { role_note: string | null; slot_note: string | null; picture_state: PictureState | null; portrait: PresentationPortrait | null }
+export interface PresentationOccurrence {
+  occurrence_id: string; role_id: string; display_title: string | null; setting_override: string | null; presentation_note: string | null;
+  deck_placement: 'auto' | 'repeat' | 'hidden';
+}
+export interface PresentationScene { scene_id: string; scene_number: string | null; title: string; sequence_label: string | null; setting: string | null; occurrences: PresentationOccurrence[] }
+export interface PresentationContext { cover_note: string | null; scenes: PresentationScene[]; slides: PresentationSlideContext[] }
 export interface ReviewFit {
   status: 'unmeasured' | 'measured' | 'failed'; input_fingerprint: string | null; measured_at: string | null;
   overflows: { slide_index: number; field: string; axis: 'horizontal' | 'vertical'; overflow_px: number }[];
@@ -35,6 +47,8 @@ export interface WorkspaceReview {
   template: TemplateIdentity;
   cover: { project_name: string; client_name: string | null; title: string; output_type: CastingOutput; logo_asset_id: string | null; logo_placement: 'cover' | 'every_slide' };
   slides: ReviewSlide[]; fit: ReviewFit;
+  /** Present exactly when the series template is 1.4.0 or later. */
+  presentation?: PresentationContext;
 }
 export interface AiSuggestionCreate {
   workspace_id: string; capability: 'slide_shorten' | 'normalize_english' | 'contextual_instruction';

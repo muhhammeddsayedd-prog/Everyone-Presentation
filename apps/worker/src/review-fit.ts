@@ -100,7 +100,7 @@ export async function measureReviewFit(supplied: WorkspaceReview, options: Revie
     const context = await browser.newContext({ viewport: editorial ? { width: 1920, height: 1080 } : { width: 1600, height: 900 }, serviceWorkers: 'block', javaScriptEnabled: false, offline: true, reducedMotion: 'reduce' });
     let blocked = 0; await context.route('**/*', route => { blocked++; return route.abort('blockedbyclient'); });
     // Editorial frame/logo boxes are fixed by the composer; an inert pixel fills each box.
-    const imageSources = editorial ? Object.fromEntries([...review.cover.logo_asset_id ? [review.cover.logo_asset_id] : [], ...review.slides.flatMap(slide => slide.frames.map(frame => frame.asset_id))].map(id => [id, GEOMETRY_PIXEL]))
+    const imageSources = editorial ? Object.fromEntries([...review.cover.logo_asset_id ? [review.cover.logo_asset_id] : [], ...review.slides.flatMap(slide => slide.frames.map(frame => frame.asset_id)), ...(review.presentation?.slides ?? []).flatMap(slide => slide.portrait ? [slide.portrait.asset_id] : [])].map(id => [id, GEOMETRY_PIXEL]))
       : review.cover.logo_asset_id ? { [review.cover.logo_asset_id]: GEOMETRY_PIXEL } : undefined;
     // A non-navigated relative link preserves the registered footer text/DOM.
     // Fit does not mint or inspect original-video access credentials.

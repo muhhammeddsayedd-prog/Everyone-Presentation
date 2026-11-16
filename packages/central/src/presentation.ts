@@ -63,7 +63,8 @@ export async function createCentralPresentations(client: SupabaseClient, options
   async function asset(actor: Actor, versionId: string, assetId: string, purpose: 'pdf' | 'video' | 'frame' | 'logo') {
     const id = identifier(assetId); const result = presentationAssetRead(await rpc(actor, 'eps_get_version_asset', { p_version_id: versionId, p_asset_id: id, p_purpose: purpose }));
     const expected = { pdf: 'presentation_pdf', video: 'candidate_video', frame: 'candidate_frame', logo: 'client_logo' }[purpose];
-    if (result.asset.id !== id || result.asset.purpose !== expected) presentationResponseInvalid(); return result;
+    // Template 1.4.0 portraits may be archive photos; they are read as fixed-version images like frames.
+    if (result.asset.id !== id || result.asset.purpose !== expected && !(purpose === 'frame' && result.asset.purpose === 'candidate_photo')) presentationResponseInvalid(); return result;
   }
   async function pdfAsset(actor: Actor, versionId: string) {
     const version = await getVersion(actor, versionId);
