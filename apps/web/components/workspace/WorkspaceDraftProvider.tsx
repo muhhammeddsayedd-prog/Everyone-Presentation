@@ -5,9 +5,9 @@ import type { Candidate, CandidateMedia, WorkspaceCandidate } from '../../../../
 import type { Assignment, CastingOutput } from '../../../../packages/domain/src/casting-types';
 import type { PresentationSeries } from '../../../../packages/domain/src/review-types';
 import type { Role, Slot } from '../../../../packages/domain/src/specs-types';
-import { api, errorMessage, type Envelope, type Workspace } from '../api';
+import { api, ApiError, errorMessage, type Envelope, type Workspace } from '../api';
 import { readCandidateMedia } from '../candidate-pages';
-import type { DraftFocus, DraftOverlay, DraftSource } from './draft-review';
+import { toPresentationScenes, type DraftFocus, type DraftOverlay, type DraftSource, type ListedScene } from './draft-review';
 
 /** One selection shared by the panel and the stage. `from` says who chose it, so each side only follows the other. */
 export interface DraftSelection { target: DraftFocus; from: 'panel' | 'stage'; field: string | null; related: string[]; seq: number }
@@ -42,6 +42,16 @@ async function pages<T extends { id: string }>(path: string, signal: AbortSignal
   }
   throw new Error('This workspace is too large to preview at once.');
 }
+/** Structured scenes where the Studio offers them: `null` when this deployment or actor has none (the deck then has no
+ * scene dividers, as a snapshot taken there would), `undefined` when they could not be read this time. */
+async function readScenes(base: string, signal: AbortSignal): Promise<ListedScene[] | null | undefined> {
+  try { return await pages<ListedScene>(`${base}/scenes`, signal); }
+  catch (reason) {
+    if (reason instanceof ApiError && (reason.status === 404 || reason.status === 403 || reason.status === 501 || reason.code === 'FEATURE_NOT_IMPLEMENTED')) return null;
+    if (signal.aborted) throw reason;
+    return undefined;
+  }
+}
 async function batched<T>(ids: string[], size: number, read: (id: string) => Promise<T>) {
   const found: Record<string, T> = {}; let missing = 0;
   for (let index = 0; index < ids.length; index += size) {
@@ -68,7 +78,7 @@ export function WorkspaceDraftProvider({ enabled, workspaceId, projectId, canRea
   const [selection, setSelection] = useState<DraftSelection | null>(null); const [sceneFocus, setSceneFocus] = useState<string | null>(null);
   const request = useRef<AbortController | null>(null); const pending = useRef(false); const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const deferred = useRef(new Set<string>()); const profiles = useRef(new Map<string, Candidate>()); const media = useRef(new Map<string, CandidateMedia[]>());
-  const settingsRead = useRef(false); const loadedRevision = useRef<number | null>(null); const mounted = useRef(true);
+  const sceneRows = useRef<ListedScene[] | null>(null); const settingsRead = useRef(false); const loadedRevision = useRef<number | null>(null); const mounted = useRef(true);
   const seq = useRef(0);
 
   const load = useCallback(async (full: boolean) => {
@@ -77,18 +87,19 @@ export function WorkspaceDraftProvider({ enabled, workspaceId, projectId, canRea
     setRefreshing(true);
     try {
       const base = `/api/v1/workspaces/${encode(workspaceId)}`;
-      let snapshot: { roles: Role[]; slots: Slot[]; pool: WorkspaceCandidate[]; assignments: Assignment[]; revision: number } | null = null;
+      let snapshot: { roles: Role[]; slots: Slot[]; pool: WorkspaceCandidate[]; assignments: Assignment[]; scenes: ListedScene[] | null | undefined; revision: number } | null = null;
       for (let attempt = 0; attempt < 3 && !snapshot; attempt++) {
         const before = await api<Workspace>(base, { signal });
         if (before.data.id !== workspaceId || before.data.project_id !== projectId) throw new Error('This workspace does not belong to the requested project.');
-        const [roles, pool, assignments, seriesRows] = await Promise.all([pages<Role>(`${base}/roles`, signal), pages<WorkspaceCandidate>(`${base}/candidates`, signal),
-          pages<Assignment>(`${base}/assignments?output_type=selection`, signal), pages<PresentationSeries>(`/api/v1/presentation-series?workspace_id=${encode(workspaceId)}`, signal).catch(() => null)]);
+        const [roles, pool, assignments, seriesRows, scenes] = await Promise.all([pages<Role>(`${base}/roles`, signal), pages<WorkspaceCandidate>(`${base}/candidates`, signal),
+          pages<Assignment>(`${base}/assignments?output_type=selection`, signal), pages<PresentationSeries>(`/api/v1/presentation-series?workspace_id=${encode(workspaceId)}`, signal).catch(() => null),
+          readScenes(base, signal)]);
         const slots: Slot[] = [];
         for (let index = 0; index < roles.length; index += 4) slots.push(...(await Promise.all(roles.slice(index, index + 4).map(role => pages<Slot>(`/api/v1/roles/${encode(role.id)}/slots`, signal)))).flat());
         const after = await api<Workspace>(base, { signal });
         if (after.data.draft_revision !== before.data.draft_revision) continue;
         if (seriesRows && current()) setSeries(seriesRows.filter(row => row.workspace_id === workspaceId && !row.archived));
-        snapshot = { roles: roles.filter(row => !row.archived), slots: slots.filter(row => !row.archived), pool, assignments: assignments.filter(row => !row.archived), revision: after.data.draft_revision };
+        snapshot = { roles: roles.filter(row => !row.archived), slots: slots.filter(row => !row.archived), pool, assignments: assignments.filter(row => !row.archived), scenes, revision: after.data.draft_revision };
       }
       if (!snapshot) throw new Error('The workspace kept changing while the preview was loading.');
       if (!settingsRead.current) {
@@ -111,9 +122,16 @@ export function WorkspaceDraftProvider({ enabled, workspaceId, projectId, canRea
         for (const [id, value] of Object.entries(result.found)) media.current.set(id, value); missing += result.missing;
       }
       if (!current()) return;
-      setLoaded({ ...snapshot, candidates: Object.fromEntries(profiles.current), media: Object.fromEntries(media.current) });
+      // Scenes are read inside the same draft revision as the casting (scene edits move it too) and mapped with the
+      // snapshot's rules. Unavailable scenes leave the deck without dividers; a failed read keeps the last scenes read.
+      const { scenes: listed, ...records } = snapshot; const activeRoles = new Set(records.roles.map(role => role.id));
+      if (listed !== undefined) sceneRows.current = listed;
+      const scenes = sceneRows.current ? toPresentationScenes(sceneRows.current, activeRoles) : undefined;
+      setLoaded({ ...records, ...(scenes ? { scenes } : {}), candidates: Object.fromEntries(profiles.current), media: Object.fromEntries(media.current) });
       loadedRevision.current = snapshot.revision;
-      setStatus('ready'); setError(''); setStale(missing ? `${missing} ${missing === 1 ? 'profile or introduction' : 'profiles or introductions'} could not be read. The preview may be incomplete.` : '');
+      const unread = [missing ? `${missing} ${missing === 1 ? 'profile or introduction' : 'profiles or introductions'} could not be read.` : '',
+        listed === undefined ? `The scenes could not be read${sceneRows.current ? ', so the last scenes read are shown' : ''}.` : ''].filter(Boolean);
+      setStatus('ready'); setError(''); setStale(unread.length ? `${unread.join(' ')} The preview may be incomplete.` : '');
     } catch (reason) {
       if (!current()) return;
       const message = errorMessage(reason);

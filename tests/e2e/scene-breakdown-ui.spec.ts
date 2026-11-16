@@ -20,7 +20,7 @@ async function studio(page: Page) {
   const assignment = (id: string, slot_id: string, pool_id: string, sort_order: number) => ({ id, workspace_id: workspace, slot_id, workspace_candidate_id: pool_id, position: 'option',
     shortlist_included: false, presentation_notes: null, internal_notes: null, sort_order, row_version: 1, archived: false, slide_wording: {}, created_at: stamp, updated_at: stamp });
   const assignments = [assignment('a1', 'slot-f', 'pool-1', 0), assignment('a2', 'slot-f', 'pool-2', 1), assignment('b1', 'slot-o', 'pool-1', 0)];
-  type Occurrence = { id: string; role_id: string; row_version: number; archived: boolean; status?: string };
+  type Occurrence = { id: string; role_id: string; row_version: number; archived: boolean; status?: string; deck_placement?: 'auto' | 'repeat' | 'hidden' };
   type SceneRow = { id: string; scene_number: string | null; title: string; setting: string | null; sort_order: number; row_version: number; archived: boolean; occurrences: Occurrence[]; status?: string; quote?: string };
   const link = (id: string, role_id: string): Occurrence => ({ id, role_id, row_version: 1, archived: false });
   const scenes: SceneRow[] = [
@@ -32,7 +32,7 @@ async function studio(page: Page) {
     notes: null, requirements: { items: [] }, source_refs: scene.quote ? [{ asset_id: null, page: null, paragraph: 0, segment_index: null, start_ms: null, end_ms: null, quote: scene.quote }] : [],
     status: scene.status ?? 'confirmed', sort_order: scene.sort_order, row_version: scene.row_version, archived: scene.archived,
     occurrences: scene.occurrences.filter(o => !o.archived).map((o, sort_order) => ({ id: o.id, scene_id: scene.id, role_id: o.role_id, role_name: roles.find(r => r.id === o.role_id)!.name,
-      slot_ids: [], display_title: null, setting_override: null, presentation_note: null, deck_placement: 'auto', status: o.status ?? 'confirmed', source_refs: [], sort_order, row_version: o.row_version, proposal_stale: false })) });
+      slot_ids: [], display_title: null, setting_override: null, presentation_note: null, deck_placement: o.deck_placement ?? 'auto', status: o.status ?? 'confirmed', source_refs: [], sort_order, row_version: o.row_version, proposal_stale: false })) });
   const active = () => scenes.filter(s => !s.archived).sort((a, b) => a.sort_order - b.sort_order);
   const current = () => ({ id: workspace, project_id: project, module: 'casting', title: 'Synthetic scenes project', active_output: 'selection', row_version: version, draft_revision: revision,
     has_unpublished_changes: revision > 0, logo_asset_id: null, logo_placement: 'cover', created_at: stamp, updated_at: stamp });
@@ -51,7 +51,8 @@ async function studio(page: Page) {
       if (p.endsWith('/slots')) return list(slots.filter(s => p.includes('/' + s.role_id + '/')));
       if (p === '/api/v1/workspaces/' + workspace + '/candidates') return list(pool);
       if (p.endsWith('/assignments')) return list(assignments.filter(a => !a.archived));
-      if (p.startsWith('/api/v1/candidates/')) { const id = p.split('/').at(-1)!; return ok({ id, facts: { name: 'Synthetic ' + id }, review_status: 'unreviewed', archived: false }); }
+      if (p.startsWith('/api/v1/candidates/')) { const id = p.split('/').at(-1)!; return ok({ id, facts: { name: 'Synthetic ' + id, casting_id: id, age_or_range: null, stated_gender: null, height_measurements: null, languages: [], accents: [],
+        skills_experience: null, city: null, previous_projects_roles: null, classification: null }, review_status: 'unreviewed', archived: false }); }
       return fail(404, 'NOT_FOUND');
     }
     const body = req.postDataJSON() ?? {}; calls.push({ path: p, method, body });
@@ -210,6 +211,39 @@ test('linking states same character versus a new role explicitly; identical name
   expect(model.calls[0].body).toEqual({ role_id: 'father' });
   expect(model.calls[1].body).toMatchObject({ scene_ids: ['s9'], occurrence_ids: ['o9'] });
   expect(model.errors).toEqual([]);
+});
+
+test('the live preview prints the confirmed scenes and follows the selected scene; switching views keeps the composition', async ({ page }) => {
+  const model = await studio(page);
+  // Father prints again in the Garden (repeat), so Scene 3 has its own divider; Office and Hospital print nobody new.
+  model.scenes.find(s => s.id === 's3')!.occurrences[0].deck_placement = 'repeat';
+  await page.goto(path);
+  const stage = page.getByRole('region', { name: 'Slide preview' }); const slide = page.locator('.stage-frame .stage-slide');
+  const names = page.getByRole('navigation', { name: 'Slides' }).locator('.strip-thumb-name');
+  const deck = ['Cover', 'Synthetic person-1', 'Kitchen | INT. KITCHEN - NIGHT. · Divider', 'Father · Synthetic person-1, Synthetic person-2', 'Mother 1 · Pending',
+    'Garden | EXT. GARDEN - DAY. · Divider', 'Father · Synthetic person-1, Synthetic person-2', 'Thank you'];
+  await expect(names).toHaveText(deck);
+  await expect(stage.getByText('Live preview · updates as you edit')).toBeVisible();
+  await expect(slide).toHaveAttribute('aria-label', 'Slide 1 of 8: Cover');
+  // Entering the Scene breakdown selects Scene 1, and the stage opens its divider.
+  await page.getByRole('button', { name: 'Scene breakdown', exact: true }).click();
+  await expect(sceneButton(page, 'Kitchen')).toHaveAttribute('aria-current', 'true');
+  await expect(slide).toHaveAttribute('aria-label', 'Slide 3 of 8: Kitchen | INT. KITCHEN - NIGHT. · Divider');
+  await expect(slide).toContainText('Kitchen | INT. KITCHEN - NIGHT.');
+  await sceneButton(page, 'Garden').click();
+  await expect(slide).toHaveAttribute('aria-label', 'Slide 6 of 8: Garden | EXT. GARDEN - DAY. · Divider');
+  await expect(slide).toContainText('Garden | EXT. GARDEN - DAY.');
+  // A scene that prints no page of its own leaves the stage where it is.
+  await sceneButton(page, 'Hospital').click();
+  await expect(sceneButton(page, 'Hospital')).toHaveAttribute('aria-current', 'true');
+  await expect(slide).toHaveAttribute('aria-label', 'Slide 6 of 8: Garden | EXT. GARDEN - DAY. · Divider');
+  await expect(names).toHaveText(deck);
+  // Leaving the breakdown clears the focus but keeps the current page; the composition is the same in both views.
+  await page.getByRole('button', { name: 'Standard view', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Casting choices', exact: true })).toBeVisible();
+  await expect(slide).toHaveAttribute('aria-label', 'Slide 6 of 8: Garden | EXT. GARDEN - DAY. · Divider');
+  await expect(names).toHaveText(deck);
+  expect(model.calls).toEqual([]); expect(model.errors).toEqual([]);
 });
 
 test('the scene breakdown passes axe and fits a phone without sideways scrolling', async ({ page }) => {

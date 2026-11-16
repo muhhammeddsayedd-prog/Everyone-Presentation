@@ -2,6 +2,7 @@ import { projectReviewSlides } from '../../../../packages/domain/src/review.ts';
 import { slideWordingFields, type Assignment, type CastingOutput } from '../../../../packages/domain/src/casting-types.ts';
 import type { Candidate, CandidateMedia, WorkspaceCandidate } from '../../../../packages/domain/src/candidate-types.ts';
 import type { PresentationContext, PresentationScene, ReviewFields, ReviewProjectionInput, ReviewSlide, TemplateIdentity, WorkspaceReview } from '../../../../packages/domain/src/review-types.ts';
+import type { Scene, SceneOccurrence } from '../../../../packages/domain/src/scenes-types.ts';
 import type { Role, RoleRequirements, Slot } from '../../../../packages/domain/src/specs-types.ts';
 import legacyRegistry from '../../../../packages/templates/registry.json';
 import completeRegistry from '../../../../packages/templates/versions/1.1.0/registry.json';
@@ -20,6 +21,24 @@ export interface DraftSource {
   media: Record<string, CandidateMedia[]>;
   /** Confirmed scenes in order (template 1.4.0), when the scene API provides them. */
   scenes?: PresentationScene[];
+}
+/** A scene as the scenes API lists it. `status` may also read 'rejected' (always archived) on newer databases. */
+export type ListedScene = Omit<Scene, 'status' | 'occurrences'> & { status: string; occurrences: (Omit<SceneOccurrence, 'status'> & { status: string; archived?: boolean })[] };
+const byOrder = (a: { sort_order: number; id: string }, b: { sort_order: number; id: string }) => a.sort_order - b.sort_order || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+/** The scenes a 1.4.0 snapshot captures, from the scenes API, with the rules of `eps.review_presentation_1_4` (m19):
+ * - scenes: `status = 'confirmed'` and not archived, ordered by `sort_order, id`;
+ * - occurrences: `status = 'confirmed'`, not archived, of an active role of the workspace, ordered by `sort_order, id`;
+ * - fields: scene `id → scene_id`, `scene_number`, `title`, `sequence_label`, `setting`; occurrence `id → occurrence_id`,
+ *   `role_id`, `display_title`, `setting_override`, `presentation_note`, `deck_placement`, each value as saved (the template
+ *   trims). `slot_ids`, `notes`, `requirements`, `source_refs`, `role_name` and row versions are not captured.
+ * Lowercase UUID strings compare like Postgres `uuid` values, so the `id` tie-break matches. `activeRoleIds` is the
+ * active role list the preview reads; occurrences of any other role are left out, as the snapshot's role join does. */
+export function toPresentationScenes(scenes: readonly ListedScene[], activeRoleIds: ReadonlySet<string>): PresentationScene[] {
+  return scenes.filter(scene => scene.status === 'confirmed' && !scene.archived).sort(byOrder).map(scene => ({
+    scene_id: scene.id, scene_number: scene.scene_number, title: scene.title, sequence_label: scene.sequence_label, setting: scene.setting,
+    occurrences: scene.occurrences.filter(item => item.status === 'confirmed' && !item.archived && activeRoleIds.has(item.role_id)).sort(byOrder).map(item => ({
+      occurrence_id: item.id, role_id: item.role_id, display_title: item.display_title, setting_override: item.setting_override, presentation_note: item.presentation_note,
+      deck_placement: item.deck_placement })) }));
 }
 /** The series a draft is previewed for: its title, output and pinned template, or the Studio default before one exists. */
 export interface DraftContext { output: CastingOutput; title: string; templateVersion: string; coverNote?: string | null }

@@ -6,7 +6,7 @@ import { deckAssetIds, useEditorialAssets, type AssetFetch, type LoadedAsset } f
 import { ErrorNotice } from '../Feedback';
 import { Icon } from '../Icon';
 import { buildDraftReview, focusFor, supportedTemplate, type DraftContext } from './draft-review';
-import { pageForFocus, stageDeck, type StageDeck } from './stage-pages';
+import { pageForFocus, pageForScene, stageDeck, type StageDeck } from './stage-pages';
 import { useRenderedDeck } from './StageSlide';
 import { DeckStage, type StageChip } from './DeckStage';
 import { useWorkspaceDraft } from './WorkspaceDraftProvider';
@@ -75,6 +75,15 @@ function StageView({ deck, paused, notes, previewOnly, choice, onChoice, seriesO
   if (selection && selection.from === 'panel' && selection.seq !== followed) {
     const target = pageForFocus(deck.pages, selection.target);
     setFollowed(selection.seq); if (target !== null && deck.pages[target].key !== currentKey) setCurrentKey(deck.pages[target].key);
+  }
+  // Scene breakdown → stage: open the selected scene's first page (its divider, or the first cast page it prints). Only
+  // the page changes, never the composition; clearing the focus keeps the current page. A scene with no page yet (for
+  // example a proposal) is followed once it prints.
+  const [followedScene, setFollowedScene] = useState<string | null>(null);
+  const sceneFocus = draft.sceneFocus;
+  if (sceneFocus !== followedScene) {
+    const target = sceneFocus ? pageForScene(deck, sceneFocus, draft.source?.scenes) : null;
+    if (!sceneFocus || target !== null) { setFollowedScene(sceneFocus); if (target !== null && deck.pages[target].key !== currentKey) setCurrentKey(deck.pages[target].key); }
   }
   const go = useCallback((next: number) => {
     const target = deck.pages[next]; if (!target) return;
