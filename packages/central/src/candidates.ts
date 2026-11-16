@@ -1,9 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { DomainError, candidateEnglishFields, parseCandidateConfirmation, parseCandidateCreate, parseCandidateFacts, parseCandidatePatch,
-  parseCandidateSearch, parseDuplicateResolution, parseFrameSelection, parseWorkspaceCandidateCreate, parseWorkspaceCandidatePatch,
+  parseCandidateSearch, parseDuplicateResolution, parseFrameSelection, parseMediaRepairApply, parseWorkspaceCandidateCreate, parseWorkspaceCandidatePatch,
   type Actor, type Candidate, type CandidateConfirmation, type CandidateCreate, type CandidateFrame, type CandidateMedia,
-  type CandidatePatch, type CandidateSearch, type DuplicateMatch, type DuplicateResolution, type FrameSelection,
-  type MutationContext, type Page, type WorkspaceCandidate, type WorkspaceCandidateCreate, type WorkspaceCandidatePatch } from '@eps/domain';
+  type CandidatePatch, type CandidateSearch, type CandidateUploadRow, type DuplicateMatch, type DuplicateResolution, type FrameSelection,
+  type LibraryCandidate, type MediaRepairApply, type MediaRepairResult, type MediaRepairSuggestion,
+  type MutationContext, type Page, type WorkspaceCandidate, type WorkspaceCandidateAdded, type WorkspaceCandidateCreate, type WorkspaceCandidatePatch } from '@eps/domain';
 import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
 import { candidateListPage, parseCandidateListOptions, type CandidateListOptions } from './candidate-list.ts';
@@ -16,6 +17,8 @@ const isId = (value: unknown): value is string => typeof value === 'string' && v
 const isVersion = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 1;
 const isDate = (value: unknown): value is string => typeof value === 'string' && !Number.isNaN(Date.parse(value));
 const isNullableText = (value: unknown) => value === null || typeof value === 'string';
+/** Opaque versioned keyset cursor (base64 JSON); the database validates its content. */
+const isCursor = (value: unknown): value is string => typeof value === 'string' && value.length > 0 && value.length <= 1000 && /^[A-Za-z0-9+/=]+$/u.test(value);
 function strings(value: unknown): value is string[] { return Array.isArray(value) && value.every(item => typeof item === 'string'); }
 function exact(value: unknown, fields: string[], optional: string[] = []) {
   if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !fields.includes(key) && !optional.includes(key)) || fields.some(key => !Object.hasOwn(value, key))) failed();
@@ -35,6 +38,29 @@ function candidateDto(value: unknown): Candidate {
     if (!strings(match.matched_filter_fields) || !strings(match.unknown_filter_fields)) failed();
   }
   return structuredClone({ ...row, facts }) as unknown as Candidate;
+}
+const fractionOk = (value: unknown, positive = false) => typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 1 && (!positive || value > 0);
+function cropOk(value: unknown): boolean {
+  if (value === null) return true;
+  const crop = exact(value, ['focal_x', 'focal_y'], ['rect']);
+  if (!fractionOk(crop.focal_x) || !fractionOk(crop.focal_y)) return false;
+  if (crop.rect === undefined || crop.rect === null) return true;
+  const rect = exact(crop.rect, ['x', 'y', 'width', 'height']);
+  return fractionOk(rect.x) && fractionOk(rect.y) && fractionOk(rect.width, true) && fractionOk(rect.height, true)
+    && (rect.x as number) + (rect.width as number) <= 1 + 1e-9 && (rect.y as number) + (rect.height as number) <= 1 + 1e-9;
+}
+/** Library search row: the profile plus card fields. */
+function libraryDto(value: unknown): LibraryCandidate {
+  const extras = ['name_ar', 'talent_type', 'tape_count', 'portrait_photo', 'portrait_frame_asset_id', 'processing', 'membership'];
+  const row = exact(value, ['id', 'facts', 'review_status', 'reviewed_at', 'reviewed_by', 'search_match', 'possible_duplicate', 'merged_into_candidate_id', 'archived', 'row_version', 'created_at', 'updated_at', ...extras]);
+  const base = candidateDto(Object.fromEntries(Object.entries(row).filter(([key]) => !extras.includes(key))));
+  if (!isNullableText(row.name_ar) || !(row.talent_type === null || ['talent', 'real_family', 'group'].includes(row.talent_type as string))
+    || typeof row.tape_count !== 'number' || !Number.isSafeInteger(row.tape_count) || row.tape_count < 0
+    || !(row.portrait_frame_asset_id === null || isId(row.portrait_frame_asset_id)) || typeof row.processing !== 'boolean') failed();
+  if (row.portrait_photo !== null) { const photo = exact(row.portrait_photo, ['photo_id', 'asset_id', 'thumb_asset_id']); if (![photo.photo_id, photo.asset_id, photo.thumb_asset_id].every(isId)) failed(); }
+  if (row.membership !== null) { const member = exact(row.membership, ['workspace_candidate_id', 'state']); if (!isId(member.workspace_candidate_id) || member.state !== 'in_project') failed(); }
+  return { ...base, name_ar: row.name_ar, talent_type: row.talent_type, tape_count: row.tape_count, portrait_photo: structuredClone(row.portrait_photo),
+    portrait_frame_asset_id: row.portrait_frame_asset_id, processing: row.processing, membership: structuredClone(row.membership) } as LibraryCandidate;
 }
 function frameDto(value: unknown, source: string): CandidateFrame {
   const row = exact(value, ['asset_id', 'source_asset_id', 'timestamp_ms', 'width', 'height', 'quality_flags']);
@@ -56,8 +82,14 @@ function mediaDto(value: unknown): CandidateMedia {
   if (new Set(frames.map(frame => frame.asset_id)).size !== frames.length || new Set(selected).size !== selected.length || selected.some(id => !frames.some(frame => frame.asset_id === id))) failed();
   return structuredClone({ ...row, available_frames: frames }) as unknown as CandidateMedia;
 }
-function poolDto(value: unknown): WorkspaceCandidate {
-  const row = exact(value, ['id', 'workspace_id', 'candidate_id', 'selected_candidate_media_id', 'selected_frame_asset_ids', 'availability', 'fresh_material_required', 'media_confirmed', 'internal_notes', 'row_version']);
+const POOL_FIELDS = ['id', 'workspace_id', 'candidate_id', 'selected_candidate_media_id', 'selected_frame_asset_ids', 'availability', 'fresh_material_required', 'media_confirmed', 'internal_notes',
+  'portrait_asset_id', 'portrait_source', 'portrait_crop', 'media_selection_state', 'row_version'];
+function poolDto(value: unknown, extra: string[] = []): WorkspaceCandidate {
+  const row = exact(value, [...POOL_FIELDS, ...extra]);
+  if (!(row.portrait_asset_id === null || isId(row.portrait_asset_id)) || (row.portrait_asset_id === null) !== (row.portrait_source === null)
+    || !(row.portrait_source === null || ['frame', 'photo'].includes(row.portrait_source as string)) || !cropOk(row.portrait_crop)
+    || !['unset', 'pinned', 'intentionally_empty'].includes(row.media_selection_state as string)
+    || row.media_selection_state === 'intentionally_empty' && row.portrait_asset_id !== null) failed();
   if (!isId(row.id) || !isId(row.workspace_id) || !isId(row.candidate_id) || !isVersion(row.row_version)
     || !(row.selected_candidate_media_id === null || isId(row.selected_candidate_media_id)) || !strings(row.selected_frame_asset_ids)
     || row.selected_frame_asset_ids.length > 3 || new Set(row.selected_frame_asset_ids).size !== row.selected_frame_asset_ids.length
@@ -65,6 +97,46 @@ function poolDto(value: unknown): WorkspaceCandidate {
     || !isNullableText(row.availability) || !isNullableText(row.internal_notes)
     || typeof row.fresh_material_required !== 'boolean' || typeof row.media_confirmed !== 'boolean') failed();
   return structuredClone(row) as unknown as WorkspaceCandidate;
+}
+function addedDto(value: unknown): WorkspaceCandidateAdded {
+  const row = poolDto(value, ['already_member']) as WorkspaceCandidateAdded;
+  if (typeof row.already_member !== 'boolean') failed();
+  return row;
+}
+function uploadRowDto(value: unknown): CandidateUploadRow & { id: string } {
+  const row = exact(value, ['upload_id', 'workspace_id', 'asset_id', 'filename', 'size_bytes', 'mime_type', 'target_candidate_id', 'created_at', 'upload_status', 'state', 'job', 'candidate_id', 'workspace_candidate_id']);
+  if (!isId(row.upload_id) || !isId(row.workspace_id) || !isId(row.asset_id) || !isNullableText(row.filename) || !isVersion(row.size_bytes) || typeof row.mime_type !== 'string'
+    || !(row.target_candidate_id === null || isId(row.target_candidate_id)) || !isDate(row.created_at)
+    || !['open', 'completed', 'cancelled', 'expired'].includes(row.upload_status as string)
+    || !['uploading', 'processing', 'ready', 'needs_attention', 'failed', 'cancelled', 'expired'].includes(row.state as string)
+    || !(row.candidate_id === null || isId(row.candidate_id)) || !(row.workspace_candidate_id === null || isId(row.workspace_candidate_id))) failed();
+  if (row.job !== null) {
+    const job = exact(row.job, ['id', 'status', 'stage', 'error_code', 'retryable', 'row_version', 'updated_at']);
+    if (!isId(job.id) || !['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'].includes(job.status as string) || typeof job.stage !== 'string'
+      || !isNullableText(job.error_code) || typeof job.retryable !== 'boolean' || !isVersion(job.row_version) || !isDate(job.updated_at)) failed();
+  }
+  return { ...structuredClone(row), id: row.upload_id } as unknown as CandidateUploadRow & { id: string };
+}
+function repairSuggestionDto(value: unknown): MediaRepairSuggestion {
+  const row = exact(value, ['workspace_candidate_id', 'candidate_id', 'row_version', 'reason', 'suggestion']);
+  if (!isId(row.workspace_candidate_id) || !isId(row.candidate_id) || !isVersion(row.row_version) || !['default_available', 'no_media_available'].includes(row.reason as string)
+    || (row.reason === 'no_media_available') !== (row.suggestion === null)) failed();
+  if (row.suggestion !== null) {
+    const item = exact(row.suggestion, ['selected_candidate_media_id', 'selected_frame_asset_ids', 'portrait_asset_id', 'portrait_source']);
+    if (!(item.selected_candidate_media_id === null || isId(item.selected_candidate_media_id)) || !strings(item.selected_frame_asset_ids) || item.selected_frame_asset_ids.length > 3
+      || !(item.portrait_asset_id === null || isId(item.portrait_asset_id)) || !(item.portrait_source === null || ['frame', 'photo'].includes(item.portrait_source as string))) failed();
+  }
+  return structuredClone(row) as unknown as MediaRepairSuggestion;
+}
+function repairResultDto(value: unknown): MediaRepairResult {
+  const row = exact(value, ['applied', 'skipped']);
+  if (!Array.isArray(row.applied) || !Array.isArray(row.skipped) || row.applied.length + row.skipped.length > 100) failed();
+  const applied = (row.applied as unknown[]).map(item => poolDto(item));
+  const skipped = (row.skipped as unknown[]).map(item => { const entry = exact(item, ['workspace_candidate_id', 'reason'], ['current_row_version']);
+    if (!isId(entry.workspace_candidate_id) || !['changed', 'already_chosen', 'no_media_available', 'not_found'].includes(entry.reason as string)
+      || entry.current_row_version !== undefined && !isVersion(entry.current_row_version)) failed();
+    return structuredClone(entry); });
+  return { applied, skipped } as MediaRepairResult;
 }
 function successDto(value: unknown): CandidateSuccess {
   const row = exact(value, ['success', 'affected_ids']);
@@ -122,7 +194,7 @@ export async function createCentralCandidates(client: SupabaseClient) {
     async searchCandidates(actor: Actor, options: CandidateSearch = {}) {
       const input = parseCandidateSearch(options);
       return rpc(actor, 'eps_search_candidates', { p_search: input }, value => {
-        const result = pageDto(value, input.limit ?? 25, candidateDto);
+        const result = pageDto(value, input.limit ?? 25, libraryDto);
         if (result.data.some(row => row.archived || row.merged_into_candidate_id !== null)) failed(); return result;
       });
     },
@@ -169,20 +241,40 @@ export async function createCentralCandidates(client: SupabaseClient) {
       return mutate(actor, 'resolve_candidate_duplicate', { p_candidate_id: identifier(candidateId) }, parseDuplicateResolution(input), candidateDto, context);
     },
     async listWorkspaceCandidates(actor: Actor, workspaceId: string, options: { cursor?: string; limit?: number } = {}) {
-      if (!options || typeof options !== 'object' || Object.keys(options).some(key => !['cursor', 'limit'].includes(key)) || options.cursor !== undefined && !isId(options.cursor)
+      if (!options || typeof options !== 'object' || Object.keys(options).some(key => !['cursor', 'limit'].includes(key)) || options.cursor !== undefined && !isCursor(options.cursor)
         || options.limit !== undefined && (!isVersion(options.limit) || options.limit > 100)) invalid();
       return rpc(actor, 'eps_list_workspace_candidates', { p_workspace_id: identifier(workspaceId), p_cursor: options.cursor ?? null, p_limit: options.limit ?? 25 }, value => {
-        const result = pageDto(value, options.limit ?? 25, poolDto); if (result.data.some(row => row.workspace_id !== workspaceId)) failed(); return result;
+        const result = pageDto(value, options.limit ?? 25, item => poolDto(item)); if (result.data.some(row => row.workspace_id !== workspaceId)) failed(); return result;
       });
     },
     async addWorkspaceCandidate(actor: Actor, workspaceId: string, input: WorkspaceCandidateCreate, context?: MutationContext) {
-      return mutate(actor, 'add_workspace_candidate', { p_workspace_id: identifier(workspaceId) }, parseWorkspaceCandidateCreate(input), value => { const row = poolDto(value); if (row.workspace_id !== workspaceId || row.candidate_id !== input.candidate_id) failed(); return row; }, context);
+      return mutate(actor, 'add_workspace_candidate', { p_workspace_id: identifier(workspaceId) }, parseWorkspaceCandidateCreate(input), value => { const row = addedDto(value); if (row.workspace_id !== workspaceId || row.candidate_id !== input.candidate_id) failed(); return row; }, context);
     },
     async updateWorkspaceCandidate(actor: Actor, poolId: string, input: WorkspaceCandidatePatch, context?: MutationContext) {
-      return mutate(actor, 'update_workspace_candidate', { p_workspace_candidate_id: identifier(poolId) }, parseWorkspaceCandidatePatch(input), poolDto, context);
+      return mutate(actor, 'update_workspace_candidate', { p_workspace_candidate_id: identifier(poolId) }, parseWorkspaceCandidatePatch(input), value => poolDto(value), context);
     },
     async removeWorkspaceCandidate(actor: Actor, poolId: string, input: CandidateVersionInput, context?: MutationContext) {
       return mutate(actor, 'remove_workspace_candidate', { p_workspace_candidate_id: identifier(poolId) }, versionInput(input), successDto, context);
+    },
+    /** The caller's candidate video uploads in a project, newest first, with processing state. */
+    async listWorkspaceUploads(actor: Actor, workspaceId: string, options: { cursor?: string; limit?: number } = {}) {
+      if (!options || typeof options !== 'object' || Object.keys(options).some(key => !['cursor', 'limit'].includes(key)) || options.cursor !== undefined && !isCursor(options.cursor)
+        || options.limit !== undefined && (!isVersion(options.limit) || options.limit > 100)) invalid();
+      return rpc(actor, 'eps_list_workspace_uploads', { p_workspace_id: identifier(workspaceId), p_cursor: options.cursor ?? null, p_limit: options.limit ?? 25 }, value => {
+        const result = pageDto(value, options.limit ?? 25, uploadRowDto); if (result.data.some(row => row.workspace_id !== workspaceId)) failed();
+        return { data: result.data.map(row => Object.fromEntries(Object.entries(row).filter(([key]) => key !== 'id')) as unknown as CandidateUploadRow), page: result.page };
+      });
+    },
+    async suggestMediaRepairs(actor: Actor, workspaceId: string) {
+      return rpc(actor, 'eps_suggest_media_repairs', { p_workspace_id: identifier(workspaceId) }, value => {
+        const row = exact(value, ['data', 'has_more']); if (!Array.isArray(row.data) || row.data.length > 200 || typeof row.has_more !== 'boolean') failed();
+        return { data: (row.data as unknown[]).map(repairSuggestionDto), has_more: row.has_more as boolean };
+      });
+    },
+    async applyMediaRepairs(actor: Actor, workspaceId: string, input: MediaRepairApply, context?: MutationContext) {
+      return mutate(actor, 'apply_media_repairs', { p_workspace_id: identifier(workspaceId) }, parseMediaRepairApply(input), value => {
+        const result = repairResultDto(value); if (result.applied.some(row => row.workspace_id !== workspaceId)) failed(); return result;
+      }, context);
     },
   };
 }

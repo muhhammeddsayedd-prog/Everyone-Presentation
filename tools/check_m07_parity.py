@@ -48,10 +48,10 @@ const rows=implementedMcpTools(true,true,true,true,true).map(t=>{
     def check(condition, message):
         if not condition:
             errors.append(message)
-    check(len(runtime) == len(tools) == 98, 'Runtime/catalog must contain98 implemented user tools.')
+    check(len(runtime) == len(tools) == 101, 'Runtime/catalog must contain101 implemented user tools.')
     check({row['name'] for row in runtime} == set(tools), 'Runtime and catalog tool names differ.')
     rows = [row for group in inventory['groups'] for row in group['operations']]
-    check(len(rows) == len({row['operation'] for row in rows}) == 98, 'Meaningful-action inventory must cover each user operation once.')
+    check(len(rows) == len({row['operation'] for row in rows}) == 101, 'Meaningful-action inventory must cover each user operation once.')
     check({row['operation'] for row in rows} == set(tools), 'UI semantic groups and MCP catalog differ.')
     sources = {'contracts/openapi.yaml', 'contracts/mcp-tool-catalog.json', 'contracts/operation-parity.json', 'apps/web/lib/mcp.ts', 'apps/web/lib/mcp-output-validation.ts', 'tools/check_m07_parity.py'}
     def digest(value):

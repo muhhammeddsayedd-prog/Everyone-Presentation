@@ -21,7 +21,7 @@ const media = (id: string, candidate_id: string, source_asset_id: string): Candi
   ], selected_frame_asset_ids: [`${id}-frame`], row_version: 1 });
 const project = (id: string): WorkspaceCandidate => ({ id, workspace_id: id, candidate_id: 'candidate-a',
   selected_candidate_media_id: null, selected_frame_asset_ids: [], availability: null, fresh_material_required: false,
-  media_confirmed: false, internal_notes: null, row_version: 1 });
+  media_confirmed: false, internal_notes: null, portrait_asset_id: null, portrait_source: null, portrait_crop: null, media_selection_state: 'unset', row_version: 1 });
 
 test('manual unknown facts remain null and generated casting ID never becomes a name', () => {
   const value = createManualCandidate({ id: 'unknown', facts: facts({ name: '  ', city: '' }), castingId: 'EPS-UNKNOWN',

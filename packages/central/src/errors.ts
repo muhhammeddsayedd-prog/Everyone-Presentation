@@ -13,6 +13,7 @@ const KNOWN: Record<string, { status: number; message: string }> = {
   AUDIENCE_PRESET_EXISTS: { status: 409, message: 'This audience preset key already exists.' },
   INVALID_TRANSITION: { status: 409, message: 'The requested operation is not valid in the current state.' },
   INVALID_REQUEST: { status: 400, message: 'The request contains an invalid or unsupported value.' },
+  INVALID_CURSOR: { status: 400, message: 'This page link is from an older or different list. Reload the list from the start.' },
   FEATURE_NOT_IMPLEMENTED: { status: 503, message: 'This operation is not available yet. Your saved data remains available.' },
   UPLOAD_EXPIRED: { status: 409, message: 'This upload is closed or expired. Start another upload.' },
   SPECS_STATE_INVALID: { status: 409, message: 'The requirements changed unexpectedly. Reload before trying again.' },

@@ -1,6 +1,6 @@
 import { DomainError, type Actor, type CandidateCreate, type CandidatePatch, type CandidateConfirmation,
   type CandidateSearch, type DuplicateResolution, type FrameSelection, type MutationContext,
-  type WorkspaceCandidateCreate, type WorkspaceCandidatePatch } from '@eps/domain';
+  type MediaRepairApply, type WorkspaceCandidateCreate, type WorkspaceCandidatePatch } from '@eps/domain';
 import type { getCandidatesService } from './candidates';
 import { json, NO_STORE, readJson } from './http';
 import { validateContract } from './validation';
@@ -9,7 +9,7 @@ import type { FrameExtractionInput,CandidateSupportArchive } from '@eps/domain';
 export type CandidatesOperations = Awaited<ReturnType<typeof getCandidatesService>>;
 export function isCandidatesRoute(s: string[]) {
   return s[0] === 'candidates' || s[0] === 'candidate-media' && s.length === 3 && s[2] === 'frames'
-    || s[0] === 'workspace-candidates' || s[0] === 'workspaces' && s.length === 3 && s[2] === 'candidates'
+    || s[0] === 'workspace-candidates' || s[0] === 'workspaces' && s.length === 3 && ['candidates', 'candidate-uploads', 'media-repairs'].includes(s[2])
     || s[0] === 'roles' && s.length === 3 && s[2] === 'candidate-filters'
     || s[0] === 'candidate-support' && s.length === 3 && s[2] === 'archive'
     || s[0] === 'candidate-photos' && s.length === 3 && s[2] === 'content'
@@ -18,7 +18,7 @@ export function isCandidatesRoute(s: string[]) {
 const invalid = (): never => { throw new DomainError('INVALID_REQUEST', 'Provide supported candidate filters and bounded resource identifiers.', 400); };
 function search(url: URL, candidates: boolean): CandidateSearch {
   const result: Record<string, unknown> = {};
-  const text = ['cursor', ...(candidates ? ['q','age_or_range','stated_gender','height_measurements','language','accent','skill','city','previous_project_role','classification'] : [])];
+  const text = ['cursor', ...(candidates ? ['q','workspace_id','age_or_range','stated_gender','height_measurements','language','accent','skill','city','previous_project_role','classification'] : [])];
   for (const [key, value] of url.searchParams) {
     if (url.searchParams.getAll(key).length !== 1 || value.length > (key === 'cursor' ? 2000 : 500)) invalid();
     if (text.includes(key)) result[key] = value;
@@ -35,11 +35,14 @@ export async function handleCandidatesRequest(request: Request, s: string[], act
   const body = async <T,>(schema: string) => validateContract<T>(schema, await readJson(request));
   const paged = (value: { data: unknown; page: unknown }) => Response.json({ request_id: context.requestId, ...value }, { headers: NO_STORE });
   if (s[0] === 'candidates' && s.length === 1 && method === 'GET') return paged(await service.searchCandidates(actor, search(url, true)));
-  if (s[0] === 'workspaces' && method === 'GET') return paged(await service.listWorkspaceCandidates(actor, s[1], search(url, false)));
+  if (s[0] === 'workspaces' && s[2] === 'candidates' && method === 'GET') return paged(await service.listWorkspaceCandidates(actor, s[1], search(url, false)));
+  if (s[0] === 'workspaces' && s[2] === 'candidate-uploads' && method === 'GET') return paged(await service.listWorkspaceUploads(actor, s[1], search(url, false)));
   if (s[0] === 'candidates' && s.length === 3 && s[2] === 'supporting-files' && method === 'GET') return paged(await service.listCandidateSupport(actor,s[1],search(url,false)));
   if (s[0] === 'candidates' && s.length === 3 && s[2] === 'media' && method === 'GET') return paged(await service.getCandidateMedia(actor, s[1], search(url, false)));
   if (s[0] === 'candidates' && s.length === 3 && s[2] === 'duplicates' && method === 'GET') return paged(await service.findCandidateDuplicates(actor, s[1], search(url, false)));
   if (url.search) invalid();
+  if (s[0] === 'workspaces' && s[2] === 'media-repairs' && method === 'GET') { const result = await service.suggestMediaRepairs(actor, s[1]); return Response.json({ request_id: context.requestId, ...result }, { headers: NO_STORE }); }
+  if (s[0] === 'workspaces' && s[2] === 'media-repairs' && method === 'POST') return json(await service.applyMediaRepairs(actor, s[1], await body<MediaRepairApply>('MediaRepairApply'), context), context.requestId);
   if (s[0] === 'candidates' && s.length === 3 && s[2] === 'photos' && method === 'GET') return paged(await service.listCandidatePhotos(actor, s[1]));
   // Archive photos never change once stored, so a viewer's browser may keep them for a day.
   if (s[0] === 'candidate-photos' && method === 'GET') { const photo = await service.getCandidatePhotoContent(actor, s[1]); return new Response(new Uint8Array(photo.bytes), { headers: { 'Cache-Control': 'private, max-age=86400', 'Content-Type': photo.mimeType, 'X-Content-Type-Options': 'nosniff' } }); }
@@ -55,7 +58,8 @@ export async function handleCandidatesRequest(request: Request, s: string[], act
     if (s.length === 4 && s[2] === 'duplicates' && s[3] === 'resolve' && method === 'POST') return json(await service.resolveCandidateDuplicate(actor, s[1], await body<DuplicateResolution>('DuplicateResolution'), context), context.requestId);
   }
   if (s[0] === 'candidate-media' && s.length === 3 && method === 'PUT') return json(await service.updateCandidateFrames(actor, s[1], await body<FrameSelection>('FrameSelection'), context), context.requestId);
-  if (s[0] === 'workspaces' && method === 'POST') return json(await service.addWorkspaceCandidate(actor, s[1], await body<WorkspaceCandidateCreate>('WorkspaceCandidateCreate'), context), context.requestId, 201);
+  // Adding someone already in the project returns that membership (200, already_member) rather than a conflict.
+  if (s[0] === 'workspaces' && s[2] === 'candidates' && method === 'POST') { const added = await service.addWorkspaceCandidate(actor, s[1], await body<WorkspaceCandidateCreate>('WorkspaceCandidateCreate'), context); return json(added, context.requestId, added.already_member ? 200 : 201); }
   if (s[0] === 'workspace-candidates') {
     if (s.length === 2 && method === 'PATCH') return json(await service.updateWorkspaceCandidate(actor, s[1], await body<WorkspaceCandidatePatch>('WorkspaceCandidatePatch'), context), context.requestId);
     if (s.length === 3 && s[2] === 'remove' && method === 'POST') return json(await service.removeWorkspaceCandidate(actor, s[1], await body<{row_version:number}>('ArchiveRequest'), context), context.requestId);

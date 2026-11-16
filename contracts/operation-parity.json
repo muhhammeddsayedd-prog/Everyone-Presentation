@@ -324,7 +324,9 @@
       "label": "Library reuse; project material/availability/notes; removal",
       "ui_sources": [
         "apps/web/components/WorkspaceCandidatesView.tsx",
-        "apps/web/components/CastLibraryView.tsx"
+        "apps/web/components/CastLibraryView.tsx",
+        "apps/web/components/CandidateResumableUploads.tsx",
+        "apps/web/components/CandidatePortrait.tsx"
       ],
       "operations": [
         {
@@ -348,6 +350,24 @@
         {
           "operation": "remove_workspace_candidate",
           "domain_symbol": "removeWorkspaceCandidate",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "list_workspace_uploads",
+          "domain_symbol": "listWorkspaceUploads",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "suggest_media_repairs",
+          "domain_symbol": "suggestMediaRepairs",
+          "domain_source": "packages/central/src/candidates.ts",
+          "http_source": "apps/web/lib/candidates-http.ts"
+        },
+        {
+          "operation": "apply_media_repairs",
+          "domain_symbol": "applyMediaRepairs",
           "domain_source": "packages/central/src/candidates.ts",
           "http_source": "apps/web/lib/candidates-http.ts"
         }
