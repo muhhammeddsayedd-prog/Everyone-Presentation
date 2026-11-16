@@ -24,7 +24,7 @@ const acting = { principal_id: principal } as never;
 const code = (value: string) => (error: unknown) => error instanceof DomainError && error.code === value;
 
 test('observations, review and facets go through the caller\'s own RPCs with exact shapes', async () => {
-  const facets = { total: 1, filters: { facets: {}, include_unknown: false, q: null }, facets: ['talent_type', 'city', 'stated_gender', 'playing_age', 'skin_tone', 'hair_length', 'hair_colour', 'hair_texture', 'facial_hair', 'glasses', 'build', 'languages', 'look', 'tags']
+  const facets = { total: 1, filters: { facets: {}, include_unknown: false, q: null }, facets: ['talent_type', 'city', 'stated_gender', 'playing_age', 'skin_tone', 'hair_length', 'hair_colour', 'hair_texture', 'facial_hair', 'glasses', 'build', 'languages', 'tags']
     .map(key => ({ key, matched: 1, unknown: 1, values: [], selected: [] })) };
   const h = await harness({ eps_list_candidate_observations: { data: { candidate_id: candidate, supplied: { archive: null, facts: null }, media: [mediaRow] } },
     eps_review_candidate_observation: { data: { ...observation, status: 'confirmed', effective_value: 'black', reviewed_by: principal, reviewed_at: '2026-11-03T00:00:00Z', row_version: 2 }, changed: true },

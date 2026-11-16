@@ -165,7 +165,10 @@ const JOURNEYS = {
       const library = (await ok('GET', `/candidates?limit=100&workspace_id=${WS}`)).data.find(c => c.id === person);
       check('library_membership_cleared', library && !library.membership, library?.membership);
       const replay = await call('POST', `/workspaces/${WS}/candidates`, { candidate_id: person }, { key });
-      check('old_key_does_not_replay_archived', replay.status < 300 && replay.body.data.id !== membership && !replay.body.data.archived, replay.body);
+      check('old_key_after_removal_refused', replay.status === 409 && replay.body.error?.code === 'MEMBERSHIP_REMOVED', replay.body);
+      check('old_key_did_not_readd', sql(`select count(*) from eps.workspace_candidates where candidate_id='${person}' and archived_at is null`) === '0');
+      const readd = await call('POST', `/workspaces/${WS}/candidates`, { candidate_id: person });
+      check('new_key_readds_as_new_row', readd.status < 300 && readd.body.data.id !== membership, readd.body);
       check('readd_one_active', sql(`select count(*) from eps.workspace_candidates where candidate_id='${person}' and archived_at is null`) === '1');
     });
   },
