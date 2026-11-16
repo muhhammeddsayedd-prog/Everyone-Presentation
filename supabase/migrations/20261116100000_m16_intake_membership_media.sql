@@ -410,7 +410,7 @@ create function eps.candidate_upload_row(p_upload uuid) returns jsonb language s
   'state',case when u.status='cancelled' then 'cancelled' when u.status='open' and u.expires_at<=clock_timestamp() then 'expired' when u.status='open' then 'uploading'
    when j.status='succeeded' then 'ready' when j.status='waiting_for_input' then 'needs_attention' when j.status='failed' then 'failed' when j.status='cancelled' then 'cancelled' else 'processing' end,
   'job',case when j.id is null then null else jsonb_build_object('id',j.id,'status',j.status,'stage',j.stage,'error_code',j.error->>'code',
-   'retryable',coalesce((j.error->>'retryable')::boolean,false),'row_version',j.row_version,'updated_at',j.updated_at) end,
+   'retryable',(j.status='failed' and j.cancel_requested_at is null and coalesce((j.error->>'retryable')::boolean,false) and coalesce((j.stage_attempts->>j.stage)::integer,0)<3),'row_version',j.row_version,'updated_at',j.updated_at) end,
   'candidate_id',case when j.status='succeeded' then j.result->'candidate_id' end,
   'workspace_candidate_id',case when j.status='succeeded' then j.result->'workspace_candidate_id' end)
  from eps.candidate_uploads u left join eps.media_assets a on a.id=u.asset_id left join eps.jobs j on j.id=u.job_id and j.kind='candidate_scan' where u.id=p_upload
