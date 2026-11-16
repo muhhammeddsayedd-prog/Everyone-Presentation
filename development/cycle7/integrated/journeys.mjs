@@ -266,14 +266,14 @@ const JOURNEYS = {
   },
   async picture() {
     await journey('8-photo-portrait-in-review', async () => {
-      const { added } = globalThis.fixture; const series = globalThis.series;
+      const { added } = globalThis.fixture; const series = globalThis.series ?? { id: sql(`select id from eps.presentation_series where workspace_id='${WS}' and audience_snapshot->>'scope'='external' order by created_at desc limit 1`) };
       const row = (await members()).find(m => m.id === added.id);
       await ok('PATCH', `/workspace-candidates/${added.id}`, { row_version: row.row_version, portrait_crop: { focal_x: 0.5, focal_y: 0.3 } });
       const review = (await ok('GET', `/workspaces/${WS}/review?series_id=${series.id}`)).data;
       const text = JSON.stringify(review);
       check('review_on_1_4', JSON.stringify(review.template ?? {}).includes('1.4.0'), review.template);
       check('photo_portrait_in_review', text.includes('c7000000-0000-4000-8000-00000000e003'), Object.keys(review));
-      check('crop_captured', text.includes('0.3'));
+      check('crop_captured_as_focal_permille', text.includes('"focal":[500,300]'), review.presentation?.slides?.[0]?.portrait);
       check('scene_context_captured', text.includes('Breakfast'));
     });
   },
