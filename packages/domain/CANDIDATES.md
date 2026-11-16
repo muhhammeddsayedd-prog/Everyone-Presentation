@@ -68,3 +68,23 @@ capabilities and upload-session limits and rejects oversize uploads before
 reserving or signing. It does not change database/native bounds or prevent
 reading existing larger Ready media. See the read-only
 [capacity evidence](../../tracking/evidence/m03/storage-limit-discovery/README.md).
+
+## Project membership and presentation picture (cycle 7, m16)
+
+- Adding a person to a project is idempotent per person: an existing active membership is
+  returned with `already_member: true` (HTTP 200), never a conflict, and its choices are not
+  touched. A replayed Idempotency-Key is honoured only while the membership it created is still
+  active; after a removal the same key adds the person again (new row) rather than replaying the
+  archived row.
+- Initial pin policy (deterministic, applied by `add_workspace_candidate`, the upload save step
+  and the reviewable repair): introduction = the person's newest ready video introduction
+  (`candidate_media.created_at desc, id desc`) with its library-chosen ready frames; picture =
+  the archive cover photo when ready, otherwise the first of those frames, otherwise none.
+  State becomes `pinned` when anything was pinned, else `unset`. Explicit choices in the request
+  win; `intentionally_empty` is never given a default picture.
+- Project rows show only the project's pinned picture; there is no Library fallback. Library
+  edits (facts, library frame choice, new tapes) never change a project's pins. Legacy `unset`
+  rows are only changed through the explicit suggest/apply repair; rows changed since they were
+  listed are skipped and reported.
+- Lists are newest added to the app first (person `created_at desc, id desc`), with versioned
+  cursors (`INVALID_CURSOR` for older cursors).
