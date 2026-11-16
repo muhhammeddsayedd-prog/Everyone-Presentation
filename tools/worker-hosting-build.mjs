@@ -118,7 +118,7 @@ export function workerNativeCompatibility(daemon, native, manifestSha, graph, re
  * credential cache, symlink, local filesystem media or package lifecycle hook. */
 export async function workerContextFiles() {
   const files = ['package.json', 'package-lock.json', 'apps/web/package.json', 'apps/worker/package.json', 'apps/worker/Dockerfile.daemon', 'apps/worker/Dockerfile.native-sandbox'];
-  for (const name of ['specs-extraction', 'candidate-extraction', 'frame-selection', 'slide-wording']) files.push(`contracts/json-schema/${name}.schema.json`);
+  for (const name of ['specs-extraction', 'specs-extraction-v2', 'candidate-extraction', 'frame-selection', 'slide-wording']) files.push(`contracts/json-schema/${name}.schema.json`);
   for (const pkg of ['domain', 'jobs', 'integrations', 'central']) files.push(`packages/${pkg}/package.json`);
   async function walk(relative) {
     const target = path.join(ROOT, relative); if (!samePath(path.resolve(await realpath(target)), target)) error();

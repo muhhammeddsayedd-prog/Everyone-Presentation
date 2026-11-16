@@ -2,9 +2,11 @@ import OpenAI from 'openai';
 import type { ResponseCreateParamsNonStreaming } from 'openai/resources/responses/responses';
 import { IntegrationError, record, retryAfterMs, safeIdentifier } from './errors.ts';
 import { SPECS_PROMPT, SPECS_PROMPT_VERSION } from './prompts/specs-v1.ts';
+import { SPECS_V2_PROMPT, SPECS_V2_PROMPT_VERSION } from './prompts/specs-v2.ts';
 import {
   sha256, SPECS_PROVIDER_SCHEMA, SPECS_PROVIDER_SCHEMA_SHA256, SPECS_SCHEMA_SHA256,
-  validateSpecsExtraction,
+  SPECS_V2_PROVIDER_SCHEMA, SPECS_V2_PROVIDER_SCHEMA_SHA256, SPECS_V2_SCHEMA_SHA256,
+  validateSpecsExtraction, validateSpecsExtractionV2,
 } from './specs-schema.ts';
 import type { SpecsExtractionInput, SpecsExtractionOutput } from './specs-types.ts';
 import { sendBoundedSpecsStream } from './specs-stream.ts';
@@ -18,7 +20,23 @@ export interface OpenAISpecsConfig {
   reasoningEffort?: 'low';
   /** Explicit daemon specs admission; existing direct/injected callers stay buffered. */
   transportMode?: 'bounded_stream';
+  /** Job-frozen extraction contract; omission keeps v1 for existing callers. */
+  promptVersion?: SpecsPromptVersion;
 }
+
+export type SpecsPromptVersion = typeof SPECS_PROMPT_VERSION | typeof SPECS_V2_PROMPT_VERSION;
+/** Reviewed prompt/schema pairs. Hashes are pinned in SQL (v1: m02, v2: m17). */
+const SPECS_PROFILES = {
+  [SPECS_PROMPT_VERSION]: { prompt: SPECS_PROMPT, schemaName: 'specs_extraction_v1', schemaVersion: '1.0',
+    schema: SPECS_PROVIDER_SCHEMA, schemaSha256: SPECS_SCHEMA_SHA256, providerSchemaSha256: SPECS_PROVIDER_SCHEMA_SHA256,
+    validate: validateSpecsExtraction },
+  [SPECS_V2_PROMPT_VERSION]: { prompt: SPECS_V2_PROMPT, schemaName: 'specs_extraction_v2', schemaVersion: '2.0',
+    schema: SPECS_V2_PROVIDER_SCHEMA, schemaSha256: SPECS_V2_SCHEMA_SHA256, providerSchemaSha256: SPECS_V2_PROVIDER_SCHEMA_SHA256,
+    validate: validateSpecsExtractionV2 },
+} as const;
+/** Result schema version that a job configuration must pair with each prompt version. */
+export const SPECS_RESULT_SCHEMA_VERSIONS: Readonly<Record<SpecsPromptVersion, '1.0' | '2.0'>> = Object.freeze({
+  [SPECS_PROMPT_VERSION]: '1.0', [SPECS_V2_PROMPT_VERSION]: '2.0' });
 
 /** Injection is for deterministic adapter tests; it does not imply a real provider call. */
 export type SpecsTransport = (request: ResponseCreateParamsNonStreaming, signal?: AbortSignal) => Promise<unknown>;
@@ -48,12 +66,14 @@ function checkedConfig(config: OpenAISpecsConfig): OpenAISpecsConfig & { timeout
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > (config.transportMode === 'bounded_stream' ? 300_000 : 70_000)
     || !Number.isInteger(maxOutputTokens) || maxOutputTokens < 256 || maxOutputTokens > 32_768
     || (config.reasoningEffort !== undefined && config.reasoningEffort !== 'low')
-    || (config.transportMode !== undefined && config.transportMode !== 'bounded_stream')) {
+    || (config.transportMode !== undefined && config.transportMode !== 'bounded_stream')
+    || (config.promptVersion !== undefined && !Object.hasOwn(SPECS_PROFILES, config.promptVersion))) {
     throw new IntegrationError('OPENAI_CONFIGURATION_INVALID', 'OpenAI extraction timeout or output budget is invalid.');
   }
   return { apiKey: config.apiKey.trim(), model: config.model, timeoutMs, maxOutputTokens,
     ...(config.reasoningEffort === 'low' ? { reasoningEffort: 'low' as const } : {}),
-    ...(config.transportMode === 'bounded_stream' ? { transportMode: 'bounded_stream' as const } : {}) };
+    ...(config.transportMode === 'bounded_stream' ? { transportMode: 'bounded_stream' as const } : {}),
+    ...(config.promptVersion !== undefined ? { promptVersion: config.promptVersion } : {}) };
 }
 
 function isolatedSDKHeaders(apiKey: string): Record<string, string | null> {
@@ -180,6 +200,8 @@ export async function extractSpecs(
   signal?: AbortSignal,
 ): Promise<SpecsExtractionOutput> {
   const config = checkedConfig(configuration);
+  const promptVersion = config.promptVersion ?? SPECS_PROMPT_VERSION;
+  const profile = SPECS_PROFILES[promptVersion];
   const source = validateInput(input);
   if (signal?.aborted) throw new IntegrationError('PROCESSING_CANCELLED', 'The extraction attempt was cancelled.');
   // Official Responses strict schema path. No tools, network destinations or executable source instructions.
@@ -187,9 +209,9 @@ export async function extractSpecs(
   const request: ResponseCreateParamsNonStreaming = {
     model: config.model, stream: false, store: false, tools: [],
     ...(config.reasoningEffort ? { reasoning: { effort: config.reasoningEffort } } : {}),
-    instructions: SPECS_PROMPT,
+    instructions: profile.prompt,
     input: [{ role: 'user', content: [{ type: 'input_text', text: source }] }],
-    text: { format: { type: 'json_schema', name: 'specs_extraction_v1', strict: true, schema: structuredClone(SPECS_PROVIDER_SCHEMA) } },
+    text: { format: { type: 'json_schema', name: profile.schemaName, strict: true, schema: structuredClone(profile.schema) } },
     max_output_tokens: config.maxOutputTokens,
   };
   // Application jobs own retries. Do not multiply attempts inside the SDK.
@@ -213,7 +235,7 @@ export async function extractSpecs(
   if (signal?.aborted) throw new IntegrationError('PROCESSING_CANCELLED', 'The extraction attempt was cancelled.');
   if (deadline.aborted) throw new IntegrationError('OPENAI_TIMEOUT', 'OpenAI extraction timed out; the job can retry.', true);
   let parsed: ReturnType<typeof parseResponse>; let result: SpecsExtractionOutput['result'];
-  try { parsed = parseResponse(response); result = validateSpecsExtraction(parsed.payload, input); }
+  try { parsed = parseResponse(response); result = profile.validate(parsed.payload, input); }
   catch (error) {
     if (streamMetadata && error instanceof IntegrationError) throw new IntegrationError(error.code, error.message, error.retryable,
       { ...error.details, http_status: streamMetadata.httpStatus, request_id: streamMetadata.requestId });
@@ -223,8 +245,8 @@ export async function extractSpecs(
     provider: 'openai', sdk_version: '7.45.1', requested_model: config.model, resolved_model: parsed.model,
     response_id: parsed.id, request_id: streamMetadata !== undefined ? streamMetadata.requestId : parsed.requestId, correlation_id: input.correlationId,
     input_sha256: input.inputHash, prepared_source_sha256: sha256(source),
-    prompt_version: SPECS_PROMPT_VERSION, prompt_sha256: sha256(SPECS_PROMPT),
-    schema_version: '1.0', schema_sha256: SPECS_SCHEMA_SHA256, provider_schema_sha256: SPECS_PROVIDER_SCHEMA_SHA256,
+    prompt_version: promptVersion, prompt_sha256: sha256(profile.prompt),
+    schema_version: profile.schemaVersion, schema_sha256: profile.schemaSha256, provider_schema_sha256: profile.providerSchemaSha256,
     usage: parsed.usage,
   } };
 }

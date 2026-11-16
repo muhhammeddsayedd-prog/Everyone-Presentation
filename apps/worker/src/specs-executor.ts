@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'node:crypto';
-import { extractSpecs, IntegrationError, integrationErrorToJobFailure, type OpenAIMediaConfig, type OpenAISpecsConfig } from '@eps/integrations';
-import { SPECS_PROMPT_VERSION } from '../../../packages/integrations/src/prompts/specs-v1.ts';
+import { extractSpecs, IntegrationError, integrationErrorToJobFailure, SPECS_RESULT_SCHEMA_VERSIONS,
+  type OpenAIMediaConfig, type OpenAISpecsConfig, type SpecsPromptVersion } from '@eps/integrations';
 import type { JobEvent, JobEventReceipt, JsonObject, StageLease } from '@eps/jobs';
 import { prepareDocumentIsolated } from './process.ts';
 import { preparePastedText } from './pasted-text.ts';
@@ -174,8 +174,11 @@ export async function executeSpecsStage(lease: StageLease, gateway: SpecsStageGa
   catch (error) { if (error instanceof SpecsExecutionError) throw error; return fail('STAGE_INPUT_INVALID'); }
   if (signal.aborted) fail('PROCESSING_CANCELLED');
   if (Date.parse(lease.lease_expires_at) <= Date.now()) fail('LEASE_STALE');
+  // Only reviewed prompt/result-schema pairs (v1 '1.0', v2 '2.0'); the job-frozen pair selects the extraction contract.
   if (input.configuration.document_preparation_version !== DOCUMENT_PREPARATION_VERSION
-    || input.configuration.prompt_version !== SPECS_PROMPT_VERSION || input.configuration.result_schema_version !== '1.0') fail('STAGE_INPUT_INVALID');
+    || !Object.hasOwn(SPECS_RESULT_SCHEMA_VERSIONS, input.configuration.prompt_version)
+    || SPECS_RESULT_SCHEMA_VERSIONS[input.configuration.prompt_version as SpecsPromptVersion] !== input.configuration.result_schema_version) fail('STAGE_INPUT_INVALID');
+  const promptVersion = input.configuration.prompt_version as SpecsPromptVersion;
   let sequence = 0; let timer: ReturnType<typeof setTimeout> | undefined; let stopped = false;
   let heartbeat: Promise<void> = Promise.resolve(); let heartbeatError: SpecsExecutionError | null = null;
   async function publish(fields: Pick<JobEvent, 'event_type'> & Partial<Pick<JobEvent, 'result_schema' | 'result' | 'error'>>) {
@@ -220,7 +223,7 @@ export async function executeSpecsStage(lease: StageLease, gateway: SpecsStageGa
       if (!openAI || openAI.model !== input.configuration.model_version) fail('STAGE_INPUT_INVALID');
       const output = await extract({ sourceAssetId: input.source_asset_id,
         paragraphs: input.paragraphs.map(({ index, page, text }) => ({ index, page, text })), correlationId: input.correlation_id,
-        inputHash: lease.input.input_hash as string }, openAI, undefined, signal);
+        inputHash: lease.input.input_hash as string }, { ...openAI, promptVersion }, undefined, signal);
       result = output as unknown as JsonObject; schema = 'specs-extraction-stage.v1';
     } else {
       result = { specs_id: input.specs_id, workspace_id: input.workspace_id }; schema = 'specs-application.v1';

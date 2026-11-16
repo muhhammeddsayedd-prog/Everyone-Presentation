@@ -1,6 +1,7 @@
-import type { SpecsExtraction } from '../../domain/src/specs-types.ts';
+import type { AnySpecsExtraction } from '../../domain/src/specs-types.ts';
 export type {
-  SourceReference, SourceClarification as Clarification, RoleRequirements, ExtractedRole, SpecsExtraction,
+  SourceReference, SourceClarification, SourceClarification as Clarification, RoleRequirements, ExtractedRole, SpecsExtraction, AnySpecsExtraction,
+  SpecsExtractionV1, SpecsExtractionV2, ExtractedRoleV2, ExtractedScene, ExtractedSceneOccurrence, ExtractedSameCharacterLink,
 } from '../../domain/src/specs-types.ts';
 
 export interface DocumentParagraph {
@@ -30,13 +31,13 @@ export interface SpecsExtractionMetadata {
   prepared_source_sha256: string;
   prompt_version: string;
   prompt_sha256: string;
-  schema_version: '1.0';
+  schema_version: '1.0' | '2.0';
   schema_sha256: string;
   provider_schema_sha256: string;
   usage: { input_tokens: number; output_tokens: number; total_tokens: number } | null;
 }
 
 export interface SpecsExtractionOutput {
-  result: SpecsExtraction;
+  result: AnySpecsExtraction;
   metadata: SpecsExtractionMetadata;
 }
