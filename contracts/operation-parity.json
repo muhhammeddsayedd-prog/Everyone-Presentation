@@ -1078,6 +1078,30 @@
       "sources": [
         "apps/web/app/api/v1/[...segments]/route.ts"
       ]
+    },
+    "get_candidate_photo_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "Archive photo bytes stream under the same cast.read authorization as list_candidate_photos; no JSON/base64 user tool.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/candidates-http.ts"
+      ]
+    },
+    "get_version_pptx_content": {
+      "implementation": "authorized_binary_companion",
+      "reason": "PowerPoint bytes are composed on request for the signed-in user; download_version_pptx is the user tool.",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/presentation-http.ts"
+      ]
+    },
+    "guest_get_feedback_summary": {
+      "implementation": "guest_session_only",
+      "reason": "Guest review session operation behind the review gateway; not an acting-user tool (get_feedback_summary is).",
+      "introduced_m07": false,
+      "sources": [
+        "apps/web/lib/guest-http.ts"
+      ]
     }
   },
   "ui_exceptions": [

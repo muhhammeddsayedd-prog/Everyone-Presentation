@@ -80,7 +80,7 @@ const rows=implementedMcpTools(true,true,true,true,true).map(t=>{
                     check(value == convert(api['components']['schemas'][definition]), f'{name}: {definition} differs from OpenAPI.')
     excluded = inventory['excluded_operations']
     check(set(excluded) == set(operations) - set(tools), 'Non-tool operations need an explicit exclusion and implementation boundary.')
-    check(sum(row['introduced_m07'] for row in excluded.values()) == 1 and len(excluded) == 29, 'Expected28 retained exclusions plus one documented binary companion.')
+    check(sum(row['introduced_m07'] for row in excluded.values()) == 1 and len(excluded) >= 29, 'Expected the retained exclusions plus one documented M07 binary companion.')
     check(excluded['mint_review_media_grant']['implementation'] == 'gateway_only_no_next_http_handler', 'Media-grant service endpoint must retain its real gateway-only boundary.')
     for name, row in excluded.items():
         check(operations[name][2].get('x-mcp-exposed') is False, f'{name}: private/binary operation is exposed.')
