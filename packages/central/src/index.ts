@@ -40,3 +40,5 @@ export { signSpecsReceipt, verifySpecsReceipt, SpecsReceiptError, SPECS_RECEIPT_
   SPECS_RECEIPT_MAX_PAYLOAD_BYTES, SPECS_RECEIPT_MAX_TTL_SECONDS } from './specs-receipt.ts';
 export type { SpecsReceipt, SpecsReceiptClaims, SpecsReceiptScope, SpecsReceiptClock } from './specs-receipt.ts';
 export { createCentralSettings } from './settings.ts';
+export { createCentralAppearance } from './appearance.ts';
+export type { CentralAppearance } from './appearance.ts';

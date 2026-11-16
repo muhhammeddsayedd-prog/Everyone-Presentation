@@ -17,6 +17,7 @@ import { RuntimeMode } from './RuntimeMode';
 import { StudioTimeZoneProvider } from './StudioTimeZone';
 import { ProcessingView } from './ProcessingView';
 import { CastLibraryView } from './CastLibraryView';
+import { CastLibraryFacets } from './library/CastLibraryFacets';
 import { CandidateDetailView } from './CandidateDetailView';
 import { PresentationIndex } from './PresentationIndex';
 import { PresentationVersionView, VersionMediaView } from './PresentationVersionView';
@@ -113,7 +114,7 @@ function Route({ pathname, segments, isWorkspace, central, actor, storageOrigin,
   if (isWorkspace) return <WorkspaceView key={`${segments[1]}/${segments[3]}/${segments[4]}`} projectId={segments[1]} workspaceId={segments[3]} step={segments[4]} actor={actor} storageOrigin={storageOrigin} onDirtyChange={onDirtyChange} />;
   if (pathname === '/projects') return <ProjectList actor={actor} onDirtyChange={onDirtyChange} />;
   if (segments[0] === 'projects' && segments.length === 2) return <ProjectOverview key={segments[1]} projectId={segments[1]} actor={actor} onDirtyChange={onDirtyChange} />;
-  if (pathname === '/library/cast') return <CastLibraryView actor={actor} onDirtyChange={onDirtyChange} />;
+  if (pathname === '/library/cast') return <CastLibraryView actor={actor} onDirtyChange={onDirtyChange} renderFacets={facets => <CastLibraryFacets {...facets} />} />;
   if (segments[0] === 'library' && segments[1] === 'cast' && segments.length === 3) return <CandidateDetailView key={segments[2]} candidateId={segments[2]} actor={actor} onDirtyChange={onDirtyChange} />;
   if (central && segments[0] === 'presentations' && segments[1] === 'series' && segments[3] === 'sharing' && segments.length === 4) return <ReviewSharingView seriesId={segments[2]} actor={actor} onDirtyChange={onDirtyChange} />;
   if (central && pathname === '/presentations') return <PresentationIndex actor={actor} />;

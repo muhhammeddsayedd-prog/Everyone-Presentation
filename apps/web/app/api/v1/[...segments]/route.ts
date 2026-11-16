@@ -28,6 +28,8 @@ import { logLogoRequestFailure } from '../../../../lib/logo-error-log';
 import { getSettingsService } from '../../../../lib/settings';
 import { handleSettingsRequest, isSettingsRoute } from '../../../../lib/settings-http';
 import { handleWorkspaceSummaryRequest, isWorkspaceSummaryRoute } from '../../../../lib/workspace-summary-http';
+import { getAppearanceService } from '../../../../lib/appearance';
+import { handleAppearanceRequest, isAppearanceRoute } from '../../../../lib/appearance-http';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -71,6 +73,7 @@ async function handle(request: Request, context: Context) {
     // before the older role-only specs mapping; failures must never fall through.
     if (isCastingRoute(s)) return await handleCastingRequest(request, s, actor, await getCastingService(), mutation);
     if (isManualSpecsRoute(s)) return await handleSpecsRequest(request, s, actor, await getSpecsService(), mutation);
+    if (isAppearanceRoute(s)) return await handleAppearanceRequest(request, s, actor, await getAppearanceService(), mutation);
     if (isCandidatesRoute(s)) return await handleCandidatesRequest(request, s, actor, await getCandidatesService(), mutation);
     const studio = await getStudio();
     if (isWorkspaceSummaryRoute(s)) return await handleWorkspaceSummaryRequest(request, s, actor, studio, requestId);

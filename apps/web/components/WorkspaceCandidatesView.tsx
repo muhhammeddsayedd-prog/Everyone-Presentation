@@ -23,6 +23,7 @@ import { useDraftValue } from './workspace/WorkspaceDraftProvider';
 import { draftKey } from './workspace/draft-review';
 import { Drawer } from './ui/Overlay';
 import { useUnsavedChanges, useUnsavedEditor } from './ui/UnsavedChanges';
+import { CastLibraryFacets } from './library/CastLibraryFacets';
 
 type Tab='project'|'library'|'uploads';
 type Props={workspaceId:string;projectId:string;actor:Actor;storageOrigin?:string;onDirtyChange:(dirty:boolean)=>void;onWorkspaceChanged:()=>void};
@@ -86,7 +87,7 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
       <p className="section-note"><Icon name="info"/><span>Shared facts live in the Cast Library. This list holds project choices only: introduction, frames, presentation picture, availability and internal notes.</span></p>
     </div>
     {/* Kept mounted once opened so search, filters, loaded pages and scroll survive switching back. */}
-    <div id="candidates-panel-library" role="tabpanel" aria-labelledby="candidates-tab-library" hidden={tab!=='library'}>{libraryOpened&&<CastLibraryView actor={actor} workspaceId={workspaceId} onDirtyChange={libraryDirty} onAdded={libraryAdded} membershipOverrides={membership}
+    <div id="candidates-panel-library" role="tabpanel" aria-labelledby="candidates-tab-library" hidden={tab!=='library'}>{libraryOpened&&<CastLibraryView actor={actor} workspaceId={workspaceId} onDirtyChange={libraryDirty} onAdded={libraryAdded} membershipOverrides={membership} renderFacets={facets=><CastLibraryFacets {...facets}/>}
       context={context.roleId||context.sceneId?{roleId:context.roleId,sceneId:context.sceneId}:undefined} onDone={returnFromLibrary} onAddAndReturn={context.roleId||context.sceneId?returnFromLibrary:undefined}/>}</div>
     {canUpload&&<div id="candidates-panel-uploads" role="tabpanel" aria-labelledby="candidates-tab-uploads" hidden={tab!=='uploads'}>{validUploadMaximum?<CandidateResumableUploads key={`${actor.id}:${workspaceId}`} workspaceId={workspaceId} actorId={actor.id} maximumBytes={uploadMaximum} storageOrigin={storageOrigin} onDirtyChange={uploadDirty} onReserved={()=>setUploadToken(value=>value+1)} onQueued={()=>setUploadToken(value=>value+1)}/>:<ErrorNotice message="The current video upload limit is unavailable. Reload your session before choosing videos."/>}</div>}
     <footer className="sticky-bar workspace-continue"><Link className="icon-button workspace-back" href={`/projects/${projectId}/casting/${workspaceId}/specs`} aria-label="Back to Specs" data-tip="Back to Specs" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/organize`}>Continue to Casting<Icon name="arrow"/></Link></footer>

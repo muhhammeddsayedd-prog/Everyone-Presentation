@@ -1939,6 +1939,19 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
         description: Report membership in this project for each row.
+      - name: facets
+        in: query
+        schema:
+          type: string
+          maxLength: 4000
+        description: 'JSON object {facet: [values]} using get_candidate_facets keys. OR within a facet, AND across facets; appearance facets use
+          confirmed and corrected observations only. Result counts equal get_candidate_facets totals for the same filters.'
+      - name: facet_include_unknown
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: Also include people with no value for an active facet filter.
       - *id002
       - *id003
       description: Newest added to the app first (creation time, then id). The cursor is opaque and versioned; a cursor from an older list or
@@ -2789,49 +2802,49 @@ paths:
                 required:
                 - request_id
                 - data
-        '400':
+        '400': &id020
           description: Malformed input
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '401':
+        '401': &id021
           description: Authentication missing or invalid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '403':
+        '403': &id022
           description: Required capability or scope absent
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '404':
+        '404': &id023
           description: Resource not found in accessible scope
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '409':
+        '409': &id024
           description: Stale version, idempotency mismatch, or business constraint conflict
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '422':
+        '422': &id025
           description: Valid request structure with invalid domain/media state
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '429':
+        '429': &id026
           description: Rate limit; inspect Retry-After
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '503':
+        '503': &id027
           description: Temporary dependency unavailable
           content:
             application/json:
@@ -12829,6 +12842,252 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SceneProposalConfirm'
+  /candidates/{candidate_id}/observations:
+    get:
+      operationId: list_candidate_observations
+      summary: List appearance observations for a candidate
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id: &id028
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/CandidateObservations'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400': *id020
+        '401': *id021
+        '403': *id022
+        '404': *id023
+        '409': *id024
+        '422': *id025
+        '429': *id026
+        '503': *id027
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_candidate_observations
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: candidate_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      description: 'Per authorised photo or video frame: neutral visible-appearance suggestions (model), confirmed values and human overrides,
+        each with source media, frame time, confidence and evidence. Ambiguous or multi-person media is flagged and never merged into one person.
+        Also returns supplied information with its real source (archive import, transcript or manual); stated age is supplied information, separate
+        from playing-age suggestions. Search uses confirmed and overridden values only.'
+  /candidate-observations/{observation_id}/review:
+    post:
+      operationId: review_candidate_observation
+      summary: Confirm, reject, override or reset one appearance suggestion
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id: *id028
+                  data:
+                    $ref: '#/components/schemas/AppearanceObservation'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400': *id020
+        '401': *id021
+        '403': *id022
+        '404': *id023
+        '409': *id024
+        '422': *id025
+        '429': *id026
+        '503': *id027
+      x-capability: cast.review
+      x-mcp-exposed: true
+      x-shared-service-operation: review_candidate_observation
+      description: Confirm a visible-appearance suggestion, reject it, override it with a value from the closed vocabulary, or reset it to a suggestion.
+        Repeating the same decision is idempotent; a different decision on a stale row_version returns 409. On ambiguous media, confirming selects
+        that person as the candidate; another person on the same media then conflicts. Reanalysis never changes confirmed, rejected or overridden
+        rows.
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: observation_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObservationReview'
+  /enrichment-batches:
+    post:
+      operationId: start_enrichment_batch
+      summary: Start a bounded appearance-suggestion batch
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id: *id028
+                  data:
+                    $ref: '#/components/schemas/EnrichmentBatch'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400': *id020
+        '401': *id021
+        '403': *id022
+        '404': *id023
+        '409': *id024
+        '422': *id025
+        '429': *id026
+        '503': *id027
+      x-capability: cast.write
+      x-mcp-exposed: true
+      x-shared-service-operation: start_enrichment_batch
+      description: Queue appearance analysis for listed candidates or for candidates matching facet filters, with an item limit and a spend cap
+        in cents (stops when usage reaches it). Uses only existing authorised photos and frames; results are suggestions awaiting review. The
+        same Idempotency-Key and body returns the same batch.
+      security:
+      - InternalBearer: []
+      parameters:
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrichmentBatchStart'
+  /enrichment-batches/{batch_id}:
+    get:
+      operationId: get_enrichment_batch
+      summary: Read an enrichment batch
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id: *id028
+                  data:
+                    $ref: '#/components/schemas/EnrichmentBatch'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400': *id020
+        '401': *id021
+        '403': *id022
+        '404': *id023
+        '409': *id024
+        '422': *id025
+        '429': *id026
+        '503': *id027
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_enrichment_batch
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: batch_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      description: Progress, per-item status and recorded token usage/spend of a batch you started (or any batch with operations.read).
+  /candidate-facets/query:
+    post:
+      operationId: get_candidate_facets
+      summary: Count Cast Library facet values for filters
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id: *id028
+                  data:
+                    $ref: '#/components/schemas/CandidateFacets'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400': *id020
+        '401': *id021
+        '403': *id022
+        '404': *id023
+        '409': *id024
+        '422': *id025
+        '429': *id026
+        '503': *id027
+      x-capability: cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: get_candidate_facets
+      description: 'Counts distinct active people per facet value (OR within a facet, AND across facets; each facet counted with the other filters
+        applied) plus an explicit unknown count. Sources: confirmed or overridden observations, attributed archive labels and supplied facts;
+        unreviewed suggestions are never counted. Optional q matches normalised English/Arabic names, casting ID and tags. Read-only.'
+      security:
+      - InternalBearer: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FacetFilters'
 components:
   securitySchemes:
     InternalBearer:
@@ -14198,7 +14457,7 @@ components:
         internal_notes:
           $ref: '#/components/schemas/NullableText'
         portrait_asset_id:
-          anyOf: &id021
+          anyOf: &id030
           - $ref: '#/components/schemas/Id'
           - type: 'null'
           description: 'Project presentation picture: a ready extracted frame or archive photo asset of this person. Library edits never change
@@ -14949,7 +15208,7 @@ components:
           type: boolean
         template_key: *id008
         template_version: *id008
-        template_content_sha256: &id022
+        template_content_sha256: &id031
           type: string
           pattern: ^[a-f0-9]{64}$
         font_key: *id008
@@ -15766,6 +16025,7 @@ components:
           - presentation_render
           - presentation_export
           - review_fit
+          - candidate_appearance
         status:
           type: string
           enum:
@@ -15824,11 +16084,11 @@ components:
           description: 'Present on a succeeded candidate_scan: the person and the project row the upload produced (workspace_candidate_id is null
             for a re-scan).'
           properties:
-            candidate_id: &id020
+            candidate_id: &id029
               $ref: '#/components/schemas/Id'
-            candidate_media_id: *id020
-            workspace_candidate_id: &id033
-              anyOf: *id021
+            candidate_media_id: *id029
+            workspace_candidate_id: &id042
+              anyOf: *id030
           required:
           - candidate_id
           - candidate_media_id
@@ -16367,7 +16627,7 @@ components:
       properties:
         key: *id008
         version: *id008
-        content_sha256: *id022
+        content_sha256: *id031
         font_key: *id008
       required:
       - key
@@ -16380,7 +16640,7 @@ components:
       properties:
         asset_id: *id008
         source_asset_id: *id008
-        timestamp_ms: &id024
+        timestamp_ms: &id033
           type: integer
           minimum: 0
         width:
@@ -16389,7 +16649,7 @@ components:
         height:
           type: integer
           minimum: 1
-        sha256: *id022
+        sha256: *id031
       required:
       - asset_id
       - source_asset_id
@@ -16410,13 +16670,13 @@ components:
           anyOf:
           - *id008
           - type: 'null'
-        role_name: &id023
+        role_name: &id032
           type: string
         slot_id:
           anyOf:
           - *id008
           - type: 'null'
-        slot_label: *id023
+        slot_label: *id032
         assignment_id:
           anyOf:
           - *id008
@@ -16462,7 +16722,7 @@ components:
           - type: 'null'
         requirements:
           $ref: '#/components/schemas/RoleRequirements'
-        provisional: &id025
+        provisional: &id034
           type: boolean
         fields:
           $ref: '#/components/schemas/ReviewFields'
@@ -16506,7 +16766,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        slide_index: *id024
+        slide_index: *id033
         field: *id008
         axis:
           type: string
@@ -16533,7 +16793,7 @@ components:
           - failed
         input_fingerprint:
           anyOf:
-          - *id022
+          - *id031
           - type: 'null'
         measured_at:
           anyOf:
@@ -16558,12 +16818,12 @@ components:
       type: object
       additionalProperties: false
       properties:
-        project_name: *id023
+        project_name: *id032
         client_name:
           anyOf:
-          - *id023
+          - *id032
           - type: 'null'
-        title: *id023
+        title: *id032
         output_type:
           type: string
           enum:
@@ -16590,7 +16850,7 @@ components:
       additionalProperties: false
       properties:
         series_id: *id008
-        expected_input_fingerprint: *id022
+        expected_input_fingerprint: *id031
       required:
       - series_id
       - expected_input_fingerprint
@@ -16619,12 +16879,12 @@ components:
           uniqueItems: true
           maxItems: 1000
           items: *id008
-        main_count: *id024
-        shortlist_count: *id024
-        can_undo: *id025
+        main_count: *id033
+        shortlist_count: *id033
+        can_undo: *id034
         unavailable_reason:
           anyOf:
-          - *id023
+          - *id032
           - type: 'null'
       required:
       - workspace_id
@@ -16781,7 +17041,7 @@ components:
           - not_captured
         original_text:
           anyOf:
-          - &id026
+          - &id035
             type: string
             minLength: 1
             maxLength: 200000
@@ -16802,7 +17062,7 @@ components:
           const: source_transcript
         source_sha256:
           anyOf:
-          - &id027
+          - &id036
             type: string
             pattern: ^[a-f0-9]{64}$
           - type: 'null'
@@ -16845,8 +17105,8 @@ components:
           - status
         then:
           properties:
-            original_text: *id026
-            source_sha256: *id027
+            original_text: *id035
+            source_sha256: *id036
         else:
           properties:
             original_text:
@@ -16891,31 +17151,31 @@ components:
       type: object
       additionalProperties: false
       properties:
-        workspace_id: &id029
+        workspace_id: &id038
           type: string
           format: uuid
           pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-        row_version: &id030
+        row_version: &id039
           type: integer
           minimum: 1
           maximum: 9007199254740991
-        draft_revision: &id028
+        draft_revision: &id037
           type: integer
           minimum: 0
           maximum: 9007199254740991
-        roles_needing_clarification: *id028
-        project_candidate_count: *id028
+        roles_needing_clarification: *id037
+        project_candidate_count: *id037
         unreviewed_candidate_count:
           anyOf:
-          - *id028
+          - *id037
           - type: 'null'
-        open_slot_count: *id028
+        open_slot_count: *id037
         assignment_count:
           type: object
           additionalProperties: false
           properties:
-            selection: *id028
-            shortlist: *id028
+            selection: *id037
+            shortlist: *id037
           required:
           - selection
           - shortlist
@@ -16926,13 +17186,13 @@ components:
             type: object
             additionalProperties: false
             properties:
-              series_id: *id029
+              series_id: *id038
               output_type:
                 enum:
                 - selection
                 - shortlist
                 type: string
-              version_no: *id030
+              version_no: *id039
             required:
             - series_id
             - output_type
@@ -16984,7 +17244,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        version_id: &id031
+        version_id: &id040
           type: string
           format: uuid
           pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
@@ -16995,7 +17255,7 @@ components:
             type: object
             additionalProperties: false
             properties:
-              version_slide_id: *id031
+              version_slide_id: *id040
               preferred:
                 type: integer
                 minimum: 0
@@ -17037,7 +17297,7 @@ components:
           type: string
           minLength: 1
           maxLength: 500
-        presentation_type: &id032
+        presentation_type: &id041
           type: string
           enum:
           - casting
@@ -17074,7 +17334,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        key: *id032
+        key: *id041
         label:
           type: string
         status:
@@ -17345,15 +17605,15 @@ components:
           - type: object
             additionalProperties: false
             properties:
-              photo_id: *id020
-              asset_id: *id020
-              thumb_asset_id: *id020
+              photo_id: *id029
+              asset_id: *id029
+              thumb_asset_id: *id029
             required:
             - photo_id
             - asset_id
             - thumb_asset_id
           - type: 'null'
-        portrait_frame_asset_id: *id033
+        portrait_frame_asset_id: *id042
         processing:
           type: boolean
           description: A new introduction for this person is still being processed.
@@ -17362,7 +17622,7 @@ components:
           - type: object
             additionalProperties: false
             properties:
-              workspace_candidate_id: *id020
+              workspace_candidate_id: *id029
               state:
                 type: string
                 enum:
@@ -17397,9 +17657,9 @@ components:
       additionalProperties: false
       description: One of the caller's candidate video uploads in a project, with its processing state.
       properties:
-        upload_id: *id020
-        workspace_id: *id020
-        asset_id: *id020
+        upload_id: *id029
+        workspace_id: *id029
+        asset_id: *id029
         filename:
           anyOf:
           - type: string
@@ -17409,8 +17669,8 @@ components:
           minimum: 1
         mime_type:
           type: string
-        target_candidate_id: *id033
-        created_at: &id034
+        target_candidate_id: *id042
+        created_at: &id043
           $ref: '#/components/schemas/DateTime'
         upload_status:
           type: string
@@ -17434,7 +17694,7 @@ components:
           - type: object
             additionalProperties: false
             properties:
-              id: *id020
+              id: *id029
               status:
                 type: string
                 enum:
@@ -17454,7 +17714,7 @@ components:
                 type: boolean
               row_version:
                 $ref: '#/components/schemas/RowVersion'
-              updated_at: *id034
+              updated_at: *id043
             required:
             - id
             - status
@@ -17464,8 +17724,8 @@ components:
             - row_version
             - updated_at
           - type: 'null'
-        candidate_id: *id033
-        workspace_candidate_id: *id033
+        candidate_id: *id042
+        workspace_candidate_id: *id042
       required:
       - upload_id
       - workspace_id
@@ -17486,8 +17746,8 @@ components:
       description: A legacy project row with nothing chosen and the default it would receive (newest ready introduction, its frames, cover photo
         else first frame).
       properties:
-        workspace_candidate_id: *id020
-        candidate_id: *id020
+        workspace_candidate_id: *id029
+        candidate_id: *id029
         row_version:
           $ref: '#/components/schemas/RowVersion'
         reason:
@@ -17500,13 +17760,13 @@ components:
           - type: object
             additionalProperties: false
             properties:
-              selected_candidate_media_id: *id033
+              selected_candidate_media_id: *id042
               selected_frame_asset_ids:
                 type: array
-                items: *id020
+                items: *id029
                 maxItems: 3
                 uniqueItems: true
-              portrait_asset_id: *id033
+              portrait_asset_id: *id042
               portrait_source:
                 anyOf:
                 - type: string
@@ -17538,7 +17798,7 @@ components:
             type: object
             additionalProperties: false
             properties:
-              workspace_candidate_id: *id020
+              workspace_candidate_id: *id029
               row_version:
                 $ref: '#/components/schemas/RowVersion'
             required:
@@ -17561,7 +17821,7 @@ components:
             type: object
             additionalProperties: false
             properties:
-              workspace_candidate_id: *id020
+              workspace_candidate_id: *id029
               reason:
                 type: string
                 enum:
@@ -18083,4 +18343,815 @@ components:
       - row_version
       - rejected_scene_ids
       - rejected_occurrence_ids
+    AppearanceObservation:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        media_id:
+          $ref: '#/components/schemas/Id'
+        person_index:
+          type: integer
+          minimum: 0
+          maximum: 9
+        position_note:
+          anyOf:
+          - &id044
+            type: string
+          - type: 'null'
+        attribute:
+          type: string
+          enum:
+          - hair_length
+          - hair_colour
+          - hair_texture
+          - facial_hair
+          - glasses
+          - skin_tone
+          - build
+          - playing_age
+          - clothing_style
+          - head_covering
+          - visible_tattoos
+        suggested_value:
+          type: string
+          enum: &id045
+          - age_18_24
+          - age_25_34
+          - age_35_44
+          - age_45_54
+          - age_55_64
+          - age_65_plus
+          - athletic
+          - auburn
+          - average
+          - baby
+          - bald_or_shaved
+          - beard
+          - black
+          - blonde
+          - broad
+          - brown
+          - casual
+          - child
+          - coily
+          - costume
+          - curly
+          - dark
+          - dark_brown
+          - formal
+          - glasses
+          - goatee
+          - grey
+          - kids
+          - larger
+          - light
+          - light_brown
+          - long
+          - medium
+          - moustache
+          - none
+          - present
+          - red
+          - short
+          - shoulder_length
+          - slim
+          - smart_casual
+          - sportswear
+          - straight
+          - stubble
+          - sunglasses
+          - tan
+          - teen_13_17
+          - uniform
+          - unknown
+          - very_light
+          - wavy
+          - white
+        confidence:
+          type: string
+          enum:
+          - low
+          - medium
+          - high
+        evidence:
+          anyOf:
+          - *id044
+          - type: 'null'
+        status:
+          type: string
+          enum:
+          - suggested
+          - confirmed
+          - rejected
+          - overridden
+        override_value:
+          anyOf:
+          - type: string
+            enum: *id045
+          - type: 'null'
+        effective_value:
+          anyOf:
+          - type: string
+            enum: *id045
+          - type: 'null'
+        reviewed_by:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        reviewed_at:
+          anyOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+      required:
+      - id
+      - media_id
+      - person_index
+      - position_note
+      - attribute
+      - suggested_value
+      - confidence
+      - evidence
+      - status
+      - override_value
+      - effective_value
+      - reviewed_by
+      - reviewed_at
+      - row_version
+    ObservationMedia:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        asset_id:
+          $ref: '#/components/schemas/Id'
+        source_kind:
+          type: string
+          enum:
+          - photo
+          - frame
+        thumb_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        candidate_media_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        frame_timestamp_ms:
+          anyOf:
+          - &id046
+            type: integer
+            minimum: 0
+          - type: 'null'
+        media_category:
+          type: string
+          enum:
+          - portfolio_photo
+          - headshot
+          - full_body
+          - video_frame
+        recording_context:
+          type: string
+          enum:
+          - archive_photo
+          - introduction_video
+        media_added_at:
+          $ref: '#/components/schemas/DateTime'
+        people_count:
+          type: integer
+          minimum: 0
+          maximum: 10
+        ambiguous:
+          type: boolean
+        target_person_index:
+          anyOf:
+          - type: integer
+            minimum: 0
+            maximum: 9
+          - type: 'null'
+        quality_note:
+          anyOf:
+          - *id044
+          - type: 'null'
+        model: *id044
+        prompt_version: *id044
+        analyzed_at:
+          $ref: '#/components/schemas/DateTime'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        observations:
+          type: array
+          maxItems: 200
+          items:
+            $ref: '#/components/schemas/AppearanceObservation'
+      required:
+      - id
+      - asset_id
+      - source_kind
+      - thumb_asset_id
+      - candidate_media_id
+      - frame_timestamp_ms
+      - media_category
+      - recording_context
+      - media_added_at
+      - people_count
+      - ambiguous
+      - target_person_index
+      - quality_note
+      - model
+      - prompt_version
+      - analyzed_at
+      - row_version
+      - observations
+    SuppliedAppearance:
+      type: object
+      additionalProperties: false
+      properties:
+        archive:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              source:
+                type: object
+                additionalProperties: false
+                properties:
+                  kind:
+                    type: string
+                    enum:
+                    - archive_import
+                  source_project:
+                    anyOf:
+                    - *id044
+                    - type: 'null'
+                  source_id:
+                    anyOf:
+                    - *id044
+                    - type: 'null'
+                  imported_at:
+                    anyOf:
+                    - $ref: '#/components/schemas/DateTime'
+                    - type: 'null'
+                required:
+                - kind
+                - source_project
+                - source_id
+                - imported_at
+              name_ar:
+                anyOf:
+                - *id044
+                - type: 'null'
+              talent_type: *id044
+              look:
+                anyOf:
+                - *id044
+                - type: 'null'
+              skin_tone:
+                anyOf:
+                - *id044
+                - type: 'null'
+              playing_age:
+                type: array
+                items: *id044
+              hair_length:
+                type: array
+                items: *id044
+              hair_texture:
+                type: array
+                items: *id044
+              hair_colour:
+                type: array
+                items: *id044
+              hair_style:
+                type: array
+                items: *id044
+              hair_colouring:
+                type: array
+                items: *id044
+              tags:
+                type: array
+                items: *id044
+            required:
+            - source
+            - name_ar
+            - talent_type
+            - look
+            - skin_tone
+            - playing_age
+            - hair_length
+            - hair_texture
+            - hair_colour
+            - hair_style
+            - hair_colouring
+            - tags
+          - type: 'null'
+        facts:
+          anyOf:
+          - type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                key:
+                  type: string
+                  enum:
+                  - stated_gender
+                  - age_or_range
+                  - city
+                  - languages
+                value:
+                  anyOf:
+                  - *id044
+                  - type: array
+                    items: *id044
+                  - type: 'null'
+                source:
+                  anyOf:
+                  - type: string
+                    enum:
+                    - manual
+                    - transcript
+                    - archive
+                  - type: 'null'
+              required:
+              - key
+              - value
+              - source
+          - type: 'null'
+      required:
+      - archive
+      - facts
+    CandidateObservations:
+      type: object
+      additionalProperties: false
+      properties:
+        candidate_id:
+          $ref: '#/components/schemas/Id'
+        supplied:
+          $ref: '#/components/schemas/SuppliedAppearance'
+        media:
+          type: array
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/ObservationMedia'
+      required:
+      - candidate_id
+      - supplied
+      - media
+    ObservationReview:
+      type: object
+      additionalProperties: false
+      properties:
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        action:
+          type: string
+          enum:
+          - confirm
+          - reject
+          - override
+          - reset
+        value:
+          type: string
+          enum:
+          - age_18_24
+          - age_25_34
+          - age_35_44
+          - age_45_54
+          - age_55_64
+          - age_65_plus
+          - athletic
+          - auburn
+          - average
+          - baby
+          - bald_or_shaved
+          - beard
+          - black
+          - blonde
+          - broad
+          - brown
+          - casual
+          - child
+          - coily
+          - costume
+          - curly
+          - dark
+          - dark_brown
+          - formal
+          - glasses
+          - goatee
+          - grey
+          - kids
+          - larger
+          - light
+          - light_brown
+          - long
+          - medium
+          - moustache
+          - none
+          - present
+          - red
+          - short
+          - shoulder_length
+          - slim
+          - smart_casual
+          - sportswear
+          - straight
+          - stubble
+          - sunglasses
+          - tan
+          - teen_13_17
+          - uniform
+          - very_light
+          - wavy
+          - white
+      required:
+      - row_version
+      - action
+      allOf:
+      - if:
+          properties:
+            action:
+              const: override
+        then:
+          required:
+          - value
+        else:
+          not:
+            required:
+            - value
+    FacetFilters:
+      type: object
+      additionalProperties: false
+      properties:
+        facets:
+          type: object
+          additionalProperties: false
+          properties:
+            talent_type:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            city:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            stated_gender:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            playing_age:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            skin_tone:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            hair_length:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            hair_colour:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            hair_texture:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            facial_hair:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            glasses:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            build:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            languages:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            look:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+            tags:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+                minLength: 1
+                maxLength: 200
+        include_unknown:
+          type: boolean
+        q:
+          type: string
+          maxLength: 200
+        search:
+          type: object
+          additionalProperties: false
+          description: The same supplied-fact filters sent to search_candidates, so counts match its results.
+          properties:
+            q:
+              type: string
+              maxLength: 500
+            include_unknown:
+              type: boolean
+            review_status:
+              type: string
+              enum:
+              - reviewed
+              - unreviewed
+            age_or_range:
+              type: string
+              maxLength: 500
+            stated_gender:
+              type: string
+              maxLength: 500
+            height_measurements:
+              type: string
+              maxLength: 500
+            language:
+              type: string
+              maxLength: 500
+            accent:
+              type: string
+              maxLength: 500
+            skill:
+              type: string
+              maxLength: 500
+            city:
+              type: string
+              maxLength: 500
+            previous_project_role:
+              type: string
+              maxLength: 500
+            classification:
+              type: string
+              maxLength: 500
+      required: []
+    CandidateFacets:
+      type: object
+      additionalProperties: false
+      properties:
+        total: *id046
+        filters:
+          type: object
+          additionalProperties: false
+          properties:
+            facets:
+              type: object
+              additionalProperties:
+                type: array
+                items: *id044
+            include_unknown:
+              type: boolean
+            q:
+              anyOf:
+              - *id044
+              - type: 'null'
+            search:
+              type: object
+          required:
+          - facets
+          - include_unknown
+          - q
+        facets:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                enum:
+                - talent_type
+                - city
+                - stated_gender
+                - playing_age
+                - skin_tone
+                - hair_length
+                - hair_colour
+                - hair_texture
+                - facial_hair
+                - glasses
+                - build
+                - languages
+                - look
+                - tags
+              matched: *id046
+              unknown: *id046
+              values:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    value: *id044
+                    count: *id046
+                  required:
+                  - value
+                  - count
+              selected:
+                type: array
+                items: *id044
+            required:
+            - key
+            - matched
+            - unknown
+            - values
+            - selected
+      required:
+      - total
+      - filters
+      - facets
+    EnrichmentBatchStart:
+      type: object
+      additionalProperties: false
+      properties:
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        candidate_ids:
+          type: array
+          minItems: 1
+          maxItems: 1000
+          items:
+            $ref: '#/components/schemas/Id'
+        filters:
+          $ref: '#/components/schemas/FacetFilters'
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 1000
+        spend_cap_cents:
+          type: integer
+          minimum: 1
+          maximum: 1000000
+      required:
+      - workspace_id
+      - limit
+      - spend_cap_cents
+      oneOf:
+      - required:
+        - candidate_ids
+      - required:
+        - filters
+    EnrichmentBatch:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        status:
+          type: string
+          enum:
+          - running
+          - completed
+          - stopped_spend_cap
+          - cancelled
+        scope:
+          type: object
+        item_limit:
+          type: integer
+          minimum: 1
+        spend_cap_cents:
+          type: integer
+          minimum: 1
+        spent_micro_usd: *id046
+        model: *id044
+        prompt_version: *id044
+        created_at:
+          $ref: '#/components/schemas/DateTime'
+        updated_at:
+          $ref: '#/components/schemas/DateTime'
+        completed_at:
+          anyOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        counts:
+          type: object
+          additionalProperties: false
+          properties:
+            total: *id046
+            pending: *id046
+            queued: *id046
+            succeeded: *id046
+            failed: *id046
+            skipped: *id046
+            input_tokens: *id046
+            output_tokens: *id046
+          required:
+          - total
+          - pending
+          - queued
+          - succeeded
+          - failed
+          - skipped
+          - input_tokens
+          - output_tokens
+        items:
+          type: array
+          maxItems: 200
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              candidate_id:
+                $ref: '#/components/schemas/Id'
+              position:
+                type: integer
+                minimum: 1
+              status:
+                type: string
+                enum:
+                - pending
+                - queued
+                - succeeded
+                - failed
+                - skipped
+              job_id:
+                anyOf:
+                - $ref: '#/components/schemas/Id'
+                - type: 'null'
+              error_code:
+                anyOf:
+                - *id044
+                - type: 'null'
+              cost_micro_usd: *id046
+            required:
+            - candidate_id
+            - position
+            - status
+            - job_id
+            - error_code
+            - cost_micro_usd
+      required:
+      - id
+      - workspace_id
+      - status
+      - scope
+      - item_limit
+      - spend_cap_cents
+      - spent_micro_usd
+      - model
+      - prompt_version
+      - created_at
+      - updated_at
+      - completed_at
+      - row_version
+      - counts
+      - items
 x-contract-status: implementation specification; verify with generated routes and contract tests

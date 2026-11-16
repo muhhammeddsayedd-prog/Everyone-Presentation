@@ -20,11 +20,14 @@ function search(url: URL, candidates: boolean): CandidateSearch {
   const result: Record<string, unknown> = {};
   const text = ['cursor', ...(candidates ? ['q','workspace_id','age_or_range','stated_gender','height_measurements','language','accent','skill','city','previous_project_role','classification'] : [])];
   for (const [key, value] of url.searchParams) {
-    if (url.searchParams.getAll(key).length !== 1 || value.length > (key === 'cursor' ? 2000 : 500)) invalid();
+    if (url.searchParams.getAll(key).length !== 1 || value.length > (key === 'cursor' || key === 'facets' ? 4000 : 500)) invalid();
+    // A4: facet filters arrive as one JSON object {facet:[values]}; the domain parser validates keys and values.
+    if (candidates && key === 'facets') { try { result.facets = JSON.parse(value); } catch { invalid(); } continue; }
     if (text.includes(key)) result[key] = value;
     else if (key === 'limit' && /^[1-9][0-9]*$/u.test(value) && Number(value) <= 100) result.limit = Number(value);
     else if (candidates && key === 'include_unknown' && ['true','false'].includes(value)) result.include_unknown = value === 'true';
     else if (candidates && key === 'review_status' && ['reviewed','unreviewed'].includes(value)) result.review_status = value;
+    else if (candidates && key === 'facet_include_unknown' && ['true','false'].includes(value)) result.facet_include_unknown = value === 'true';
     else invalid();
   }
   return result as CandidateSearch;

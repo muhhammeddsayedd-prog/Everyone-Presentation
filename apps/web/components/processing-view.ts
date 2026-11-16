@@ -8,7 +8,7 @@ export type JobIntent = { jobId: string; action: JobAction; body: { row_version:
 export type JobRetryAcknowledgement = { job_id: string; resource_id: string | null; poll_url: string; status: ProcessingStatus };
 export const JOB_STATUSES: ProcessingStatus[] = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'];
 export const JOB_KINDS: Record<ProcessingJob['kind'], string> = { specs_extract: 'Specs extraction', candidate_scan: 'Candidate scan', frame_extract: 'Frame extraction',
-  ai_suggestion: 'AI suggestion', review_fit: 'Layout fit check', presentation_render: 'Presentation generation', presentation_export: 'PDF export' };
+  ai_suggestion: 'AI suggestion', review_fit: 'Layout fit check', presentation_render: 'Presentation generation', presentation_export: 'PDF export', candidate_appearance: 'Appearance suggestions' };
 export const STATUS_LABELS: Record<ProcessingStatus, string> = { queued: 'Queued', running: 'In progress', waiting_for_input: 'Needs input', succeeded: 'Completed', failed: 'Failed', cancelled: 'Cancelled' };
 /** Status is always text plus tone; the tone never replaces the label. */
 export const STATUS_TONES: Record<ProcessingStatus, string> = { queued: 'badge badge-pending', running: 'badge badge-dot badge-info', waiting_for_input: 'badge badge-warn', succeeded: 'badge badge-ok', failed: 'badge badge-bad', cancelled: 'badge' };
@@ -16,7 +16,7 @@ const STAGES: Record<string, string> = { prepare_document: 'Document preparation
   prepare_media: 'Media preparation', transcribe: 'Spoken information', extract_facts: 'Supplied facts', extract_frames: 'Frame extraction', select_frames: 'Source frame selection',
   prepare_candidate: 'Video preparation', transcribe_candidate: 'Original-language transcription', extract_candidate: 'Supplied fact extraction',
   apply_candidate: 'Saving candidate profile', apply_frames: 'Saving extracted frames',
-  prepare_suggestion: 'Preparing supplied text', generate_suggestion: 'Drafting wording suggestion', validate_suggestion: 'Validating wording proposal', measure_review_fit: 'Measuring template layout',
+  prepare_suggestion: 'Preparing supplied text', generate_suggestion: 'Drafting wording suggestion', validate_suggestion: 'Validating wording proposal', measure_review_fit: 'Measuring template layout', analyze_appearance: 'Suggesting visible appearance',
   prepare_presentation: 'Preparing captured version', render_presentation: 'Rendering PDF', validate_presentation: 'Checking PDF and media', publish_presentation: 'Saving ready version',
   render: 'Presentation layout', export_pdf: 'PDF preparation' };
 const FAILURES: Record<string, string> = { SOURCE_UNREADABLE: 'The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.', UNSUPPORTED_FORMAT: 'The supplied source format is unsupported.',

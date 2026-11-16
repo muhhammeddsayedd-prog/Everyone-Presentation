@@ -23,7 +23,7 @@ type Props = { actor: Actor; onDirtyChange: (dirty: boolean) => void; workspaceI
   context?: { roleId: string | null; sceneId: string | null }; onAddAndReturn?: () => void; onDone?: () => void;
   /** Mount point for additional facet filters (e.g. LibraryFacetFilters). Values set here are passed through as
    * search parameters unchanged; the search endpoint must accept them. */
-  renderFacets?: (facets: { params: Record<string, string>; setParam: (key: string, value: string) => void }) => ReactNode };
+  renderFacets?: (facets: { params: Record<string, string>; setParam: (key: string, value: string) => void; search: Record<string, string> }) => ReactNode };
 type AddState = { status: 'adding' | 'added' | 'error'; already?: boolean; error?: string };
 const TALENT_TYPE: Record<string, string> = { talent: 'Talent', real_family: 'Real family', group: 'Group' };
 const filterFields = [{key:'age_or_range',label:'Age / range'},{key:'stated_gender',label:'Stated gender'}, {key:'height_measurements',label:'Height / measurements'},
@@ -101,7 +101,7 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
     {filterFields.map(field => <div className="field facet-field" key={field.key}><label htmlFor={`cast-${field.key}`}>{field.label}</label><input id={`cast-${field.key}`} value={filters[field.key] ?? ''} maxLength={500} placeholder="Any" dir="auto" onChange={event => setFilter(field.key, event.target.value)} /></div>)}
     <label className="toggle facet-toggle"><input type="checkbox" checked={filters.include_unknown !== 'false'} onChange={event => setFilter('include_unknown', String(event.target.checked))} />Include candidates with missing filter values</label>
     <p className="small muted">Unknown facts never exclude someone silently.</p>
-    {renderFacets?.({ params: extraParams, setParam })}
+    {renderFacets?.({ params: extraParams, setParam, search: { ...filters, q: query } })}
   </>;
   const results = <div className="stack-lg facet-results">
     <div className="cast-toolbar"><label className="search-field"><Icon name="search" /><span className="sr-only">Search cast</span><input id="cast-search" type="search" value={query} maxLength={500} onChange={event => setQuery(event.target.value)} placeholder="Name, casting ID or supplied facts" /></label>

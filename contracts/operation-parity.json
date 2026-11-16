@@ -797,6 +797,46 @@
           "http_source": "apps/web/lib/settings-http.ts"
         }
       ]
+    },
+    {
+      "id": "appearance",
+      "label": "Appearance observations, enrichment batches and Library facets",
+      "ui_sources": [
+        "apps/web/components/candidate/AppearanceObservations.tsx",
+        "apps/web/components/library/LibraryFacetFilters.tsx"
+      ],
+      "operations": [
+        {
+          "operation": "list_candidate_observations",
+          "domain_symbol": "listCandidateObservations",
+          "domain_source": "packages/central/src/appearance.ts",
+          "http_source": "apps/web/lib/appearance-http.ts"
+        },
+        {
+          "operation": "review_candidate_observation",
+          "domain_symbol": "reviewCandidateObservation",
+          "domain_source": "packages/central/src/appearance.ts",
+          "http_source": "apps/web/lib/appearance-http.ts"
+        },
+        {
+          "operation": "start_enrichment_batch",
+          "domain_symbol": "startEnrichmentBatch",
+          "domain_source": "packages/central/src/appearance.ts",
+          "http_source": "apps/web/lib/appearance-http.ts"
+        },
+        {
+          "operation": "get_enrichment_batch",
+          "domain_symbol": "getEnrichmentBatch",
+          "domain_source": "packages/central/src/appearance.ts",
+          "http_source": "apps/web/lib/appearance-http.ts"
+        },
+        {
+          "operation": "get_candidate_facets",
+          "domain_symbol": "getCandidateFacets",
+          "domain_source": "packages/central/src/appearance.ts",
+          "http_source": "apps/web/lib/appearance-http.ts"
+        }
+      ]
     }
   ],
   "excluded_operations": {

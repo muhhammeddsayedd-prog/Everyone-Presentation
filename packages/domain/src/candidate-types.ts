@@ -26,6 +26,8 @@ export interface CandidateSearch extends ListOptions {
   include_unknown?: boolean; age_or_range?: string; stated_gender?: string; height_measurements?: string;
   language?: string; accent?: string; skill?: string; city?: string; previous_project_role?: string;
   classification?: string; review_status?: 'unreviewed' | 'reviewed';
+  /** A4: facet filters (OR within a facet, AND across); confirmed observations, supplied labels and facts only. */
+  facets?: Partial<Record<string, string[]>>; facet_include_unknown?: boolean;
   /** Report the caller's membership in this project for each row. */
   workspace_id?: string;
 }

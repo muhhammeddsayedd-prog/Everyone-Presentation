@@ -1,0 +1,178 @@
+{
+  "version": "appearance-taxonomy.v1",
+  "description": "Closed vocabularies for neutral, observable appearance observations and Cast Library search facets. Model suggestions may only use these attribute keys and value keys (or \"unknown\"). Supplied archive labels (m09) are mapped through the aliases; anything unmapped stays a supplied label and is never re-interpreted.",
+  "rules": [
+    "Describe only what is visible in the supplied photo or video frame. Unclear means unknown.",
+    "Never infer race, ethnicity, nationality, religion, gender identity, sexual orientation, health or disability from faces, names, clothing or voices.",
+    "City, passport, real family, skills and verified age require supplied information; they are never observed.",
+    "Regional Look labels only come from attributed supplied archive data; there is no facial classifier for ethnic or national identity.",
+    "Clothing never implies religion or nationality. Pose or outfit never implies a skill.",
+    "Playing age is a reviewable range, separate from verified age or date of birth.",
+    "Changeable appearance (hair, facial hair, glasses) belongs to the media it was observed in; older and newer media may differ without contradiction.",
+    "If several people are visible, or it is unclear which person is the candidate, the media is marked ambiguous and needs review; people are never merged into one profile."
+  ],
+  "forbidden_terms_note": "Free-text model fields (evidence, position_note, quality_note) must not contain these identity terms; a result containing one is refused (provider post-validation and the database apply).",
+  "forbidden_terms": ["race", "racial", "ethnic", "ethnicity", "nationality", "national", "citizen", "religion", "religious", "muslim", "christian", "jewish", "hindu", "buddhist", "sikh", "arab", "arabian", "middle eastern", "mideast", "north african", "african", "asian", "south asian", "east asian", "european", "caucasian", "white person", "black person", "latino", "latina", "hispanic", "indian", "pakistani", "filipino", "khaleeji", "gulf", "levantine", "saudi", "emirati", "egyptian", "lebanese", "syrian", "jordanian", "iraqi", "moroccan", "sudanese", "persian", "iranian", "turkish", "lookalike", "look-alike", "looks like", "resembles", "gender", "male", "female", "man", "woman", "men", "women", "boy", "girl", "masculine", "feminine", "transgender", "trans", "nonbinary", "non-binary", "gay", "lesbian", "queer", "hijab", "niqab", "abaya", "kandura", "dishdasha", "thobe", "ghutra", "shemagh", "keffiyeh", "turban", "kippah", "yarmulke", "burqa", "عربي", "عربية", "مسلم", "مسلمة", "مسيحي", "سعودي", "سعودية", "اماراتي", "مصري", "مصرية", "خليجي", "خليجية", "شامي", "رجل", "امرأة", "ولد", "بنت", "حجاب", "نقاب", "عباية"],
+  "forbidden_attributes": [
+    "race", "ethnicity", "ethnic_origin", "nationality", "country", "citizenship", "passport", "religion", "faith",
+    "gender", "gender_identity", "sex", "sexual_orientation", "age", "exact_age", "date_of_birth", "city", "residence",
+    "real_family", "family_relationship", "skills", "occupation", "health", "disability", "pregnancy", "attractiveness",
+    "weight", "body_weight", "look", "regional_look", "language", "accent"
+  ],
+  "confidence": ["low", "medium", "high"],
+  "statuses": ["suggested", "confirmed", "rejected", "overridden"],
+  "media_categories": [
+    { "key": "portfolio_photo", "label": "Portfolio photo", "label_ar": "صورة من الملف" },
+    { "key": "headshot", "label": "Headshot", "label_ar": "صورة للوجه" },
+    { "key": "full_body", "label": "Full-body photo", "label_ar": "صورة كاملة للجسم" },
+    { "key": "video_frame", "label": "Video frame", "label_ar": "لقطة من الفيديو" }
+  ],
+  "attributes": {
+    "hair_length": {
+      "label": "Hair length", "label_ar": "طول الشعر", "changeable": true, "phrase_context": ["hair", "haired"],
+      "values": [
+        { "key": "bald_or_shaved", "label": "Bald or shaved", "label_ar": "أصلع أو حليق", "aliases": ["bald", "shaved", "shaved head", "Bald", "Shaved Head"], "standalone": true },
+        { "key": "short", "label": "Short", "label_ar": "قصير", "aliases": ["short", "Short", "cropped", "buzz cut", "pixie"] },
+        { "key": "shoulder_length", "label": "Shoulder length", "label_ar": "حتى الكتف", "aliases": ["shoulder length", "shoulder-length", "Shoulder Length", "medium length", "medium-length", "chin length", "bob"] },
+        { "key": "long", "label": "Long", "label_ar": "طويل", "aliases": ["long", "Long", "very long"] }
+      ]
+    },
+    "hair_colour": {
+      "label": "Hair colour", "label_ar": "لون الشعر", "changeable": true, "phrase_context": ["hair", "haired"],
+      "values": [
+        { "key": "black", "label": "Black", "label_ar": "أسود", "aliases": ["black", "Black", "jet black"] },
+        { "key": "dark", "label": "Dark (unspecified)", "label_ar": "داكن", "aliases": ["dark", "Dark"] },
+        { "key": "dark_brown", "label": "Dark brown", "label_ar": "بني داكن", "aliases": ["dark brown", "Dark Brown", "brunette"], "standalone": true },
+        { "key": "brown", "label": "Brown", "label_ar": "بني", "aliases": ["brown", "Brown", "mid brown"] },
+        { "key": "light_brown", "label": "Light brown", "label_ar": "بني فاتح", "aliases": ["light brown", "Light Brown"] },
+        { "key": "blonde", "label": "Blonde", "label_ar": "أشقر", "aliases": ["blonde", "blond", "Blonde", "fair hair"], "standalone": true },
+        { "key": "auburn", "label": "Auburn", "label_ar": "أحمر بني", "aliases": ["auburn", "Auburn"], "standalone": true },
+        { "key": "red", "label": "Red / ginger", "label_ar": "أحمر", "aliases": ["red", "Red", "ginger", "Ginger"] },
+        { "key": "grey", "label": "Grey", "label_ar": "رمادي", "aliases": ["grey", "gray", "Grey", "greying", "salt and pepper"] },
+        { "key": "white", "label": "White", "label_ar": "أبيض", "aliases": ["white", "White"] }
+      ],
+      "families": {
+        "dark": { "label": "Dark hair (black, dark brown or dark)", "label_ar": "شعر داكن", "members": ["black", "dark", "dark_brown"] },
+        "brown": { "label": "Any brown", "label_ar": "بني بكل درجاته", "members": ["dark_brown", "brown", "light_brown"] },
+        "light": { "label": "Light hair (blonde or light brown)", "label_ar": "شعر فاتح", "members": ["blonde", "light_brown"] },
+        "red": { "label": "Red tones (red or auburn)", "label_ar": "درجات الأحمر", "members": ["red", "auburn"] },
+        "grey_white": { "label": "Grey or white", "label_ar": "رمادي أو أبيض", "members": ["grey", "white"] }
+      }
+    },
+    "hair_texture": {
+      "label": "Hair texture", "label_ar": "نوع الشعر", "changeable": true, "phrase_context": ["hair", "haired"],
+      "values": [
+        { "key": "straight", "label": "Straight", "label_ar": "ناعم", "aliases": ["straight", "Straight", "sleek"] },
+        { "key": "wavy", "label": "Wavy", "label_ar": "مموج", "aliases": ["wavy", "Wavy"] },
+        { "key": "curly", "label": "Curly", "label_ar": "مجعد", "aliases": ["curly", "Curly", "curls"], "standalone": true },
+        { "key": "coily", "label": "Coily / afro-textured", "label_ar": "مجعد جدًا", "aliases": ["coily", "kinky", "afro", "Afro", "afro-textured"], "standalone": true }
+      ]
+    },
+    "facial_hair": {
+      "label": "Facial hair", "label_ar": "شعر الوجه", "changeable": true,
+      "values": [
+        { "key": "none", "label": "None visible", "label_ar": "لا يوجد", "aliases": ["clean shaven", "clean-shaven", "no beard"], "standalone": true },
+        { "key": "stubble", "label": "Stubble", "label_ar": "لحية خفيفة", "aliases": ["stubble"], "standalone": true },
+        { "key": "moustache", "label": "Moustache", "label_ar": "شارب", "aliases": ["moustache", "mustache"], "standalone": true },
+        { "key": "goatee", "label": "Goatee", "label_ar": "سكسوكة", "aliases": ["goatee"], "standalone": true },
+        { "key": "beard", "label": "Beard", "label_ar": "لحية", "aliases": ["beard", "full beard", "bearded"], "standalone": true }
+      ]
+    },
+    "glasses": {
+      "label": "Glasses", "label_ar": "نظارات", "changeable": true,
+      "values": [
+        { "key": "none", "label": "No glasses", "label_ar": "بدون نظارات", "aliases": ["no glasses"], "standalone": true },
+        { "key": "glasses", "label": "Glasses", "label_ar": "نظارات طبية", "aliases": ["glasses", "spectacles", "eyeglasses", "wears glasses"], "standalone": true },
+        { "key": "sunglasses", "label": "Sunglasses", "label_ar": "نظارات شمسية", "aliases": ["sunglasses", "shades"], "standalone": true }
+      ]
+    },
+    "skin_tone": {
+      "label": "Visible skin tone", "label_ar": "لون البشرة الظاهر", "changeable": false, "lighting_sensitive": true, "phrase_context": ["skin", "complexion"],
+      "note": "Visible tone in this media only; lighting, white balance and filters can change it. Never a proxy for ethnicity.",
+      "values": [
+        { "key": "very_light", "label": "Very light", "label_ar": "فاتح جدًا", "aliases": ["very light", "very fair", "Very Fair", "porcelain"] },
+        { "key": "light", "label": "Light", "label_ar": "فاتح", "aliases": ["light", "fair", "Fair", "Light"] },
+        { "key": "medium", "label": "Medium", "label_ar": "متوسط", "aliases": ["medium", "Medium", "olive", "Olive", "wheatish"] },
+        { "key": "tan", "label": "Tan", "label_ar": "حنطي", "aliases": ["tan", "Tan", "tanned"] },
+        { "key": "brown", "label": "Brown", "label_ar": "أسمر", "aliases": ["brown", "Brown"] },
+        { "key": "dark", "label": "Dark", "label_ar": "داكن", "aliases": ["dark", "Dark", "deep"] }
+      ]
+    },
+    "build": {
+      "label": "Build", "label_ar": "البنية", "changeable": true,
+      "values": [
+        { "key": "slim", "label": "Slim", "label_ar": "نحيف", "aliases": ["slim", "slender", "thin"], "standalone": true },
+        { "key": "average", "label": "Average", "label_ar": "متوسط", "aliases": ["average build", "medium build"], "standalone": true },
+        { "key": "athletic", "label": "Athletic", "label_ar": "رياضي", "aliases": ["athletic", "toned", "fit"], "standalone": true },
+        { "key": "broad", "label": "Broad", "label_ar": "عريض", "aliases": ["broad", "stocky", "muscular"], "standalone": true },
+        { "key": "larger", "label": "Larger build", "label_ar": "بنية ممتلئة", "aliases": ["larger build", "full-figured", "plus size", "plus-size"], "standalone": true }
+      ]
+    },
+    "playing_age": {
+      "label": "Playing age (reviewable range)", "label_ar": "العمر الظاهر", "changeable": true,
+      "note": "A casting range that the person appears able to play. Separate from verified age or date of birth.",
+      "values": [
+        { "key": "baby", "label": "Baby", "label_ar": "رضيع", "aliases": ["Baby", "baby", "infant"] },
+        { "key": "kids", "label": "Kids", "label_ar": "أطفال", "aliases": ["Kids", "kids"] },
+        { "key": "child", "label": "Child", "label_ar": "طفل", "aliases": ["Child", "child"] },
+        { "key": "teen_13_17", "label": "Teen 13–17", "label_ar": "مراهق 13–17", "aliases": ["Teen 13-17", "teen", "teenager"] },
+        { "key": "age_18_24", "label": "18–24", "label_ar": "18–24", "aliases": ["Age 18-24", "18-24"] },
+        { "key": "age_25_34", "label": "25–34", "label_ar": "25–34", "aliases": ["Age 25-34", "25-34"] },
+        { "key": "age_35_44", "label": "35–44", "label_ar": "35–44", "aliases": ["Age 35-44", "35-44"] },
+        { "key": "age_45_54", "label": "45–54", "label_ar": "45–54", "aliases": ["Age 45-54", "45-54"] },
+        { "key": "age_55_64", "label": "55–64", "label_ar": "55–64", "aliases": ["Age 55-64", "55-64"] },
+        { "key": "age_65_plus", "label": "65+", "label_ar": "65+", "aliases": ["Age 65+", "65+"] }
+      ]
+    },
+    "clothing_style": {
+      "label": "Visible clothing style", "label_ar": "نمط الملابس الظاهر", "changeable": true,
+      "note": "Describes the outfit in this media only. Never implies religion, nationality or a skill.",
+      "values": [
+        { "key": "formal", "label": "Formal", "label_ar": "رسمي", "aliases": ["formal", "suit"] },
+        { "key": "smart_casual", "label": "Smart casual", "label_ar": "أنيق غير رسمي", "aliases": ["smart casual", "smart-casual"] },
+        { "key": "casual", "label": "Casual", "label_ar": "غير رسمي", "aliases": ["casual"] },
+        { "key": "sportswear", "label": "Sportswear", "label_ar": "ملابس رياضية", "aliases": ["sportswear", "activewear", "gym wear"] },
+        { "key": "uniform", "label": "Work uniform", "label_ar": "زي عمل", "aliases": ["uniform"] },
+        { "key": "costume", "label": "Costume", "label_ar": "زي تمثيلي", "aliases": ["costume"] }
+      ]
+    },
+    "head_covering": {
+      "label": "Visible head covering", "label_ar": "غطاء الرأس الظاهر", "changeable": true,
+      "note": "Hat, cap, scarf or other covering visible in this media. Never implies religion or nationality.",
+      "values": [
+        { "key": "none", "label": "None visible", "label_ar": "لا يوجد", "aliases": [] },
+        { "key": "present", "label": "Head covering visible", "label_ar": "غطاء رأس ظاهر", "aliases": ["hat", "cap", "head covering", "headscarf", "scarf"] }
+      ]
+    },
+    "visible_tattoos": {
+      "label": "Visible tattoos", "label_ar": "وشوم ظاهرة", "changeable": true,
+      "values": [
+        { "key": "none", "label": "None visible", "label_ar": "لا يوجد", "aliases": [] },
+        { "key": "present", "label": "Tattoo visible", "label_ar": "وشم ظاهر", "aliases": ["tattoo", "tattoos", "tattooed"], "standalone": true }
+      ]
+    }
+  },
+  "supplied_values": {
+    "talent_type": [
+      { "key": "talent", "label": "Talent", "label_ar": "موهبة" },
+      { "key": "real_family", "label": "Real family", "label_ar": "عائلة حقيقية" },
+      { "key": "group", "label": "Group", "label_ar": "مجموعة" }
+    ]
+  },
+  "facets": [
+    { "key": "talent_type", "label": "Talent type", "label_ar": "نوع الموهبة", "sources": ["supplied"] },
+    { "key": "city", "label": "City (supplied)", "label_ar": "المدينة", "sources": ["facts"] },
+    { "key": "stated_gender", "label": "Gender (as supplied)", "label_ar": "الجنس كما ورد", "sources": ["facts"] },
+    { "key": "playing_age", "label": "Playing age", "label_ar": "العمر الظاهر", "sources": ["supplied", "confirmed_observation"] },
+    { "key": "skin_tone", "label": "Visible skin tone", "label_ar": "لون البشرة الظاهر", "sources": ["supplied", "confirmed_observation"] },
+    { "key": "hair_length", "label": "Hair length", "label_ar": "طول الشعر", "sources": ["supplied", "confirmed_observation"] },
+    { "key": "hair_colour", "label": "Hair colour", "label_ar": "لون الشعر", "sources": ["supplied", "confirmed_observation"] },
+    { "key": "hair_texture", "label": "Hair texture", "label_ar": "نوع الشعر", "sources": ["supplied", "confirmed_observation"] },
+    { "key": "facial_hair", "label": "Facial hair", "label_ar": "شعر الوجه", "sources": ["confirmed_observation"] },
+    { "key": "glasses", "label": "Glasses", "label_ar": "نظارات", "sources": ["confirmed_observation"] },
+    { "key": "build", "label": "Build", "label_ar": "البنية", "sources": ["confirmed_observation"] },
+    { "key": "languages", "label": "Languages", "label_ar": "اللغات", "sources": ["facts"] },
+    { "key": "look", "label": "Look (supplied label)", "label_ar": "المظهر كما ورد", "sources": ["supplied"] },
+    { "key": "tags", "label": "Popular tags", "label_ar": "الوسوم الشائعة", "sources": ["supplied"] }
+  ]
+}

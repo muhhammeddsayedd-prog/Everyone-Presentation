@@ -10,3 +10,6 @@ export type { OpenAIMediaConfig, TranscriptionTransport, CandidateTransport } fr
 export type * from './media-types.ts';
 export { normalizeTranscriptEnglish, splitEnglishTranscriptSource, EnglishTranscriptNormalizationError, ENGLISH_TRANSCRIPT_LIMITS } from './openai-transcript-english.ts';
 export type { EnglishTranscriptInput, EnglishTranscriptTransport } from './openai-transcript-english.ts';
+export { analyzeAppearance, validateAppearanceOutput, appearanceSchema, appearanceCostUsd, appearanceImageFingerprint, APPEARANCE_LIMITS, APPEARANCE_ATTRIBUTE_KEYS, APPEARANCE_TAXONOMY_VERSION } from './openai-appearance.ts';
+export type { AppearanceInput, AppearanceImage, AppearanceResult, AppearanceMetadata, AppearanceMediaResult, AppearanceTransport, AppearanceDetail } from './openai-appearance.ts';
+export { APPEARANCE_PROMPT_VERSION } from './prompts/appearance-v1.ts';
