@@ -34,7 +34,7 @@ export async function createCentralSettings(client: SupabaseClient): Promise<Set
       const trace = parseCastingMutationContext(context);
       if (trace.requestId && !/^[A-Za-z0-9._:-]{1,128}$/u.test(trace.requestId)) throw new DomainError('INVALID_REQUEST', 'Provide a bounded request identifier.', 400);
       const saved = await rpc(actor, 'eps_update_settings', { p_input: patch, p_idempotency_key: trace.idempotencyKey }, trace);
-      if (saved.row_version !== patch.row_version + 1 || patch.default_timezone !== undefined && saved.default_timezone !== patch.default_timezone || patch.template_version !== undefined && saved.template_version !== patch.template_version) throw new DomainError('CENTRAL_RESPONSE_INVALID', 'Central settings did not acknowledge the requested revision and changes.', 503);
+      if (saved.row_version !== patch.row_version + 1 || patch.default_timezone !== undefined && saved.default_timezone !== patch.default_timezone || patch.template_version !== undefined && saved.template_version !== patch.template_version || patch.default_audience_preset_id !== undefined && saved.default_audience_preset_id !== patch.default_audience_preset_id) throw new DomainError('CENTRAL_RESPONSE_INVALID', 'Central settings did not acknowledge the requested revision and changes.', 503);
       return saved;
     },
   };

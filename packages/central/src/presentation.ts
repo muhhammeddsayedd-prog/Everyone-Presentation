@@ -63,7 +63,8 @@ export async function createCentralPresentations(client: SupabaseClient, options
   async function asset(actor: Actor, versionId: string, assetId: string, purpose: 'pdf' | 'video' | 'frame' | 'logo') {
     const id = identifier(assetId); const result = presentationAssetRead(await rpc(actor, 'eps_get_version_asset', { p_version_id: versionId, p_asset_id: id, p_purpose: purpose }));
     const expected = { pdf: 'presentation_pdf', video: 'candidate_video', frame: 'candidate_frame', logo: 'client_logo' }[purpose];
-    if (result.asset.id !== id || result.asset.purpose !== expected) presentationResponseInvalid(); return result;
+    // Template 1.4.0 portraits may be archive photos; they are read as fixed-version images like frames.
+    if (result.asset.id !== id || result.asset.purpose !== expected && !(purpose === 'frame' && result.asset.purpose === 'candidate_photo')) presentationResponseInvalid(); return result;
   }
   async function pdfAsset(actor: Actor, versionId: string) {
     const version = await getVersion(actor, versionId);
@@ -100,7 +101,8 @@ export async function createCentralPresentations(client: SupabaseClient, options
     },
     async getVersionMediaContent(actor, versionId, assetId) {
       const version = await getVersion(actor, versionId); const id = identifier(assetId);
-      const purpose = version.slides.some(slide => slide.frame_asset_ids.includes(id)) ? 'frame' : version.slides.some(slide => slide.logo_asset_id === id) ? 'logo' : null;
+      const portrait = (version.render_context.presentation?.slides ?? []).some(slide => slide.portrait?.asset_id === id);
+      const purpose = portrait || version.slides.some(slide => slide.frame_asset_ids.includes(id)) ? 'frame' : version.slides.some(slide => slide.logo_asset_id === id) ? 'logo' : null;
       if (!purpose) {
         if (version.slides.some(slide => slide.video_asset_id === id)) throw new DomainError('USE_PLAYBACK', 'Use fixed-version playback for this original video.', 409);
         throw new DomainError('RESOURCE_NOT_FOUND', 'This image does not belong to the fixed version.', 404);

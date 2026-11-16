@@ -10054,8 +10054,8 @@ paths:
   /versions/{version_id}/pptx/content:
     get:
       operationId: get_version_pptx_content
-      summary: Compose an editable PowerPoint of a Ready Everyone Film editorial (template 1.2.0 or 1.3.0) version from its frozen content, using
-        the caller's own version and media access
+      summary: Compose an editable PowerPoint of a Ready Everyone Film editorial (template 1.2.0, 1.3.0 or 1.4.0) version from its frozen content,
+        using the caller's own version and media access
       tags:
       - versions
       responses:
@@ -11350,10 +11350,10 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Id'
-      description: 'Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template (1.2.0 or 1.3.0), from the
-        same frozen content as its PDF, using only the caller''s own version and media access. Returns the slide count, size and filename of the
-        verified build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open it in
-        a browser signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED;
+      description: 'Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template (1.2.0, 1.3.0 or 1.4.0),
+        from the same frozen content as its PDF, using only the caller''s own version and media access. Returns the slide count, size and filename
+        of the verified build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open
+        it in a browser signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED;
         unfinished versions return PRESENTATION_NOT_READY. Nothing is stored or shared.'
   /candidates/{candidate_id}/photos:
     get:
@@ -13374,6 +13374,13 @@ components:
           minimum: 0
         row_version:
           $ref: '#/components/schemas/RowVersion'
+        presentation_note:
+          description: Highlighted note printed on this role's last template 1.4.0 page.
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
         archived:
           type: boolean
       required:
@@ -13463,6 +13470,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Clarification'
+        presentation_note:
+          description: Template 1.4.0 role note (1-500 characters), or null to clear it.
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
       required:
       - row_version
     ResizeSlots:
@@ -13498,6 +13512,13 @@ components:
           $ref: '#/components/schemas/RowVersion'
         archived:
           type: boolean
+        presentation_note:
+          description: Highlighted note printed on the page with this slot's last person (template 1.4.0).
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
       required:
       - id
       - role_id
@@ -13508,14 +13529,25 @@ components:
     SlotPatch:
       type: object
       additionalProperties: false
+      description: A label change, a template 1.4.0 presentation note change, or both.
       properties:
         row_version:
           $ref: '#/components/schemas/RowVersion'
         label:
           type: string
+        presentation_note:
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
       required:
       - row_version
-      - label
+      anyOf:
+      - required:
+        - label
+      - required:
+        - presentation_note
     CandidateFacts:
       type: object
       additionalProperties: false
@@ -14921,6 +14953,13 @@ components:
           type: string
           pattern: ^[a-f0-9]{64}$
         font_key: *id008
+        cover_note:
+          description: Highlighted cover note (template 1.4.0).
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
       required:
       - id
       - workspace_id
@@ -14948,13 +14987,14 @@ components:
           - selection
           - shortlist
         audience_preset_id:
+          description: Explicit review context. Omit it for an ordinary series, which uses the configured default review audience (AUDIENCE_DEFAULT_REQUIRED
+            when none is configured).
           $ref: '#/components/schemas/Id'
         title:
           type: string
       required:
       - workspace_id
       - output_type
-      - audience_preset_id
     PresentationSeriesPatch:
       type: object
       additionalProperties: false
@@ -14965,6 +15005,13 @@ components:
           type: string
         archived:
           type: boolean
+        cover_note:
+          description: Template 1.4.0 cover note (1-500 characters), or null to clear it.
+          anyOf:
+          - type: string
+            minLength: 1
+            maxLength: 500
+          - type: 'null'
       required:
       - row_version
     GenerateVersion:
@@ -16186,6 +16233,11 @@ components:
             type: string
         row_version:
           $ref: '#/components/schemas/RowVersion'
+        default_audience_preset_id:
+          description: Audience an ordinary new series uses. Null until a Studio manager chooses it in Settings; never set by a migration.
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
       required:
       - template_version
       - default_timezone
@@ -16202,6 +16254,11 @@ components:
           type: string
         template_version:
           type: string
+        default_audience_preset_id:
+          description: Default review audience for ordinary new series (an active preset), or null to clear it.
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
       required:
       - row_version
     CandidateSupport:
@@ -17055,6 +17112,7 @@ components:
           enum:
           - 1.2.0
           - 1.3.0
+          - 1.4.0
       required:
       - version_id
       - download_url

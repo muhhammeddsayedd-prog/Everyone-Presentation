@@ -168,26 +168,31 @@ function GuestSlide({ slide, version, context }: { slide: VersionSlide; version:
 }
 
 const guestTemplate = (version: ExternalPresentationVersion) => editorialTemplateOf({ key: 'everyone-casting', version: version.template_version, content_sha256: version.template_content_hash });
-/** Everyone Film editorial (1.2.0 / 1.3.0) page for one shared slide. Guest versions carry no
+/** Everyone Film editorial (1.2.0 / 1.3.0 / 1.4.0) page for one shared slide. Guest versions carry no
  * internal role/slot identities, so grouping uses the saved labels and frame sizes
  * come from the opened images; the downloadable PDF remains the exact artifact. */
 function guestDeckReview(version: ExternalPresentationVersion, assets: Record<string, LoadedAsset>) {
   const empty = { name_or_id: 'Not provided', age_or_range: 'Not provided', height_measurements: 'Not provided', languages_accents: 'Not provided', skills_experience: 'Not provided', city: 'Not provided', previous_projects_roles: 'Not provided', classification: 'Not provided', availability: 'Not provided', presentation_notes: 'Not provided' };
-  const slides = version.slides.slice(1).map(item => {
+  const keys = version.presentation_role_keys;
+  const slides = version.slides.slice(1).map((item, n) => {
     const roleLevel = item.kind === 'pending' && (item.slot_label ?? 'Pending') === 'Pending';
-    return { kind: item.kind, role_id: item.role_label ?? `role-${item.order}`, role_name: item.role_label ?? 'Requirements pending', role_category: item.role_category, slot_id: roleLevel ? null : `${item.role_label} ${item.slot_label}`, slot_label: item.slot_label ?? 'Pending',
+    // 1.4.0 guests receive per-version role keys, so two roles with the same name stay apart and scenes resolve.
+    const role = keys?.[n] ?? item.role_label ?? `role-${item.order}`;
+    return { kind: item.kind, role_id: role, role_name: item.role_label ?? 'Requirements pending', role_category: item.role_category, slot_id: roleLevel ? null : `${keys ? role : item.role_label} ${item.slot_label}`, slot_label: item.slot_label ?? 'Pending',
       position: item.position, fields: item.fields ?? empty, requirements: item.requirements, video_asset_id: item.video_asset_id,
       frames: item.frame_asset_ids.map(id => ({ asset_id: id, source_asset_id: item.video_asset_id ?? '', timestamp_ms: 0, width: assets[id]?.width ?? 1920, height: assets[id]?.height ?? 1080, sha256: '' })) } as unknown as ReviewSlide;
   });
-  return { cover: version.cover, output_type: version.output_type, slides };
+  return { cover: version.cover, output_type: version.output_type, slides, ...(version.presentation ? { presentation: version.presentation } : {}) };
 }
 function GuestEditorial({ slide, version, context }: { slide: VersionSlide; version: ExternalPresentationVersion; context: string }) {
   const fetchAsset = useCallback<AssetFetch>((id, signal) => fetch(`/api/v1/review/versions/${version.id}/media/${id}/content`, { cache: 'no-store', signal, headers: { 'X-Review-Context': context, Accept: 'image/*' } }), [version.id, context]);
   const ids = useMemo(() => [...slide.logo_asset_id ? [slide.logo_asset_id] : [], ...slide.frame_asset_ids,
-    ...guestTemplate(version)?.version === '1.3.0' && slide.kind === 'candidate' ? version.slides.filter(item => item.kind === 'candidate' && item.role_label === slide.role_label && item.slot_label === slide.slot_label).flatMap(item => item.frame_asset_ids.slice(0, 1)) : []], [slide, version]);
+    ...guestTemplate(version)?.version === '1.3.0' && slide.kind === 'candidate' ? version.slides.filter(item => item.kind === 'candidate' && item.role_label === slide.role_label && item.slot_label === slide.slot_label).flatMap(item => item.frame_asset_ids.slice(0, 1)) : [],
+    // 1.4.0: the portraits of everyone in this role (a portrait page shows up to three of them).
+    ...guestTemplate(version)?.version === '1.4.0' ? version.slides.flatMap((item, n) => n > 0 && version.presentation_role_keys?.[n - 1] === version.presentation_role_keys?.[slide.order - 1] ? [version.presentation?.slides[n - 1]?.portrait?.asset_id ?? item.frame_asset_ids[0]].filter((id): id is string => Boolean(id)) : []) : []], [slide, version]);
   const { assets, failed } = useEditorialAssets(ids, fetchAsset);
   const template = guestTemplate(version)!;
-  const deck = useMemo(() => template.compose(guestDeckReview(version, assets), { versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) }), [template, version, assets]);
+  const deck = useMemo(() => template.compose(guestDeckReview(version, assets), { versionLabel: `Version ${version.version_no}`, versionNumber: version.version_no, dateLabel: editorialDateLabel(version.created_at) }), [template, version, assets]);
   // In 1.3.0 a slot page shows this person beside the rest of the slot.
   const page = pagesForSlide(deck, slide.order)[0];
   return <>{failed.length > 0 && <ErrorNotice message="Some images on this slide could not be opened." />}{page !== undefined && <EditorialPage deck={deck} index={page} assets={assets} template={template.version} />}</>;

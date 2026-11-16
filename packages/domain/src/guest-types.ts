@@ -23,6 +23,8 @@ export interface ExternalPresentationVersion {
   status: 'ready'; slides: VersionSlide[]; created_at: string; download_enabled: boolean;
   cover: { project_name: string; client_name: string | null; title: string; output_type: 'selection' | 'shortlist'; logo_asset_id: string | null; logo_placement: 'cover' | 'every_slide' };
   template_version: string; template_content_hash: string;
+  /** Template 1.4.0 only: the frozen presentation context with per-version role keys (no internal identities). */
+  presentation?: import('./review-types.ts').PresentationContext; presentation_role_keys?: string[];
 }
 export interface FeedbackComment {
   id: string; series_id: string; version_id: string; version_slide_id: string; guest_session_id: string | null;

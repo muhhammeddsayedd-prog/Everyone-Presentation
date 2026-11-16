@@ -3,7 +3,7 @@ import { isDeepStrictEqual } from 'node:util';
 import type { JobEvent, JobEventReceipt, JsonObject, StageLease } from '@eps/jobs';
 import type { RenderSnapshot } from '../../../packages/domain/src/presentation-types.ts';
 import { parseRenderSnapshot, manifestFromSnapshot, presentationCanonicalHash, presentationCanonicalJson, reviewFromRenderSnapshot } from '../../../packages/domain/src/presentation.ts';
-import { editorialExpectations, isEditorialTemplate } from './editorial-template.ts';
+import { editorialExpectations, editorialPdfLinksFollowSlides, isEditorialTemplate } from './editorial-template.ts';
 import { CandidateCallbackError, deliverCandidateCallback } from './candidate-callback.ts';
 import type { ReviewStageGateway, ReviewStageScope } from './review-stage-executor.ts';
 import { PresentationAssetError, type PresentationArtifact, type PresentationStageAssets } from './presentation-assets.ts';
@@ -28,7 +28,9 @@ function artifact(value: unknown, mime: 'application/json' | 'application/pdf'):
   if (!exact(value, ['asset_id', 'sha256', 'size_bytes', 'mime_type']) || !id(value.asset_id) || !digest(value.sha256) || value.mime_type !== mime || !integer(value.size_bytes, 1, mime === 'application/pdf' ? 67108864 : 8388608)) fail('STAGE_INPUT_INVALID');
   return value as unknown as PresentationArtifact;
 }
-/** Template-specific proof expectations: 1.0/1.1 fixed rules, editorial 1.2.0/1.3.0 from their own composers. */
+/** Original-video links the PDF carries: one per captured slide with a video, except 1.4.0 (none, like the reference). */
+const pdfLinks = (snapshot: RenderSnapshot) => editorialPdfLinksFollowSlides(snapshot.template) ? snapshot.slides.flatMap(slide => slide.video_asset_id ? [presentationVideoHref(snapshot, slide.video_asset_id)] : []) : [];
+/** Template-specific proof expectations: 1.0/1.1 fixed rules, editorial 1.2.0/1.3.0/1.4.0 from their own composers. */
 function expectedLayout(snapshot: RenderSnapshot) {
   if (isEditorialTemplate(snapshot.template)) return editorialExpectations(reviewFromRenderSnapshot(snapshot));
   const frames = snapshot.slides.reduce((sum, slide) => sum + slide.frames.length, 0); const logos = snapshot.slides.filter(slide => slide.logo_asset_id).length;
@@ -47,8 +49,8 @@ async function rendered(value: unknown, input: Record<string, unknown>, snapshot
   if (!exact(proof, ['renderer_version', 'chromium_version', 'template_content_sha256', 'font_hashes', 'page_count', 'width_css_px', 'height_css_px', 'overflow_count', 'candidate_field_count', 'frame_draw_count', 'logo_draw_count', 'video_link_count', 'fonts_ready', 'images_ready', 'link_targets_sha256', 'rendered_at'])
     || proof.renderer_version !== PRESENTATION_RENDERER || typeof proof.chromium_version !== 'string' || !/^[0-9]+(?:\.[0-9]+){2,3}$/u.test(proof.chromium_version) || proof.template_content_sha256 !== snapshot.template.content_sha256 || !isDeepStrictEqual(proof.font_hashes, snapshot.template.font_hashes)
     || proof.page_count !== editorial.page_count || proof.width_css_px !== editorial.width || proof.height_css_px !== editorial.height || proof.overflow_count !== 0 || proof.candidate_field_count !== ('candidate_field_count' in editorial ? editorial.candidate_field_count : snapshot.slides.filter(slide => slide.kind === 'candidate').length * 10)
-    || proof.frame_draw_count !== editorial.frame_draw_count || proof.logo_draw_count !== editorial.logo_draw_count || proof.video_link_count !== snapshot.slides.filter(slide => slide.video_asset_id).length || proof.fonts_ready !== true || proof.images_ready !== true
-    || proof.link_targets_sha256 !== await presentationCanonicalHash(snapshot.slides.flatMap(slide => slide.video_asset_id ? [presentationVideoHref(snapshot, slide.video_asset_id)] : [])) || !time(proof.rendered_at)) fail('STAGE_INPUT_INVALID');
+    || proof.frame_draw_count !== editorial.frame_draw_count || proof.logo_draw_count !== editorial.logo_draw_count || proof.video_link_count !== pdfLinks(snapshot).length || proof.fonts_ready !== true || proof.images_ready !== true
+    || proof.link_targets_sha256 !== await presentationCanonicalHash(pdfLinks(snapshot)) || !time(proof.rendered_at)) fail('STAGE_INPUT_INVALID');
   return value as unknown as PresentationRendered;
 }
 function validated(value: unknown, input: Record<string, unknown>, snapshot: RenderSnapshot, source: PresentationRendered): PresentationValidated {

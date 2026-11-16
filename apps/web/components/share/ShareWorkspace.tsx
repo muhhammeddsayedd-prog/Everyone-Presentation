@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
-import type { PresentationSeries, PresentationVersion } from '@eps/domain';
-import { api, type Actor, type Envelope } from '../api';
+import type { AudiencePreset, PresentationSeries, PresentationVersion } from '@eps/domain';
+import { api, mutation, type Actor, type Envelope } from '../api';
+import { isCurrentTemplate } from '../workspace/template-names';
 import { ErrorNotice, Loading } from '../Feedback';
 import { Icon } from '../Icon';
 import { useFeedbackCounts } from '../PresentationVersionView';
@@ -46,6 +47,9 @@ function ShareScope({ actor, onDirtyChange, seriesId: fixedSeries, workspaceId, 
   const [selected, setSelected] = useState(''), [error, setError] = useState(''), [loading, setLoading] = useState(true), [refresh, setRefresh] = useState(0);
   const [linkPending, setLinkPending] = useState(false), [feedback, setFeedback] = useState({ locked: false, dirty: false });
   const [feedbackOpen, setFeedbackOpen] = useState(true);
+  // Advanced: a review context (audience) other than the Studio default lives in its own series.
+  const [presets, setPresets] = useState<AudiencePreset[]>([]); const [contextPreset, setContextPreset] = useState(''); const [contextBusy, setContextBusy] = useState(false); const [contextNote, setContextNote] = useState('');
+  const canCreate = actor.capabilities?.includes('presentations.generate') === true;
   // The slide under discussion, shared by the stage and the feedback beside it; it belongs to one version.
   const [shown, setShown] = useState({ versionId: '', slideId: '' });
   const feedbackChanged = useCallback((value: { locked: boolean; dirty: boolean }) => setFeedback(value), []);
@@ -76,6 +80,27 @@ function ShareScope({ actor, onDirtyChange, seriesId: fixedSeries, workspaceId, 
       } catch (reason) { if (current) setError(reviewError(reason)); } finally { if (current) setLoading(false); }
     }; void load(); return () => { current = false; controller.abort(); };
   }, [chosen, refresh]);
+  useEffect(() => {
+    if (fixedSeries || !workspaceId) return; let current = true; const controller = new AbortController();
+    readAll<AudiencePreset>('/api/v1/audience-presets', AbortSignal.any([controller.signal, AbortSignal.timeout(30000)]), () => undefined)
+      .then(rows => { if (current) { const active = rows.filter(row => !row.archived); setPresets(active); setContextPreset(value => value || active[0]?.id || ''); } }).catch(() => undefined);
+    return () => { current = false; controller.abort(); };
+  }, [fixedSeries, workspaceId]);
+  /** Resolves (or creates) the series for this workspace, output, audience and current template. It never publishes,
+   * never sends a link and never relabels a series: an Internal and a Client history stay separate series. */
+  async function chooseContext() {
+    if (!workspaceId || !contextPreset || contextBusy || locked) return;
+    const output = series?.output_type ?? 'shortlist';
+    const existing = choices.find(row => row.audience_preset_id === contextPreset && row.output_type === output && isCurrentTemplate(row.template_version));
+    if (existing) { if (existing.id !== chosen && await discardFeedback()) { setChosen(existing.id); setSeries(null); setVersions([]); setSelected(''); setLoading(true); } setContextNote('Using the existing series for this review context. Nothing was published.'); return; }
+    if (!await discardFeedback()) return;
+    setContextBusy(true); setError(''); setContextNote('');
+    try { const created = (await api<PresentationSeries>('/api/v1/presentation-series', { ...mutation('POST', { workspace_id: workspaceId, output_type: output, audience_preset_id: contextPreset }), signal: AbortSignal.timeout(30000) })).data;
+      if (created.workspace_id !== workspaceId || created.audience_preset_id !== contextPreset) throw new Error('The review context could not be confirmed.');
+      setChoices(old => [...old.filter(row => row.id !== created.id), created]); setChosen(created.id); setSeries(null); setVersions([]); setSelected(''); setLoading(true);
+      setContextNote('Review context ready in its own series. Nothing was published and no link was sent; generate a version in Review when ready.');
+    } catch (reason) { setError(reviewError(reason)); } finally { setContextBusy(false); }
+  }
   async function discardFeedback() {
     return !feedback.dirty || await confirm({ title: 'Discard your unsent comment?', description: 'Opening feedback on another version discards the comment you have not posted. Feedback stays with the version it was given on.', confirmLabel: 'Discard comment', cancelLabel: 'Keep writing', danger: true });
   }
@@ -88,7 +113,15 @@ function ShareScope({ actor, onDirtyChange, seriesId: fixedSeries, workspaceId, 
     {error && <ErrorNotice message={error} retry={!locked ? () => { setLoading(true); setRefresh(value => value + 1); } : undefined} />}
     {!fixedSeries && <section className="panel-section series-choice" aria-labelledby="share-series-heading"><h3 id="share-series-heading" className="panel-eyebrow">Presentation series</h3>
       <select aria-label="Presentation series" value={chosen} disabled={locked || loading} onChange={async event => { const next = event.target.value; if (!await discardFeedback()) return; setChosen(next); setSeries(null); setVersions([]); setSelected(''); setLoading(true); setFeedback({ locked: false, dirty: false }); }}>
-        {!choices.length && <option value="">No saved series</option>}{choices.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} ({row.audience_snapshot.scope})</option>)}</select></section>}
+        {!choices.length && <option value="">No saved series</option>}{choices.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} ({row.audience_snapshot.scope})</option>)}</select>
+      {presets.length > 0 && <details className="share-review-context"><summary>Review context (advanced)</summary>
+        <label>Review context<select aria-label="Review context" value={contextPreset} disabled={locked || contextBusy} onChange={event => { setContextPreset(event.target.value); setContextNote(''); }}>
+          {presets.map(row => <option key={row.id} value={row.id}>{row.label} ({row.scope})</option>)}</select></label>
+        <p className="small muted">Creates or uses a separate review series for this audience, with its own versions, links and feedback. Choosing it publishes nothing and sends no link. Internal series cannot have guest links.</p>
+        <button type="button" className="button button-small" disabled={!canCreate || !contextPreset || locked || contextBusy} onClick={() => void chooseContext()}>{contextBusy ? 'Preparing review context…' : 'Use this review context'}</button>
+        {!canCreate && <p className="small">Creating a review series requires presentation generation permission.</p>}
+        {contextNote && <p className="small" role="status">{contextNote}</p>}
+      </details>}</section>}
     {loading && !series ? <Loading label="Opening sharing…" /> : !series ? !error && <div className="empty-state compact"><Icon name="share" /><h3>No presentation series yet</h3><p>Create a series in Review and generate a version before sharing it.</p></div> : <>
       <p className="small muted">{series.title} · Cast {series.output_type === 'selection' ? 'Selection' : 'Shortlist'} · {series.audience_snapshot.label} · {series.audience_snapshot.scope === 'external' ? 'external audience' : 'internal audience'}</p>
       {external ? <ReviewLinksPanel seriesId={series.id} workspaceId={series.workspace_id} actor={actor} onDirtyChange={setLinkPending} />

@@ -26,12 +26,19 @@ export const AI_SUGGESTION_FIELDS = Object.freeze({
   role: ['name', 'requirements.age_range', 'requirements.appearance_performance', 'requirements.location', 'requirements.availability_requirements', 'requirements.other_instructions'] as const,
   workspace_candidate: ['availability'] as const,
 });
+/** A template 1.4.0 presentation note: 1-500 characters after trimming, or null to clear. */
+function presentationNote(value: unknown): string | null {
+  if (value === null) return null;
+  const checked = text(value, 500); if (!checked.trim() || [...checked].some(char => { const point = char.codePointAt(0)!; return point < 32 && ![9, 10, 13].includes(point) || point === 127; })) invalid(); return checked;
+}
+/** Without an audience the configured default review audience is used (AUDIENCE_DEFAULT_REQUIRED when none is set). */
 export function parseSeriesCreate(value: unknown): SeriesCreate {
-  const row = object(value, ['workspace_id', 'output_type', 'audience_preset_id', 'title'], ['workspace_id', 'output_type', 'audience_preset_id']);
-  return bounded({ workspace_id: id(row.workspace_id), output_type: output(row.output_type), audience_preset_id: id(row.audience_preset_id), ...(Object.hasOwn(row, 'title') ? { title: text(row.title, 1000).trim() } : {}) });
+  const row = object(value, ['workspace_id', 'output_type', 'audience_preset_id', 'title'], ['workspace_id', 'output_type']);
+  return bounded({ workspace_id: id(row.workspace_id), output_type: output(row.output_type), ...(Object.hasOwn(row, 'audience_preset_id') ? { audience_preset_id: id(row.audience_preset_id) } : {}), ...(Object.hasOwn(row, 'title') ? { title: text(row.title, 1000).trim() } : {}) });
 }
 export function parseSeriesPatch(value: unknown): SeriesPatch {
-  const row = object(value, ['row_version', 'title', 'archived'], ['row_version']); const result: SeriesPatch = { row_version: revision(row.row_version) };
+  const row = object(value, ['row_version', 'title', 'archived', 'cover_note'], ['row_version']); const result: SeriesPatch = { row_version: revision(row.row_version) };
+  if (Object.hasOwn(row, 'cover_note')) result.cover_note = presentationNote(row.cover_note);
   if (Object.hasOwn(row, 'title')) result.title = text(row.title, 1000).trim();
   if (Object.hasOwn(row, 'archived')) { if (typeof row.archived !== 'boolean') invalid(); result.archived = row.archived; }
   return bounded(result);

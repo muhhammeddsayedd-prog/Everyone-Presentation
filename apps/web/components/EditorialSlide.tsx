@@ -5,13 +5,16 @@ import type { Deck as EditorialDeckModel } from '../../../packages/templates/ver
 import type { Deck as SlotDeckModel } from '../../../packages/templates/versions/1.3.0/deck';
 import { EDITORIAL_CSS, fontFaceCss, PUBLIC_FONT_FACES, renderPageMarkup } from '../../../packages/templates/versions/1.2.0/html';
 import { EDITORIAL_CSS as SLOT_CSS, renderPageMarkup as renderSlotPage } from '../../../packages/templates/versions/1.3.0/html';
+import type { Deck as ReferenceDeckModel } from '../../../packages/templates/versions/1.4.0/deck';
+import { EDITORIAL_CSS as REFERENCE_CSS, renderPageMarkup as renderReferencePage } from '../../../packages/templates/versions/1.4.0/html';
 
 /** A composed Everyone Film deck with the version whose registered markup draws it. */
-export type Deck = EditorialDeckModel | SlotDeckModel;
-export type EditorialTemplate = '1.2.0' | '1.3.0';
+export type Deck = EditorialDeckModel | SlotDeckModel | ReferenceDeckModel;
+export type EditorialTemplate = '1.2.0' | '1.3.0' | '1.4.0';
 const RENDERERS = {
   '1.2.0': { css: EDITORIAL_CSS, page: (deck: Deck, index: number, options: Parameters<typeof renderPageMarkup>[2]) => renderPageMarkup(deck as EditorialDeckModel, index, options) },
   '1.3.0': { css: SLOT_CSS, page: (deck: Deck, index: number, options: Parameters<typeof renderSlotPage>[2]) => renderSlotPage(deck as SlotDeckModel, index, options) },
+  '1.4.0': { css: REFERENCE_CSS, page: (deck: Deck, index: number, options: Parameters<typeof renderReferencePage>[2]) => renderReferencePage(deck as ReferenceDeckModel, index, options) },
 } as const;
 
 /** In-app preview of the Everyone Film editorial template. It renders the exact
@@ -82,7 +85,7 @@ export function EditorialDeck({ deck, assets, videoHrefs, pages, template = '1.2
   return <ol className="ef-preview-deck">{shown.map(index => <li key={index}><EditorialPage deck={deck} index={index} assets={assets} videoHrefs={videoHrefs} template={template} /></li>)}</ol>;
 }
 
-/** Retained images a composed editorial deck (1.2.0 or 1.3.0) draws. */
+/** Retained images a composed editorial deck (1.2.0, 1.3.0 or 1.4.0) draws. */
 interface AssetElementLike { kind: string; source?: { type: string; asset_id?: string } }
 export function deckAssetIds(deck: { pages: readonly { index: number; elements: readonly AssetElementLike[] }[] }, pages?: number[]) {
   const selected = pages ? deck.pages.filter(page => pages.includes(page.index)) : deck.pages;

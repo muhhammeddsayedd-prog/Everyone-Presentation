@@ -3,6 +3,7 @@ import { slideWordingFields } from '../../domain/src/casting-types.ts';
 import type { AiSuggestion, PresentationSeries, ReviewFields, ReviewFit, ReviewFrame, ReviewJobAccepted, ReviewSlide, WorkspaceReview } from '../../domain/src/review-types.ts';
 import { audienceDto } from './dto.ts';
 import { parseRoleRequirements } from '../../domain/src/specs.ts';
+import { hasPresentationContext, parsePresentationContext } from '../../domain/src/presentation-context.ts';
 import type { CastingRetirement, CastingRetirementUndoResult } from '../../domain/src/review-types.ts';
 
 function fail(): never { throw new DomainError('CENTRAL_RESPONSE_INVALID', 'Central review data did not match its published contract.', 503); }
@@ -21,7 +22,9 @@ export function reviewRecord(value: unknown, keys: readonly string[]): Record<st
   return value as Record<string, unknown>;
 }
 export function presentationSeriesDto(value: unknown): PresentationSeries {
-  const row = reviewRecord(value, ['id', 'workspace_id', 'output_type', 'audience_preset_id', 'audience_snapshot', 'title', 'latest_ready_version_id', 'latest_ready_version_no', 'row_version', 'archived', 'template_key', 'template_version', 'template_content_sha256', 'font_key']);
+  const hasNote = Boolean(value && typeof value === 'object' && Object.hasOwn(value, 'cover_note'));
+  const row = reviewRecord(value, ['id', 'workspace_id', 'output_type', 'audience_preset_id', 'audience_snapshot', 'title', 'latest_ready_version_id', 'latest_ready_version_no', 'row_version', 'archived', 'template_key', 'template_version', 'template_content_sha256', 'font_key', ...(hasNote ? ['cover_note'] : [])]);
+  if (hasNote && !nullable(row.cover_note, value => string(value) && (value as string).length <= 500)) fail();
   if (![row.id, row.workspace_id, row.audience_preset_id, row.template_key, row.template_version, row.font_key].every(isId) || !['selection', 'shortlist'].includes(row.output_type as string) || !string(row.title) || !digest(row.template_content_sha256) || !integer(row.row_version, 1) || typeof row.archived !== 'boolean' || !nullable(row.latest_ready_version_id, isId) || !nullable(row.latest_ready_version_no, value => integer(value, 1)) || (row.latest_ready_version_id === null) !== (row.latest_ready_version_no === null)) fail();
   const audience = audienceDto(row.audience_snapshot); if (audience.id !== row.audience_preset_id) fail();
   return structuredClone({ ...row, audience_snapshot: audience }) as unknown as PresentationSeries;
@@ -58,21 +61,24 @@ function fit(value: unknown, fingerprint: string, slides: number): ReviewFit {
   return structuredClone(row) as unknown as ReviewFit;
 }
 export function workspaceReviewDto(value: unknown): WorkspaceReview {
-  const row = reviewRecord(value, ['workspace_id', 'series_id', 'input_fingerprint', 'draft_revision', 'output_type', 'candidate_slide_count', 'pending_slide_count', 'issues', 'can_generate', 'unreviewed_candidate_ids', 'template', 'cover', 'slides', 'fit']);
+  const contextual = hasPresentationContext((value as { template?: { version?: unknown } } | null)?.template?.version);
+  const row = reviewRecord(value, ['workspace_id', 'series_id', 'input_fingerprint', 'draft_revision', 'output_type', 'candidate_slide_count', 'pending_slide_count', 'issues', 'can_generate', 'unreviewed_candidate_ids', 'template', 'cover', 'slides', 'fit', ...(contextual ? ['presentation'] : [])]);
   if (!isId(row.workspace_id) || !isId(row.series_id) || !digest(row.input_fingerprint) || !integer(row.draft_revision) || !['selection', 'shortlist'].includes(row.output_type as string) || !integer(row.candidate_slide_count) || !integer(row.pending_slide_count) || typeof row.can_generate !== 'boolean' || !Array.isArray(row.issues) || row.issues.length > 100000 || !Array.isArray(row.unreviewed_candidate_ids) || row.unreviewed_candidate_ids.some(value => !isId(value)) || !Array.isArray(row.slides) || row.slides.length > 10000 || new TextEncoder().encode(JSON.stringify(value)).byteLength > 16 * 1024 * 1024) fail();
   const template = reviewRecord(row.template, ['key', 'version', 'content_sha256', 'font_key']);
   if (![template.key, template.version, template.font_key].every(isId) || !digest(template.content_sha256)) fail();
   const cover = reviewRecord(row.cover, ['project_name', 'client_name', 'title', 'output_type', 'logo_asset_id', 'logo_placement']);
   if (!string(cover.project_name) || !nullable(cover.client_name, string) || !string(cover.title) || cover.output_type !== row.output_type || !nullable(cover.logo_asset_id, isId) || !['cover', 'every_slide'].includes(cover.logo_placement as string)) fail();
   const slides = row.slides.map(slide); const candidateSlides = slides.filter(row => row.kind === 'candidate');
-  if (['1.1.0', '1.2.0', '1.3.0'].includes(template.version as string) && slides.some(item => !Object.hasOwn(item, 'role_category'))) fail();
+  if (['1.1.0', '1.2.0', '1.3.0', '1.4.0'].includes(template.version as string) && slides.some(item => !Object.hasOwn(item, 'role_category'))) fail();
+  // 1.4.0: notes, scenes and pinned portraits accompany the slides one to one.
+  const presentation = contextual ? parsePresentationContext(row.presentation, slides.length, fail) : undefined;
   if (candidateSlides.length !== row.candidate_slide_count || slides.length - candidateSlides.length !== row.pending_slide_count || new Set(candidateSlides.map(row => row.assignment_id)).size !== candidateSlides.length || new Set(candidateSlides.map(row => `${row.slot_id}:${row.candidate_id}`)).size !== candidateSlides.length) fail();
   const unreviewed = [...new Set(candidateSlides.filter(row => row.review_status === 'unreviewed').map(row => row.candidate_id!))];
   if (unreviewed.length !== row.unreviewed_candidate_ids.length || unreviewed.some(id => !(row.unreviewed_candidate_ids as string[]).includes(id))) fail();
   for (const issue of row.issues) { const item = reviewRecord(issue, ['code', 'severity', 'entity_id', 'field', 'message', 'repair_action']); if (!isId(item.code) || !['information', 'warning', 'blocking'].includes(item.severity as string) || !nullable(item.entity_id, isId) || !nullable(item.field, string) || !string(item.message) || !nullable(item.repair_action, string)) fail(); }
   const measurement = fit(row.fit, row.input_fingerprint, slides.length);
   if (row.can_generate && (measurement.status !== 'measured' || measurement.overflows.length || row.issues.some(issue => (issue as Record<string, unknown>).severity === 'blocking'))) fail();
-  return { ...structuredClone(row), slides, fit: measurement } as unknown as WorkspaceReview;
+  return { ...structuredClone(row), slides, fit: measurement, ...(presentation ? { presentation } : {}) } as unknown as WorkspaceReview;
 }
 export function reviewJobDto(value: unknown): ReviewJobAccepted {
   const row = reviewRecord(value, ['job_id', 'resource_id', 'poll_url', 'status']);

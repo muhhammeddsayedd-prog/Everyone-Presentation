@@ -3,6 +3,7 @@ import type { Deck } from '../../../../packages/templates/versions/1.2.0/deck.ts
 import { composeCastingDeck } from '../../../../packages/templates/versions/1.2.0/compose-casting.ts';
 import { composeCastingDeck as composeSlotDeck } from '../../../../packages/templates/versions/1.3.0/compose-casting.ts';
 import type { Deck as SlotDeck } from '../../../../packages/templates/versions/1.3.0/deck.ts';
+import { composeCastingDeck as composeReferenceDeck } from '../../../../packages/templates/versions/1.4.0/compose-casting.ts';
 import { focusMatches, type DraftFocus, type DraftResult } from './draft-review.ts';
 
 /** One printed page of the draft, in print order, with the workspace record it shows (if any). */
@@ -15,7 +16,7 @@ export interface StagePage {
 }
 export type StageDeck =
   | { template: '1.2.0'; review: DraftResult['review']; deck: Deck; pages: StagePage[] }
-  | { template: '1.3.0'; review: DraftResult['review']; deck: SlotDeck; pages: StagePage[] }
+  | { template: '1.3.0' | '1.4.0'; review: DraftResult['review']; deck: SlotDeck; pages: StagePage[] }
   | { template: '1.0.0' | '1.1.0'; review: DraftResult['review']; pages: StagePage[] };
 
 const slideLabel = (slide: ReviewSlide) => slide.kind === 'pending' ? `${slide.slot_id ? slide.slot_label : slide.role_name} · Pending` : slide.fields.name_or_id;
@@ -23,7 +24,7 @@ const slideKey = (slide: ReviewSlide) => slide.assignment_id ? `a:${slide.assign
 
 /** 1.2.0 composes extra pages (category dividers, slot overviews, closing); 1.0/1.1 print a cover plus one page per slide. */
 export function stageDeck(review: DraftResult['review']): StageDeck {
-  if (review.template.version === '1.3.0') return slotStageDeck(review);
+  if (review.template.version === '1.3.0' || review.template.version === '1.4.0') return slotStageDeck(review);
   if (review.template.version !== '1.2.0') {
     const pages: StagePage[] = [{ index: 0, key: 'cover', label: 'Cover', kind: 'cover', slide: null },
       ...review.slides.map((slide, n) => ({ index: n + 1, key: slideKey(slide), label: slideLabel(slide), kind: slide.kind === 'pending' ? 'pending' as const : 'detail' as const, slide }))];
@@ -45,19 +46,25 @@ export function stageDeck(review: DraftResult['review']): StageDeck {
   return { template: '1.2.0', review, deck, pages };
 }
 
-/** 1.3.0: one page per slot, its people side by side; a page lists every person it shows. */
+/** 1.3.0: one page per slot, its people side by side; 1.4.0: portrait pages of one to three people. A page lists every
+ * person it shows; a person a scene repeats keeps one key per page. */
 function slotStageDeck(review: DraftResult['review']): StageDeck {
-  const deck = composeSlotDeck(review as WorkspaceReview);
+  const reference = review.template.version === '1.4.0';
+  const deck = (reference ? composeReferenceDeck(review as WorkspaceReview) : composeSlotDeck(review as WorkspaceReview)) as SlotDeck; const used = new Set<string>();
   const pages = deck.pages.map((page): StagePage => {
     if (page.layout === 'cover_floward') return { index: page.index, key: 'cover', label: 'Cover', kind: 'cover', slide: null };
     if (page.layout === 'closing_thank_you') return { index: page.index, key: 'closing', label: 'Thank you', kind: 'closing', slide: null };
     const slides = (page.sources ?? [page.source_index]).map(source => review.slides[source - 1]).filter((slide): slide is ReviewSlide => !!slide);
     const slide = slides[0] ?? null;
-    if (page.layout === 'section_divider') return { index: page.index, key: `d:${slide?.role_id ?? page.index}`, label: slide?.role_category ? `${slide.role_category} · Divider` : 'Divider', kind: 'divider', slide, slides };
-    const label = slides.length > 1 ? `${slide!.slot_label} · ${slides.map(item => item.fields.name_or_id).join(', ')}` : slide ? slideLabel(slide) : `Page ${page.index + 1}`;
-    return { index: page.index, key: slides.length ? slides.map(slideKey).join('+') : `x:${page.index}`, label, kind: slide?.kind === 'pending' ? 'pending' : 'detail', slide, slides };
+    if (page.layout === 'section_divider') {
+      const title = reference ? page.elements.find(element => element.kind === 'text')?.text ?? null : null;
+      return { index: page.index, key: `d:${reference ? page.index : slide?.role_id ?? page.index}`, label: title ? `${title} · Divider` : slide?.role_category ? `${slide.role_category} · Divider` : 'Divider', kind: 'divider', slide, slides };
+    }
+    const label = slides.length > 1 ? `${reference ? slide!.role_name : slide!.slot_label} · ${slides.map(item => item.fields.name_or_id).join(', ')}` : slide ? slideLabel(slide) : `Page ${page.index + 1}`;
+    let key = slides.length ? slides.map(slideKey).join('+') : `x:${page.index}`; if (used.has(key)) key = `${key}#${page.index}`; used.add(key);
+    return { index: page.index, key, label, kind: slide?.kind === 'pending' ? 'pending' : 'detail', slide, slides };
   });
-  return { template: '1.3.0', review, deck, pages };
+  return { template: reference ? '1.4.0' : '1.3.0', review, deck, pages };
 }
 
 /** The page to show for a panel selection: the person's own page first, then the slot, then the first page of the role. */

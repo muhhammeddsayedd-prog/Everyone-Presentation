@@ -13,6 +13,8 @@ export interface PresentationFilesPort {
   completeOutput(input: PresentationCompleteInput, signal: AbortSignal): Promise<unknown>;
 }
 export class PresentationAssetError extends Error { constructor(readonly code: 'PDF_ASSET_CAPABILITY_INVALID' | 'PDF_ASSET_TRANSFER_FAILED', readonly retryable = false) { super('The fixed presentation asset transfer could not be verified. Existing files remain unchanged.'); this.name = 'PresentationAssetError'; } }
+/** Frozen image buckets the worker reads: logos, extracted frames and (template 1.4.0 portraits) archive photos. */
+export const PRESENTATION_IMAGE_BUCKETS: readonly string[] = ['eps-brand-assets', 'eps-candidate-outputs', 'eps-candidate-photos'];
 const ORIGIN = 'https://pyibofyctwnqpvktepse.supabase.co'; const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u; const HASH = /^[a-f0-9]{64}$/u;
 const object = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
 const exact = (value: unknown, keys: string[]): value is Record<string, unknown> => object(value) && Object.keys(value).length === keys.length && keys.every(key => Object.hasOwn(value, key));
@@ -27,13 +29,13 @@ function scope(value: CandidateStageScope) { if (!exact(value, ['job_id', 'attem
 function reference(value: FrozenAsset | PresentationArtifact): Reference {
   const frozen = 'asset_kind' in value; const result = frozen ? { asset_id: value.asset_id, sha256: value.sha256, size_bytes: value.byte_size, mime_type: value.mime_type, bucket: value.bucket, object_key: value.object_key } : value;
   if (!UUID.test(result.asset_id) || !HASH.test(result.sha256) || !Number.isSafeInteger(result.size_bytes) || result.size_bytes < 1 || result.size_bytes > maximum(result.mime_type)) invalid();
-  if (frozen && (value.asset_kind === 'candidate_video' || !['eps-brand-assets', 'eps-candidate-outputs'].includes(value.bucket) || !/^[A-Za-z0-9][A-Za-z0-9._/-]{0,1023}$/u.test(value.object_key) || value.object_key.split('/').some(part => !part || ['.', '..'].includes(part)))) invalid();
+  if (frozen && (value.asset_kind === 'candidate_video' || !PRESENTATION_IMAGE_BUCKETS.includes(value.bucket) || !/^[A-Za-z0-9][A-Za-z0-9._/-]{0,1023}$/u.test(value.object_key) || value.object_key.split('/').some(part => !part || ['.', '..'].includes(part)))) invalid();
   return result;
 }
 export function parsePresentationAssetAccess(value: unknown, expected: Reference, context: { scope: CandidateStageScope; method: 'GET' | 'POST'; pending?: boolean }, configuration: PresentationAssetsConfiguration): Access {
   scope(context.scope);
   if (!UUID.test(expected.asset_id) || !HASH.test(expected.sha256) || !Number.isSafeInteger(expected.size_bytes) || expected.size_bytes < 1 || expected.size_bytes > maximum(expected.mime_type)
-    || expected.bucket !== undefined && (!['eps-brand-assets', 'eps-candidate-outputs'].includes(expected.bucket) || typeof expected.object_key !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._/-]{0,1023}$/u.test(expected.object_key) || expected.object_key.split('/').some(part => !part || ['.', '..'].includes(part)))) invalid();
+    || expected.bucket !== undefined && (!PRESENTATION_IMAGE_BUCKETS.includes(expected.bucket) || typeof expected.object_key !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._/-]{0,1023}$/u.test(expected.object_key) || expected.object_key.split('/').some(part => !part || ['.', '..'].includes(part)))) invalid();
   if (!exact(value, ['asset_id', 'url', 'method', 'headers', 'expires_at', 'mime_type', 'size_bytes', 'sha256']) || value.asset_id !== expected.asset_id || value.method !== context.method || value.mime_type !== expected.mime_type || value.size_bytes !== expected.size_bytes
     || typeof value.url !== 'string' || typeof value.expires_at !== 'string' || !Number.isFinite(Date.parse(value.expires_at)) || Date.parse(value.expires_at) <= (configuration.now ?? Date.now)() || Date.parse(value.expires_at) > (configuration.now ?? Date.now)() + 90000
     || value.sha256 !== expected.sha256 && !(context.pending && value.sha256 === null) || !object(value.headers) || !/^sb_publishable_[A-Za-z0-9_-]{8,4096}$/u.test(configuration.publishableKey)) invalid();

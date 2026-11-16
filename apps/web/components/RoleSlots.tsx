@@ -9,6 +9,7 @@ import { api, ApiError, errorMessage } from './api';
 import { ErrorNotice } from './Feedback';
 import { buildResizeRequest, readSlotPage, retainSlotIntent, type SlotIntent } from './role-slots-form';
 import { CastingRetirementReview } from './CastingRetirementReview';
+import { PresentationNoteField } from './PresentationNoteField';
 
 interface Props {
   role: Role;
@@ -171,6 +172,8 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
     {page.error && <ErrorNotice message={page.error} retry={() => void loadPage(page.stale ? null : page.nextCursor, page.stale)} />}
     <div className="slot-labels">{page.slots.map(slot => <SlotLabelEditor key={slot.id} slot={slot} canWrite={canWrite && countState !== 'saving' && !page.stale}
       onSaved={labelSaved} onDirtyChange={labelDirtyChanged} />)}</div>
+    {page.slots.some(slot => Object.hasOwn(slot, 'presentation_note')) && <details className="slot-notes"><summary>Slot presentation notes</summary>{page.slots.map(slot => <PresentationNoteField key={`${slot.id}:${slot.row_version}`} record={slot}
+      path={`/api/v1/slots/${encodeURIComponent(slot.id)}`} label={`Note for ${slot.label || 'unnamed slot'}`} canWrite={canWrite && countState !== 'saving' && !page.stale && !dirtyLabels.includes(`${slot.id}:label`)} onSaved={labelSaved} />)}</details>}
     {page.loaded && page.slots.length === 0 && !page.stale && <p className="notice" role="status">No active slots were returned. Reload the saved role before changing its count.</p>}
     <div className="button-row">{page.nextCursor !== null && <button type="button" className="button button-small" disabled={page.loading || page.stale} onClick={() => void loadPage(page.nextCursor, false)}>Load more slots (up to 100)</button>}
       <button type="button" className="button button-quiet button-small" disabled={page.loading || countState === 'saving' || dirtyLabels.length > 0 || review !== null} onClick={() => void loadPage(null, true)}>Reload saved slots</button></div>

@@ -14,9 +14,9 @@ export function presentationAssetRead(value: unknown): PresentationAssetRead {
   const hasTranscript = value !== null && typeof value === 'object' && Object.hasOwn(value, 'transcript');
   const row = presentationRecord(value, ['asset', 'bucket', 'object_key', ...(hasTranscript ? ['transcript'] : [])]);
   const asset = presentationRecord(row.asset, ['id', 'purpose', 'filename', 'mime_type', 'size_bytes', 'sha256', 'status', 'duration_ms', 'width', 'height', 'source_asset_id', 'source_timestamp_ms', 'created_at']);
-  if (!id(asset.id) || !['client_logo', 'candidate_frame', 'candidate_video', 'presentation_pdf'].includes(asset.purpose as string)
+  if (!id(asset.id) || !['client_logo', 'candidate_frame', 'candidate_photo', 'candidate_video', 'presentation_pdf'].includes(asset.purpose as string)
     || typeof asset.filename !== 'string' || !asset.filename || asset.filename.length > 255 || /[/\\\p{C}]/u.test(asset.filename)
-    || !(asset.status === 'ready' || asset.status === 'archived' && ['client_logo', 'candidate_frame', 'candidate_video'].includes(asset.purpose as string))
+    || !(asset.status === 'ready' || asset.status === 'archived' && ['client_logo', 'candidate_frame', 'candidate_photo', 'candidate_video'].includes(asset.purpose as string))
     || typeof asset.sha256 !== 'string' || !/^[a-f0-9]{64}$/u.test(asset.sha256)
     || !count(asset.size_bytes, asset.purpose === 'candidate_video' ? 268435456 : asset.purpose === 'presentation_pdf' ? 67108864 : 20971520)
     || typeof asset.created_at !== 'string' || !Number.isFinite(Date.parse(asset.created_at))
@@ -27,7 +27,7 @@ export function presentationAssetRead(value: unknown): PresentationAssetRead {
   if (!(asset.source_asset_id === null || id(asset.source_asset_id)) || !(asset.source_timestamp_ms === null || typeof asset.source_timestamp_ms === 'number' && Number.isSafeInteger(asset.source_timestamp_ms) && asset.source_timestamp_ms >= 0)) presentationResponseInvalid();
   const mime = asset.mime_type;
   if (asset.purpose === 'presentation_pdf' ? mime !== 'application/pdf' : asset.purpose === 'candidate_frame' ? mime !== 'image/jpeg'
-    : asset.purpose === 'client_logo' ? !['image/png', 'image/jpeg', 'image/webp'].includes(mime as string)
+    : asset.purpose === 'client_logo' || asset.purpose === 'candidate_photo' ? !['image/png', 'image/jpeg', 'image/webp'].includes(mime as string)
       : !['video/mp4', 'video/quicktime', 'video/webm', 'video/x-matroska'].includes(mime as string)) presentationResponseInvalid();
   if (Object.hasOwn(row, 'transcript')) {
     if (asset.purpose !== 'candidate_video') presentationResponseInvalid();

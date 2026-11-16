@@ -105,3 +105,25 @@ test('editable PowerPoint for template 1.3.0: one native slide per slot page, on
   const text = slides.map(name => strFromU8(files[name])).join('');
   assert.doesNotMatch(text, /Not provided/u);
 });
+
+test('editable PowerPoint for template 1.4.0: the 35 Floward-structured pages, portraits as native pictures, no facts or links', async () => {
+  const { mkdirSync, writeFileSync } = await import('node:fs');
+  const { composeCastingDeck: composeReference } = await import('../../packages/templates/versions/1.4.0/compose-casting.ts');
+  const { floward } = await import('../fixtures/reference-review.ts'); const { referenceSnapshot } = await import('../fixtures/reference-snapshot.ts');
+  const { snapshot, images } = referenceSnapshot(floward(), 3); const version = { ...presentationVersionFixture(snapshot), status: 'ready' as const };
+  const mimes = new Map(snapshot.asset_inventory.map(asset => [asset.asset_id, asset.mime_type])); const reads: string[] = [];
+  const built = await versionPptx(actor, version.id, service(version, images, mimes, reads), 'https://studio.example.invalid');
+  assert.equal(built.template_version, '1.4.0'); assert.equal(built.slide_count, 35);
+  const deck = composeReference(reviewFromRenderSnapshot(snapshot), { versionNumber: 3 });
+  const files = unzipSync(built.bytes); const slides = Object.keys(files).filter(name => /^ppt\/slides\/slide\d+\.xml$/u.test(name)).sort((a, b) => Number(a.match(/\d+/u)) - Number(b.match(/\d+/u)));
+  assert.equal(slides.length, deck.pages.length);
+  const xml = slides.map(name => strFromU8(files[name]));
+  assert.match(xml[0], /Floward Launch/u); assert.match(xml[0], /Pending Availability\./u);
+  assert.match(xml[2], /Cast Shortlist\./u); assert.match(xml[2], /Mother’s Birthday \| Front Door \| Delivery Guy\./u); assert.match(xml[2], />Main</u); assert.match(xml[2], />Backup</u);
+  assert.match(xml[32], /Missing\./u); assert.match(xml[34], /THANK YOU!/u);
+  assert.doesNotMatch(xml.join(''), /Not provided|Watch original introduction|hlinkClick/u);
+  // Portraits are native pictures (one per drawn person or silhouette) and only the drawn assets were read.
+  assert.equal(xml.reduce((sum, page) => sum + (page.match(/<p:pic>/gu)?.length ?? 0), 0), deck.pages.flatMap(page => page.elements).filter(element => element.kind === 'image').length);
+  assert.deepEqual(new Set(reads), new Set(deck.pages.flatMap(page => page.elements.flatMap(element => element.kind === 'image' && element.source.type === 'asset' ? [element.source.asset_id] : []))));
+  mkdirSync('.local/cycle7/visual/out', { recursive: true }); writeFileSync('.local/cycle7/visual/out/deck.pptx', built.bytes);
+});

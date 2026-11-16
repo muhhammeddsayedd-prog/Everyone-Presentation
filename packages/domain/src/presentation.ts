@@ -1,7 +1,8 @@
 import { DomainError } from './types.ts';
 import { slideWordingFields } from './casting-types.ts';
 import type { GenerateVersion, RenderSnapshot, VersionListOptions, FrozenSlide, VersionSlide, FrozenAsset, PresentationManifest, PresentationRenderContext, PresentationVersion, PresentationChangeSummary } from './presentation-types.ts';
-import type { WorkspaceReview } from './review-types.ts';
+import type { PresentationContext, WorkspaceReview } from './review-types.ts';
+import { hasPresentationContext, parsePresentationContext } from './presentation-context.ts';
 
 export const PRESENTATION_MAXIMUM_BYTES = 8 * 1024 * 1024;
 export const PRESENTATION_MAXIMUM_SLIDES = 1000;
@@ -90,8 +91,8 @@ function templateIdentity(value: unknown, fonts = false) {
   if (fonts) {
     const hashes = row.font_hashes;
     if (!hashes || typeof hashes !== 'object' || Array.isArray(hashes) || ![Object.prototype, null].includes(Object.getPrototypeOf(hashes))) invalid();
-    // 1.0/1.1 pin six IBM Plex faces; editorial 1.2.0/1.3.0 pin six General Sans plus three Plex Arabic faces.
-    const editorial = row.version === '1.2.0' || row.version === '1.3.0'; const count = editorial ? 9 : 6;
+    // 1.0/1.1 pin six IBM Plex faces; editorial 1.2.0/1.3.0/1.4.0 pin six General Sans plus three Plex Arabic faces.
+    const editorial = row.version === '1.2.0' || row.version === '1.3.0' || row.version === '1.4.0'; const count = editorial ? 9 : 6;
     const allowed = editorial ? /^apps\/web\/public\/fonts\/(?:GeneralSans-(?:Extralight|Light|Regular|Medium|Semibold|Bold)\.ttf|IBMPlexSansArabic-(?:Regular|Medium|SemiBold)\.woff2)$/u : /^apps\/web\/public\/fonts\/IBMPlexSans(?:Arabic)?-(?:Regular|Medium|SemiBold)\.woff2$/u;
     const entries = Object.entries(hashes); if (entries.length !== count || new Set(entries.map(([key]) => key)).size !== count) invalid();
     for (const [key, hash] of entries) { if (!allowed.test(key)) invalid(); digest(hash); }
@@ -161,6 +162,9 @@ function frozenAsset(value: unknown): FrozenAsset {
     if (row.mime_type !== 'image/jpeg' || row.duration_ms !== null || row.source_asset_id === null || row.timestamp_ms === null || (row.byte_size as number) > 20971520) invalid();
   } else if (row.asset_kind === 'client_logo') {
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(row.mime_type as string) || row.duration_ms !== null || row.source_asset_id !== null || row.timestamp_ms !== null || (row.byte_size as number) > 20971520) invalid();
+  } else if (row.asset_kind === 'candidate_photo') {
+    // Archive/portfolio portrait (template 1.4.0 only; the snapshot checks the template).
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(row.mime_type as string) || row.bucket !== 'eps-candidate-photos' || row.duration_ms !== null || row.source_asset_id !== null || row.timestamp_ms !== null || (row.byte_size as number) > 20971520) invalid();
   } else invalid();
   return structuredClone(row) as unknown as FrozenAsset;
 }
@@ -171,8 +175,10 @@ export function presentationApplicationOrigin(value: unknown): string {
   return result;
 }
 export function parseRenderSnapshot(value: unknown): RenderSnapshot {
-  const row = object(value, ['schema_version', 'hash_protocol', 'version_id', 'series_id', 'workspace_id', 'project_id', 'version_no', 'created_at',
-    'input_workspace_row_version', 'input_draft_revision', 'input_fingerprint', 'template', 'render_configuration', 'audience_snapshot', 'cover', 'slides', 'asset_inventory']);
+  const snapshotKeys = ['schema_version', 'hash_protocol', 'version_id', 'series_id', 'workspace_id', 'project_id', 'version_no', 'created_at',
+    'input_workspace_row_version', 'input_draft_revision', 'input_fingerprint', 'template', 'render_configuration', 'audience_snapshot', 'cover', 'slides', 'asset_inventory'];
+  const contextual = hasPresentationContext((value as { template?: { version?: unknown } } | null)?.template?.version);
+  const row = object(value, contextual ? [...snapshotKeys, 'presentation'] : snapshotKeys);
   presentationCanonicalJson(row);
   if (row.schema_version !== '1.0' || row.hash_protocol !== 'eps-cast-canonical-v1') invalid();
   for (const key of ['version_id', 'series_id', 'workspace_id', 'project_id']) identifier(row[key]);
@@ -199,22 +205,32 @@ export function parseRenderSnapshot(value: unknown): RenderSnapshot {
       referenced.add(selected.asset_id);
     }
   }
+  if (contextual) for (const portrait of portraits(row.presentation, slides.length - 1)) {
+    const asset = byId.get(portrait.asset_id);
+    if (!asset || asset.asset_kind !== (portrait.source === 'photo' ? 'candidate_photo' : 'candidate_frame') || asset.sha256 !== portrait.sha256 || asset.width !== portrait.width || asset.height !== portrait.height) invalid();
+    referenced.add(portrait.asset_id);
+  }
+  if (!contextual && assets.some(item => item.asset_kind === 'candidate_photo')) invalid();
   if (referenced.size !== assets.length || assets.some(item => !referenced.has(item.asset_id)) || new TextEncoder().encode(presentationCanonicalJson(row)).byteLength > PRESENTATION_MAXIMUM_BYTES) invalid();
   return structuredClone(row) as unknown as RenderSnapshot;
 }
+function portraits(value: unknown, slides: number) {
+  return parsePresentationContext(value, slides, invalid).slides.flatMap(slide => slide.portrait ? [slide.portrait] : []);
+}
+const withContext = (context: PresentationContext | undefined) => context ? { presentation: structuredClone(context) } : {};
 function publishedSlide(slide: FrozenSlide): VersionSlide { return structuredClone(Object.fromEntries(slideKeys.map(key => [key, slide[key]]))) as unknown as VersionSlide; }
 export function manifestFromSnapshot(snapshot: RenderSnapshot): PresentationManifest {
   return { schema_version: '1.0', version_id: snapshot.version_id, series_id: snapshot.series_id, output_type: snapshot.cover.output_type,
     audience_snapshot: structuredClone(snapshot.audience_snapshot), template_version: snapshot.template.version, template_content_hash: snapshot.template.content_sha256,
     asset_inventory: snapshot.asset_inventory.map(asset => ({ asset_id: asset.asset_id, sha256: asset.sha256, asset_kind: asset.asset_kind, mime_type: asset.mime_type, byte_size: asset.byte_size })),
     project_name: snapshot.cover.project_name, client_name: snapshot.cover.client_name, logo_asset_id: snapshot.cover.logo_asset_id, logo_placement: snapshot.cover.logo_placement,
-    input_draft_revision: snapshot.input_draft_revision, input_fingerprint: snapshot.input_fingerprint, slides: snapshot.slides.map(publishedSlide), created_at: snapshot.created_at };
+    input_draft_revision: snapshot.input_draft_revision, input_fingerprint: snapshot.input_fingerprint, slides: snapshot.slides.map(publishedSlide), created_at: snapshot.created_at, ...withContext(snapshot.presentation) };
 }
 export function renderContextFromSnapshot(snapshot: RenderSnapshot): PresentationRenderContext {
   const { key, version, content_sha256, font_key } = snapshot.template;
   return { cover: structuredClone(snapshot.cover), template: { key, version, content_sha256, font_key },
     slide_contexts: snapshot.slides.map(slide => ({ slide_id: slide.id, role_id: slide.role_id, slot_id: slide.slot_id, provisional: slide.provisional,
-      review_status: slide.review_status, frames: structuredClone(slide.frames) })) };
+      review_status: slide.review_status, frames: structuredClone(slide.frames) })), ...withContext(snapshot.presentation) };
 }
 /** Compatibility input for the immutable registered renderer. It carries no
  * current business revisions or factual-source editing authority. */
@@ -234,7 +250,7 @@ function frozenReview(workspaceId: string, seriesId: string, fingerprint: string
     candidate_slide_count: contents.filter(slide => slide.kind === 'candidate').length, pending_slide_count: contents.filter(slide => slide.kind === 'pending').length,
     issues: [], can_generate: false, unreviewed_candidate_ids: [...new Set(contents.filter(slide => slide.review_status === 'unreviewed').map(slide => slide.candidate_id!))],
     template: structuredClone(context.template), cover: structuredClone(context.cover), slides: contents,
-    fit: { status: 'unmeasured', input_fingerprint: null, measured_at: null, overflows: [], error_code: 'FIT_MEASUREMENT_REQUIRED' } };
+    fit: { status: 'unmeasured', input_fingerprint: null, measured_at: null, overflows: [], error_code: 'FIT_MEASUREMENT_REQUIRED' }, ...withContext(context.presentation) };
 }
 export function reviewFromRenderSnapshot(snapshot: RenderSnapshot): WorkspaceReview {
   return frozenReview(snapshot.workspace_id, snapshot.series_id, snapshot.input_fingerprint, snapshot.input_draft_revision,
@@ -251,7 +267,9 @@ function orderedSlides(value: unknown, versionId: string): VersionSlide[] {
   if (new Set(assignments).size !== assignments.length) invalid(); return slides;
 }
 export function parsePresentationRenderContext(value: unknown, slides: VersionSlide[]): PresentationRenderContext {
-  const row = object(value, ['cover', 'template', 'slide_contexts']); const capturedCover = cover(row.cover); templateIdentity(row.template);
+  const contextual = hasPresentationContext((value as { template?: { version?: unknown } } | null)?.template?.version);
+  const row = object(value, contextual ? ['cover', 'template', 'slide_contexts', 'presentation'] : ['cover', 'template', 'slide_contexts']); const capturedCover = cover(row.cover); templateIdentity(row.template);
+  if (contextual) parsePresentationContext(row.presentation, slides.length - 1, invalid);
   const contexts = array(row.slide_contexts, PRESENTATION_MAXIMUM_SLIDES);
   if (contexts.length !== slides.length) invalid();
   for (let n = 0; n < contexts.length; n++) {
@@ -285,8 +303,10 @@ export function parsePresentationVersion(value: unknown): PresentationVersion {
   return structuredClone(row) as unknown as PresentationVersion;
 }
 export function parsePresentationManifest(value: unknown): PresentationManifest {
-  const row = object(value, ['schema_version', 'version_id', 'series_id', 'output_type', 'audience_snapshot', 'template_version', 'template_content_hash',
-    'asset_inventory', 'project_name', 'client_name', 'logo_asset_id', 'logo_placement', 'input_draft_revision', 'input_fingerprint', 'slides', 'created_at']);
+  const manifestKeys = ['schema_version', 'version_id', 'series_id', 'output_type', 'audience_snapshot', 'template_version', 'template_content_hash',
+    'asset_inventory', 'project_name', 'client_name', 'logo_asset_id', 'logo_placement', 'input_draft_revision', 'input_fingerprint', 'slides', 'created_at'];
+  const contextual = hasPresentationContext((value as { template_version?: unknown } | null)?.template_version);
+  const row = object(value, contextual ? [...manifestKeys, 'presentation'] : manifestKeys);
   presentationCanonicalJson(row);
   if (row.schema_version !== '1.0' || !['selection', 'shortlist'].includes(row.output_type as string) || !['cover', 'every_slide'].includes(row.logo_placement as string)) invalid();
   identifier(row.version_id); identifier(row.series_id); identifier(row.template_version); digest(row.template_content_hash); audience(row.audience_snapshot);
@@ -295,7 +315,7 @@ export function parsePresentationManifest(value: unknown): PresentationManifest 
     const asset = object(item, inventoryKeys); identifier(asset.asset_id); digest(asset.sha256); integer(asset.byte_size, 1, 268435456);
     if (asset.asset_kind === 'candidate_video') { if (!['video/mp4', 'video/webm', 'video/quicktime', 'video/x-matroska'].includes(asset.mime_type as string)) invalid(); }
     else if (asset.asset_kind === 'candidate_frame') { if (asset.mime_type !== 'image/jpeg') invalid(); }
-    else if (asset.asset_kind === 'client_logo') { if (!['image/png', 'image/jpeg', 'image/webp'].includes(asset.mime_type as string)) invalid(); }
+    else if (asset.asset_kind === 'client_logo' || contextual && asset.asset_kind === 'candidate_photo') { if (!['image/png', 'image/jpeg', 'image/webp'].includes(asset.mime_type as string)) invalid(); }
     else invalid(); return asset;
   });
   if (new Set(assets.map(asset => asset.asset_id)).size !== assets.length || assets.some((asset, n) => n > 0 && (asset.asset_id as string) <= (assets[n - 1].asset_id as string))) invalid();
@@ -305,6 +325,9 @@ export function parsePresentationManifest(value: unknown): PresentationManifest 
     if (slide.logo_asset_id) { if (byId.get(slide.logo_asset_id)?.asset_kind !== 'client_logo') invalid(); used.add(slide.logo_asset_id); }
     if (slide.video_asset_id) { if (byId.get(slide.video_asset_id)?.asset_kind !== 'candidate_video') invalid(); used.add(slide.video_asset_id); }
     for (const frameId of slide.frame_asset_ids) { if (byId.get(frameId)?.asset_kind !== 'candidate_frame') invalid(); used.add(frameId); }
+  }
+  if (contextual) for (const portrait of portraits(row.presentation, slides.length - 1)) {
+    const asset = byId.get(portrait.asset_id); if (!asset || asset.asset_kind !== (portrait.source === 'photo' ? 'candidate_photo' : 'candidate_frame') || asset.sha256 !== portrait.sha256) invalid(); used.add(portrait.asset_id);
   }
   if (used.size !== assets.length || assets.some(asset => !used.has(asset.asset_id as string)) || new TextEncoder().encode(presentationCanonicalJson(row)).byteLength > PRESENTATION_MAXIMUM_BYTES) invalid();
   return structuredClone(row) as unknown as PresentationManifest;
