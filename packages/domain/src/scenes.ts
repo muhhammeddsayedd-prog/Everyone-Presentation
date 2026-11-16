@@ -177,10 +177,11 @@ export function parseSceneConfirmResult(value: unknown): SceneConfirmResult {
     skipped_occurrence_ids: ids(row.skipped_occurrence_ids, SCENE_LIMITS.confirmed_ids) };
 }
 export function parseSceneRejectResult(value: unknown): SceneRejectResult {
-  const row = exact(value, ['workspace_id', 'row_version', 'rejected_scene_ids', 'rejected_occurrence_ids']);
+  const row = exact(value, ['workspace_id', 'row_version', 'rejected_scene_ids', 'rejected_occurrence_ids', 'skipped_scene_ids']);
   return { workspace_id: id(row.workspace_id), row_version: integer(row.row_version, 1),
     rejected_scene_ids: ids(row.rejected_scene_ids, SCENE_LIMITS.confirmed_ids),
-    rejected_occurrence_ids: ids(row.rejected_occurrence_ids, SCENE_LIMITS.confirmed_ids) };
+    rejected_occurrence_ids: ids(row.rejected_occurrence_ids, SCENE_LIMITS.confirmed_ids),
+    skipped_scene_ids: ids(row.skipped_scene_ids, SCENE_LIMITS.confirmed_ids) };
 }
 
 export type SceneAppearance = string | number | { scene_number?: string | null; scene_position: number };

@@ -49,12 +49,8 @@ def nullable(schema):
 
 ID, NULL_ID, DATE = ref('Id'), nullable(ref('Id')), ref('DateTime')
 crop = {'type': 'object', 'additionalProperties': False,
-        'description': 'Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and PowerPoint.',
-        'properties': {'focal_x': {'type': 'number', 'minimum': 0, 'maximum': 1}, 'focal_y': {'type': 'number', 'minimum': 0, 'maximum': 1},
-                       'rect': nullable({'type': 'object', 'additionalProperties': False, 'properties': {
-                           'x': {'type': 'number', 'minimum': 0, 'maximum': 1}, 'y': {'type': 'number', 'minimum': 0, 'maximum': 1},
-                           'width': {'type': 'number', 'exclusiveMinimum': 0, 'maximum': 1}, 'height': {'type': 'number', 'exclusiveMinimum': 0, 'maximum': 1}},
-                           'required': ['x', 'y', 'width', 'height']})},
+        'description': 'Focus point (0..1 of width/height), used identically by preview, PDF and PowerPoint. No other keys (no crop rectangle).',
+        'properties': {'focal_x': {'type': 'number', 'minimum': 0, 'maximum': 1}, 'focal_y': {'type': 'number', 'minimum': 0, 'maximum': 1}},
         'required': ['focal_x', 'focal_y']}
 picture_props = {
     'portrait_asset_id': {**NULL_ID, 'description': 'Project presentation picture: a ready extracted frame or archive photo asset of this person. Library edits never change it.'},
@@ -154,7 +150,8 @@ pool_path['get']['description'] = 'Newest person first by their creation time in
 add = pool_path['post']
 add['description'] = ('Idempotent per person: if the person is already in the project the existing membership returns with already_member true and '
                       'status 200. A new membership pins the newest ready introduction, its frames and a picture (cover photo, else first frame) '
-                      'unless the request chooses them.')
+                      'unless the request chooses them. Replaying an Idempotency-Key whose membership was later removed fails with 409 '
+                      'MEMBERSHIP_REMOVED (details.removed_workspace_candidate_id) and adds nobody; re-adding is a new request with a new key.')
 created = copy.deepcopy(add['responses']['201'])
 created['content']['application/json']['schema']['properties']['data'] = ref('WorkspaceCandidateAdded')
 existing = copy.deepcopy(created)

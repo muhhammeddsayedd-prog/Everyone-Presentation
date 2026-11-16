@@ -48,8 +48,8 @@ export interface FrameSelection { row_version: number; selected_frame_asset_ids:
 export interface DuplicateMatch { candidate_id: string; display_name: string | null; match_reasons: string[] }
 export type DuplicateResolution = { row_version: number; action: 'keep_new' }
   | { row_version: number; action: 'link_existing'; existing_candidate_id: string; existing_candidate_row_version: number };
-/** Focal point and optional crop rectangle, all as fractions (0..1) of the picture. */
-export interface PortraitCrop { focal_x: number; focal_y: number; rect?: { x: number; y: number; width: number; height: number } | null }
+/** Focus point as fractions (0..1) of the picture: the only framing preview, PDF and PowerPoint use. */
+export interface PortraitCrop { focal_x: number; focal_y: number }
 export type PortraitSource = 'frame' | 'photo';
 /** unset = legacy row with nothing chosen; pinned = chosen; intentionally_empty = deliberately no picture. */
 export type MediaSelectionState = 'unset' | 'pinned' | 'intentionally_empty';

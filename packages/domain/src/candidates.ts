@@ -84,18 +84,9 @@ function fraction(value: unknown, positive = false): number {
 }
 export function parsePortraitCrop(value: unknown): PortraitCrop | null {
   if (value === null) return null;
-  const item = object(value, ['focal_x', 'focal_y', 'rect'], ['focal_x', 'focal_y']);
-  const crop: PortraitCrop = { focal_x: fraction(item.focal_x), focal_y: fraction(item.focal_y) };
-  if (Object.hasOwn(item, 'rect')) {
-    if (item.rect === null) crop.rect = null;
-    else {
-      const rect = object(item.rect, ['x', 'y', 'width', 'height'], ['x', 'y', 'width', 'height']);
-      const box = { x: fraction(rect.x), y: fraction(rect.y), width: fraction(rect.width, true), height: fraction(rect.height, true) };
-      if (box.x + box.width > 1 || box.y + box.height > 1) invalid();
-      crop.rect = box;
-    }
-  }
-  return crop;
+  // Only the focus point: any other key (a crop rectangle included) is refused, never silently ignored.
+  const item = object(value, ['focal_x', 'focal_y'], ['focal_x', 'focal_y']);
+  return { focal_x: fraction(item.focal_x), focal_y: fraction(item.focal_y) };
 }
 /** Picture fields shared by add/update. A picture needs its source; intentionally empty names none. */
 function parsePicture(item: Record<string, unknown>): WorkspaceCandidatePicture {

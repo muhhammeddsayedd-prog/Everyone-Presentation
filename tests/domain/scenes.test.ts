@@ -85,10 +85,11 @@ test('scene, role occurrence, order and confirm DTOs are exact and agree with th
   validateContract('SceneProposalConfirmResult', confirmed);
   assert.throws(() => parseSceneConfirmResult({ ...confirmed, row_version: undefined }), rejected);
   assert.throws(() => parseSceneConfirmResult({ ...confirmed, skipped_occurrence_ids: undefined }), rejected);
-  const rejectedResult = { workspace_id: 'w', row_version: 4, rejected_scene_ids: ['a'], rejected_occurrence_ids: ['b', 'c'] };
+  const rejectedResult = { workspace_id: 'w', row_version: 4, rejected_scene_ids: ['a'], rejected_occurrence_ids: ['b', 'c'], skipped_scene_ids: ['d'] };
   assert.deepEqual(parseSceneRejectResult(rejectedResult), rejectedResult);
   validateContract('SceneProposalRejectResult', rejectedResult);
   assert.throws(() => parseSceneRejectResult({ ...rejectedResult, confirmed_scene_ids: [] }), rejected);
+  assert.throws(() => parseSceneRejectResult({ ...rejectedResult, skipped_scene_ids: undefined }), rejected);
   assert.throws(() => parseSceneOccurrence(occurrence({ proposal_stale: 'no' })), rejected);
 });
 

@@ -33,7 +33,7 @@ function service(overrides: Record<string, unknown> = {}) {
     updateSceneOccurrence: operation('updateSceneOccurrence', scene), unlinkSceneOccurrence: operation('unlinkSceneOccurrence', { ...scene, occurrences: [] }),
     listRoleOccurrences: operation('listRoleOccurrences', { data: [roleOccurrence], page: { next_cursor: null } }),
     confirmSceneProposals: operation('confirmSceneProposals', { workspace_id: 'workspace', row_version: 4, confirmed_scene_ids: ['scene'], confirmed_occurrence_ids: [], skipped_occurrence_ids: [] }),
-    rejectSceneProposals: operation('rejectSceneProposals', { workspace_id: 'workspace', row_version: 5, rejected_scene_ids: ['scene'], rejected_occurrence_ids: ['occ'] }),
+    rejectSceneProposals: operation('rejectSceneProposals', { workspace_id: 'workspace', row_version: 5, rejected_scene_ids: ['scene'], rejected_occurrence_ids: ['occ'], skipped_scene_ids: [] }),
   } as unknown as ScenesOperations;
   return { scenes, calls };
 }

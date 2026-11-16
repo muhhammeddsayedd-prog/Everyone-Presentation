@@ -29,6 +29,20 @@ function fixture(response: unknown | ((name: string) => unknown)) {
   return { client: createBearerUserClient({ url: 'https://synthetic-a1.example.invalid', publishableKey: 'sb_publishable_synthetic-a1', accessToken: token }, { fetch: fetcher }), calls };
 }
 
+test('an old add key after removal is 409 MEMBERSHIP_REMOVED naming only the removed row', async () => {
+  const removedId = '7ca10000-0000-4000-8000-0000000000aa';
+  const fetcher: typeof fetch = async supplied => {
+    const url = new URL(typeof supplied === 'string' ? supplied : supplied instanceof URL ? supplied.href : supplied.url);
+    if (url.pathname === '/auth/v1/user') return Response.json({ id: principal, role: 'authenticated', is_anonymous: false });
+    return Response.json({ code: 'P0001', message: 'MEMBERSHIP_REMOVED', hint: null,
+      details: JSON.stringify({ message: 'raw', status: 409, removed_workspace_candidate_id: removedId, private: 'PRIVATE_RAW_DIAGNOSTIC' }) }, { status: 400 });
+  };
+  const service = await createCentralCandidates(createBearerUserClient({ url: 'https://synthetic-a1.example.invalid', publishableKey: 'sb_publishable_synthetic-a1', accessToken: token }, { fetch: fetcher }));
+  await assert.rejects(service.addWorkspaceCandidate(actor, 'workspace', { candidate_id: full.id }, { idempotencyKey: 'synthetic-add-a1-0009' }), (error: unknown) =>
+    error instanceof DomainError && error.code === 'MEMBERSHIP_REMOVED' && error.status === 409
+    && JSON.stringify(error.details) === JSON.stringify({ removed_workspace_candidate_id: removedId }) && !JSON.stringify(error).includes('PRIVATE'));
+});
+
 test('library search sends workspace_id and accepts only well-formed card fields', async () => {
   const value = fixture({ data: [library], page: { next_cursor: 'eyJ2IjoyfQ==' } });
   const service = await createCentralCandidates(value.client);
@@ -50,7 +64,7 @@ test('add returns already_member without a conflict; picture fields are validate
   assert.equal(added.already_member, true); assert.equal(added.portrait_source, 'frame');
   for (const input of [{ candidate_id: full.id, portrait_asset_id: 'frame' }, { candidate_id: full.id, portrait_source: 'frame' },
     { candidate_id: full.id, portrait_asset_id: 'frame', portrait_source: 'video' }, { candidate_id: full.id, media_selection_state: 'unset' },
-    { candidate_id: full.id, portrait_crop: { focal_x: 2, focal_y: 0 } }, { candidate_id: full.id, portrait_crop: { focal_x: 0.5, focal_y: 0.5, rect: { x: 0.5, y: 0, width: 0.6, height: 1 } } },
+    { candidate_id: full.id, portrait_crop: { focal_x: 2, focal_y: 0 } }, { candidate_id: full.id, portrait_crop: { focal_x: 0.5, focal_y: 0.5, rect: { x: 0, y: 0, width: 1, height: 1 } } },
     { candidate_id: full.id, media_selection_state: 'intentionally_empty', portrait_asset_id: 'frame', portrait_source: 'frame' }]) {
     await assert.rejects(service.addWorkspaceCandidate(actor, 'workspace', input as never, { idempotencyKey: 'synthetic-add-a1-0002' }), code('VALIDATION_FAILED'));
   }

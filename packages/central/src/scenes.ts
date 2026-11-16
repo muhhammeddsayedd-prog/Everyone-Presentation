@@ -144,12 +144,14 @@ export async function createCentralScenes(client: SupabaseClient) {
         || result.skipped_occurrence_ids.some(item => result.confirmed_occurrence_ids.includes(item))) fail();
       return result;
     },
-    /** Reject proposals; confirmed rows are untouched. Rejecting a scene also removes its links. */
+    /** Reject proposals; confirmed rows are untouched. Rejecting a scene rejects its proposed links; a proposed scene
+     * holding a confirmed link is not rejected and comes back in skipped_scene_ids. */
     async rejectSceneProposals(actor: Actor, workspaceId: string, input: SceneConfirm, context?: MutationContext): Promise<SceneRejectResult> {
       const idempotency = key(actor, workspaceId, context); const parsed = parseSceneConfirm(input);
       const value = await rpc(actor, 'eps_reject_scene_proposals', { p_workspace_id: workspaceId, p_input: parsed, p_idempotency_key: idempotency }, context);
       const result = checked(() => parseSceneRejectResult(value));
-      if (result.workspace_id !== workspaceId || result.row_version < parsed.row_version) fail();
+      if (result.workspace_id !== workspaceId || result.row_version < parsed.row_version
+        || result.skipped_scene_ids.some(item => result.rejected_scene_ids.includes(item))) fail();
       return result;
     },
   };

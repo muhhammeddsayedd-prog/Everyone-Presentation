@@ -3595,7 +3595,8 @@ paths:
               $ref: '#/components/schemas/WorkspaceCandidateCreate'
       description: 'Idempotent per person: if the person is already in the project the existing membership returns with already_member true and
         status 200. A new membership pins the newest ready introduction, its frames and a picture (cover photo, else first frame) unless the request
-        chooses them.'
+        chooses them. Replaying an Idempotency-Key whose membership was later removed fails with 409 MEMBERSHIP_REMOVED (details.removed_workspace_candidate_id)
+        and adds nobody; re-adding is a new request with a new key.'
   /workspace-candidates/{workspace_candidate_id}:
     patch:
       operationId: update_workspace_candidate
@@ -12750,7 +12751,8 @@ paths:
       operationId: reject_scene_proposals
       summary: Reject proposed scenes and occurrences from specs extraction
       description: Rejects proposals (confirmed rows are not affected; use archive_scene or unlink_scene_occurrence for those). Rejecting a scene
-        also removes its links. Rejected proposals are kept as reviewed history and a later import does not propose the same scene again. Omit
+        also rejects its proposed links; a proposed scene holding a confirmed link is not rejected and is returned in skipped_scene_ids. Rejected
+        proposals are kept as reviewed history and a later import does not propose the same scene, or the same role in that scene, again. Omit
         both lists to reject every active proposal; supply the workspace row_version. A role is the canonical character; all occurrences of a
         role share its slots, Main/Option/Backup and shortlist. To cast a separate person (for example a younger Father), create a new role with
         create_role. Every scene change marks the draft as having unpublished changes.
@@ -17415,8 +17417,7 @@ components:
     PortraitCrop:
       type: object
       additionalProperties: false
-      description: Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and
-        PowerPoint.
+      description: Focus point (0..1 of width/height), used identically by preview, PDF and PowerPoint. No other keys (no crop rectangle).
       properties:
         focal_x:
           type: number
@@ -17426,33 +17427,6 @@ components:
           type: number
           minimum: 0
           maximum: 1
-        rect:
-          anyOf:
-          - type: object
-            additionalProperties: false
-            properties:
-              x:
-                type: number
-                minimum: 0
-                maximum: 1
-              y:
-                type: number
-                minimum: 0
-                maximum: 1
-              width:
-                type: number
-                exclusiveMinimum: 0
-                maximum: 1
-              height:
-                type: number
-                exclusiveMinimum: 0
-                maximum: 1
-            required:
-            - x
-            - y
-            - width
-            - height
-          - type: 'null'
       required:
       - focal_x
       - focal_y
@@ -18338,11 +18312,19 @@ components:
           uniqueItems: true
           items:
             $ref: '#/components/schemas/Id'
+        skipped_scene_ids:
+          type: array
+          maxItems: 10000
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Id'
+          description: Proposed scenes not rejected because they hold a confirmed link (unlink it or confirm the scene).
       required:
       - workspace_id
       - row_version
       - rejected_scene_ids
       - rejected_occurrence_ids
+      - skipped_scene_ids
     AppearanceObservation:
       type: object
       additionalProperties: false

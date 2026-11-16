@@ -119,8 +119,9 @@ SCHEMAS = {
                                        'skipped_occurrence_ids': {**ids(10000), 'description': 'Stale proposals left for review (the role changed since the proposal).'}},
                                       ['workspace_id', 'row_version', 'confirmed_scene_ids', 'confirmed_occurrence_ids', 'skipped_occurrence_ids']),
     'SceneProposalRejectResult': obj({'workspace_id': ref('Id'), 'row_version': ref('RowVersion'),
-                                      'rejected_scene_ids': ids(10000), 'rejected_occurrence_ids': ids(10000)},
-                                     ['workspace_id', 'row_version', 'rejected_scene_ids', 'rejected_occurrence_ids']),
+                                      'rejected_scene_ids': ids(10000), 'rejected_occurrence_ids': ids(10000),
+                                      'skipped_scene_ids': {**ids(10000), 'description': 'Proposed scenes not rejected because they hold a confirmed link (unlink it or confirm the scene).'}},
+                                     ['workspace_id', 'row_version', 'rejected_scene_ids', 'rejected_occurrence_ids', 'skipped_scene_ids']),
 }
 
 RULES = ('A role is the canonical character; all occurrences of a role share its slots, Main/Option/Backup and shortlist. '
@@ -171,7 +172,8 @@ OPERATIONS = [
      ('one', 'SceneProposalRejectResult'),
      'Reject proposed scenes and occurrences from specs extraction',
      'Rejects proposals (confirmed rows are not affected; use archive_scene or unlink_scene_occurrence for those). Rejecting a scene also '
-     'removes its links. Rejected proposals are kept as reviewed history and a later import does not propose the same scene again. '
+     'rejects its proposed links; a proposed scene holding a confirmed link is not rejected and is returned in skipped_scene_ids. Rejected '
+     'proposals are kept as reviewed history and a later import does not propose the same scene, or the same role in that scene, again. '
      'Omit both lists to reject every active proposal; supply the workspace row_version. ' + RULES),
 ]
 

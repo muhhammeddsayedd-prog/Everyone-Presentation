@@ -40,7 +40,7 @@ const rpcError = (message: string, details: unknown = null) => Response.json({ c
 test('every scene RPC is called with exact arguments, trace headers and the required idempotency key', async () => {
   const order = { workspace_id: workspace, row_version: 8, scene_ids: [sceneId] };
   const confirmed = { workspace_id: workspace, row_version: 9, confirmed_scene_ids: [sceneId], confirmed_occurrence_ids: [occurrenceId], skipped_occurrence_ids: [] };
-  const rejectedResult = { workspace_id: workspace, row_version: 10, rejected_scene_ids: [sceneId], rejected_occurrence_ids: [occurrenceId] };
+  const rejectedResult = { workspace_id: workspace, row_version: 10, rejected_scene_ids: [sceneId], rejected_occurrence_ids: [occurrenceId], skipped_scene_ids: [] };
   const results: Record<string, unknown> = {
     eps_list_scenes: { data: [scene()], page: { next_cursor: null } }, eps_create_scene: scene({ occurrences: [] }), eps_update_scene: scene({ row_version: 2 }),
     eps_reorder_scenes: order, eps_archive_scene: { success: true, affected_ids: [sceneId, occurrenceId] }, eps_link_scene_occurrence: scene(),

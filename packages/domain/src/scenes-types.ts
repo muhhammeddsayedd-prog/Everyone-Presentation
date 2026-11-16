@@ -70,6 +70,8 @@ export interface SceneRejectResult {
   row_version: number;
   rejected_scene_ids: string[];
   rejected_occurrence_ids: string[];
+  /** Proposed scenes left unrejected because they hold a confirmed link (unlink it or confirm the scene). */
+  skipped_scene_ids: string[];
 }
 
 export interface SceneCreate {

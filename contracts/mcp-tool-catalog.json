@@ -9786,7 +9786,7 @@
           "PortraitCrop": {
             "type": "object",
             "additionalProperties": false,
-            "description": "Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and PowerPoint.",
+            "description": "Focus point (0..1 of width/height), used identically by preview, PDF and PowerPoint. No other keys (no crop rectangle).",
             "properties": {
               "focal_x": {
                 "type": "number",
@@ -9797,45 +9797,6 @@
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1
-              },
-              "rect": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "x": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "y": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "width": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      },
-                      "height": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      }
-                    },
-                    "required": [
-                      "x",
-                      "y",
-                      "width",
-                      "height"
-                    ]
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
               }
             },
             "required": [
@@ -10042,7 +10003,7 @@
           "PortraitCrop": {
             "type": "object",
             "additionalProperties": false,
-            "description": "Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and PowerPoint.",
+            "description": "Focus point (0..1 of width/height), used identically by preview, PDF and PowerPoint. No other keys (no crop rectangle).",
             "properties": {
               "focal_x": {
                 "type": "number",
@@ -10053,45 +10014,6 @@
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1
-              },
-              "rect": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "x": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "y": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "width": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      },
-                      "height": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      }
-                    },
-                    "required": [
-                      "x",
-                      "y",
-                      "width",
-                      "height"
-                    ]
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
               }
             },
             "required": [
@@ -10211,7 +10133,7 @@
           "PortraitCrop": {
             "type": "object",
             "additionalProperties": false,
-            "description": "Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and PowerPoint.",
+            "description": "Focus point (0..1 of width/height), used identically by preview, PDF and PowerPoint. No other keys (no crop rectangle).",
             "properties": {
               "focal_x": {
                 "type": "number",
@@ -10222,45 +10144,6 @@
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1
-              },
-              "rect": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "x": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "y": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "width": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      },
-                      "height": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      }
-                    },
-                    "required": [
-                      "x",
-                      "y",
-                      "width",
-                      "height"
-                    ]
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
               }
             },
             "required": [
@@ -10472,7 +10355,7 @@
           "PortraitCrop": {
             "type": "object",
             "additionalProperties": false,
-            "description": "Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and PowerPoint.",
+            "description": "Focus point (0..1 of width/height), used identically by preview, PDF and PowerPoint. No other keys (no crop rectangle).",
             "properties": {
               "focal_x": {
                 "type": "number",
@@ -10483,45 +10366,6 @@
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1
-              },
-              "rect": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "x": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "y": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "width": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      },
-                      "height": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      }
-                    },
-                    "required": [
-                      "x",
-                      "y",
-                      "width",
-                      "height"
-                    ]
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
               }
             },
             "required": [
@@ -10660,7 +10504,7 @@
           "PortraitCrop": {
             "type": "object",
             "additionalProperties": false,
-            "description": "Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and PowerPoint.",
+            "description": "Focus point (0..1 of width/height), used identically by preview, PDF and PowerPoint. No other keys (no crop rectangle).",
             "properties": {
               "focal_x": {
                 "type": "number",
@@ -10671,45 +10515,6 @@
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1
-              },
-              "rect": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "x": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "y": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "width": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      },
-                      "height": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      }
-                    },
-                    "required": [
-                      "x",
-                      "y",
-                      "width",
-                      "height"
-                    ]
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
               }
             },
             "required": [
@@ -25287,7 +25092,7 @@
           "PortraitCrop": {
             "type": "object",
             "additionalProperties": false,
-            "description": "Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and PowerPoint.",
+            "description": "Focus point (0..1 of width/height), used identically by preview, PDF and PowerPoint. No other keys (no crop rectangle).",
             "properties": {
               "focal_x": {
                 "type": "number",
@@ -25298,45 +25103,6 @@
                 "type": "number",
                 "minimum": 0,
                 "maximum": 1
-              },
-              "rect": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                      "x": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "y": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                      },
-                      "width": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      },
-                      "height": {
-                        "type": "number",
-                        "exclusiveMinimum": 0,
-                        "maximum": 1
-                      }
-                    },
-                    "required": [
-                      "x",
-                      "y",
-                      "width",
-                      "height"
-                    ]
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
               }
             },
             "required": [
@@ -29376,13 +29142,23 @@
                 "items": {
                   "$ref": "#/$defs/Id"
                 }
+              },
+              "skipped_scene_ids": {
+                "type": "array",
+                "maxItems": 10000,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/Id"
+                },
+                "description": "Proposed scenes not rejected because they hold a confirmed link (unlink it or confirm the scene)."
               }
             },
             "required": [
               "workspace_id",
               "row_version",
               "rejected_scene_ids",
-              "rejected_occurrence_ids"
+              "rejected_occurrence_ids",
+              "skipped_scene_ids"
             ]
           },
           "Warning": {

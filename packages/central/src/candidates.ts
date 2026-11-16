@@ -42,12 +42,8 @@ function candidateDto(value: unknown): Candidate {
 const fractionOk = (value: unknown, positive = false) => typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 1 && (!positive || value > 0);
 function cropOk(value: unknown): boolean {
   if (value === null) return true;
-  const crop = exact(value, ['focal_x', 'focal_y'], ['rect']);
-  if (!fractionOk(crop.focal_x) || !fractionOk(crop.focal_y)) return false;
-  if (crop.rect === undefined || crop.rect === null) return true;
-  const rect = exact(crop.rect, ['x', 'y', 'width', 'height']);
-  return fractionOk(rect.x) && fractionOk(rect.y) && fractionOk(rect.width, true) && fractionOk(rect.height, true)
-    && (rect.x as number) + (rect.width as number) <= 1 + 1e-9 && (rect.y as number) + (rect.height as number) <= 1 + 1e-9;
+  const crop = exact(value, ['focal_x', 'focal_y']);
+  return fractionOk(crop.focal_x) && fractionOk(crop.focal_y);
 }
 /** Library search row: the profile plus card fields. */
 function libraryDto(value: unknown): LibraryCandidate {
@@ -181,6 +177,12 @@ export async function createCentralCandidates(client: SupabaseClient) {
         };
         const known = error.code === 'P0001' ? domainErrors[error.message] : undefined;
         if (known) throw new DomainError(error.message, known.message, known.status);
+        // An add replayed with an old key after that membership was removed: name the removed row, start a new add.
+        if (error.code === 'P0001' && error.message === 'MEMBERSHIP_REMOVED') {
+          let removed: unknown; try { removed = (JSON.parse(String(error.details ?? '')) as Record<string, unknown>)?.removed_workspace_candidate_id; } catch { /* never surface raw details */ }
+          throw new DomainError('MEMBERSHIP_REMOVED', 'This person was removed from the project after this add. Start a new add (new Idempotency-Key) to bring them back.', 409,
+            typeof removed === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/iu.test(removed) ? { removed_workspace_candidate_id: removed } : {});
+        }
         throw centralRpcError(error);
       }
       return response(() => parser(data));
