@@ -1,0 +1,98 @@
+{
+ "tool": "appearance-eval",
+ "mode": "execute",
+ "started_at": "2026-11-16T19:07:11.131Z",
+ "finished_at": "2026-11-16T19:11:33.559Z",
+ "detail": "high",
+ "official_sources": {
+  "image_inputs": "https://developers.openai.com/api/docs/guides/images-vision",
+  "structured_outputs": "https://developers.openai.com/api/docs/guides/structured-outputs",
+  "model_page_pattern": "https://developers.openai.com/api/docs/models/<OPENAI_EXTRACTION_MODEL>"
+ },
+ "model": "gpt-6.1-sol",
+ "prices": {
+  "input_usd_per_mtok": 2,
+  "output_usd_per_mtok": 10
+ },
+ "image_token_multiplier": 2.5,
+ "max_usd": 5,
+ "spent_usd": 0.36025000000000007,
+ "stopped_reason": null,
+ "calls": 20,
+ "totals": {
+  "candidates": 20,
+  "analysed": 19,
+  "failed": 1,
+  "refused_forbidden": 0,
+  "not_dispatched": 0,
+  "images": 40,
+  "input_tokens": 50218,
+  "output_tokens": 19800
+ },
+ "comparison": {
+  "summary": {
+   "candidates_with_supplied": 19,
+   "analysed": 19,
+   "ambiguous_media": 0,
+   "media": 38,
+   "not_observed_by_design": {
+    "stated_gender": 19,
+    "tags": 19
+   }
+  },
+  "attributes": {
+   "hair_length": {
+    "compared": 12,
+    "agree": 12,
+    "disagree": 0,
+    "model_unknown": 0,
+    "supplied_missing": 7,
+    "supplied_unmapped": 0,
+    "only_ambiguous_media": 0,
+    "agreement_rate": 1
+   },
+   "hair_colour": {
+    "compared": 19,
+    "agree": 15,
+    "disagree": 4,
+    "model_unknown": 0,
+    "supplied_missing": 0,
+    "supplied_unmapped": 0,
+    "only_ambiguous_media": 0,
+    "agreement_rate": 0.7895
+   },
+   "hair_texture": {
+    "compared": 1,
+    "agree": 1,
+    "disagree": 0,
+    "model_unknown": 0,
+    "supplied_missing": 16,
+    "supplied_unmapped": 0,
+    "only_ambiguous_media": 0,
+    "agreement_rate": 1
+   },
+   "playing_age": {
+    "compared": 19,
+    "agree": 18,
+    "disagree": 1,
+    "model_unknown": 0,
+    "supplied_missing": 0,
+    "supplied_unmapped": 0,
+    "only_ambiguous_media": 0,
+    "agreement_rate": 0.9474
+   },
+   "skin_tone": {
+    "compared": 19,
+    "agree": 12,
+    "disagree": 7,
+    "model_unknown": 0,
+    "supplied_missing": 0,
+    "supplied_unmapped": 0,
+    "only_ambiguous_media": 0,
+    "agreement_rate": 0.6316
+   }
+  },
+  "note": "Agreement compares model values on unambiguous media with attributed archive labels; it is not ground truth. Abstentions (unknown) are counted separately and never as agreement."
+ },
+ "note": "Aggregate only. Per-candidate observations, image paths and photos stay in the git-ignored .local folder (real people); photos deleted after evaluation."
+}
