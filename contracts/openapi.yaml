@@ -18877,13 +18877,6 @@ components:
                 type: string
                 minLength: 1
                 maxLength: 200
-            look:
-              type: array
-              maxItems: 50
-              items:
-                type: string
-                minLength: 1
-                maxLength: 200
             tags:
               type: array
               maxItems: 50
@@ -18986,7 +18979,6 @@ components:
                 - glasses
                 - build
                 - languages
-                - look
                 - tags
               matched: *id046
               unknown: *id046

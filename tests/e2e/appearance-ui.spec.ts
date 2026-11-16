@@ -141,6 +141,8 @@ test('Cast Library mounts the facet filters: selections reach search as facets a
   await page.getByRole('button', { name: 'Filters', exact: true }).click();
   const filters = page.getByRole('region', { name: 'Cast Library filters' });
   await expect(filters).toContainText('2 people');
+  // A stray "look" facet from a server is never offered as a filter (look/nationality/country are forbidden facets).
+  await expect(filters.getByText(/look/iu)).toHaveCount(0);
   await filters.locator('details').filter({ hasText: 'Hair colour' }).locator('summary').click();
   await filters.getByLabel(/Black/u).check();
   await expect(filters).toContainText('1 person');

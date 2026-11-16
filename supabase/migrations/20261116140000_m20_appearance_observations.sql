@@ -82,18 +82,25 @@ create function eps.appearance_supplied_map() returns jsonb language sql immutab
 create function eps.appearance_value_valid(p_attribute text,p_value text) returns boolean language sql immutable set search_path='' as $$
  select p_attribute is not null and p_value is not null and eps.appearance_vocabulary() ? p_attribute and (p_value='unknown' or (eps.appearance_vocabulary()->p_attribute) ? p_value)$$;
 create function eps.appearance_facet_keys_allowed() returns text[] language sql immutable set search_path='' as $$
- select array['talent_type','city','stated_gender','playing_age','skin_tone','hair_length','hair_colour','hair_texture','facial_hair','glasses','build','languages','look','tags']$$;
+ select array['talent_type','city','stated_gender','playing_age','skin_tone','hair_length','hair_colour','hair_texture','facial_hair','glasses','build','languages','tags']$$;
 -- Arabic/Latin search normalisation: case, whitespace, tatweel, Arabic diacritics, alef forms and alef maqsura.
 create function eps.appearance_norm(p_text text) returns text language sql immutable set search_path='' as $$
  select nullif(btrim(regexp_replace(translate(regexp_replace(lower(coalesce(p_text,'')),'[ـً-ٰٟ]','','g'),
   chr(1571)||chr(1573)||chr(1570)||chr(1649)||chr(1609),chr(1575)||chr(1575)||chr(1575)||chr(1575)||chr(1610)),'\s+',' ','g')),'')$$;
 -- Identity terms that must never appear in model free text (contracts/appearance-taxonomy.json forbidden_terms).
-create function eps.appearance_forbidden_terms() returns text[] language sql immutable set search_path='' as $$select array['race','racial','ethnic','ethnicity','nationality','national','citizen','religion','religious','muslim','christian','jewish','hindu','buddhist','sikh','arab','arabian','middle eastern','mideast','north african','african','asian','south asian','east asian','european','caucasian','white person','black person','latino','latina','hispanic','indian','pakistani','filipino','khaleeji','gulf','levantine','saudi','emirati','egyptian','lebanese','syrian','jordanian','iraqi','moroccan','sudanese','persian','iranian','turkish','lookalike','look-alike','looks like','resembles','gender','male','female','man','woman','men','women','boy','girl','masculine','feminine','transgender','trans','nonbinary','non-binary','gay','lesbian','queer','hijab','niqab','abaya','kandura','dishdasha','thobe','ghutra','shemagh','keffiyeh','turban','kippah','yarmulke','burqa','عربي','عربية','مسلم','مسلمة','مسيحي','سعودي','سعودية','اماراتي','مصري','مصرية','خليجي','خليجية','شامي','رجل','امرأة','ولد','بنت','حجاب','نقاب','عباية']::text[]$$;
+create function eps.appearance_forbidden_terms() returns text[] language sql immutable set search_path='' as $$select array['race','racial','ethnic','ethnicity','nationality','national','citizen','religion','religious','muslim','christian','jewish','hindu','buddhist','sikh','arab','arabian','middle eastern','mideast','north african','african','asian','south asian','east asian','european','caucasian','white person','black person','latino','latina','hispanic','indian','pakistani','filipino','khaleeji','gulf','levantine','saudi','emirati','egyptian','lebanese','syrian','jordanian','iraqi','moroccan','sudanese','persian','iranian','turkish','kuwaiti','qatari','omani','bahraini','yemeni','palestinian','western','american','british','russian','chinese','japanese','korean','nigerian','lookalike','look-alike','looks like','resembles','gender','male','female','man','woman','men','women','boy','girl','masculine','feminine','transgender','trans','nonbinary','non-binary','gay','lesbian','queer','hijab','niqab','abaya','kandura','dishdasha','thobe','ghutra','shemagh','keffiyeh','turban','kippah','yarmulke','burqa','عربي','عربية','مسلم','مسلمة','مسيحي','سعودي','سعودية','اماراتي','مصري','مصرية','خليجي','خليجية','شامي','كويتي','قطري','عماني','بحريني','يمني','فلسطيني','لبناني','سوري','عراقي','اردني','مغربي','رجل','امرأة','ولد','بنت','حجاب','نقاب','عباية']::text[]$$;
 create function eps.appearance_text_allowed(p_text text) returns boolean language sql immutable set search_path='' as $$
  select p_text is null or not exists(select 1 from unnest(eps.appearance_forbidden_terms()) t
   where ' '||regexp_replace(eps.appearance_norm(p_text),'[^[:alnum:]؀-ۿ]+',' ','g')||' ' like '% '||btrim(regexp_replace(eps.appearance_norm(t),'[^[:alnum:]؀-ۿ]+',' ','g'))||' %')$$;
 create function eps.appearance_supplied_key(p_attribute text,p_label text) returns text language sql immutable set search_path='' as $$
  select coalesce(eps.appearance_supplied_map()->p_attribute->>eps.appearance_norm(p_label),eps.appearance_norm(p_label))$$;
+-- A supplied archive tag becomes a facet/search key only when it names no protected identity (forbidden_terms), is not a
+-- "look" label (look/regional_look are forbidden facets) and is not the person's supplied nationality or country. Screened
+-- tags stay visible as attributed archive labels on the profile; they are never filters.
+create function eps.appearance_tag_facet_ok(p_label text,p_nationality text,p_country text) returns boolean language sql immutable set search_path='' as $$
+ select eps.appearance_norm(p_label) is not null and eps.appearance_text_allowed(p_label)
+  and ' '||regexp_replace(eps.appearance_norm(p_label),'[^[:alnum:]؀-ۿ]+',' ','g')||' ' !~ ' (look|looks|lookalike|lookalikes|مظهر) '
+  and eps.appearance_norm(p_label) is distinct from eps.appearance_norm(p_nationality) and eps.appearance_norm(p_label) is distinct from eps.appearance_norm(p_country)$$;
 
 -- 4. Tables.
 create table eps.appearance_config(
@@ -264,7 +271,11 @@ create policy appearance_outbox_insert on eps.outbox_events for insert to eps_ap
 create policy appearance_events_read on eps.job_events for select to eps_appearance_owner using(stage='analyze_appearance');
 create policy appearance_events_insert on eps.job_events for insert to eps_appearance_owner with check(stage='analyze_appearance');
 grant insert on eps.audit_events to eps_appearance_owner;
-create policy appearance_audit on eps.audit_events for insert to eps_appearance_owner with check(action in('appearance.review_observation','appearance.start_batch'));
+create policy appearance_audit on eps.audit_events for insert to eps_appearance_owner with check(principal_id=(select auth.uid()) and action in('appearance.review_observation','appearance.start_batch'));
+-- Observation reviews record their Idempotency-Key through eps.idempotency_begin/eps.finish_mutation (acting user only).
+grant select,insert on eps.idempotency_records to eps_appearance_owner;
+create policy appearance_idempotency on eps.idempotency_records for all to eps_appearance_owner using(principal_id=(select auth.uid()) and operation='appearance.review_observation')
+ with check(principal_id=(select auth.uid()) and operation='appearance.review_observation');
 -- The existing operations page reads every job kind through eps_jobs_owner (jobs_read already covers all kinds).
 
 -- 6. Projection: facet keys "facet:value" per candidate, from supplied facts, supplied m09 labels and confirmed observations.
@@ -277,15 +288,17 @@ declare c eps.candidates;a eps.candidate_attributes;keys text[]:='{}';row_value 
  if jsonb_typeof(c.facts->'languages')='array' then
   keys:=keys||coalesce((select array_agg(distinct 'languages:'||eps.appearance_norm(l)) from jsonb_array_elements_text(c.facts->'languages') l where eps.appearance_norm(l) is not null),'{}');end if;
  if a.candidate_id is not null then
+  -- Supplied look, nationality and country labels are never facets (taxonomy forbidden_attributes); free-text skin tone
+  -- only counts when it maps onto the closed vocabulary.
   keys:=keys||array['talent_type:'||a.talent_type];
-  if eps.appearance_norm(a.look) is not null then keys:=keys||('look:'||eps.appearance_norm(a.look));end if;
-  if eps.appearance_norm(a.skin_tone) is not null then keys:=keys||('skin_tone:'||eps.appearance_supplied_key('skin_tone',a.skin_tone));end if;
+  if eps.appearance_value_valid('skin_tone',eps.appearance_supplied_key('skin_tone',a.skin_tone)) and eps.appearance_supplied_key('skin_tone',a.skin_tone)<>'unknown' then
+   keys:=keys||('skin_tone:'||eps.appearance_supplied_key('skin_tone',a.skin_tone));end if;
   keys:=keys||coalesce((select array_agg('playing_age:'||eps.appearance_supplied_key('playing_age',v)) from unnest(a.playing_age) v),'{}')
    ||coalesce((select array_agg('hair_length:'||eps.appearance_supplied_key('hair_length',v)) from unnest(a.hair_length) v),'{}')
    ||coalesce((select array_agg('hair_length:bald_or_shaved'::text) from unnest(a.hair_style) v where v in('Bald','Shaved Head')),'{}')
    ||coalesce((select array_agg('hair_texture:'||eps.appearance_supplied_key('hair_texture',v)) from unnest(a.hair_texture) v),'{}')
    ||coalesce((select array_agg('hair_colour:'||eps.appearance_supplied_key('hair_colour',v)) from unnest(a.hair_colour) v),'{}')
-   ||coalesce((select array_agg('tags:'||eps.appearance_norm(v)) from unnest(a.tags) v where eps.appearance_norm(v) is not null),'{}');
+   ||coalesce((select array_agg('tags:'||eps.appearance_norm(v)) from unnest(a.tags) v where eps.appearance_tag_facet_ok(v,a.nationality,a.country)),'{}');
  end if;
  keys:=keys||coalesce((select array_agg(o.attribute||':'||case o.status when 'overridden' then o.override_value else o.suggested_value end)
   from eps.candidate_observations o join eps.candidate_observation_media m on m.id=o.media_id
@@ -295,7 +308,7 @@ declare c eps.candidates;a eps.candidate_attributes;keys text[]:='{}';row_value 
  select coalesce(array_agg(distinct k order by k),'{}') into keys from unnest(keys) k;
  row_value.candidate_id:=c.id;row_value.active:=c.archived_at is null and c.merged_into_candidate_id is null;
  row_value.name_norm:=eps.appearance_norm(c.facts->>'name');row_value.name_ar_norm:=eps.appearance_norm(a.name_ar);row_value.casting_id_norm:=lower(c.casting_id);
- row_value.tags:=coalesce((select array_agg(distinct eps.appearance_norm(v)) from unnest(a.tags) v where eps.appearance_norm(v) is not null),'{}');
+ row_value.tags:=coalesce((select array_agg(distinct eps.appearance_norm(v)) from unnest(a.tags) v where eps.appearance_tag_facet_ok(v,a.nationality,a.country)),'{}');
  row_value.facet_keys:=keys;row_value.facet_names:=coalesce((select array_agg(distinct split_part(k,':',1) order by split_part(k,':',1)) from unnest(keys) k),'{}');
  row_value.updated_at:=clock_timestamp();return row_value;
 end$$;
@@ -334,7 +347,7 @@ create function eps.appearance_filters(p_filters jsonb) returns jsonb language p
   end loop;
  end loop;
  return jsonb_build_object('facets',coalesce((select jsonb_object_agg(key,(select coalesce(jsonb_agg(distinct x order by x),'[]'::jsonb) from(
-   select case when e='unknown' then e when key in('city','stated_gender','languages','look','tags') then eps.appearance_norm(e) else e end x from jsonb_array_elements_text(value) e)y))
+   select case when e='unknown' then e when key in('city','stated_gender','languages','tags') then eps.appearance_norm(e) else e end x from jsonb_array_elements_text(value) e)y))
   from jsonb_each(coalesce(p_filters->'facets','{}')) where jsonb_array_length(value)>0),'{}'::jsonb),'include_unknown',coalesce((p_filters->>'include_unknown')::boolean,false),
   'q',eps.appearance_norm(p_filters->>'q'),'search',coalesce(p_filters->'search','{}'::jsonb));
 end$$;
@@ -417,13 +430,17 @@ create function public.eps_list_candidate_observations(p_candidate_id uuid) retu
 end$$;
 -- body: {"row_version":n,"action":"confirm"|"reject"|"override"|"reset","value":"<taxonomy key>"(override only)}.
 -- Repeating the same decision is idempotent (no version needed to match); a different decision on a stale version is refused.
+-- The Idempotency-Key is recorded (eps.idempotency_records): the same key and body replays the first response; the same key
+-- with a different body is IDEMPOTENCY_KEY_REUSED. Capabilities are checked before any replay.
 create function public.eps_review_candidate_observation(p_observation_id uuid,p_input jsonb,p_idempotency_key text) returns jsonb language plpgsql volatile security definer set search_path='' as $$
-declare o eps.candidate_observations;m eps.candidate_observation_media;action text;next_status text;next_value text;principal uuid:=auth.uid();begin
+declare o eps.candidate_observations;m eps.candidate_observation_media;action text;next_status text;next_value text;principal uuid:=auth.uid();payload jsonb;replay jsonb;begin
  perform eps.require_capability('cast.read');perform eps.require_capability('cast.review');
  if p_idempotency_key is null or length(p_idempotency_key) not between 16 and 200 then perform eps.fail('VALIDATION_FAILED','Provide a stable Idempotency-Key.',400);end if;
  if jsonb_typeof(p_input)<>'object' or exists(select 1 from jsonb_object_keys(p_input) k where k not in('row_version','action','value'))
   or jsonb_typeof(p_input->'row_version')<>'number' or p_input->>'action' not in('confirm','reject','override','reset')
   or (p_input->>'action'='override')<>(jsonb_typeof(p_input->'value')='string') then perform eps.fail('VALIDATION_FAILED','Provide row_version, an action and a value only for override.',400);end if;
+ payload:=jsonb_build_object('id',p_observation_id,'input',p_input);
+ replay:=eps.idempotency_begin('appearance.review_observation',p_idempotency_key,payload);if replay is not null then return replay;end if;
  select * into o from eps.candidate_observations where id=p_observation_id for update;
  if not found then perform eps.fail('RESOURCE_NOT_FOUND','Observation not found.',404);end if;
  select * into m from eps.candidate_observation_media where id=o.media_id for update;
@@ -432,7 +449,7 @@ declare o eps.candidate_observations;m eps.candidate_observation_media;action te
  if action='override' and not eps.appearance_value_valid(o.attribute,next_value) or next_value='unknown' then perform eps.fail('VALIDATION_FAILED','Choose a value from this attribute''s vocabulary.',400);end if;
  if action='confirm' and o.suggested_value='unknown' then perform eps.fail('VALIDATION_FAILED','An unknown suggestion cannot be confirmed; override it with an observed value or reject it.',400);end if;
  if o.status=next_status and o.override_value is not distinct from next_value then
-  return jsonb_build_object('data',eps.appearance_observation_dto(o),'changed',false);end if;
+  return eps.finish_mutation('appearance.review_observation',p_idempotency_key,payload,jsonb_build_object('data',eps.appearance_observation_dto(o),'changed',false),o.id);end if;
  if (p_input->>'row_version')::bigint<>o.row_version then perform eps.fail('STALE_RESOURCE_VERSION','This observation changed. Reload and review again.',409,o.row_version);end if;
  if m.ambiguous and action in('confirm','override') then
   if m.target_person_index is null then update eps.candidate_observation_media set target_person_index=o.person_index,row_version=row_version+1 where id=m.id;
@@ -442,8 +459,7 @@ declare o eps.candidate_observations;m eps.candidate_observation_media;action te
   reviewed_at=case when next_status='suggested' then null else clock_timestamp() end,updated_at=clock_timestamp(),row_version=row_version+1 where id=o.id returning * into o;
  if m.ambiguous and action in('reject','reset') and m.target_person_index=o.person_index and not exists(select 1 from eps.candidate_observations x where x.media_id=m.id
   and x.person_index=o.person_index and x.status in('confirmed','overridden')) then update eps.candidate_observation_media set target_person_index=null,row_version=row_version+1 where id=m.id;end if;
- insert into eps.audit_events(principal_id,action,resource_id,request_id,client_type) values(principal,'appearance.review_observation',o.id,null,'api');
- return jsonb_build_object('data',eps.appearance_observation_dto(o),'changed',true);
+ return eps.finish_mutation('appearance.review_observation',p_idempotency_key,payload,jsonb_build_object('data',eps.appearance_observation_dto(o),'changed',true),o.id);
 end$$;
 
 -- 9. Batches and the job kernel for candidate_appearance / analyze_appearance.
@@ -565,6 +581,8 @@ declare principal uuid:=auth.uid();cfg eps.appearance_config;existing eps.enrich
  select * into existing from eps.enrichment_batches where requested_by=principal and idempotency_key=p_idempotency_key;
  if found then
   if existing.request_hash<>v_hash then perform eps.fail('IDEMPOTENCY_KEY_REUSED','This Idempotency-Key was used for a different batch.',409);end if;
+  -- A replay may enqueue more work, so it needs the same current workspace authority as a new batch.
+  if not eps.appearance_can_write(principal,existing.workspace_id) then perform eps.fail('ACCESS_DENIED','You cannot start processing in this workspace.',403);end if;
   perform eps.appearance_advance(existing.id);return jsonb_build_object('data',eps.appearance_batch_dto(existing.id),'created',false);
  end if;
  if not eps.appearance_can_write(principal,(p_input->>'workspace_id')::uuid) then perform eps.fail('ACCESS_DENIED','You cannot start processing in this workspace.',403);end if;
@@ -644,7 +662,12 @@ declare media jsonb;person jsonb;attr record;ref jsonb;m eps.candidate_observati
   values(p_job.resource_id,asset.id,ref->>'source_kind',(ref->>'candidate_media_id')::uuid,(ref->>'frame_timestamp_ms')::bigint,category,
    case when ref->>'source_kind'='photo' then 'archive_photo' else 'introduction_video' end,asset.created_at,people,ambiguous,media->>'quality_note',p_job.id,p_result->>'model',
    p_job.input#>>'{configuration,prompt_version}',at_value)
+  -- Rerun: a reviewer-established target person is kept. When the new result makes the media ambiguous (e.g. now two
+  -- people) and no target was recorded yet, the person whose rows were already confirmed/overridden becomes the target,
+  -- so human decisions stay searchable; the new rows remain suggestions until reviewed.
   on conflict(candidate_id,asset_id) do update set media_category=excluded.media_category,people_count=excluded.people_count,ambiguous=excluded.ambiguous or eps.candidate_observation_media.ambiguous and eps.candidate_observation_media.target_person_index is not null,
+   target_person_index=coalesce(eps.candidate_observation_media.target_person_index,case when excluded.ambiguous then(select min(x.person_index) from eps.candidate_observations x
+    where x.media_id=eps.candidate_observation_media.id and x.status in('confirmed','overridden'))end),
    quality_note=excluded.quality_note,last_job_id=excluded.last_job_id,model=excluded.model,prompt_version=excluded.prompt_version,analyzed_at=excluded.analyzed_at,row_version=eps.candidate_observation_media.row_version+1
   returning * into m;
   for person in select value from jsonb_array_elements(media->'people') loop
@@ -807,7 +830,8 @@ do $own$declare r regprocedure;begin
 end$own$;
 revoke create on schema eps,public from eps_appearance_owner;
 grant execute on function eps.fail(text,text,integer,bigint),eps.require_capability(text),eps.has_capability(text),eps.input_uuid(text),eps.specs_stage_assert(boolean,text),
- eps.specs_stage_shape(jsonb,text[],text[]),eps.specs_stage_integer(jsonb,bigint,bigint),eps.job_requester_active(uuid) to eps_appearance_owner;
+ eps.specs_stage_shape(jsonb,text[],text[]),eps.specs_stage_integer(jsonb,bigint,bigint),eps.job_requester_active(uuid),
+ eps.idempotency_begin(text,text,jsonb),eps.finish_mutation(text,text,jsonb,jsonb,uuid) to eps_appearance_owner;
 -- Pure helpers used inside checks/indexes and by the owner's own functions.
 grant execute on function eps.appearance_vocabulary(),eps.appearance_value_valid(text,text),eps.appearance_forbidden_terms(),eps.appearance_text_allowed(text),eps.appearance_supplied_map(),eps.appearance_supplied_key(text,text),eps.appearance_norm(text),
  eps.appearance_facet_keys_allowed(),eps.appearance_filters(jsonb),eps.appearance_filter_ok(text[],text[],jsonb,text),eps.appearance_text_ok(text,text,text,text[],text) to public;
@@ -837,13 +861,25 @@ do $dispatch$declare item record;source text;definition text;replacement text;at
 end$dispatch$;
 
 -- 12. Storage: a live appearance grant may read exactly its photo/frame object. Existing restrictive guards gain the same branch.
-do $$declare item record;begin
+-- Readback fails closed: the new policy must exist and every expected guard that exists must now carry the grant branch
+-- (the m09 photo guard is required). The disposable replica has only a minimal storage stub (storage.objects shape and an
+-- allow_only_operation that returns false), so it proves this catalogue composition, not Storage API behaviour.
+do $$declare item record;guards text[]:=array['eps_candidate_photos_read_guard','eps_candidate_read_guard'];guard_before jsonb;begin
  if to_regclass('storage.objects') is null then raise exception 'M20_STORAGE_REQUIRED';end if;
+ if not exists(select 1 from pg_policy where polrelid='storage.objects'::regclass and polname='eps_candidate_photos_read_guard') then raise exception 'M20_STORAGE_GUARD_REQUIRED';end if;
+ select coalesce(jsonb_object_agg(polname,pg_get_expr(polqual,polrelid)),'{}') into guard_before from pg_policy where polrelid='storage.objects'::regclass and polname=any(guards);
+ if exists(select 1 from jsonb_each_text(guard_before) where value like '%appearance_capability_allowed%') then raise exception 'M20_STORAGE_GUARD_ALREADY_COMPOSED';end if;
  execute $p$create policy eps_appearance_read on storage.objects for select to anon using(bucket_id in('eps-candidate-photos','eps-candidate-outputs')
   and (storage.allow_only_operation('object.get_authenticated') or storage.allow_only_operation('object.get_authenticated_info')) and eps.appearance_capability_allowed(bucket_id,name,'read'))$p$;
- for item in select polname,pg_get_expr(polqual,polrelid) body from pg_policy where polrelid='storage.objects'::regclass and polname in('eps_candidate_photos_read_guard','eps_candidate_read_guard') loop
+ for item in select polname,pg_get_expr(polqual,polrelid) body from pg_policy where polrelid='storage.objects'::regclass and polname=any(guards) loop
   execute format('alter policy %I on storage.objects using((%s) OR((storage.allow_only_operation(''object.get_authenticated'') OR storage.allow_only_operation(''object.get_authenticated_info'')) AND eps.appearance_capability_allowed(bucket_id,name,''read'')))',item.polname,item.body);
  end loop;
+ if not exists(select 1 from pg_policy where polrelid='storage.objects'::regclass and polname='eps_appearance_read' and polpermissive and polcmd='r'
+   and polroles=array['anon'::regrole::oid] and pg_get_expr(polqual,polrelid) like '%appearance_capability_allowed(bucket_id, name, ''read''::text)%')
+  or (select count(*) from pg_policy where polrelid='storage.objects'::regclass and polname=any(guards))<>(select count(*) from jsonb_object_keys(guard_before))
+  or exists(select 1 from pg_policy p where p.polrelid='storage.objects'::regclass and p.polname=any(guards) and (pg_get_expr(p.polqual,p.polrelid) not like '%appearance_capability_allowed(bucket_id, name, ''read''::text)%'
+   or pg_get_expr(p.polqual,p.polrelid) is not distinct from guard_before->>p.polname::text))
+ then raise exception 'M20_STORAGE_POLICY_READBACK_FAILED';end if;
 end$$;
 
 -- 12b. A1's newest-first search (m16) gains facet filtering through one seam; cursor v2 (the fingerprint already covers every

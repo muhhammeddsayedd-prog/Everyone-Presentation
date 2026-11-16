@@ -71,6 +71,17 @@ export function normalizeSearchText(value: string | null | undefined): string | 
   return text || null;
 }
 const fold = (value: string) => value.toLowerCase().replace(/[-_]+/gu, ' ').replace(/\s+/gu, ' ').trim();
+const words = (value: string | null | undefined) => ` ${(normalizeSearchText(value) ?? '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
+const FORBIDDEN_TAG_TERMS = (taxonomyJson as unknown as { forbidden_terms: string[] }).forbidden_terms.map(term => words(term));
+const LOOK_WORDS = [' look ', ' looks ', ' lookalike ', ' lookalikes ', ' مظهر '];
+/** Same rule as eps.appearance_tag_facet_ok: a supplied archive tag is a facet/search key only when it names no protected
+ * identity (forbidden_terms), is not a look label and is not the person's supplied nationality or country. Screened tags
+ * may still be displayed as attributed archive labels; they are never filters. */
+export function isTagFacetAllowed(label: string, nationality?: string | null, country?: string | null): boolean {
+  const text = words(label); const norm = normalizeSearchText(label);
+  if (!norm || FORBIDDEN_TAG_TERMS.some(term => text.includes(term)) || LOOK_WORDS.some(term => text.includes(term))) return false;
+  return norm !== normalizeSearchText(nationality) && norm !== normalizeSearchText(country);
+}
 
 /** A single supplied label (e.g. m09 "Dark Brown", "Afro") -> taxonomy key, or null when it is not a known alias. */
 export function normalizeAppearanceLabel(attribute: string, label: string): string | null {

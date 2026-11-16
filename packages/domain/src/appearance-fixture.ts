@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { DomainError, type Actor, type MutationContext } from './types.ts';
-import { FACET_KEYS, effectiveObservationValue, isAppearanceValue, normalizeAppearanceLabel, normalizeSearchText, parseEnrichmentBatchStart, parseFacetFilters, parseObservationReview,
+import { FACET_KEYS, effectiveObservationValue, isAppearanceValue, isTagFacetAllowed, normalizeAppearanceLabel, normalizeSearchText, parseEnrichmentBatchStart, parseFacetFilters, parseObservationReview,
   type AppearanceObservation, type CandidateFacets, type CandidateObservations, type EnrichmentBatch, type FacetFilters, type ObservationMedia } from './appearance.ts';
 
 /** In-memory local_fixture adapter for the five appearance operations. Synthetic people only; the same rules as m20:
@@ -9,11 +9,11 @@ interface FixturePerson { id: string; name: string; name_ar: string | null; cast
   archive: { talent_type: string; hair_colour: string[]; hair_length: string[]; playing_age: string[]; tags: string[] } | null; active: boolean }
 const PEOPLE: FixturePerson[] = [
   { id: 'a4f00000-0000-4000-8000-000000000001', name: 'Synthetic Layla', name_ar: 'ليلى', casting_id: 'SYN-A4-001', city: 'Dubai', stated_gender: 'Female', languages: ['Arabic', 'English'],
-    archive: { talent_type: 'talent', hair_colour: ['Black'], hair_length: ['Long'], playing_age: ['Age 25-34'], tags: ['Dancer'] }, active: true },
+    archive: { talent_type: 'talent', hair_colour: ['Black'], hair_length: ['Long'], playing_age: ['Age 25-34'], tags: ['Dancer', 'Middle Eastern Look'] }, active: true },
   { id: 'a4f00000-0000-4000-8000-000000000002', name: 'Synthetic Omar', name_ar: 'عمر', casting_id: 'SYN-A4-002', city: 'Cairo', stated_gender: null, languages: ['Arabic'],
     archive: null, active: true },
   { id: 'a4f00000-0000-4000-8000-000000000003', name: 'Synthetic Family', name_ar: null, casting_id: 'SYN-A4-003', city: 'Dubai', stated_gender: null, languages: [],
-    archive: { talent_type: 'real_family', hair_colour: ['Brown'], hair_length: [], playing_age: [], tags: ['dancer'] }, active: true },
+    archive: { talent_type: 'real_family', hair_colour: ['Brown'], hair_length: [], playing_age: [], tags: ['dancer', 'Khaleeji'] }, active: true },
 ];
 const now = () => new Date().toISOString();
 function seedMedia(): Map<string, ObservationMedia[]> {
@@ -36,10 +36,11 @@ function seedMedia(): Map<string, ObservationMedia[]> {
 
 export function createAppearanceFixture() {
   const media = seedMedia(); const batches = new Map<string, { owner: string; key: string; body: string; batch: EnrichmentBatch }>();
+  const reviews = new Map<string, { body: string; response: AppearanceObservation }>();
   const keys = (person: FixturePerson): string[] => {
     const out = new Set<string>(); const add = (facet: string, value: string | null) => { if (value) out.add(`${facet}:${value}`); };
     add('city', normalizeSearchText(person.city)); add('stated_gender', normalizeSearchText(person.stated_gender)); person.languages.forEach(l => add('languages', normalizeSearchText(l)));
-    if (person.archive) { add('talent_type', person.archive.talent_type); person.archive.tags.forEach(t => add('tags', normalizeSearchText(t)));
+    if (person.archive) { add('talent_type', person.archive.talent_type); person.archive.tags.filter(t => isTagFacetAllowed(t)).forEach(t => add('tags', normalizeSearchText(t)));
       for (const attribute of ['hair_colour', 'hair_length', 'playing_age'] as const) person.archive[attribute].forEach(v => add(attribute, normalizeAppearanceLabel(attribute, v) ?? normalizeSearchText(v))); }
     for (const item of media.get(person.id) ?? []) for (const o of item.observations) {
       const value = effectiveObservationValue(o);
@@ -47,8 +48,8 @@ export function createAppearanceFixture() {
     }
     return [...out];
   };
-  const textOk = (person: FixturePerson, q: string | null) => !q || [person.name, person.name_ar, person.casting_id, ...(person.archive?.tags ?? [])].some(v => (normalizeSearchText(v) ?? '').includes(q));
-  const TEXT_FACETS = ['city', 'stated_gender', 'languages', 'look', 'tags'];
+  const textOk = (person: FixturePerson, q: string | null) => !q || [person.name, person.name_ar, person.casting_id, ...(person.archive?.tags ?? []).filter(t => isTagFacetAllowed(t))].some(v => (normalizeSearchText(v) ?? '').includes(q));
+  const TEXT_FACETS = ['city', 'stated_gender', 'languages', 'tags'];
   const norm = (facet: string, value: string) => value === 'unknown' || !TEXT_FACETS.includes(facet) ? value : normalizeSearchText(value) ?? value;
   const passes = (k: string[], filters: FacetFilters, skip: string | null) => Object.entries(filters.facets).every(([facet, list]) => facet === skip || !list?.length
     || list.some(v => k.includes(`${facet}:${norm(facet, v)}`)) || !k.some(x => x.startsWith(`${facet}:`)) && (filters.include_unknown || list.includes('unknown')));
@@ -68,12 +69,16 @@ export function createAppearanceFixture() {
     },
     async reviewCandidateObservation(actor: Actor, observationId: string, input: unknown, context?: MutationContext): Promise<AppearanceObservation> {
       if (!context?.idempotencyKey || context.idempotencyKey.length < 16) throw new DomainError('INVALID_REQUEST', 'Provide a stable Idempotency-Key.', 400);
-      const body = parseObservationReview(input); const { item, o } = find(observationId);
+      const body = parseObservationReview(input); const recordKey = `${actor.principal_id}:${context.idempotencyKey}`; const serial = JSON.stringify({ id: observationId, input: body });
+      const replay = reviews.get(recordKey);
+      if (replay) { if (replay.body !== serial) throw new DomainError('IDEMPOTENCY_KEY_REUSED', 'This key was used with different input.', 409); return structuredClone(replay.response); }
+      const { item, o } = find(observationId);
+      const remember = (response: AppearanceObservation) => { reviews.set(recordKey, { body: serial, response: structuredClone(response) }); return structuredClone(response); };
       const status = ({ confirm: 'confirmed', reject: 'rejected', override: 'overridden', reset: 'suggested' } as const)[body.action];
       const value = body.action === 'override' ? body.value : null;
       if (value !== null && (!isAppearanceValue(o.attribute, value) || value === 'unknown')) throw new DomainError('VALIDATION_FAILED', 'Choose a value from this attribute\'s vocabulary.', 400);
       if (body.action === 'confirm' && o.suggested_value === 'unknown') throw new DomainError('VALIDATION_FAILED', 'An unknown suggestion cannot be confirmed.', 400);
-      if (o.status === status && o.override_value === value) return structuredClone(o);
+      if (o.status === status && o.override_value === value) return remember(o);
       if (body.row_version !== o.row_version) throw new DomainError('STALE_RESOURCE_VERSION', 'This observation changed. Reload and review again.', 409);
       if (item.ambiguous && (status === 'confirmed' || status === 'overridden')) {
         if (item.target_person_index === null) item.target_person_index = o.person_index;
@@ -82,7 +87,7 @@ export function createAppearanceFixture() {
       Object.assign(o, { status, override_value: value, effective_value: status === 'confirmed' ? o.suggested_value : value, reviewed_by: status === 'suggested' ? null : actor.principal_id,
         reviewed_at: status === 'suggested' ? null : now(), row_version: o.row_version + 1 });
       if (item.ambiguous && item.target_person_index === o.person_index && !item.observations.some(x => x.person_index === o.person_index && ['confirmed', 'overridden'].includes(x.status))) item.target_person_index = null;
-      return structuredClone(o);
+      return remember(o);
     },
     async startEnrichmentBatch(actor: Actor, input: unknown, context?: MutationContext): Promise<EnrichmentBatch> {
       if (!context?.idempotencyKey || context.idempotencyKey.length < 16) throw new DomainError('INVALID_REQUEST', 'Provide a stable Idempotency-Key.', 400);

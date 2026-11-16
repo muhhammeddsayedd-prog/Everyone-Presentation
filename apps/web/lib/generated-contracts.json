@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "6f9b4b94910a95391253567beb8e92383435672c29b425ac099c852fb48ec444",
+  "x-source-sha256": "a0bf9e7728e7105c7e914613bdbe3fe79b764239a95154231e1dc40f92371acb",
   "$defs": {
     "Id": {
       "type": "string",
@@ -8943,15 +8943,6 @@
                 "maxLength": 200
               }
             },
-            "look": {
-              "type": "array",
-              "maxItems": 50,
-              "items": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 200
-              }
-            },
             "tags": {
               "type": "array",
               "maxItems": 50,
@@ -9095,7 +9086,6 @@
                   "glasses",
                   "build",
                   "languages",
-                  "look",
                   "tags"
                 ]
               },

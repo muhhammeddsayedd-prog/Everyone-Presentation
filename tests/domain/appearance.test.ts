@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { APPEARANCE_ATTRIBUTES, APPEARANCE_TAXONOMY, FACET_KEYS, appearanceValues, facetFiltersFromSearchParams, facetFiltersToSearchParams, hairColourFamily,
-  isAppearanceValue, isForbiddenAttribute, normalizeAppearanceLabel, normalizeAppearancePhrase, normalizeSearchText, parseEnrichmentBatchStart, parseFacetFilters,
+  isAppearanceValue, isForbiddenAttribute, isTagFacetAllowed, normalizeAppearanceLabel, normalizeAppearancePhrase, normalizeSearchText, parseEnrichmentBatchStart, parseFacetFilters,
   parseObservationReview, effectiveObservationValue } from '../../packages/domain/src/appearance.ts';
 import { DomainError } from '../../packages/domain/src/types.ts';
 
@@ -75,4 +75,32 @@ test('generated TypeScript taxonomy (sealed into worker images) equals the JSON 
   assert.deepEqual(APPEARANCE_TAXONOMY_SOURCE, JSON.parse(readFileSync(new URL('../../contracts/appearance-taxonomy.json', import.meta.url), 'utf8')));
   const sqlTerms = /appearance_forbidden_terms\(\) returns text\[\] language sql immutable set search_path='' as \$\$select array\[([^\]]+)\]/u.exec(migration)![1].split(',').map(term => term.slice(1, -1).replace(/''/gu, "'"));
   assert.deepEqual(sqlTerms, [...APPEARANCE_TAXONOMY_SOURCE.forbidden_terms]);
+});
+test('look, nationality and country labels are never facets; screened archive tags never become facet keys', async () => {
+  for (const key of FACET_KEYS) assert.equal(isForbiddenAttribute(key) && !['city', 'languages'].includes(key), false, key);
+  for (const key of ['look', 'regional_look', 'nationality', 'country']) assert.equal(FACET_KEYS.includes(key), false, key);
+  assert.equal(migration.includes("'look:'"), false, 'the projection never builds look facet keys');
+  for (const tag of ['European Look', 'Middle Eastern Look', 'Gulf Look', 'Model Look', 'Saudi Lookalikes', 'Khaleeji', 'Emirati', 'Kuwaiti', 'Arab', 'خليجي', 'مظهر اوروبي', 'look-alike'])
+    assert.equal(isTagFacetAllowed(tag), false, tag);
+  for (const tag of ['Dancer', ' DANCER ', 'رقص', 'Voice over', 'Lookout tower']) assert.equal(isTagFacetAllowed(tag), true, tag);
+  assert.equal(isTagFacetAllowed('Sudan', 'Sudan', null), false, 'supplied nationality');
+  assert.equal(isTagFacetAllowed('Oman', null, ' oman '), false, 'supplied country');
+  const { createAppearanceFixture } = await import('../../packages/domain/src/appearance-fixture.ts');
+  const facets = await createAppearanceFixture().getCandidateFacets({ principal_id: 'a4f00000-0000-4000-8000-0000000000aa' } as never, {});
+  const tags = facets.facets.find(facet => facet.key === 'tags')!.values.map(value => value.value);
+  assert.deepEqual(tags, ['dancer']);
+  assert.equal(facets.facets.some(facet => facet.key === 'look'), false);
+  assert.throws(() => parseFacetFilters({ facets: { look: ['european look'] } }));
+});
+test('fixture review records the Idempotency-Key: same key and body replays, a different body is refused', async () => {
+  const { createAppearanceFixture } = await import('../../packages/domain/src/appearance-fixture.ts');
+  const fixture = createAppearanceFixture(); const actor = { principal_id: 'a4f00000-0000-4000-8000-0000000000aa' } as never;
+  const listed = await fixture.listCandidateObservations(actor, 'a4f00000-0000-4000-8000-000000000002');
+  const observation = listed.media[0].observations.find(o => o.attribute === 'facial_hair')!;
+  const context = { idempotencyKey: 'fixture-review-key-0001' };
+  const first = await fixture.reviewCandidateObservation(actor, observation.id, { row_version: observation.row_version, action: 'confirm' }, context);
+  assert.equal(first.status, 'confirmed');
+  assert.deepEqual(await fixture.reviewCandidateObservation(actor, observation.id, { row_version: observation.row_version, action: 'confirm' }, context), first);
+  await assert.rejects(fixture.reviewCandidateObservation(actor, observation.id, { row_version: first.row_version, action: 'reject' }, context),
+    (error: unknown) => (error as { code?: string }).code === 'IDEMPOTENCY_KEY_REUSED');
 });

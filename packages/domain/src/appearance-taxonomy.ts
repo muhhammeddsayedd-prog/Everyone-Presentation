@@ -6,13 +6,13 @@ export const APPEARANCE_TAXONOMY_SOURCE = {
   "Describe only what is visible in the supplied photo or video frame. Unclear means unknown.",
   "Never infer race, ethnicity, nationality, religion, gender identity, sexual orientation, health or disability from faces, names, clothing or voices.",
   "City, passport, real family, skills and verified age require supplied information; they are never observed.",
-  "Regional Look labels only come from attributed supplied archive data; there is no facial classifier for ethnic or national identity.",
+  "Regional Look labels only come from attributed supplied archive data and are shown only as attributed labels, never as search facets; there is no facial classifier for ethnic or national identity.",
   "Clothing never implies religion or nationality. Pose or outfit never implies a skill.",
   "Playing age is a reviewable range, separate from verified age or date of birth.",
   "Changeable appearance (hair, facial hair, glasses) belongs to the media it was observed in; older and newer media may differ without contradiction.",
   "If several people are visible, or it is unclear which person is the candidate, the media is marked ambiguous and needs review; people are never merged into one profile."
  ],
- "forbidden_terms_note": "Free-text model fields (evidence, position_note, quality_note) must not contain these identity terms; a result containing one is refused (provider post-validation and the database apply).",
+ "forbidden_terms_note": "Free-text model fields (evidence, position_note, quality_note) must not contain these identity terms; a result containing one is refused (provider post-validation and the database apply). Supplied archive tags containing one of these terms, a look label (look, looks, lookalike) or the person's supplied nationality/country are never facet or search keys; they only display as attributed archive labels.",
  "forbidden_terms": [
   "race",
   "racial",
@@ -63,6 +63,20 @@ export const APPEARANCE_TAXONOMY_SOURCE = {
   "persian",
   "iranian",
   "turkish",
+  "kuwaiti",
+  "qatari",
+  "omani",
+  "bahraini",
+  "yemeni",
+  "palestinian",
+  "western",
+  "american",
+  "british",
+  "russian",
+  "chinese",
+  "japanese",
+  "korean",
+  "nigerian",
   "lookalike",
   "look-alike",
   "looks like",
@@ -111,6 +125,17 @@ export const APPEARANCE_TAXONOMY_SOURCE = {
   "خليجي",
   "خليجية",
   "شامي",
+  "كويتي",
+  "قطري",
+  "عماني",
+  "بحريني",
+  "يمني",
+  "فلسطيني",
+  "لبناني",
+  "سوري",
+  "عراقي",
+  "اردني",
+  "مغربي",
   "رجل",
   "امرأة",
   "ولد",
@@ -1022,14 +1047,6 @@ export const APPEARANCE_TAXONOMY_SOURCE = {
    "label_ar": "اللغات",
    "sources": [
     "facts"
-   ]
-  },
-  {
-   "key": "look",
-   "label": "Look (supplied label)",
-   "label_ar": "المظهر كما ورد",
-   "sources": [
-    "supplied"
    ]
   },
   {

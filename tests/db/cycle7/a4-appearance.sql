@@ -87,9 +87,12 @@ from unnest(array['11','12','51','52']) k;
 insert into eps.candidate_photos(id,candidate_id,position,asset_id,thumb_asset_id,width,height,source_key)values
  ('a4000000-0000-4000-8000-000000000211','a4000000-0000-4000-8000-0000000000c1',1,'a4000000-0000-4000-8000-000000000111','a4000000-0000-4000-8000-000000000112',400,500,'syn/1'),
  ('a4000000-0000-4000-8000-000000000251','a4000000-0000-4000-8000-0000000000c5',1,'a4000000-0000-4000-8000-000000000151','a4000000-0000-4000-8000-000000000152',400,500,'syn/5');
-insert into eps.candidate_attributes(candidate_id,name_ar,talent_type,hair_colour,playing_age,tags,cover_photo_id)values
- ('a4000000-0000-4000-8000-0000000000c1','أَحْمَد',  'talent','{Black}','{"Age 25-34"}','{Dancer}','a4000000-0000-4000-8000-000000000211'),
- ('a4000000-0000-4000-8000-0000000000c2',null,'real_family','{Brown}','{}','{" DANCER ",رَقص}',null);
+-- Archive look/nationality/country labels and identity-worded tags are seeded on purpose: they must stay attributed
+-- profile labels and never become facet or search keys.
+insert into eps.candidate_attributes(candidate_id,name_ar,talent_type,hair_colour,playing_age,tags,cover_photo_id,look,nationality,country,skin_tone)values
+ ('a4000000-0000-4000-8000-0000000000c1','أَحْمَد',  'talent','{Black}','{"Age 25-34"}','{Dancer,"European Look",Khaleeji,"Model Look","Saudi Lookalikes",Utopian}','a4000000-0000-4000-8000-000000000211',
+  'European Look','Utopian','Atlantis','Arab'),
+ ('a4000000-0000-4000-8000-0000000000c2',null,'real_family','{Brown}','{}','{" DANCER ",رَقص,"Middle Eastern Look",Emirati,"مظهر خليجي",Atlantis}',null,'Middle Eastern Look',null,'Atlantis',null);
 update eps.candidate_attributes set hair_length='{Long}' where candidate_id='a4000000-0000-4000-8000-0000000000c2';
 insert into eps.media_assets(id,purpose,filename,bucket,object_key,mime_type,size_bytes,sha256,width,height,duration_ms,status,origin_workspace_id)values
  ('a4000000-0000-4000-8000-000000000301','candidate_video','t1.mp4','eps-candidate-assets','assets/t1/original.mp4','video/mp4',1000,repeat('c',64),640,360,5000,'ready','a4000000-0000-4000-8000-0000000000b1'),
@@ -286,6 +289,90 @@ do $test$declare producer uuid:='a4000000-0000-4000-8000-000000000001';viewer uu
  perform pg_temp.ok('archive_refreshes_projection',not (select active from eps.candidate_search_projection where candidate_id=c5));
  perform pg_temp.ok('trace_recorded',(select count(*) from eps.job_stage_attempts where kind='candidate_appearance')>=4);
 end$test$;
+
+-- Review findings (second pass): look/nationality/country never facets, rerun keeps the established target person,
+-- batch replay re-checks workspace authority, review Idempotency-Key is recorded, storage guards were composed.
+do $test2$declare producer uuid:='a4000000-0000-4000-8000-000000000001';viewer uuid:='a4000000-0000-4000-8000-000000000002';ws uuid:='a4000000-0000-4000-8000-0000000000b1';
+ c1 uuid:='a4000000-0000-4000-8000-0000000000c1';c2 uuid:='a4000000-0000-4000-8000-0000000000c2';c3 uuid:='a4000000-0000-4000-8000-0000000000c3';
+ r jsonb;r2 jsonb;f jsonb;b jsonb;job uuid;o eps.candidate_observations;err text;keys text[];tags text[];target_media uuid;body text;begin
+ -- 2. Supplied look / nationality / country labels and identity-worded tags are never facet or search keys.
+ select array_agg(k) into keys from eps.candidate_search_projection p,unnest(p.facet_keys) k where p.candidate_id in(c1,c2);
+ perform pg_temp.ok('no_look_facet_keys',not exists(select 1 from unnest(keys) k where k like 'look:%' or k like 'nationality:%' or k like 'country:%' or k like 'skin_tone:arab%'),to_jsonb(keys));
+ perform pg_temp.ok('screened_tags_not_keys',not keys && array['tags:european look','tags:middle eastern look','tags:khaleeji','tags:emirati','tags:model look','tags:saudi lookalikes',
+  'tags:utopian','tags:atlantis','tags:مظهر خليجي'] and keys @> array['tags:dancer','tags:رقص'],to_jsonb(keys));
+ select array_agg(t) into tags from eps.candidate_search_projection p,unnest(p.tags) t where p.candidate_id in(c1,c2);
+ perform pg_temp.ok('screened_tags_not_searchable',tags <@ array['dancer','رقص'],to_jsonb(tags));
+ f:=pg_temp.facets(viewer,'{}');
+ perform pg_temp.ok('look_facet_absent',not exists(select 1 from jsonb_array_elements(f->'facets') x where x->>'key' in('look','regional_look','nationality','country'))
+  and not exists(select 1 from jsonb_array_elements(f->'facets') x,jsonb_array_elements(x->'values') v where x->>'key'='tags' and v->>'value' not in('dancer','رقص')),f->'facets');
+ err:=pg_temp.user_error(viewer,$q$select public.eps_candidate_facets('{"facets":{"look":["european look"]}}'::jsonb)$q$);
+ perform pg_temp.ok('look_filter_refused',err='VALIDATION_FAILED',to_jsonb(err));
+ err:=pg_temp.user_error(viewer,format('select public.eps_search_candidates(%L::jsonb)','{"facets":{"look":["european look"]}}'));
+ perform pg_temp.ok('search_look_filter_refused',err='VALIDATION_FAILED',to_jsonb(err));
+ perform pg_temp.ok('screened_tag_q_matches_nobody',(pg_temp.facets(viewer,'{"q":"european"}')->>'total')::int=0 and (pg_temp.facets(viewer,'{"q":"khaleeji"}')->>'total')::int=0
+  and (pg_temp.facets(viewer,'{"q":"utopian"}')->>'total')::int=0);
+ perform pg_temp.ok('tag_screen_rule',not eps.appearance_tag_facet_ok('European Look',null,null) and not eps.appearance_tag_facet_ok('look-alike',null,null)
+  and not eps.appearance_tag_facet_ok('Kuwaiti',null,null) and not eps.appearance_tag_facet_ok('Utopian','utopian',null) and not eps.appearance_tag_facet_ok(' ',null,null)
+  and eps.appearance_tag_facet_ok('Lookout tower',null,null) and eps.appearance_tag_facet_ok('Dancer','Utopian','Atlantis'));
+ r:=pg_temp.as_user(viewer,format('select public.eps_list_candidate_observations(%L::uuid)',c1));
+ perform pg_temp.ok('archive_labels_still_attributed',r#>>'{data,supplied,archive,look}'='European Look' and r#>'{data,supplied,archive,tags}' ? 'European Look'
+  and r#>>'{data,supplied,archive,source,kind}'='archive_import',r#>'{data,supplied,archive}');
+
+ -- 1. Rerun with a different people count: confirmed/overridden person-0 rows stay searchable; new rows stay suggestions.
+ b:=pg_temp.as_user(producer,format('select public.eps_start_enrichment_batch(%L::jsonb,%L)',jsonb_build_object('workspace_id',ws,'candidate_ids',jsonb_build_array(c3),'limit',1,'spend_cap_cents',100),'a4-batch-key-0006'));
+ select job_id into job from eps.enrichment_batch_items where batch_id=(b#>>'{data,id}')::uuid;
+ r:=pg_temp.run_job(job,jsonb_build_array(jsonb_build_object('hair_colour',pg_temp.attr('brown')),jsonb_build_object('hair_colour',pg_temp.attr('blonde'),'glasses',pg_temp.attr('glasses'))),100,10);
+ perform pg_temp.ok('rerun_two_people_applied',r->>'job_status'='succeeded',r);
+ perform pg_temp.ok('rerun_target_established',(select bool_and(ambiguous and people_count=2 and target_person_index=0) from eps.candidate_observation_media where candidate_id=c3)
+  and (select count(*) from eps.candidate_observation_media where candidate_id=c3)=2);
+ select facet_keys into keys from eps.candidate_search_projection where candidate_id=c3;
+ perform pg_temp.ok('rerun_confirmed_still_faceted',keys @> array['hair_colour:black','facial_hair:stubble'] and not keys && array['hair_colour:blonde','hair_colour:brown','glasses:glasses'],to_jsonb(keys));
+ perform pg_temp.ok('rerun_confirmed_still_searchable',eps.cast_facet_match(c3,'{"facets":{"hair_colour":["black"],"facial_hair":["stubble"]}}')
+  and pg_temp.facet_count(pg_temp.facets(viewer,'{"facets":{"facial_hair":["stubble"]}}'),'hair_colour','black')>=1);
+ perform pg_temp.ok('rerun_new_rows_suggested',(select bool_and(status='suggested') from eps.candidate_observations where candidate_id=c3 and person_index=1)
+  and (select count(*) from eps.candidate_observations where candidate_id=c3 and person_index=1)=4
+  and (select bool_and(status='confirmed' and suggested_value='black') from pg_temp.obs(c3,'hair_colour',0)));
+ select * into o from pg_temp.obs(c3,'hair_colour',1) limit 1;
+ err:=pg_temp.user_error(producer,format('select public.eps_review_candidate_observation(%L::uuid,%L::jsonb,%L)',o.id,jsonb_build_object('row_version',o.row_version,'action','confirm'),'a4-rerun-person-1-a'));
+ perform pg_temp.ok('rerun_target_kept_until_reviewer_changes',err='TARGET_PERSON_CONFLICT',to_jsonb(err));
+ -- A reviewer changes the target: reset the only confirmed person-0 row on a media, then confirm person 1 there.
+ select m.id into target_media from eps.candidate_observation_media m where m.candidate_id=c3
+  and (select count(*) from eps.candidate_observations x where x.media_id=m.id and x.status in('confirmed','overridden'))=1 limit 1;
+ select * into o from eps.candidate_observations x where x.media_id=target_media and x.person_index=0 and x.attribute='hair_colour';
+ r:=pg_temp.review(producer,o.id,jsonb_build_object('row_version',o.row_version,'action','reset'),'a4-rerun-reset-0001');
+ perform pg_temp.ok('reviewer_reset_clears_target',(select target_person_index is null from eps.candidate_observation_media where id=target_media));
+ select * into o from eps.candidate_observations x where x.media_id=target_media and x.person_index=1 and x.attribute='hair_colour';
+ r:=pg_temp.review(producer,o.id,jsonb_build_object('row_version',o.row_version,'action','confirm'),'a4-rerun-person-1-b');
+ perform pg_temp.ok('reviewer_selects_new_target',(select target_person_index=1 from eps.candidate_observation_media where id=target_media)
+  and (select facet_keys @> array['hair_colour:blonde','hair_colour:black'] from eps.candidate_search_projection where candidate_id=c3));
+
+ -- 3. A batch replay re-checks current workspace authority before advancing.
+ body:=jsonb_build_object('workspace_id',ws,'candidate_ids',jsonb_build_array(c3,c1),'limit',10,'spend_cap_cents',100)::text;
+ update public.project_memberships set can_write=false where principal_id=producer;
+ err:=pg_temp.user_error(producer,format('select public.eps_start_enrichment_batch(%L::jsonb,%L)',body,'a4-batch-key-0001'));
+ perform pg_temp.ok('batch_replay_rechecks_write',err='ACCESS_DENIED',to_jsonb(err));
+ update public.project_memberships set can_write=true where principal_id=producer;
+ r:=pg_temp.as_user(producer,format('select public.eps_start_enrichment_batch(%L::jsonb,%L)',body,'a4-batch-key-0001'));
+ perform pg_temp.ok('batch_replay_after_restore',not (r->>'created')::boolean);
+
+ -- 4. The review Idempotency-Key is recorded: replay returns the first response; a different body is refused.
+ select * into o from pg_temp.obs(c3,'playing_age',0) limit 1;
+ r:=pg_temp.review(producer,o.id,jsonb_build_object('row_version',o.row_version,'action','reject'),'a4-review-idem-0001');
+ r2:=pg_temp.review(producer,o.id,jsonb_build_object('row_version',o.row_version,'action','reject'),'a4-review-idem-0001');
+ perform pg_temp.ok('review_key_replayed',r2=r and (r->>'changed')::boolean and (r2#>>'{data,row_version}')::bigint=o.row_version+1,jsonb_build_object('first',r,'replay',r2));
+ err:=pg_temp.user_error(producer,format('select public.eps_review_candidate_observation(%L::uuid,%L::jsonb,%L)',o.id,jsonb_build_object('row_version',o.row_version+1,'action','reset'),'a4-review-idem-0001'));
+ perform pg_temp.ok('review_key_reuse_refused',err='IDEMPOTENCY_KEY_REUSED',to_jsonb(err));
+ perform pg_temp.ok('review_key_recorded',exists(select 1 from eps.idempotency_records where principal_id=producer and operation='appearance.review_observation' and key='a4-review-idem-0001')
+  and (select count(*) from eps.audit_events where principal_id=producer and action='appearance.review_observation' and resource_id=o.id)=1);
+ err:=pg_temp.user_error(viewer,format('select public.eps_review_candidate_observation(%L::uuid,%L::jsonb,%L)',o.id,jsonb_build_object('row_version',o.row_version,'action','reject'),'a4-review-idem-0001'));
+ perform pg_temp.ok('review_replay_needs_capability',err='CAPABILITY_REQUIRED',to_jsonb(err));
+
+ -- 5. Storage readback (catalogue composition only; the replica has a minimal storage stub).
+ perform pg_temp.ok('storage_guards_composed',exists(select 1 from pg_policy where polrelid='storage.objects'::regclass and polname='eps_appearance_read')
+  and not exists(select 1 from pg_policy where polrelid='storage.objects'::regclass and polname in('eps_candidate_photos_read_guard','eps_candidate_read_guard')
+   and pg_get_expr(polqual,polrelid) not like '%appearance_capability_allowed%')
+  and exists(select 1 from pg_policy where polrelid='storage.objects'::regclass and polname='eps_candidate_photos_read_guard'));
+end$test2$;
 
 select json_build_object('result','passed','checks',(select count(*) from a4_result),'names',(select json_agg(key order by key) from a4_result))::text;
 rollback;
