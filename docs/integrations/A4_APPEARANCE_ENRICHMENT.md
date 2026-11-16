@@ -25,32 +25,26 @@ database, n8n workflow not deployed, no paid provider call made.** Migration: `s
   (`TARGET_PERSON_CONFLICT`). Nothing is merged across people.
 * Reanalysis refreshes only `suggested` rows; confirmed, rejected and overridden rows are never changed.
 
-## Wiring facets into A1's search (`public.eps_search_candidates`)
+## Facets in A1's search (wired)
 
-A1 owns `eps_search_candidates`, `eps.cast_search_match` and `CastLibraryView.tsx`. A4 provides, granted to `eps_cast_owner`:
+m20 patches A1's `public.eps_search_candidates` (m16; preceding source hash pinned) through one seam: the two row
+predicates are replaced by `eps.cast_library_row_ok(candidate, p_search)`, and `facets` / `facet_include_unknown` join
+the accepted keys. Newest-first cursor v2 (its fingerprint covers every key except cursor/limit, so facets are bound to
+the cursor), membership batching and the card DTO are unchanged. `eps.cast_library_row_ok` is the single predicate used
+by both search results and `public.eps_candidate_facets` (A1's supplied-fact filters via `eps.cast_search_match`; its `q`
+or the normalised EN/AR name/casting-id/tag match `eps.cast_text_match`; Reviewed status; `eps.cast_facet_match`), so for
+the same filters the result count equals the facet total (replica test: 12 filter combinations).
 
-| Function | Meaning |
-| --- | --- |
-| `eps.cast_facet_match(p_candidate_id uuid, p_filters jsonb) returns boolean` | true when the candidate passes every facet filter (OR within a facet, AND across facets, `unknown` value and `include_unknown` honoured). Empty filters → true. Invalid facets raise `VALIDATION_FAILED`. |
-| `eps.cast_text_match(p_candidate_id uuid, p_q text) returns boolean` | normalised substring match over English name, Arabic name (tatweel/diacritics removed, alef forms unified, ى→ي), casting id and tags. |
-| `eps.candidate_search_projection` (select for `eps_cast_owner` with `cast.read`) | `facet_keys text[]` (`facet:value`, GIN), `facet_names`, `name_norm`, `name_ar_norm`, `casting_id_norm`, `tags`, `active`. |
-
-Exact integration (inside A1's `eps_search_candidates(p_search jsonb)` candidate predicate):
-
-```sql
--- p_search gains an optional "facets" object: {"facets":{"hair_colour":["black"]},"include_unknown":false}
-and eps.cast_facet_match(c.id, jsonb_build_object('facets', coalesce(p_search->'facets','{}'::jsonb),
-                                                  'include_unknown', coalesce(p_search->'facet_include_unknown','false'::jsonb)))
-```
-
-To keep result counts identical to facet counts, call `POST /api/v1/candidate-facets/query` (or `public.eps_candidate_facets`)
-with the **same** `facets`, `include_unknown` and `q`; facet `q` uses `eps.cast_text_match`. If A1 keeps its own text
-rule for `q`, counts differ only by that rule — prefer `eps.cast_text_match` for the name/tag part.
-
-UI: `apps/web/components/library/LibraryFacetFilters.tsx` is controlled (`value: FacetFilters`, `onChange`). URL state:
-`facetFiltersToSearchParams` / `facetFiltersFromSearchParams` (`@eps/domain`) → repeatable `facet=<key>:<value>` and
-`include_unknown=true`. A development/test preview is at `/dev/library-filters`. HTTP search param mapping for A1:
-`GET /api/v1/candidates?facet=hair_colour:black&facet=city:Dubai&include_unknown=true` → `p_search.facets`.
+* HTTP/MCP: `GET /api/v1/candidates?facets={"hair_colour":["black"]}&facet_include_unknown=true` (`facets` is a JSON
+  object string, ≤4000 chars); MCP `search_candidates` accepts the same two arguments.
+* Facet counts: `POST /api/v1/candidate-facets/query` with `{facets, include_unknown, search: {...the same A1 filters, q}}`.
+* UI: `CastLibraryView` (A1) receives `renderFacets={facets => <CastLibraryFacets {...facets} />}` on `/library/cast` and in
+  the project Library tab. The bridge keeps facet state in A1's pass-through params (`facets`, `facet_include_unknown`)
+  and forwards the view's own filters and query (A1's `renderFacets` argument gained `search`) so counts match results.
+* Helpers for other callers (granted to `eps_cast_owner`): `eps.cast_facet_match(uuid, jsonb)`, `eps.cast_text_match(uuid, text)`,
+  `eps.cast_library_row_ok(eps.candidates, jsonb)`, and `eps.candidate_search_projection` (GIN `facet_keys`).
+* `LibraryFacetFilters` URL helpers for standalone use: `facetFiltersToSearchParams` / `facetFiltersFromSearchParams`
+  (repeatable `facet=<key>:<value>`); development preview at `/dev/library-filters` (local fixture).
 
 Facet keys: `talent_type, city, stated_gender, playing_age, skin_tone, hair_length, hair_colour, hair_texture,
 facial_hair, glasses, build, languages, look, tags`. Counts are distinct active people (`cast.read`), never tapes or rows.

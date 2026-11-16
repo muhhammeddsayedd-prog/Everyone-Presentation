@@ -1939,6 +1939,19 @@ paths:
         schema:
           $ref: '#/components/schemas/Id'
         description: Report membership in this project for each row.
+      - name: facets
+        in: query
+        schema:
+          type: string
+          maxLength: 4000
+        description: 'JSON object {facet: [values]} using get_candidate_facets keys. OR within a facet, AND across facets; appearance facets use
+          confirmed and corrected observations only. Result counts equal get_candidate_facets totals for the same filters.'
+      - name: facet_include_unknown
+        in: query
+        schema:
+          type: boolean
+          default: false
+        description: Also include people with no value for an active facet filter.
       - *id002
       - *id003
       description: Newest added to the app first (creation time, then id). The cursor is opaque and versioned; a cursor from an older list or
@@ -17261,6 +17274,48 @@ components:
         q:
           type: string
           maxLength: 200
+        search:
+          type: object
+          additionalProperties: false
+          description: The same supplied-fact filters sent to search_candidates, so counts match its results.
+          properties:
+            q:
+              type: string
+              maxLength: 500
+            include_unknown:
+              type: boolean
+            review_status:
+              type: string
+              enum:
+              - reviewed
+              - unreviewed
+            age_or_range:
+              type: string
+              maxLength: 500
+            stated_gender:
+              type: string
+              maxLength: 500
+            height_measurements:
+              type: string
+              maxLength: 500
+            language:
+              type: string
+              maxLength: 500
+            accent:
+              type: string
+              maxLength: 500
+            skill:
+              type: string
+              maxLength: 500
+            city:
+              type: string
+              maxLength: 500
+            previous_project_role:
+              type: string
+              maxLength: 500
+            classification:
+              type: string
+              maxLength: 500
       required: []
     CandidateFacets:
       type: object
@@ -17282,6 +17337,8 @@ components:
               anyOf:
               - *id044
               - type: 'null'
+            search:
+              type: object
           required:
           - facets
           - include_unknown

@@ -219,6 +219,25 @@ do $test$declare producer uuid:='a4000000-0000-4000-8000-000000000001';viewer uu
    perform pg_temp.ok('value_count_equals_result_'||(v->>'facet')||'_'||(v->>'value'),(sub->>'total')::bigint=(v->>'count')::bigint,jsonb_build_object('value',v,'total',sub->'total'));
   end loop;
  end;
+ -- A1 search (m16) with facets: result counts equal facet totals for the same filters; newest-first cursor still pages.
+ declare spec jsonb;page jsonb;n_search integer;n_facets bigint;begin
+  foreach spec in array array['{}'::jsonb,'{"facets":{"hair_colour":["black"]}}','{"facets":{"hair_colour":["black","brown"]}}','{"facets":{"hair_colour":["black"],"city":["Dubai"]}}',
+   '{"facets":{"facial_hair":["stubble"]},"facet_include_unknown":true}','{"facets":{"facial_hair":["unknown"]}}','{"q":"احمد"}','{"q":"synthetic","facets":{"city":["dubai"]}}','{"q":"A4-SYN-3"}',
+   '{"city":"Cairo"}','{"review_status":"unreviewed","facets":{"tags":["dancer"]}}','{"q":"رقص"}'] loop
+   page:=pg_temp.as_user(viewer,format('select public.eps_search_candidates(%L::jsonb)',spec||'{"limit":100}'));n_search:=jsonb_array_length(page->'data');
+   n_facets:=(pg_temp.facets(viewer,jsonb_build_object('facets',coalesce(spec->'facets','{}'::jsonb),'include_unknown',coalesce(spec->'facet_include_unknown','false'::jsonb),
+    'search',spec-'facets'-'facet_include_unknown'))->>'total')::bigint;
+   perform pg_temp.ok('search_count_equals_facet_total_'||md5(spec::text),n_search=n_facets,jsonb_build_object('spec',spec,'search',n_search,'facets',n_facets));
+  end loop;
+  page:=pg_temp.as_user(viewer,format('select public.eps_search_candidates(%L::jsonb)','{"q":"احمد","limit":100}'));
+  perform pg_temp.ok('search_arabic_name',jsonb_array_length(page->'data')=1 and page#>>'{data,0,id}'=c1::text,page);
+  page:=pg_temp.as_user(viewer,format('select public.eps_search_candidates(%L::jsonb)','{"facets":{"city":["Dubai"]},"limit":1}'));
+  perform pg_temp.ok('search_facet_first_page',jsonb_array_length(page->'data')=1 and page#>>'{page,next_cursor}' is not null,page);
+  page:=pg_temp.as_user(viewer,format('select public.eps_search_candidates(%L::jsonb)',jsonb_build_object('facets',jsonb_build_object('city',jsonb_build_array('Dubai')),'limit',1,'cursor',page#>>'{page,next_cursor}')));
+  perform pg_temp.ok('search_facet_cursor_page',jsonb_array_length(page->'data')=1 and page#>>'{page,next_cursor}' is null,page);
+  err:=pg_temp.user_error(viewer,format('select public.eps_search_candidates(%L::jsonb)','{"facets":{"ethnicity":["x"]}}'));
+  perform pg_temp.ok('search_forbidden_facet_refused',err='VALIDATION_FAILED',to_jsonb(err));
+ end;
  -- Provenance: archive labels keep their import source; supplied facts keep theirs; stated age is separate from playing age.
  r:=pg_temp.as_user(viewer,format('select public.eps_list_candidate_observations(%L::uuid)',c1));
  perform pg_temp.ok('archive_provenance',r#>>'{data,supplied,archive,source,kind}'='archive_import' and r#>'{data,supplied,archive,hair_colour}'='["Black"]'::jsonb

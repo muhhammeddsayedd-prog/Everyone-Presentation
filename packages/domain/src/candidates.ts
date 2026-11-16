@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { DomainError } from './types.ts';
 import type { SourceReference } from './specs-types.ts';
+import { parseFacetFilters } from './appearance.ts';
 import type { CandidateConfirmation, CandidateCreate, CandidateExtraction, CandidateFacts, CandidateMedia,
   CandidatePatch, CandidateSearch, CandidateSearchMatch, CandidateSource, DuplicateResolution,
   FrameSelection, MediaRepairApply, PortraitCrop, StoredCandidate, WorkspaceCandidate, WorkspaceCandidateCreate, WorkspaceCandidatePatch,
@@ -55,13 +56,15 @@ export function parseCandidateConfirmation(value: unknown): CandidateConfirmatio
   return { row_version: integer(item.row_version), ...(Object.hasOwn(item, 'confirmation_note') ? { confirmation_note: nullable(item.confirmation_note) } : {}) };
 }
 export function parseCandidateSearch(value: unknown): CandidateSearch {
-  const item = object(value, ['q', 'cursor', 'limit', 'include_unknown', 'review_status', 'workspace_id', ...filters]);
+  const item = object(value, ['q', 'cursor', 'limit', 'include_unknown', 'review_status', 'workspace_id', 'facets', 'facet_include_unknown', ...filters]);
   const result: CandidateSearch = {};
   for (const key of ['q', 'cursor', ...filters] as const) if (Object.hasOwn(item, key)) result[key] = text(item[key], key === 'cursor' ? 4000 : 500);
   if (Object.hasOwn(item, 'workspace_id')) result.workspace_id = id(item.workspace_id);
   if (Object.hasOwn(item, 'limit')) { result.limit = integer(item.limit); if (result.limit > 100) invalid(); }
   if (Object.hasOwn(item, 'include_unknown')) result.include_unknown = boolean(item.include_unknown);
   if (Object.hasOwn(item, 'review_status')) { if (!['unreviewed', 'reviewed'].includes(item.review_status as string)) invalid(); result.review_status = item.review_status as 'unreviewed' | 'reviewed'; }
+  if (Object.hasOwn(item, 'facets')) { const facets = parseFacetFilters({ facets: item.facets }).facets; if (Object.keys(facets).length) result.facets = facets; }
+  if (Object.hasOwn(item, 'facet_include_unknown')) result.facet_include_unknown = boolean(item.facet_include_unknown);
   return result;
 }
 export function parseFrameSelection(value: unknown): FrameSelection {

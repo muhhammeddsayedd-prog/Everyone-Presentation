@@ -121,3 +121,30 @@ test('facet filters: counts of people, OR within and AND across facets, chips, u
   const axe = await new AxeBuilder({ page }).include('section[aria-label="Cast Library filters"]').analyze();
   expect(axe.violations.filter(item => ['serious', 'critical'].includes(item.impact ?? ''))).toEqual([]);
 });
+
+test('Cast Library mounts the facet filters: selections reach search as facets and counts use the same filters', async ({ page }) => {
+  const searches: URLSearchParams[] = []; const facetBodies: Record<string, unknown>[] = [];
+  const person = (n: number) => ({ id: `a4e10000-0000-4000-8000-00000000000${n}`, facts: { ...facts, name: `Synthetic Library ${n}` }, review_status: 'unreviewed', reviewed_at: null, reviewed_by: null,
+    archived: false, possible_duplicate: false, merged_into_candidate_id: null, row_version: 1, search_match: null, created_at: '2026-11-01T00:00:00Z', updated_at: '2026-11-01T00:00:00Z' });
+  await page.route('**/api/**', async route => {
+    const request = route.request(); const url = new URL(request.url()); const path = url.pathname;
+    if (path === '/api/session') return route.fulfill({ json: { request_id: 's', data: { mode: 'supabase', actor: { id: 'synthetic-reader', name: 'Synthetic Reader', capabilities: ['cast.read'], upload_purposes: [] }, actors: [] } } });
+    if (path === '/api/v1/candidates') { searches.push(url.searchParams); const filtered = url.searchParams.has('facets');
+      return route.fulfill({ json: { request_id: 's', data: filtered ? [person(1)] : [person(1), person(2)], page: { next_cursor: null } } }); }
+    if (path === '/api/v1/candidate-facets/query') { const body = request.postDataJSON(); facetBodies.push(body); const selected = Object.keys(body.facets ?? {}).length > 0;
+      return route.fulfill({ json: { request_id: 's', data: { total: selected ? 1 : 2, filters: { facets: body.facets ?? {}, include_unknown: false, q: null }, facets: ['talent_type', 'city', 'stated_gender', 'playing_age', 'skin_tone', 'hair_length', 'hair_colour', 'hair_texture', 'facial_hair', 'glasses', 'build', 'languages', 'look', 'tags']
+        .map(key => ({ key, matched: 2, unknown: 1, values: key === 'hair_colour' ? [{ value: 'black', count: 1 }] : [], selected: body.facets?.[key] ?? [] })) } } }); }
+    if (path.endsWith('/photos') || path.endsWith('/media')) return route.fulfill({ json: { request_id: 's', data: [], page: { next_cursor: null } } });
+    return route.fulfill({ status: 404, json: { error: { code: 'CONTROLLED_ROUTE_UNAVAILABLE', message: 'Synthetic route unavailable.' } } });
+  });
+  await page.goto('/library/cast');
+  await page.getByRole('button', { name: 'Filters', exact: true }).click();
+  const filters = page.getByRole('region', { name: 'Cast Library filters' });
+  await expect(filters).toContainText('2 people');
+  await filters.locator('details').filter({ hasText: 'Hair colour' }).locator('summary').click();
+  await filters.getByLabel(/Black/u).check();
+  await expect(filters).toContainText('1 person');
+  await expect.poll(() => searches.at(-1)?.get('facets')).toBe('{"hair_colour":["black"]}');
+  expect(facetBodies.at(-1)).toMatchObject({ facets: { hair_colour: ['black'] }, search: { include_unknown: true } });
+  await expect(page.getByText('Synthetic Library 2')).toHaveCount(0);
+});

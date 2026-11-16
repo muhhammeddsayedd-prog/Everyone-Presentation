@@ -5008,6 +5008,15 @@
           "review_status": {
             "type": "string"
           },
+          "facets": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "JSON object {facet: [values]} using get_candidate_facets keys. OR within a facet, AND across facets; appearance facets use confirmed and corrected observations only. Result counts equal get_candidate_facets totals for the same filters."
+          },
+          "facet_include_unknown": {
+            "type": "boolean",
+            "default": false
+          },
           "cursor": {
             "type": "string"
           },
@@ -26745,6 +26754,63 @@
               "q": {
                 "type": "string",
                 "maxLength": 200
+              },
+              "search": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "The same supplied-fact filters sent to search_candidates, so counts match its results.",
+                "properties": {
+                  "q": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "include_unknown": {
+                    "type": "boolean"
+                  },
+                  "review_status": {
+                    "type": "string",
+                    "enum": [
+                      "reviewed",
+                      "unreviewed"
+                    ]
+                  },
+                  "age_or_range": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "stated_gender": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "height_measurements": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "language": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "accent": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "skill": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "city": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "previous_project_role": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "classification": {
+                    "type": "string",
+                    "maxLength": 500
+                  }
+                }
               }
             },
             "required": []
@@ -27465,6 +27531,63 @@
               "q": {
                 "type": "string",
                 "maxLength": 200
+              },
+              "search": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "The same supplied-fact filters sent to search_candidates, so counts match its results.",
+                "properties": {
+                  "q": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "include_unknown": {
+                    "type": "boolean"
+                  },
+                  "review_status": {
+                    "type": "string",
+                    "enum": [
+                      "reviewed",
+                      "unreviewed"
+                    ]
+                  },
+                  "age_or_range": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "stated_gender": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "height_measurements": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "language": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "accent": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "skill": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "city": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "previous_project_role": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "classification": {
+                    "type": "string",
+                    "maxLength": 500
+                  }
+                }
               }
             },
             "required": []
@@ -27526,6 +27649,9 @@
                         "type": "null"
                       }
                     ]
+                  },
+                  "search": {
+                    "type": "object"
                   }
                 },
                 "required": [

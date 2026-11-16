@@ -25,7 +25,7 @@ export const EMPTY_FACET_FILTERS: FacetFilters = { facets: {}, include_unknown: 
 export function LibraryFacetFilters({ value, onChange, groups = APPEARANCE_TAXONOMY.facets.map(facet => facet.key), initiallyOpen = 4 }:
   { value: FacetFilters; onChange: (next: FacetFilters) => void; groups?: string[]; initiallyOpen?: number }) {
   const [data, setData] = useState<CandidateFacets | null>(null); const [error, setError] = useState(''); const [loadedFor, setLoadedFor] = useState(''); const [attempt, setAttempt] = useState(0);
-  const body = JSON.stringify({ facets: value.facets, include_unknown: value.include_unknown, ...(value.q ? { q: value.q } : {}) });
+  const body = JSON.stringify({ facets: value.facets, include_unknown: value.include_unknown, ...(value.q ? { q: value.q } : {}), ...(value.search && Object.keys(value.search).length ? { search: value.search } : {}) });
   useEffect(() => {
     const controller = new AbortController();
     api<CandidateFacets>('/api/v1/candidate-facets/query', { method: 'POST', body, signal: controller.signal })
@@ -41,7 +41,7 @@ export function LibraryFacetFilters({ value, onChange, groups = APPEARANCE_TAXON
   return <section style={styles.filters} aria-label="Cast Library filters" aria-busy={loading}>
     <div style={styles.head}>
       <p style={styles.total} aria-live="polite">{data ? `${data.total} ${data.total === 1 ? 'person' : 'people'}` : loading ? 'Counting…' : ''}</p>
-      <button type="button" className="button button-small" disabled={!chips.length && !value.include_unknown} onClick={() => onChange({ ...EMPTY_FACET_FILTERS, ...(value.q ? { q: value.q } : {}) })}>Reset filters</button>
+      <button type="button" className="button button-small" disabled={!chips.length && !value.include_unknown} onClick={() => onChange({ ...EMPTY_FACET_FILTERS, ...(value.q ? { q: value.q } : {}), ...(value.search ? { search: value.search } : {}) })}>Reset filters</button>
     </div>
     <p className="small muted">Counts are people. Appearance filters use confirmed and corrected values only; suggestions awaiting review are not counted. Archive labels and supplied facts count as supplied.</p>
     {chips.length > 0 && <ul style={styles.chips} aria-label="Active filters">{chips.map(({ facet, item }) => <li key={`${facet}:${item}`}>

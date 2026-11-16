@@ -41,10 +41,12 @@ export interface CandidateObservations { candidate_id: string; supplied: Supplie
 export type ObservationReview = { row_version: number; action: 'confirm' | 'reject' | 'reset' } | { row_version: number; action: 'override'; value: string };
 
 /** Library facet filter: OR within one facet, AND across facets. "unknown" may be selected as a value. */
-export interface FacetFilters { facets: Partial<Record<string, string[]>>; include_unknown: boolean; q?: string }
+export interface FacetFilters { facets: Partial<Record<string, string[]>>; include_unknown: boolean; q?: string;
+  /** Cast Library supplied-fact filters (search_candidates keys) so facet counts equal search results. */
+  search?: Record<string, string | boolean> }
 export interface FacetValueCount { value: string; count: number }
 export interface FacetCounts { key: string; matched: number; unknown: number; values: FacetValueCount[]; selected: string[] }
-export interface CandidateFacets { total: number; filters: { facets: Partial<Record<string, string[]>>; include_unknown: boolean; q: string | null }; facets: FacetCounts[] }
+export interface CandidateFacets { total: number; filters: { facets: Partial<Record<string, string[]>>; include_unknown: boolean; q: string | null; search?: Record<string, string | boolean> }; facets: FacetCounts[] }
 export interface EnrichmentBatchStart { workspace_id: string; candidate_ids?: string[]; filters?: FacetFilters; limit: number; spend_cap_cents: number }
 export interface EnrichmentBatch {
   id: string; workspace_id: string; status: 'running' | 'completed' | 'stopped_spend_cap' | 'cancelled'; scope: Record<string, unknown>; item_limit: number;
@@ -102,9 +104,12 @@ export function appearanceValueLabel(attribute: string, value: string, arabic = 
 
 export function parseFacetFilters(value: unknown): FacetFilters {
   if (value === undefined || value === null) return { facets: {}, include_unknown: false };
-  if (typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['facets', 'include_unknown', 'q'].includes(key))) invalid('Provide facets, include_unknown and q only.');
+  if (typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['facets', 'include_unknown', 'q', 'search'].includes(key))) invalid('Provide facets, include_unknown, q and search only.');
   const input = value as Record<string, unknown>;
   if (input.q !== undefined && (typeof input.q !== 'string' || input.q.length > 200)) invalid('q is a short text query.');
+  const SEARCH = ['q','include_unknown','review_status','age_or_range','stated_gender','height_measurements','language','accent','skill','city','previous_project_role','classification'];
+  if (input.search !== undefined && (!input.search || typeof input.search !== 'object' || Array.isArray(input.search) || Object.entries(input.search).some(([key, entry]) => !SEARCH.includes(key)
+    || (key === 'include_unknown' ? typeof entry !== 'boolean' : typeof entry !== 'string' || entry.length > 500)))) invalid('search uses the Cast Library search filters only.');
   if (input.include_unknown !== undefined && typeof input.include_unknown !== 'boolean') invalid('include_unknown must be a boolean.');
   const facets: Partial<Record<string, string[]>> = {};
   if (input.facets !== undefined) {
@@ -114,7 +119,8 @@ export function parseFacetFilters(value: unknown): FacetFilters {
       if ((list as string[]).length) facets[key] = [...new Set(list as string[])];
     }
   }
-  return { facets, include_unknown: input.include_unknown === true, ...(typeof input.q === 'string' && input.q.trim() ? { q: input.q } : {}) };
+  return { facets, include_unknown: input.include_unknown === true, ...(typeof input.q === 'string' && input.q.trim() ? { q: input.q } : {}),
+    ...(input.search !== undefined && Object.keys(input.search as object).length ? { search: structuredClone(input.search) as Record<string, string | boolean> } : {}) };
 }
 /** Library URL state: facet=hair_colour:black&facet=city:Dubai&include_unknown=true (repeatable "facet"). */
 export function facetFiltersToSearchParams(filters: FacetFilters, params = new URLSearchParams()): URLSearchParams {

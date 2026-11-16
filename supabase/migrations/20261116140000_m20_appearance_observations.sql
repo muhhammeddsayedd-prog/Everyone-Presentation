@@ -12,6 +12,8 @@
 --  * eps.candidate_search_projection + eps.cast_facet_match + public.eps_candidate_facets: per-facet counts of distinct
 --    active people (OR within a facet, AND across facets, each facet counted with the other facets applied), with an
 --    explicit unknown count. Sources: confirmed/overridden observations, m09 supplied attributes, supplied facts.
+--  * public.eps_search_candidates (A1, m16) gains optional "facets"/"facet_include_unknown" through one guarded seam; the same
+--    row predicate (eps.cast_library_row_ok) backs search results and facet counts, so counts agree for the same filters.
 --  * Reads/reviews: public.eps_list_candidate_observations, public.eps_review_candidate_observation,
 --    public.eps_start_enrichment_batch, public.eps_get_enrichment_batch.
 -- Vocabularies mirror contracts/appearance-taxonomy.json (checked by tests/contracts/appearance-taxonomy.test.ts).
@@ -28,7 +30,8 @@ do $m20$declare item record;begin
   ('eps.get_specs_stage_input(uuid,uuid,text)','32d100e4eb4ca21a8fb2a8049b26468af34e2d28365ae5a31ac2a79a7374127d'),
   ('eps.record_job_event(jsonb)','96d70c9e16e3361789f2082fb605941fc08e654a96d6b13a6abbfe6bd730d4e8'),
   ('eps.get_job_asset_access(jsonb)','76443c945131f0c7e832014e8dba09995d917397a001a742a62cb91a15278842'),
-  ('eps.recover_job_stages(integer)','db7390a966236eed63990da16430e5d16e46b31da441ffb2107e29b2ef171bf1'))v(signature,expected) loop
+  ('eps.recover_job_stages(integer)','db7390a966236eed63990da16430e5d16e46b31da441ffb2107e29b2ef171bf1'),
+  ('public.eps_search_candidates(jsonb)','4463653a7f4ce3564e086639a2f4fe9b98731de94acba906e27fc0bf6c196837'))v(signature,expected) loop
   if to_regprocedure(item.signature) is null or (select encode(sha256(convert_to(replace(prosrc,E'\r\n',E'\n'),'UTF8')),'hex') from pg_proc where oid=item.signature::regprocedure)<>item.expected
   then raise exception 'M20_EXACT_PRECEDING_PORT_SOURCE_REQUIRED:%',item.signature;end if;
  end loop;
@@ -316,9 +319,13 @@ create trigger appearance_projection after update of ambiguous,target_person_ind
 -- 7. Facet filters: {"facets":{"hair_colour":["black","dark"],...},"include_unknown":false}. OR within a facet, AND across.
 create function eps.appearance_filters(p_filters jsonb) returns jsonb language plpgsql immutable set search_path='' as $$declare f record;v jsonb;begin
  if p_filters is null or p_filters='null'::jsonb then return '{"facets":{},"include_unknown":false}'::jsonb;end if;
- if jsonb_typeof(p_filters)<>'object' or exists(select 1 from jsonb_object_keys(p_filters) k where k not in('facets','include_unknown','q'))
+ if jsonb_typeof(p_filters)<>'object' or exists(select 1 from jsonb_object_keys(p_filters) k where k not in('facets','include_unknown','q','search'))
   or p_filters ? 'include_unknown' and jsonb_typeof(p_filters->'include_unknown')<>'boolean'
   or p_filters ? 'q' and (jsonb_typeof(p_filters->'q')<>'string' or length(p_filters->>'q')>200)
+  or p_filters ? 'search' and (jsonb_typeof(p_filters->'search')<>'object' or octet_length((p_filters->'search')::text)>10000
+   or exists(select 1 from jsonb_each(p_filters->'search') e where e.key not in('q','include_unknown','review_status','age_or_range','stated_gender','height_measurements','language','accent',
+    'skill','city','previous_project_role','classification') or e.key='include_unknown' and jsonb_typeof(e.value)<>'boolean' or e.key<>'include_unknown' and (jsonb_typeof(e.value)<>'string' or length(e.value#>>'{}')>500))
+   or p_filters->'search'?'review_status' and p_filters#>>'{search,review_status}' not in('reviewed','unreviewed'))
   or p_filters ? 'facets' and jsonb_typeof(p_filters->'facets')<>'object' then perform eps.fail('VALIDATION_FAILED','Provide facets as {facet:[values]} and include_unknown as a boolean.',400);end if;
  for f in select key,value from jsonb_each(coalesce(p_filters->'facets','{}')) loop
   if not f.key=any(eps.appearance_facet_keys_allowed()) or jsonb_typeof(f.value)<>'array' or jsonb_array_length(f.value)>50 then perform eps.fail('VALIDATION_FAILED','Unsupported facet filter.',400);end if;
@@ -329,7 +336,7 @@ create function eps.appearance_filters(p_filters jsonb) returns jsonb language p
  return jsonb_build_object('facets',coalesce((select jsonb_object_agg(key,(select coalesce(jsonb_agg(distinct x order by x),'[]'::jsonb) from(
    select case when e='unknown' then e when key in('city','stated_gender','languages','look','tags') then eps.appearance_norm(e) else e end x from jsonb_array_elements_text(value) e)y))
   from jsonb_each(coalesce(p_filters->'facets','{}')) where jsonb_array_length(value)>0),'{}'::jsonb),'include_unknown',coalesce((p_filters->>'include_unknown')::boolean,false),
-  'q',eps.appearance_norm(p_filters->>'q'));
+  'q',eps.appearance_norm(p_filters->>'q'),'search',coalesce(p_filters->'search','{}'::jsonb));
 end$$;
 -- Normalised substring match over English/Arabic names, casting id and tags (null/empty query matches everyone).
 create function eps.appearance_text_ok(p_name text,p_name_ar text,p_casting text,p_tags text[],p_q text) returns boolean language sql immutable set search_path='' as $$
@@ -347,17 +354,27 @@ declare filters jsonb:=eps.appearance_filters(p_filters);begin
  if filters->'facets'='{}'::jsonb then return true;end if;
  return coalesce((select eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null) from eps.candidate_search_projection p where p.candidate_id=p_candidate_id),false);
 end$$;
+-- The single Cast Library row predicate shared by public.eps_search_candidates and public.eps_candidate_facets:
+-- A1's supplied-fact filters (cast_search_match; its q, or the normalised EN/AR name/casting id/tag match), Reviewed
+-- status, and facet filters. p_search uses A1's search keys plus "facets" and "facet_include_unknown".
+create function eps.cast_library_row_ok(p_candidate eps.candidates,p_search jsonb) returns boolean language sql stable security definer set search_path='' as $$
+ select (eps.cast_search_match(p_candidate.facts,p_search) is not null
+   or nullif(btrim(p_search->>'q'),'') is not null and eps.cast_search_match(p_candidate.facts,p_search-'q') is not null and eps.cast_text_match(p_candidate.id,p_search->>'q'))
+  and (not p_search?'review_status' or (p_search->>'review_status'='reviewed')=eps.cast_is_reviewed(p_candidate))
+  and (not p_search?'facets' or eps.cast_facet_match(p_candidate.id,jsonb_build_object('facets',p_search->'facets','include_unknown',coalesce(p_search->'facet_include_unknown','false'::jsonb))))$$;
 create function public.eps_candidate_facets(p_filters jsonb) returns jsonb language plpgsql stable security definer set search_path='' as $$
-declare filters jsonb;facets jsonb:='[]';f text;total bigint;unknown bigint;matched bigint;vals jsonb;begin
+declare filters jsonb;search jsonb;facets jsonb:='[]';f text;total bigint;unknown bigint;matched bigint;vals jsonb;begin
  perform eps.require_capability('cast.read');filters:=eps.appearance_filters(p_filters);
- select count(*) into total from eps.candidate_search_projection p where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null)
-  and eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,filters->>'q');
+ -- Same supplied-fact/text/Reviewed predicate as search; facet filters are applied per facet below.
+ search:=filters->'search'||case when filters->>'q' is not null then jsonb_build_object('q',filters->>'q') else '{}'::jsonb end;
+ select count(*) into total from eps.candidate_search_projection p join eps.candidates c on c.id=p.candidate_id where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null)
+  and eps.cast_library_row_ok(c,search);
  foreach f in array eps.appearance_facet_keys_allowed() loop
-  select count(*),count(*) filter(where not(f=any(p.facet_names))) into matched,unknown from eps.candidate_search_projection p
-   where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,f) and eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,filters->>'q');
+  select count(*),count(*) filter(where not(f=any(p.facet_names))) into matched,unknown from eps.candidate_search_projection p join eps.candidates c on c.id=p.candidate_id
+   where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,f) and eps.cast_library_row_ok(c,search);
   select coalesce(jsonb_agg(jsonb_build_object('value',value,'count',n) order by n desc,value),'[]') into vals from(
-   select substr(k,length(f)+2) value,count(distinct p.candidate_id) n from eps.candidate_search_projection p cross join unnest(p.facet_keys) k
-   where p.active and k like f||':%' and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,f) and eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,filters->>'q')
+   select substr(k,length(f)+2) value,count(distinct p.candidate_id) n from eps.candidate_search_projection p join eps.candidates c on c.id=p.candidate_id cross join unnest(p.facet_keys) k
+   where p.active and k like f||':%' and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,f) and eps.cast_library_row_ok(c,search)
    group by 1 order by 2 desc,1 limit case when f='tags' then 30 else 100 end)x;
   facets:=facets||jsonb_build_array(jsonb_build_object('key',f,'matched',matched,'unknown',unknown,'values',vals,
    'selected',coalesce(filters#>array['facets',f],'[]'::jsonb)));
@@ -565,7 +582,8 @@ declare principal uuid:=auth.uid();cfg eps.appearance_config;existing eps.enrich
   insert into eps.enrichment_batch_items(batch_id,candidate_id,position)
   select v_batch,p.candidate_id,row_number() over(order by analysed,c.created_at desc,c.id) from eps.candidate_search_projection p join eps.candidates c on c.id=p.candidate_id
    cross join lateral(select exists(select 1 from eps.candidate_observation_media m where m.candidate_id=p.candidate_id and m.prompt_version=cfg.prompt_version) analysed)a
-   where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null) and eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,filters->>'q') order by analysed,c.created_at desc,c.id limit (p_input->>'limit')::integer;
+   where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null)
+    and eps.cast_library_row_ok(c,filters->'search'||case when filters->>'q' is not null then jsonb_build_object('q',filters->>'q') else '{}'::jsonb end) order by analysed,c.created_at desc,c.id limit (p_input->>'limit')::integer;
  end if;
  get diagnostics n=row_count;
  if n=0 then perform eps.fail('VALIDATION_FAILED','No active people match this batch.',422);end if;
@@ -782,7 +800,7 @@ end$$;
 grant create on schema eps,public to eps_appearance_owner;
 do $own$declare r regprocedure;begin
  for r in select p.oid::regprocedure from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='eps' and (p.proname like 'appearance\_%' or p.proname in('refresh_candidate_projection',
-  'cast_facet_match','cast_text_match','claim_appearance_job_stage','get_appearance_stage_input','get_appearance_asset_access','record_appearance_job_event','recover_appearance_job_stages'))
+  'cast_facet_match','cast_text_match','cast_library_row_ok','claim_appearance_job_stage','get_appearance_stage_input','get_appearance_asset_access','record_appearance_job_event','recover_appearance_job_stages'))
   or n.nspname='public' and p.proname in('eps_candidate_facets','eps_list_candidate_observations','eps_review_candidate_observation','eps_start_enrichment_batch','eps_get_enrichment_batch') loop
   execute format('alter function %s owner to eps_appearance_owner',r);execute format('revoke all on function %s from public,anon,authenticated,service_role',r);
  end loop;
@@ -795,7 +813,8 @@ grant execute on function eps.appearance_vocabulary(),eps.appearance_value_valid
  eps.appearance_facet_keys_allowed(),eps.appearance_filters(jsonb),eps.appearance_filter_ok(text[],text[],jsonb,text),eps.appearance_text_ok(text,text,text,text[],text) to public;
 grant execute on function public.eps_candidate_facets(jsonb),public.eps_list_candidate_observations(uuid),public.eps_review_candidate_observation(uuid,jsonb,text),
  public.eps_start_enrichment_batch(jsonb,text),public.eps_get_enrichment_batch(uuid) to authenticated;
-grant execute on function eps.cast_facet_match(uuid,jsonb),eps.cast_text_match(uuid,text) to eps_cast_owner;
+grant execute on function eps.cast_facet_match(uuid,jsonb),eps.cast_text_match(uuid,text),eps.cast_library_row_ok(eps.candidates,jsonb) to eps_cast_owner;
+grant execute on function eps.cast_search_match(jsonb,jsonb),eps.cast_is_reviewed(eps.candidates),eps.cast_fingerprint(jsonb,jsonb),eps.cast_supplied_age_bounds(text) to eps_appearance_owner;
 grant execute on function eps.appearance_is_job(uuid),eps.claim_appearance_job_stage(jsonb),eps.get_appearance_stage_input(uuid,uuid,text),eps.record_appearance_job_event(jsonb),
  eps.recover_appearance_job_stages(integer) to eps_specs_stage_owner;
 grant execute on function eps.appearance_is_job(uuid),eps.get_appearance_asset_access(jsonb) to eps_specs_assets_owner;
@@ -826,6 +845,23 @@ do $$declare item record;begin
   execute format('alter policy %I on storage.objects using((%s) OR((storage.allow_only_operation(''object.get_authenticated'') OR storage.allow_only_operation(''object.get_authenticated_info'')) AND eps.appearance_capability_allowed(bucket_id,name,''read'')))',item.polname,item.body);
  end loop;
 end$$;
+
+-- 12b. A1's newest-first search (m16) gains facet filtering through one seam; cursor v2 (the fingerprint already covers every
+-- search key except cursor/limit), membership batching and the card DTO are untouched.
+do $search$declare source text;definition text;replacement text;begin
+ select replace(prosrc,E'\r\n',E'\n'),replace(pg_get_functiondef(oid),E'\r\n',E'\n') into source,definition from pg_proc where oid='public.eps_search_candidates(jsonb)'::regprocedure;
+ replacement:=replace(source,$a$'previous_project_role','classification']);$a$,$a$'previous_project_role','classification','facets','facet_include_unknown']);
+ if p_search?'facet_include_unknown' and jsonb_typeof(p_search->'facet_include_unknown')<>'boolean' then perform eps.fail('INVALID_REQUEST','Invalid facet filter.',400); end if;
+ if p_search?'facets' then perform eps.appearance_filters(jsonb_build_object('facets',p_search->'facets')); end if;$a$);
+ replacement:=replace(replacement,$a$   and eps.cast_search_match(candidate.facts,p_search) is not null
+   and (not p_search?'review_status' or (p_search->>'review_status'='reviewed')=eps.cast_is_reviewed(candidate))
+$a$,$a$   and eps.cast_library_row_ok(candidate,p_search)
+$a$);
+ if replacement=source or (length(replacement)-length(replace(replacement,'cast_library_row_ok','')))<>length('cast_library_row_ok') or strpos(replacement,'facet_include_unknown')=0
+ then raise exception 'M20_SEARCH_SEAM_CHANGED';end if;
+ execute replace(definition,source,replacement);
+end$search$;
+grant execute on function eps.appearance_filters(jsonb) to eps_cast_owner;
 
 -- 13. Backfill the projection for every existing candidate (derived data only).
 insert into eps.candidate_search_projection select r.* from eps.candidates c cross join lateral eps.appearance_projection_row(c.id) r;

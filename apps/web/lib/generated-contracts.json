@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "c60731b3a336d06873b377d1d5e4ebcdb2f998169d09f916a94def02e7c79e74",
+  "x-source-sha256": "cb98aeea85d07842f0658f7713b9b41b58ecb75dad3eabdede84f1223482c2c3",
   "$defs": {
     "Id": {
       "type": "string",
@@ -8095,6 +8095,63 @@
         "q": {
           "type": "string",
           "maxLength": 200
+        },
+        "search": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "The same supplied-fact filters sent to search_candidates, so counts match its results.",
+          "properties": {
+            "q": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "include_unknown": {
+              "type": "boolean"
+            },
+            "review_status": {
+              "type": "string",
+              "enum": [
+                "reviewed",
+                "unreviewed"
+              ]
+            },
+            "age_or_range": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "stated_gender": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "height_measurements": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "language": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "accent": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "skill": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "city": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "previous_project_role": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "classification": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
         }
       },
       "required": []
@@ -8132,6 +8189,9 @@
                   "type": "null"
                 }
               ]
+            },
+            "search": {
+              "type": "object"
             }
           },
           "required": [
