@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "427b4b9296decc4c51ba4fc8224434c7f743d69113fd9600d815f59d7aba2274",
+  "x-source-sha256": "52c9ca32a26b51016e5bf50ebb79b0153acb706edf8346f2387db9e652973e25",
   "$defs": {
     "Id": {
       "type": "string",
@@ -7172,6 +7172,768 @@
       "required": [
         "applied",
         "skipped"
+      ]
+    },
+    "SceneRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
+      },
+      "required": [
+        "items"
+      ]
+    },
+    "SceneOccurrence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "scene_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "role_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "role_name": {
+          "type": "string"
+        },
+        "slot_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+        },
+        "display_title": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "setting_override": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "presentation_note": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deck_placement": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "repeat",
+            "hidden"
+          ],
+          "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "proposed",
+            "confirmed"
+          ]
+        },
+        "source_refs": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          }
+        },
+        "sort_order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "proposal_stale": {
+          "type": "boolean",
+          "description": "True for a proposal made against an older version of the role (renamed or requirements changed since); confirming skips it. Review and link again or reject it."
+        }
+      },
+      "required": [
+        "id",
+        "scene_id",
+        "role_id",
+        "role_name",
+        "slot_ids",
+        "display_title",
+        "setting_override",
+        "presentation_note",
+        "deck_placement",
+        "status",
+        "source_refs",
+        "sort_order",
+        "row_version",
+        "proposal_stale"
+      ],
+      "description": "A canonical role (character) appearing in a scene. Every occurrence of one role shares its slots, Main/Option/Backup and shortlist."
+    },
+    "Scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "workspace_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "scene_number": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "pattern": "\\S",
+          "description": "Scene title; not blank."
+        },
+        "sequence_label": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "setting": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requirements": {
+          "$ref": "#/$defs/SceneRequirements"
+        },
+        "source_refs": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/SourceReference"
+          },
+          "description": "Read-only provenance from specs extraction."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "proposed",
+            "confirmed"
+          ]
+        },
+        "sort_order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "occurrences": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/SceneOccurrence"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "workspace_id",
+        "scene_number",
+        "title",
+        "sequence_label",
+        "setting",
+        "notes",
+        "requirements",
+        "source_refs",
+        "status",
+        "sort_order",
+        "row_version",
+        "archived",
+        "occurrences"
+      ],
+      "description": "A structured scene of the project. Scenes reference roles only through occurrences; casting stays on roles and slots."
+    },
+    "RoleOccurrence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "occurrence_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "scene_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "scene_number": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scene_title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "pattern": "\\S",
+          "description": "Scene title; not blank."
+        },
+        "setting": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scene_position": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-based position in the active scene order."
+        },
+        "scene_status": {
+          "type": "string",
+          "enum": [
+            "proposed",
+            "confirmed"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "proposed",
+            "confirmed"
+          ]
+        }
+      },
+      "required": [
+        "occurrence_id",
+        "scene_id",
+        "scene_number",
+        "scene_title",
+        "setting",
+        "scene_position",
+        "scene_status",
+        "status"
+      ]
+    },
+    "SceneCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "pattern": "\\S",
+          "description": "Scene title; not blank."
+        },
+        "scene_number": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sequence_label": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "setting": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requirements": {
+          "$ref": "#/$defs/SceneRequirements"
+        }
+      },
+      "required": [
+        "title"
+      ]
+    },
+    "ScenePatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "pattern": "\\S",
+          "description": "Scene title; not blank."
+        },
+        "scene_number": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sequence_label": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "setting": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requirements": {
+          "$ref": "#/$defs/SceneRequirements"
+        }
+      },
+      "required": [
+        "row_version"
+      ],
+      "minProperties": 2
+    },
+    "SceneReorder": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "row_version": {
+          "$ref": "#/$defs/RowVersion",
+          "description": "The workspace row_version."
+        },
+        "scene_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "description": "Exactly the full active scene set in its new order."
+        }
+      },
+      "required": [
+        "row_version",
+        "scene_ids"
+      ]
+    },
+    "SceneOrder": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workspace_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "scene_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        }
+      },
+      "required": [
+        "workspace_id",
+        "row_version",
+        "scene_ids"
+      ]
+    },
+    "SceneVersionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        }
+      },
+      "required": [
+        "row_version"
+      ]
+    },
+    "SceneOccurrenceLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "role_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "slot_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+        },
+        "display_title": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "setting_override": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "presentation_note": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deck_placement": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "repeat",
+            "hidden"
+          ],
+          "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+        }
+      },
+      "required": [
+        "role_id"
+      ]
+    },
+    "SceneOccurrencePatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "slot_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "description": "Subset of the role's active slots shown for this scene; [] = every slot of the role."
+        },
+        "display_title": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "setting_override": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "presentation_note": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deck_placement": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "repeat",
+            "hidden"
+          ],
+          "description": "auto = printed once at the first occurrence with a combined setting caption; repeat = also printed here; hidden = not printed here."
+        }
+      },
+      "required": [
+        "row_version"
+      ],
+      "minProperties": 2
+    },
+    "SceneProposalConfirm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "row_version": {
+          "$ref": "#/$defs/RowVersion",
+          "description": "The workspace row_version."
+        },
+        "scene_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "occurrence_ids": {
+          "type": "array",
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        }
+      },
+      "required": [
+        "row_version"
+      ],
+      "description": "Omit both lists to confirm every active proposal in the workspace."
+    },
+    "SceneProposalConfirmResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workspace_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "confirmed_scene_ids": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "confirmed_occurrence_ids": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "skipped_occurrence_ids": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "description": "Stale proposals left for review (the role changed since the proposal)."
+        }
+      },
+      "required": [
+        "workspace_id",
+        "row_version",
+        "confirmed_scene_ids",
+        "confirmed_occurrence_ids",
+        "skipped_occurrence_ids"
+      ]
+    },
+    "SceneProposalRejectResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workspace_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "rejected_scene_ids": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        },
+        "rejected_occurrence_ids": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        }
+      },
+      "required": [
+        "workspace_id",
+        "row_version",
+        "rejected_scene_ids",
+        "rejected_occurrence_ids"
       ]
     }
   }

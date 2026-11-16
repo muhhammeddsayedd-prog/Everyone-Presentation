@@ -7,6 +7,8 @@ export { createCentralJobs } from './jobs.ts';
 export type { CentralJob, JobListOptions, JobMutationInput, FrameExtractionOutcome } from './jobs.ts';
 export { createCentralSpecs } from './specs.ts';
 export type { CentralSpecs, SpecsListOptions, SpecsArchiveInput, SpecsArchiveResult } from './specs.ts';
+export { createCentralScenes } from './scenes.ts';
+export type { CentralScenes, ScenesListOptions } from './scenes.ts';
 export { createCentralCasting } from './casting.ts';
 export { createCentralReview } from './review.ts';
 export { createCentralPresentations } from './presentation.ts';

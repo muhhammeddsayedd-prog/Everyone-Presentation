@@ -22,6 +22,7 @@ COPY packages ./packages
 COPY --from=dependencies /opt/eps/apps ./apps
 COPY --from=dependencies /opt/eps/packages ./packages
 COPY contracts/json-schema/specs-extraction.schema.json \
+     contracts/json-schema/specs-extraction-v2.schema.json \
      contracts/json-schema/candidate-extraction.schema.json \
      contracts/json-schema/frame-selection.schema.json \
      contracts/json-schema/slide-wording.schema.json ./contracts/json-schema/

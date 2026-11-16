@@ -1,6 +1,6 @@
 export { IntegrationError } from './errors.ts';
-export { extractSpecs, openAISpecsConfigFromEnv, boundedStreamingSpecsConfigFromEnv } from './openai-specs.ts';
-export type { OpenAISpecsConfig, SpecsTransport } from './openai-specs.ts';
+export { extractSpecs, openAISpecsConfigFromEnv, boundedStreamingSpecsConfigFromEnv, SPECS_RESULT_SCHEMA_VERSIONS } from './openai-specs.ts';
+export type { OpenAISpecsConfig, SpecsTransport, SpecsPromptVersion } from './openai-specs.ts';
 export { N8nDispatcher, n8nDispatchConfigFromEnv, validateStageReadyEnvelope } from './n8n-dispatch.ts';
 export type { N8nDispatchConfig, StageReadyEnvelope, DispatchFetch } from './n8n-dispatch.ts';
 export type * from './specs-types.ts';

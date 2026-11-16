@@ -7,6 +7,7 @@ import { DomainError, type Actor, type ProjectCreate, type WorkspaceCreate, type
 import type { createCentralStudio } from '@eps/central';
 import catalog from '../../../contracts/mcp-tool-catalog.json';
 import { handleSpecsRequest, isManualSpecsRoute, type SpecsOperations } from './specs-http';
+import { handleScenesRequest, isScenesRoute, type ScenesOperations } from './scenes-http';
 import { handleJobRequest, type JobOperations } from './job-http';
 import { handleCandidatesRequest, isCandidatesRoute, type CandidatesOperations } from './candidates-http';
 import { handleCastingRequest, isCastingRoute } from './casting-http';
@@ -41,10 +42,13 @@ const REVIEW_TOOLS = new Set(['list_presentation_series','create_presentation_se
 const PRESENTATION_TOOLS = new Set(['list_versions', 'generate_version', 'get_version', 'download_version_pdf', 'download_version_pptx', 'play_version_media']);
 const SHARING_TOOLS = new Set(['list_review_links', 'create_review_link', 'update_review_link', 'revoke_review_link', 'rotate_review_link', 'list_feedback', 'get_feedback_summary', 'create_comment', 'update_comment', 'set_preference', 'prepare_pdf_export', 'get_pdf_export', 'download_pdf_export']);
 const SETTINGS_TOOLS = new Set(['get_settings', 'update_settings']);
-const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name) || PRESENTATION_TOOLS.has(tool.name) || SHARING_TOOLS.has(tool.name) || SETTINGS_TOOLS.has(tool.name));
+/** Structured scenes (cycle 7). Always advertised; a composition without the central scene service answers FEATURE_NOT_IMPLEMENTED. */
+const SCENE_TOOLS = new Set(['list_scenes', 'create_scene', 'update_scene', 'reorder_scenes', 'archive_scene', 'link_scene_occurrence',
+  'update_scene_occurrence', 'unlink_scene_occurrence', 'list_role_occurrences', 'confirm_scene_proposals', 'reject_scene_proposals']);
+const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || SCENE_TOOLS.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name) || PRESENTATION_TOOLS.has(tool.name) || SHARING_TOOLS.has(tool.name) || SETTINGS_TOOLS.has(tool.name));
 const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
 const checks = new Map(entries.map(tool => [tool.name, ajv.compile(tool.inputSchema)]));
-export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations; presentation?: PresentationOperations; sharing?: ReviewLinkOperations; settings?: SettingsOperations }
+export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations; presentation?: PresentationOperations; sharing?: ReviewLinkOperations; settings?: SettingsOperations; scenes?: ScenesOperations }
 export interface McpToolCompleted { operation: string; result: Record<string, unknown> }
 export interface McpAuthority { allowedCapabilities?: readonly string[];
   onToolCompleted?(event: McpToolCompleted): void | Promise<void> }
@@ -109,6 +113,8 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
     else if (PRESENTATION_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Fixed presentations are not available in this server composition.', 503);
     else if (isReviewRoute(s) && services.review) response = await handleReviewRequest(request, s, actor, services.review, context);
     else if (REVIEW_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Presentation review is not available in this server composition.', 503);
+    else if (isScenesRoute(s) && services.scenes) response = await handleScenesRequest(request, s, actor, services.scenes, context);
+    else if (SCENE_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Scenes are not available in this server composition.', 503);
     else if (isCastingRoute(s) && services.casting) response = await handleCastingRequest(request, s, actor, services.casting, context);
     else if (CASTING_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Casting assignments are not available in this server composition.', 503);
     else if (isManualSpecsRoute(s)) response = await handleSpecsRequest(request, s, actor, services.specs, context);

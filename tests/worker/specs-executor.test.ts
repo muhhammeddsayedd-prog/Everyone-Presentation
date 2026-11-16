@@ -338,3 +338,46 @@ test('source fetch cancelled or expired during transport never starts paid extra
     } finally { clearTimeout(timer); }
   }
 });
+
+test('extraction v2 is selected only by the job-frozen spec_extract_v2.0.0/2.0 pair; other pairs fail before the provider', async () => {
+  const v2 = { ...configuration, prompt_version: 'spec_extract_v2.0.0', result_schema_version: '2.0' };
+  const emptyV2 = { ...emptyResult, schema_version: '2.0', scenes: [] };
+  const withConfiguration = (value: typeof configuration) => {
+    const f = fixture('extract_specs');
+    f.lease.input = { ...f.lease.input, configuration: { ...value } }; f.input.configuration = { ...value };
+    f.gateway.getInput = async () => sorted(f.input); return f;
+  };
+  const accepted = withConfiguration(v2); let seen: unknown;
+  await executeSpecsStage(accepted.lease, accepted.gateway, { openAI, extract: async (input, config, _transport, signal) => {
+    seen = config.promptVersion;
+    return extractSpecs(input, config, async request => {
+      assert.equal(request.text?.format?.type === 'json_schema' && request.text.format.name, 'specs_extraction_v2');
+      return { id: 'resp_v2', model: 'synthetic-resolved-model', status: 'completed', error: null,
+        output: [{ type: 'message', role: 'assistant', status: 'completed', content: [{ type: 'output_text', text: JSON.stringify(emptyV2) }] }] };
+    }, signal);
+  } });
+  assert.equal(seen, 'spec_extract_v2.0.0');
+  assert.equal(accepted.events.length, 1); assert.equal(accepted.events[0].event_type, 'succeeded');
+  assert.equal(accepted.events[0].result_schema, 'specs-extraction-stage.v1');
+  assert.deepEqual(accepted.events[0].result?.result, emptyV2);
+  assert.equal((accepted.events[0].result?.metadata as Record<string, unknown>).schema_version, '2.0');
+  assert.equal((accepted.events[0].result?.metadata as Record<string, unknown>).prompt_version, 'spec_extract_v2.0.0');
+
+  const v1 = withConfiguration(configuration); let v1Seen: unknown = 'unset';
+  await executeSpecsStage(v1.lease, v1.gateway, { openAI, extract: async (...args) => { v1Seen = args[1].promptVersion; return syntheticExtract(...args); } });
+  assert.equal(v1Seen, 'spec_extract_v1.0.0'); assert.equal(v1.events[0].event_type, 'succeeded');
+
+  for (const pair of [{ prompt_version: 'spec_extract_v1.0.0', result_schema_version: '2.0' },
+    { prompt_version: 'spec_extract_v2.0.0', result_schema_version: '1.0' },
+    { prompt_version: 'spec_extract_v3.0.0', result_schema_version: '3.0' },
+    { prompt_version: 'toString', result_schema_version: '1.0' }]) {
+    for (const stage of ['prepare_document', 'extract_specs', 'apply_specs']) {
+      const f = fixture(stage); const value = { ...configuration, ...pair };
+      f.lease.input = { ...f.lease.input, configuration: { ...value } }; f.input.configuration = { ...value };
+      f.gateway.getInput = async () => sorted(f.input);
+      await assert.rejects(executeSpecsStage(f.lease, f.gateway, { openAI, extract: async () => { throw new Error('must not call'); } }),
+        (error: unknown) => error instanceof SpecsExecutionError && error.code === 'STAGE_INPUT_INVALID');
+      assert.equal(f.events.length, 0);
+    }
+  }
+});

@@ -23,6 +23,8 @@ import { draftKey } from './workspace/draft-review';
 interface Props {
   workspaceId: string; projectId: string; actor: Actor; initialOutput?: CastingOutput;
   onDirtyChange: (dirty: boolean) => void; onWorkspaceChanged: () => void;
+  /** Opens on this role in the one-role layout (from the scene breakdown's "Cast this role"). */
+  focusRoleId?: string;
 }
 interface BoardData { workspace: Workspace; roles: Role[]; slots: Slot[]; pool: WorkspaceCandidate[]; assignments: Assignment[] }
 interface UndoChoice { payload: MainUndo; revisions: Record<string, number> }
@@ -52,9 +54,9 @@ async function pages<T extends { id: string }>(path: string, signal: AbortSignal
 
 /** Scope changes remount the editor, preventing late reads/writes from another project or actor. */
 export function CastingBoard(props: Props) { return <CastingBoardScope key={`${props.actor.id}:${props.workspaceId}`} {...props} />; }
-function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'selection', onDirtyChange, onWorkspaceChanged }: Props) {
+function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'selection', onDirtyChange, onWorkspaceChanged, focusRoleId }: Props) {
   const [data, setData] = useState<BoardData | null>(null); const [profiles, setProfiles] = useState<Record<string, Candidate>>({});
-  const [previewOutput, setPreviewOutput] = useState<CastingOutput | null>(null); const [selectedRole, setSelectedRole] = useState(''); const [view, setView] = useState<'all' | 'one'>('all');
+  const [previewOutput, setPreviewOutput] = useState<CastingOutput | null>(null); const [selectedRole, setSelectedRole] = useState(focusRoleId ?? ''); const [view, setView] = useState<'all' | 'one'>(focusRoleId ? 'one' : 'all');
   const output = previewOutput ?? data?.workspace.active_output ?? initialOutput;
   const [loading, setLoading] = useState(true); const [fresh, setFresh] = useState(false); const [busy, setBusy] = useState(false);
   const [error, setError] = useState(''); const [status, setStatus] = useState(''); const [profileWarning, setProfileWarning] = useState(false);

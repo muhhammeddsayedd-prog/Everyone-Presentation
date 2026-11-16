@@ -42,7 +42,7 @@ export interface ExtractedRole {
   clarifications: SourceClarification[];
 }
 
-/** Must be schema/source-validated at the extraction boundary before a draft commit. */
+/** v1 (spec_extract_v1.0.0). Must be schema/source-validated at the extraction boundary before a draft commit. */
 export interface SpecsExtraction {
   schema_version: '1.0';
   source_asset_id: string | null;
@@ -51,6 +51,50 @@ export interface SpecsExtraction {
   general_instructions: string | null;
   clarifications: SourceClarification[];
 }
+
+/** v2 (spec_extract_v2.0.0): a scene the source identifies; keys are extraction-local labels, not IDs. */
+export interface ExtractedScene {
+  scene_key: string;
+  /** As written in the source, e.g. "1" or "3A"; null when the source gives none. */
+  scene_number: string | null;
+  title: string;
+  sequence_label: string | null;
+  setting: string | null;
+  notes: string | null;
+  /** Per-scene requirement statements, normalized English. */
+  requirements: string[];
+  evidence: SourceReference[];
+}
+
+/** The role appears in that scene. Occurrences never multiply headcount. */
+export interface ExtractedSceneOccurrence {
+  scene_key: string;
+  /** How the role is billed in that scene, e.g. "Father (young)". */
+  display_title: string | null;
+  evidence: SourceReference[];
+}
+
+/** Only when the source explicitly says it is the same character; never a name-based merge. */
+export interface ExtractedSameCharacterLink {
+  source_role_key: string;
+  evidence: SourceReference[];
+}
+
+export interface ExtractedRoleV2 extends ExtractedRole {
+  occurrences: ExtractedSceneOccurrence[];
+  same_character_as: ExtractedSameCharacterLink | null;
+}
+
+export type SpecsExtractionV1 = SpecsExtraction;
+
+export interface SpecsExtractionV2 extends Omit<SpecsExtraction, 'schema_version' | 'roles'> {
+  schema_version: '2.0';
+  roles: ExtractedRoleV2[];
+  scenes: ExtractedScene[];
+}
+
+/** Any validated extraction version; consumers that only need the v1 fields accept both. */
+export type AnySpecsExtraction = SpecsExtraction | SpecsExtractionV2;
 
 export interface Spec {
   id: string;
@@ -98,7 +142,7 @@ export interface SpecsDraft {
   slots: WorkingSlot[];
   /** Shared workspace draft revision; every draft mutation must advance it. */
   draft_revision: number;
-  readonly source_extraction: Readonly<SpecsExtraction> | null;
+  readonly source_extraction: Readonly<AnySpecsExtraction> | null;
 }
 export interface SpecsExtractionCommit {
   expected_spec_row_version: number;
@@ -106,7 +150,7 @@ export interface SpecsExtractionCommit {
   source_asset_id: string | null;
   /** Original prepared text, including Arabic/mixed wording, not display shorthand. */
   source_text: string | null;
-  extraction: SpecsExtraction;
+  extraction: AnySpecsExtraction;
 }
 /** Resource budget for a single materialized transaction, not a headcount fact/maximum. */
 export interface SpecsAllocationOptions { maximum_new_slots?: number }

@@ -5,7 +5,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { verifyNativeSourceSeal } from '../../apps/worker/src/native-source-seal.ts';
 // @ts-expect-error reviewed build-only ESM has no generated declaration
 import { workerContextFiles } from '../../tools/worker-hosting-build.mjs';
-const contracts = ['candidate-extraction', 'frame-selection', 'slide-wording', 'specs-extraction'].map(stem => `contracts/json-schema/${stem}.schema.json`).sort();
+const contracts = ['candidate-extraction', 'frame-selection', 'slide-wording', 'specs-extraction', 'specs-extraction-v2'].map(stem => `contracts/json-schema/${stem}.schema.json`).sort();
 const sha = (value: string) => createHash('sha256').update(value).digest('hex');
 
 test('the sparse context includes exactly the runtime JSON-schema import closure', async () => {
@@ -17,14 +17,14 @@ test('the sparse context includes exactly the runtime JSON-schema import closure
   }
   assert.deepEqual([...imported].sort(), contracts); assert.deepEqual(actual, contracts);
 });
-test('only the four exact public runtime contracts enter a source seal, and unknown contracts fail before reading', () => {
+test('only the five exact public runtime contracts enter a source seal, and unknown contracts fail before reading', () => {
   for (const path of [...contracts, 'contracts/json-schema/job-event.schema.json', 'contracts/json-schema/specs-extraction.schema.json.bak', 'contracts/private.schema.json']) {
     const files = [{ path, sha256: sha('{}'), bytes: 2 }]; const source = { files, source_sha256: sha(JSON.stringify(files)) }; let reads = 0;
     const verify = () => verifyNativeSourceSeal(source, source.source_sha256, () => { reads++; return Buffer.from('{}'); });
     if (contracts.includes(path)) { assert.doesNotThrow(verify); assert.equal(reads, 1); } else { assert.throws(verify); assert.equal(reads, 0); }
   }
 });
-test('both production images merge workspace-local dependencies and copy only the four required schema files', async () => {
+test('both production images merge workspace-local dependencies and copy only the five required schema files', async () => {
   for (const kind of ['daemon', 'native-sandbox']) {
     const docker = await readFile(new URL(`../../apps/worker/Dockerfile.${kind}`, import.meta.url), 'utf8');
     assert(docker.includes('npm ci --omit=dev --ignore-scripts --workspace @eps/worker --include-workspace-root=false'));

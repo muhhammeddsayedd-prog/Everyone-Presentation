@@ -38,14 +38,19 @@ digest. This module does not mint a user JWT or load credentials.
 Extraction accepts the prepared LF text and exact UTF16 paragraph map from
 `get_specs_stage_input`. It reconstructs that map before a provider request and
 projects paragraphs to `{index,page,text}` in the adapter's defined order.
-Configuration must match `document-preparation.v1`, `spec_extract_v1.0.0` and
-result schema `1.0`; the runtime's explicitly selected model must equal the
-frozen model. No model default or new provider endpoint is selected here.
+Configuration must match `document-preparation.v1` and one reviewed
+prompt/result pair: `spec_extract_v1.0.0` with result schema `1.0`, or
+`spec_extract_v2.0.0` with result schema `2.0` (structured scenes, m17); the
+job-frozen pair selects the extraction contract. The runtime's explicitly
+selected model must equal the frozen model. No model default or new provider
+endpoint is selected here.
 
-The extraction completion schema is `specs-extraction-stage.v1`:
+The extraction completion schema is `specs-extraction-stage.v1` for both:
 `{result,metadata}`. `result` is the unchanged
 [`specs-extraction.schema.json`](../../contracts/json-schema/specs-extraction.schema.json)
-payload. `metadata` has the exact
+payload for v1, or
+[`specs-extraction-v2.schema.json`](../../contracts/json-schema/specs-extraction-v2.schema.json)
+for v2. `metadata` has the exact
 [`SpecsExtractionMetadata`](../../packages/integrations/src/specs-types.ts)
 shape, retaining model/prompt/schema/source correlation and usage. This wrapper
 is private staging data. Public jobs and event receipts contain scoped result

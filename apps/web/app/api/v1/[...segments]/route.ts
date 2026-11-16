@@ -9,6 +9,8 @@ import { handleJobRequest } from '../../../../lib/job-http';
 import { getJobs } from '../../../../lib/jobs';
 import { handleSpecsRequest, isManualSpecsRoute } from '../../../../lib/specs-http';
 import { getSpecsService } from '../../../../lib/specs';
+import { handleScenesRequest, isScenesRoute } from '../../../../lib/scenes-http';
+import { getScenesService } from '../../../../lib/scenes';
 import { getCandidatesService } from '../../../../lib/candidates';
 import { handleCandidatesRequest, isCandidatesRoute } from '../../../../lib/candidates-http';
 import { handleMediaPlaybackRequest, isMediaPlaybackRoute } from '../../../../lib/media-http';
@@ -64,6 +66,7 @@ async function handle(request: Request, context: Context) {
     if (s[0] === 'jobs') return await handleJobRequest(request, s, actor, await getJobs(), mutation);
     if (isPresentationRoute(s)) return await handlePresentationRequest(request, s, actor, await getPresentationService(), mutation);
     if (isReviewRoute(s)) return await handleReviewRequest(request, s, actor, await getReviewService(), mutation);
+    if (isScenesRoute(s)) return await handleScenesRequest(request, s, actor, await getScenesService(), mutation);
     // Canonical20 composes the full assignment/order transactions. Dispatch
     // before the older role-only specs mapping; failures must never fall through.
     if (isCastingRoute(s)) return await handleCastingRequest(request, s, actor, await getCastingService(), mutation);

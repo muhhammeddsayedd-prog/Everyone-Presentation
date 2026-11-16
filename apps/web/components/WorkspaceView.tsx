@@ -16,6 +16,7 @@ import { SpecsView } from './SpecsView';
 import { useRuntimeMode } from './RuntimeMode';
 import { WorkspaceCandidatesView } from './WorkspaceCandidatesView';
 import { CastingBoard } from './CastingBoard';
+import { CastingViews } from './workspace/scenes/CastingViews';
 import { WorkspaceReviewView } from './WorkspaceReviewView';
 import { WorkspacePresentationView } from './WorkspacePresentationView';
 import { ShareWorkspace } from './share/ShareWorkspace';
@@ -123,7 +124,8 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     </div>
     : step === 'specs' && central ? <SpecsView workspaceId={workspaceId} projectId={projectId} canWrite={canWrite} uploadPurposes={actor.upload_purposes ?? []} storageOrigin={storageOrigin} onDirtyChange={specsChanged} onWorkspaceChanged={specsWorkspaceChanged} />
     : step === 'cast' && central ? <WorkspaceCandidatesView workspaceId={workspaceId} projectId={projectId} actor={actor} storageOrigin={storageOrigin} onDirtyChange={castChanged} onWorkspaceChanged={specsWorkspaceChanged} />
-    : step === 'organize' && central ? <CastingBoard workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={castingChanged} onWorkspaceChanged={specsWorkspaceChanged} />
+    : step === 'organize' && central ? <CastingViews workspaceId={workspaceId} canWrite={canWrite} onDirtyChange={castingChanged} onWorkspaceChanged={specsWorkspaceChanged}
+      board={(focusRoleId, boardDirty) => <CastingBoard workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} focusRoleId={focusRoleId} onDirtyChange={boardDirty} onWorkspaceChanged={specsWorkspaceChanged} />} />
     : step === 'review' && central ? <WorkspaceReviewView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={reviewChanged} onWorkspaceChanged={specsWorkspaceChanged} />
     : step === 'presentations' && central ? <WorkspacePresentationView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={presentationChanged} />
     : step === 'share' && central ? <ShareWorkspace workspaceId={workspaceId} requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} actor={actor} onDirtyChange={shareChanged} />

@@ -9,6 +9,7 @@ import type { Actor, AudiencePreset, AudiencePresetCreate, AudiencePresetPatch, 
 export * from './types.ts';
 export * from './specs.ts';
 export * from './role-order.ts';
+export * from './scenes.ts';
 export * from './candidates.ts';
 export * from './candidate-filters.ts';
 export * from './candidate-frame-extraction.ts';

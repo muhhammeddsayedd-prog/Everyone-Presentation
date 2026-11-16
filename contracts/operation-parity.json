@@ -168,6 +168,81 @@
       ]
     },
     {
+      "id": "scenes",
+      "label": "Structure scenes; link roles to scenes; confirm or reject extracted scene proposals",
+      "ui_sources": [
+        "apps/web/components/workspace/scenes/scenes-api.ts"
+      ],
+      "operations": [
+        {
+          "operation": "list_scenes",
+          "domain_symbol": "listScenes",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "create_scene",
+          "domain_symbol": "createScene",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "update_scene",
+          "domain_symbol": "updateScene",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "reorder_scenes",
+          "domain_symbol": "reorderScenes",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "archive_scene",
+          "domain_symbol": "archiveScene",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "link_scene_occurrence",
+          "domain_symbol": "linkSceneOccurrence",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "update_scene_occurrence",
+          "domain_symbol": "updateSceneOccurrence",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "unlink_scene_occurrence",
+          "domain_symbol": "unlinkSceneOccurrence",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "list_role_occurrences",
+          "domain_symbol": "listRoleOccurrences",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "confirm_scene_proposals",
+          "domain_symbol": "confirmSceneProposals",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        },
+        {
+          "operation": "reject_scene_proposals",
+          "domain_symbol": "rejectSceneProposals",
+          "domain_source": "packages/central/src/scenes.ts",
+          "http_source": "apps/web/lib/scenes-http.ts"
+        }
+      ]
+    },
+    {
       "id": "library",
       "label": "Search/supplied facts/Reviewed; actual frames; duplicates; support files",
       "ui_sources": [

@@ -1,0 +1,50 @@
+/* Structured scenes (cycle 7, A2): Standard view | Scene breakdown, scene navigator, role cards, specs proposals. */
+.casting-views { display: grid; gap: var(--space-4); }
+.casting-view-switch { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+
+.scene-breakdown { container-type: inline-size; display: grid; gap: var(--space-3); }
+.scene-layout { display: grid; gap: var(--space-4); grid-template-columns: minmax(0, 1fr); }
+@container (min-width: 720px) {
+  .scene-layout { grid-template-columns: minmax(200px, 240px) minmax(0, 1fr); align-items: start; }
+  .scene-nav { position: sticky; top: var(--space-2); }
+}
+.scene-nav { display: grid; gap: var(--space-2); min-width: 0; }
+.scene-nav-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.scene-nav-head h3 { margin: 0; }
+.scene-nav-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); max-height: min(60vh, 520px); overflow-y: auto; }
+/* Narrow: the navigator becomes one compact scrolling row instead of an extra stacked column. */
+@container (max-width: 719px) {
+  .scene-nav-list { grid-auto-flow: column; grid-auto-columns: minmax(180px, 70%); overflow-x: auto; overflow-y: hidden; max-height: none; padding-bottom: var(--space-1); scroll-snap-type: x proximity; }
+  .scene-nav-list > li { scroll-snap-align: start; }
+}
+.scene-nav-item { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2); align-items: start; text-align: left;
+  padding: var(--space-2) var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: transparent; color: var(--color-text-primary); cursor: pointer; }
+.scene-nav-item:hover { border-color: var(--color-border-strong); }
+.scene-nav-item:focus-visible { outline: 2px solid var(--color-accent-ring); outline-offset: 2px; }
+.scene-nav-item[aria-current='true'] { border-color: var(--color-accent); background: var(--color-accent-soft); }
+.scene-nav-number { min-width: 2.25em; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-text-secondary); }
+.scene-nav-text { display: grid; gap: 2px; min-width: 0; }
+.scene-nav-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.scene-nav-meta { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-2); color: var(--color-text-muted); }
+
+.scene-detail { min-width: 0; display: grid; gap: var(--space-3); }
+.scene-card { display: grid; gap: var(--space-3); }
+.scene-card-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); }
+.scene-card-head h3 { margin: 0; }
+.scene-actions { flex-wrap: wrap; }
+.scene-requirements, .scene-role-list, .scene-proposal-list { margin: 0; padding-left: var(--space-4); }
+.scene-role-list { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
+.scene-role-card { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-3); display: grid; gap: var(--space-2); }
+.scene-role-head { display: flex; justify-content: space-between; gap: var(--space-2); align-items: start; }
+.scene-role-head h5 { margin: 0; font-size: 1rem; }
+.scene-recurring { color: var(--color-info); }
+.scene-proposal blockquote, .scene-proposals blockquote { margin: var(--space-1) 0; padding-left: var(--space-2); border-left: 2px solid var(--color-border-strong); color: var(--color-text-secondary); }
+.scene-occurrence-form, .scene-add-role-form, .scene-form { display: grid; gap: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-3); min-width: 0; }
+.scene-add-role-form .segmented { flex-wrap: wrap; }
+.scene-occurrence-form .choice, .scene-add-role-form .choice { display: flex; gap: var(--space-2); align-items: center; }
+.scene-proposal-list { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
+.scene-proposal-list > li { display: grid; gap: var(--space-1); }
+.scene-requirement-list { margin: 0; display: grid; gap: var(--space-2); }
+.scene-requirement-list dd { margin: 0; }
+.scene-status { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); }
+.scene-breakdown .form-grid-2 { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
