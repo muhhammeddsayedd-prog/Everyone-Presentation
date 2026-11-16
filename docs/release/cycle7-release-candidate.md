@@ -93,6 +93,7 @@ Found during integration (not by the reviewer): an upload whose retry budget was
 - `npm run typecheck`, `npm run lint`: clean. `npm test`: unit 540, contracts 13, jobs 19, integrations 91, worker 290, central 219 — 1,172/1,172.
 - Fresh live-state replica, m15–m20 in order, all `tests/db/cycle7` files: 9 files, 282 checks passed (92 functions added, 56 changed).
 - Integrated local stack (real app, PostgREST, replica): journeys 1–6, 8–10, 13, 14 + setup pass (`tracking/evidence/cycle7/integrated-local-evidence.json`). Journeys 7, 11, 12, 15 are covered by browser specs (fixture/mocked API), SQL tests and worker renders respectively.
+- Full Playwright suite (fixture/mocked API, Chromium): 206/210 pass. The 4 failures (`api-contracts.spec.ts` ×2: dev sign-in 403; `foundation.spec.ts` ×2: Next error overlay) fail identically on base `081e2dee` — pre-existing, not caused by this cycle.
 - Template registries 1.2.0/1.3.0/1.4.0 current; parity checker reconciles all 112 tools (3 pre-existing capability drifts remain).
 - Visual: 10 reference pages measured within ~1 px with reference-equivalent text (`docs/templates/1.4.0-visual-comparison.md`); PPTX of the same deck rendered via PowerPoint (35 slides) and inspected.
 
