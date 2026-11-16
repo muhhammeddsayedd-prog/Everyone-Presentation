@@ -1,5 +1,13 @@
 # Everyone Presentation Studio - current English-output handoff
 
+## Latest — 2026-11-16 Cycle 7 release candidate (feature/cycle-intake-scenes-floward)
+
+- **State:** implemented and locally verified; **no hosted change** (live history still 50, template 1.3.0 default, worker 912ee4e2). Base `main` 081e2dee.
+- **Read first:** `docs/release/cycle7-release-candidate.md` (coverage, migrations m15–m20, release procedure, recovery) and `tracking/handoffs/2026-11-16-cycle7.md` (resumable log, environment notes).
+- **Next exact action:** owner reviews the release candidate and approves (or not) the hosted steps in order: m15→m20 via the owner apply path with readbacks → worker release → web release → Settings (Client default audience, then template 1.4.0). Optional separately: specs v2 pipeline switch; appearance enable with a spend cap.
+- **Known open items:** three pre-existing capability-declaration drifts in `check_m07_parity.py` (create_project, list_clients, list_presentation_types); hosted storage reads of `eps-candidate-photos` (worker, review stage, guest, app) must be verified after release (replica storage is a stub); new-tape outcome copy cannot always know whether the job created the membership after a reload; `candidate_appearance` jobs lack retry/cancel actions in Operations.
+- **Main checkout:** another session's uncommitted candidate-profile gallery work is still there, untouched; reconcile with `CandidateDetailView.tsx` / `CandidateFactsEditor.tsx` changes from this branch when merging.
+
 ## Presentation-first P3+P4 and template 1.3.0 only - 2026-11-12 (Claude, frontend + template)
 
 Owner request: test the whole app in the presentation-first design (`Screenshots 2 Improved Design/`) on a hosted staging URL, with Everyone Film Editorial 1.3.0 (`everyone_template_design_kit/`) as the only template.

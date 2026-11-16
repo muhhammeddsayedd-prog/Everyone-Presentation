@@ -1,6 +1,6 @@
 {
   "pack_version": "1.0",
-  "updated_at": "2026-11-04T10:16:02.024545+00:00",
+  "updated_at": "2026-11-16T22:00:00Z",
   "implementation_started": true,
   "current_milestone": "M07",
   "current_pilot": {
@@ -16532,5 +16532,22 @@
       "web": "dpl_Et3KieHUi9jLZ1iU1cmdSqpAauDY (Main df893dec)",
       "default_template": "1.1.0 (reverted)"
     }
+  },
+  "cycle7": {
+    "date": "2026-11-16",
+    "cycle": "cycle7",
+    "status": "implemented_unverified_live",
+    "summary": "Intake/membership/ordering, project presentation pictures, structured scenes + Scene breakdown, template 1.4.0 (Floward), notes/default audience, appearance observations + facets. Locally verified (gates, replica SQL tests, integrated local stack, visual comparison); not applied to any hosted environment; release requires owner approval (docs/release/cycle7-release-candidate.md).",
+    "branch": "feature/cycle-intake-scenes-floward",
+    "base": "081e2dee",
+    "migrations": [
+      "20261116090000_m15_cycle7_shared_schema",
+      "20261116100000_m16_intake_membership_media",
+      "20261116110000_m17_scene_operations",
+      "20261116110500_m17_specs_extraction_v2",
+      "20261116120000_m18_notes_audience",
+      "20261116130000_m19_editorial_template_1_4",
+      "20261116140000_m20_appearance_observations"
+    ]
   }
 }
