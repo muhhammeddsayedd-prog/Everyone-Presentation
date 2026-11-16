@@ -19,7 +19,7 @@ const candidate = Object.fromEntries(Object.entries(source).filter(([key]) => ![
 const media = (id: string) => ({ id, candidate_id: candidateId, source_asset_id: `source-${id}`, preview_asset_id: null,
   transcript_asset_id: null, original_transcript: null, languages: [], available_frames: [], selected_frame_asset_ids: [], processing_issues: [], row_version: 1 });
 const pool = { id: 'project-candidate', workspace_id: 'workspace', candidate_id: candidateId, selected_candidate_media_id: null,
-  selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, row_version: 1 };
+  selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, portrait_asset_id: null, portrait_source: null, portrait_crop: null, media_selection_state: 'unset', row_version: 1 };
 const hasCode = (code: string) => (error: unknown) => error instanceof DomainError && error.code === code;
 
 /** Controlled RPC bytes only: actual Supabase JS, acting-user verification, central

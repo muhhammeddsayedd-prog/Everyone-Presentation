@@ -3,7 +3,8 @@ import { DomainError } from './types.ts';
 import type { SourceReference } from './specs-types.ts';
 import type { CandidateConfirmation, CandidateCreate, CandidateExtraction, CandidateFacts, CandidateMedia,
   CandidatePatch, CandidateSearch, CandidateSearchMatch, CandidateSource, DuplicateResolution,
-  FrameSelection, StoredCandidate, WorkspaceCandidate, WorkspaceCandidateCreate, WorkspaceCandidatePatch } from './candidate-types.ts';
+  FrameSelection, MediaRepairApply, PortraitCrop, StoredCandidate, WorkspaceCandidate, WorkspaceCandidateCreate, WorkspaceCandidatePatch,
+  WorkspaceCandidatePicture } from './candidate-types.ts';
 export type * from './candidate-types.ts';
 
 const scalars = ['name', 'casting_id', 'age_or_range', 'stated_gender', 'height_measurements', 'skills_experience', 'city', 'previous_projects_roles', 'classification'] as const;
@@ -54,9 +55,10 @@ export function parseCandidateConfirmation(value: unknown): CandidateConfirmatio
   return { row_version: integer(item.row_version), ...(Object.hasOwn(item, 'confirmation_note') ? { confirmation_note: nullable(item.confirmation_note) } : {}) };
 }
 export function parseCandidateSearch(value: unknown): CandidateSearch {
-  const item = object(value, ['q', 'cursor', 'limit', 'include_unknown', 'review_status', ...filters]);
+  const item = object(value, ['q', 'cursor', 'limit', 'include_unknown', 'review_status', 'workspace_id', ...filters]);
   const result: CandidateSearch = {};
   for (const key of ['q', 'cursor', ...filters] as const) if (Object.hasOwn(item, key)) result[key] = text(item[key], key === 'cursor' ? 4000 : 500);
+  if (Object.hasOwn(item, 'workspace_id')) result.workspace_id = id(item.workspace_id);
   if (Object.hasOwn(item, 'limit')) { result.limit = integer(item.limit); if (result.limit > 100) invalid(); }
   if (Object.hasOwn(item, 'include_unknown')) result.include_unknown = boolean(item.include_unknown);
   if (Object.hasOwn(item, 'review_status')) { if (!['unreviewed', 'reviewed'].includes(item.review_status as string)) invalid(); result.review_status = item.review_status as 'unreviewed' | 'reviewed'; }
@@ -72,22 +74,68 @@ export function parseDuplicateResolution(value: unknown): DuplicateResolution {
   if (item.action !== 'link_existing') invalid();
   return { row_version: integer(item.row_version), action: 'link_existing', existing_candidate_id: id(item.existing_candidate_id), existing_candidate_row_version: integer(item.existing_candidate_row_version) };
 }
+const pictureKeys = ['portrait_asset_id', 'portrait_source', 'portrait_crop', 'media_selection_state'] as const;
+function fraction(value: unknown, positive = false): number {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1 || positive && value === 0) invalid();
+  return value as number;
+}
+export function parsePortraitCrop(value: unknown): PortraitCrop | null {
+  if (value === null) return null;
+  const item = object(value, ['focal_x', 'focal_y', 'rect'], ['focal_x', 'focal_y']);
+  const crop: PortraitCrop = { focal_x: fraction(item.focal_x), focal_y: fraction(item.focal_y) };
+  if (Object.hasOwn(item, 'rect')) {
+    if (item.rect === null) crop.rect = null;
+    else {
+      const rect = object(item.rect, ['x', 'y', 'width', 'height'], ['x', 'y', 'width', 'height']);
+      const box = { x: fraction(rect.x), y: fraction(rect.y), width: fraction(rect.width, true), height: fraction(rect.height, true) };
+      if (box.x + box.width > 1 || box.y + box.height > 1) invalid();
+      crop.rect = box;
+    }
+  }
+  return crop;
+}
+/** Picture fields shared by add/update. A picture needs its source; intentionally empty names none. */
+function parsePicture(item: Record<string, unknown>): WorkspaceCandidatePicture {
+  const result: WorkspaceCandidatePicture = {};
+  if (Object.hasOwn(item, 'portrait_source') && !Object.hasOwn(item, 'portrait_asset_id')) invalid();
+  if (Object.hasOwn(item, 'portrait_asset_id')) {
+    result.portrait_asset_id = item.portrait_asset_id === null ? null : id(item.portrait_asset_id);
+    const source = item.portrait_source ?? null;
+    if (result.portrait_asset_id === null ? source !== null : source !== 'frame' && source !== 'photo') invalid();
+    result.portrait_source = source as WorkspaceCandidatePicture['portrait_source'];
+  }
+  if (Object.hasOwn(item, 'portrait_crop')) result.portrait_crop = parsePortraitCrop(item.portrait_crop);
+  if (Object.hasOwn(item, 'media_selection_state')) {
+    if (item.media_selection_state !== 'pinned' && item.media_selection_state !== 'intentionally_empty') invalid();
+    result.media_selection_state = item.media_selection_state as 'pinned' | 'intentionally_empty';
+    if (result.media_selection_state === 'intentionally_empty' && (result.portrait_asset_id || result.portrait_crop)) invalid();
+  }
+  return result;
+}
 export function parseWorkspaceCandidateCreate(value: unknown): WorkspaceCandidateCreate {
-  const item = object(value, ['candidate_id', 'selected_candidate_media_id', 'availability', 'fresh_material_required'], ['candidate_id']);
-  const result: WorkspaceCandidateCreate = { candidate_id: id(item.candidate_id) };
+  const item = object(value, ['candidate_id', 'selected_candidate_media_id', 'availability', 'fresh_material_required', ...pictureKeys], ['candidate_id']);
+  const result: WorkspaceCandidateCreate = { candidate_id: id(item.candidate_id), ...parsePicture(item) };
   if (Object.hasOwn(item, 'selected_candidate_media_id')) result.selected_candidate_media_id = item.selected_candidate_media_id === null ? null : id(item.selected_candidate_media_id);
   if (Object.hasOwn(item, 'availability')) result.availability = nullable(item.availability);
   if (Object.hasOwn(item, 'fresh_material_required')) result.fresh_material_required = boolean(item.fresh_material_required);
   return result;
 }
 export function parseWorkspaceCandidatePatch(value: unknown): WorkspaceCandidatePatch {
-  const item = object(value, ['row_version', 'selected_candidate_media_id', 'selected_frame_asset_ids', 'availability', 'fresh_material_required', 'media_confirmed', 'internal_notes'], ['row_version']);
-  const result: WorkspaceCandidatePatch = { row_version: integer(item.row_version) };
+  const item = object(value, ['row_version', 'selected_candidate_media_id', 'selected_frame_asset_ids', 'availability', 'fresh_material_required', 'media_confirmed', 'internal_notes', ...pictureKeys], ['row_version']);
+  const result: WorkspaceCandidatePatch = { row_version: integer(item.row_version), ...parsePicture(item) };
   if (Object.hasOwn(item, 'selected_candidate_media_id')) result.selected_candidate_media_id = item.selected_candidate_media_id === null ? null : id(item.selected_candidate_media_id);
   if (Object.hasOwn(item, 'selected_frame_asset_ids')) result.selected_frame_asset_ids = strings(item.selected_frame_asset_ids, 3, 200).map(id);
   for (const key of ['availability', 'internal_notes'] as const) if (Object.hasOwn(item, key)) result[key] = nullable(item[key]);
   for (const key of ['fresh_material_required', 'media_confirmed'] as const) if (Object.hasOwn(item, key)) result[key] = boolean(item[key]);
   return result;
+}
+export function parseMediaRepairApply(value: unknown): MediaRepairApply {
+  const item = object(value, ['items'], ['items']);
+  if (!Array.isArray(item.items) || item.items.length < 1 || item.items.length > 100) invalid();
+  const items = (item.items as unknown[]).map(entry => { const row = object(entry, ['workspace_candidate_id', 'row_version'], ['workspace_candidate_id', 'row_version']);
+    return { workspace_candidate_id: id(row.workspace_candidate_id), row_version: integer(row.row_version) }; });
+  if (new Set(items.map(row => row.workspace_candidate_id)).size !== items.length) invalid();
+  return { items };
 }
 function canonical(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;

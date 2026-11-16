@@ -21,7 +21,8 @@ import { CandidateDetailView } from './CandidateDetailView';
 import { PresentationIndex } from './PresentationIndex';
 import { PresentationVersionView, VersionMediaView } from './PresentationVersionView';
 import { ReviewSharingView } from './ReviewSharingView';
-import { ConfirmProvider, useConfirm } from './ui/Confirm';
+import { ConfirmProvider } from './ui/Confirm';
+import { UnsavedChangesProvider, useUnsavedChanges, useUnsavedEditor } from './ui/UnsavedChanges';
 import { ToastProvider } from './ui/Toast';
 import { useRecentWorkspaces } from './recent-workspaces';
 import { useRouteFade } from './motion/motion';
@@ -29,16 +30,15 @@ import { useRouteFade } from './motion/motion';
 const globalEmpty: Record<string, { title: string; body: string; icon: IconName }> = {
   '/presentations': { title: 'No presentations generated', body: 'Presentation versions and real PDF generation are pending M05. Open a project to prepare its casting workspace.', icon: 'slides' },
 };
-const leaveRequest = { title: 'Leave this page?', description: 'Some changes are still saving or could not be saved. Leaving discards them.', confirmLabel: 'Leave and discard changes', cancelLabel: 'Stay on this page', danger: true };
 
 export function StudioApp() {
-  return <ConfirmProvider><ToastProvider><StudioShell /></ToastProvider></ConfirmProvider>;
+  return <ConfirmProvider><ToastProvider><UnsavedChangesProvider><StudioShell /></UnsavedChangesProvider></ToastProvider></ConfirmProvider>;
 }
 
 function StudioShell() {
   const pathname = usePathname();
   const router = useRouter();
-  const confirm = useConfirm();
+  const { confirmLeave, hasUnsavedChanges } = useUnsavedChanges();
   const [session, setSession] = useState<Session | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -51,6 +51,8 @@ function StudioShell() {
   const recent = useRecentWorkspaces();
   const leaving = useRef(false);
   const dirtyChanged = useCallback((value: boolean) => setDirty(value), []);
+  // Screens that only report a dirty/busy flag. Editors registered with a save step answer for themselves.
+  useUnsavedEditor('route', { label: 'changes on this page', dirty: dirty && !hasUnsavedChanges('editor') });
   useEffect(() => {
     let current = true;
     api<Session>('/api/session').then(result => { if (current) { setSession(result.data); setError(''); } }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) { setLoading(false); setSigningOut(false); } });
@@ -58,13 +60,14 @@ function StudioShell() {
   }, [refresh, pathname]);
   useEffect(() => { leaving.current = false; }, [pathname]);
   useEffect(() => {
-    function unload(event: BeforeUnloadEvent) { if (dirty && !leaving.current) { event.preventDefault(); event.returnValue = ''; } }
+    // Reload/close keeps the browser's own prompt; in-app navigation uses "Save your changes?".
+    function unload(event: BeforeUnloadEvent) { if ((dirty || hasUnsavedChanges()) && !leaving.current) { event.preventDefault(); event.returnValue = ''; } }
     function navigate(event: MouseEvent) {
       const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
-      if (!dirty || leaving.current || !link || event.defaultPrevented || link.target === '_blank' || link.hasAttribute('download') || event.metaKey || event.ctrlKey || event.shiftKey) return;
+      if (!(dirty || hasUnsavedChanges()) || leaving.current || !link || event.defaultPrevented || link.target === '_blank' || link.hasAttribute('download') || event.metaKey || event.ctrlKey || event.shiftKey) return;
       if ((link.getAttribute('href') ?? '').startsWith('#')) return;
       event.preventDefault(); event.stopPropagation();
-      void confirm(leaveRequest).then(accepted => {
+      void confirmLeave().then(accepted => {
         if (!accepted) return;
         leaving.current = true;
         const target = new URL(link.href, window.location.href);
@@ -73,9 +76,9 @@ function StudioShell() {
     }
     window.addEventListener('beforeunload', unload); document.addEventListener('click', navigate, true);
     return () => { window.removeEventListener('beforeunload', unload); document.removeEventListener('click', navigate, true); };
-  }, [dirty, confirm, router]);
+  }, [dirty, confirmLeave, hasUnsavedChanges, router]);
   async function signOut() {
-    if (dirty && !await confirm({ ...leaveRequest, title: 'Sign out and discard changes?', confirmLabel: 'Sign out and discard changes' })) return;
+    if (!await confirmLeave()) return;
     setSigningOut(true);
     try {
       await api('/api/session', mutation('DELETE')); setDirty(false);

@@ -6,16 +6,25 @@ import { readCandidateMedia } from './candidate-pages';
 
 interface CandidatePhoto { id: string; cover: boolean; asset_id: string; thumb_asset_id: string }
 
-/** The person's picture: their cover photo from the cast archive, else the first selected (or extracted) video
+/** Library card picture already known from the search row (no extra reads). */
+export interface PortraitHint { photo: { asset_id: string; thumb_asset_id: string } | null; frameAssetId: string | null }
+export function hintSource(hint: PortraitHint, size: 'thumb' | 'large') {
+  if (hint.photo) return `/api/v1/candidate-photos/${encodeURIComponent(size === 'large' ? hint.photo.asset_id : hint.photo.thumb_asset_id)}/content`;
+  return hint.frameAssetId ? `/api/v1/media/${encodeURIComponent(hint.frameAssetId)}/content` : null;
+}
+
+/** The person's Library picture: their cover photo from the cast archive, else the first selected (or extracted) video
  * frame. It is read once the card scrolls into view. Without either (or if reading fails) the initial stays —
- * nothing is invented. `size="large"` uses the full photo (profile hero); cards use the thumbnail. */
-export function CandidatePortrait({ candidateId, name, size = 'thumb' }: { candidateId: string; name: string | null; size?: 'thumb' | 'large' }) {
+ * nothing is invented. `size="large"` uses the full photo (profile hero); cards use the thumbnail. A `hint` from the
+ * search row is used directly. Project rows never use this: they show only the project's pinned picture. */
+export function CandidatePortrait({ candidateId, name, size = 'thumb', hint }: { candidateId: string; name: string | null; size?: 'thumb' | 'large'; hint?: PortraitHint }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [source, setSource] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
+  const hinted = hint ? hintSource(hint, size) : undefined;
   useEffect(() => {
-    const node = ref.current; if (!node) return;
+    const node = ref.current; if (!node || hinted !== undefined) return;
     const controller = new AbortController();
     async function read() {
       try {
@@ -35,9 +44,10 @@ export function CandidatePortrait({ candidateId, name, size = 'thumb' }: { candi
     }, { rootMargin: '200px' });
     observer.observe(node);
     return () => { observer.disconnect(); controller.abort(); };
-  }, [candidateId, size]);
+  }, [candidateId, size, hinted]);
+  const shown = hinted !== undefined ? hinted : source;
   return <span ref={ref} className="library-portrait" data-loaded={loaded ? '' : undefined}>
     <span className="library-portrait-initial" aria-hidden="true">{name?.trim().slice(0, 1).toUpperCase() || '?'}</span>
-    {source && !failed && <img src={source} alt="" loading="lazy" decoding="async" onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />}
+    {shown && !failed && <img src={shown} alt="" loading="lazy" decoding="async" onLoad={() => setLoaded(true)} onError={() => setFailed(true)} />}
   </span>;
 }

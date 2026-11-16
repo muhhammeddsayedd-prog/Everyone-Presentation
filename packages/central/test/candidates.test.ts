@@ -34,7 +34,9 @@ test('candidate adapter uses verified actor, strict shared parsers and stable id
   assert.equal(value.calls.length, 1);
 });
 test('search validates unknown controls and rejects malformed or hidden-field central results', async () => {
-  const value = fixture({ data: [dto()], page: { next_cursor: 'opaque-filter-bound-cursor' } }); const service = await createCentralCandidates(value.client);
+  // m16: search rows are library rows (profile plus card fields).
+  const libraryRow = { ...dto(), name_ar: null, talent_type: null, tape_count: 0, portrait_photo: null, portrait_frame_asset_id: null, processing: false, membership: null };
+  const value = fixture({ data: [libraryRow], page: { next_cursor: 'opaque-filter-bound-cursor' } }); const service = await createCentralCandidates(value.client);
   assert.equal((await service.searchCandidates(actor, { limit: 1, include_unknown: false, language: 'Arabic' })).data.length, 1);
   assert.deepEqual(value.calls[0].input, { p_search: { limit: 1, include_unknown: false, language: 'Arabic' } });
   await assert.rejects(service.searchCandidates(actor, { include_unknown: 'false' } as never), code('VALIDATION_FAILED'));
@@ -73,7 +75,7 @@ test('English media projection is optional for legacy responses and complete or 
   assert.deepEqual((await service.getCandidateMedia(actor, full.id)).data[0].processing_issues, ['ENGLISH_TRANSCRIPT_UNAVAILABLE']);
 });
 test('pool and duplicate operations preserve resource scope and require explicit merge version', async () => {
-  const pool = { id: 'pool', workspace_id: 'workspace', candidate_id: full.id, selected_candidate_media_id: null, selected_frame_asset_ids: [], availability: 'Friday', fresh_material_required: false, media_confirmed: false, internal_notes: null, row_version: 1 };
+  const pool = { id: 'pool', workspace_id: 'workspace', candidate_id: full.id, selected_candidate_media_id: null, selected_frame_asset_ids: [], availability: 'Friday', fresh_material_required: false, media_confirmed: false, internal_notes: null, portrait_asset_id: null, portrait_source: null, portrait_crop: null, media_selection_state: 'unset', row_version: 1, already_member: false };
   const value = fixture(pool); const service = await createCentralCandidates(value.client);
   assert.deepEqual(await service.addWorkspaceCandidate(actor, 'workspace', { candidate_id: full.id, availability: 'Friday' }, { idempotencyKey: 'synthetic-add-project' }), pool);
   assert.equal(value.calls[0].input.p_workspace_id, 'workspace');

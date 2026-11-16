@@ -1,0 +1,28 @@
+/* Cycle 7 intake: project presentation pictures, membership chips, upload status rows, batch selection. */
+@layer screens {
+  .project-picture { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 4px; flex: none; }
+  .project-picture .candidate-portrait img { object-fit: cover; }
+  .project-picture-state { font-size: 11px; max-width: 120px; white-space: normal; line-height: 1.2; }
+  .picture-current { display: flex; gap: var(--space-3, 12px); align-items: center; }
+  .picture-choices { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px; border: 0; padding: 0; margin: 8px 0 0; }
+  .picture-choice { display: grid; gap: 4px; padding: 6px; border: 1px solid var(--color-border); border-radius: 6px; cursor: pointer; font-size: 12px; }
+  .picture-choice:has(input:checked) { border-color: var(--color-accent, currentColor); box-shadow: inset 0 0 0 1px var(--color-accent, currentColor); }
+  .picture-choice img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 4px; background: var(--color-surface-3); }
+  .picture-choice-none { align-content: center; min-height: 80px; }
+  .membership-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 999px; }
+  .membership-chip svg { width: 14px; height: 14px; }
+  .membership-chip.is-member { background: var(--color-success-soft); color: var(--color-success); }
+  .membership-chip.is-busy { background: var(--color-info-soft); color: var(--color-info); }
+  .membership-chip.is-error { background: var(--color-danger-soft); color: var(--color-danger); flex-wrap: wrap; border-radius: 8px; }
+  .cast-card-name-ar { margin: 0; font-size: 13px; }
+  .cast-card-type { text-transform: uppercase; letter-spacing: .04em; font-size: 11px; }
+  .cast-card-select { font-size: 12px; }
+  .batch-bar { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface-2, transparent); }
+  .upload-status { margin-block: 12px; }
+  .upload-status-list { list-style: none; margin: 0; padding: 0 16px 12px; display: grid; gap: 8px; }
+  .upload-status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .upload-status-name { font-weight: 600; overflow-wrap: anywhere; }
+  .upload-status-row .badge svg { width: 12px; height: 12px; }
+  .intake-actions { flex-wrap: wrap; }
+  .media-repairs { margin-block: 12px; }
+}

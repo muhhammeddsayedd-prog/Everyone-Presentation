@@ -3,15 +3,16 @@
 import { readCandidateMedia } from './candidate-pages';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import type { Candidate, CandidateMedia, WorkspaceCandidate } from '@eps/domain';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import type { Candidate, CandidateMedia, CandidateUploadRow, MediaRepairResult, MediaRepairSuggestion, MediaSelectionState, PortraitSource, WorkspaceCandidate, WorkspaceCandidateAdded } from '@eps/domain';
 import { api, errorMessage, mutation, type Actor } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { CastLibraryView } from './CastLibraryView';
 import { CandidateProcessingIssues } from './CandidateProcessingIssues';
 import { CandidateFrameImage } from './CandidateFrameImage';
-import { CandidatePortrait } from './CandidatePortrait';
 import { CandidateResumableUploads } from './CandidateResumableUploads';
+import { CandidateUploadStatus } from './CandidateUploadStatus';
+import { ProjectPicture, pictureUrl } from './ProjectPicture';
 import { SupportingFiles } from './SupportingFiles';
 import {createCastLibraryRequests as createLatestReadRequests} from '../lib/cast-library-requests';
 import { CastingRetirementReview } from './CastingRetirementReview';
@@ -21,20 +22,35 @@ import { cardCastingId } from './candidate-card';
 import { useDraftValue } from './workspace/WorkspaceDraftProvider';
 import { draftKey } from './workspace/draft-review';
 import { Drawer } from './ui/Overlay';
-import { useConfirm } from './ui/Confirm';
+import { useUnsavedChanges, useUnsavedEditor } from './ui/UnsavedChanges';
 
 type Tab='project'|'library'|'uploads';
 type Props={workspaceId:string;projectId:string;actor:Actor;storageOrigin?:string;onDirtyChange:(dirty:boolean)=>void;onWorkspaceChanged:()=>void};
+/** Opened from a role or scene ("Add someone to this role"): the Library offers "Add and return". It never assigns or changes Main. */
+type LibraryContext={roleId:string|null;sceneId:string|null;returnTo:string|null};
+function readContext():LibraryContext{
+  if(typeof window==='undefined')return {roleId:null,sceneId:null,returnTo:null};
+  const params=new URLSearchParams(window.location.search);const bounded=(value:string|null)=>value&&/^[A-Za-z0-9-]{1,200}$/u.test(value)?value:null;
+  const back=params.get('return_to');
+  return {roleId:bounded(params.get('role_id')),sceneId:bounded(params.get('scene_id')),returnTo:back&&back.startsWith('/')&&!back.startsWith('//')&&back.length<=500?back:null};
+}
+
 export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrigin,onDirtyChange,onWorkspaceChanged}:Props){
-  const confirm=useConfirm();
-  const [items,setItems]=useState<WorkspaceCandidate[]>([]);const [readRevision,setReadRevision]=useState(0);const [next,setNext]=useState<string|null>(null);const [loading,setLoading]=useState(true);const [error,setError]=useState('');const [tab,setTab]=useState<Tab>('project');const [openId,setOpenId]=useState<string|null>(null);const [dirty,setDirty]=useState<Record<string,boolean>>({});
+  const {confirmLeave}=useUnsavedChanges();
+  const [items,setItems]=useState<WorkspaceCandidate[]>([]);const [readRevision,setReadRevision]=useState(0);const [next,setNext]=useState<string|null>(null);const [loading,setLoading]=useState(true);const [error,setError]=useState('');const [initial]=useState(()=>{const value=readContext();return {context:value,library:Boolean(value.roleId||value.sceneId||(typeof window!=='undefined'&&new URLSearchParams(window.location.search).get('mode')==='library'))};});const [tab,setTab]=useState<Tab>(initial.library?'library':'project');const [openId,setOpenId]=useState<string|null>(null);const [dirty,setDirty]=useState<Record<string,boolean>>({});
   const [reads]=useState(createLatestReadRequests);
   const [retirement,setRetirement]=useState<string|null>(null);const [undoLocked,setUndoLocked]=useState(false);
+  const [libraryOpened,setLibraryOpened]=useState(initial.library);const context:LibraryContext=initial.context;
+  // Server-derived membership, patched locally after an add/removal so cards change without a reload.
+  const [membership,setMembership]=useState<Record<string,string|null>>({});
+  const [uploadToken,setUploadToken]=useState(0);const [processing,setProcessing]=useState<ReadonlySet<string>>(new Set());const [repairRevision,setRepairRevision]=useState(0);
+  const itemsRef=useRef(items);useEffect(()=>{itemsRef.current=items;},[items]);
+  const [libraryTop,setLibraryTop]=useState(0);const mergeTimer=useRef<ReturnType<typeof setTimeout>|undefined>(undefined);
   const dirtyChanged=useCallback((key:string,value:boolean)=>{if(value){reads.cancel();setLoading(false);}setDirty(current=>current[key]===value?current:{...current,[key]:value});},[reads]);
   const retirementDirty=useCallback((value:boolean)=>{setUndoLocked(value);dirtyChanged('retirement-undo',value);},[dirtyChanged]);
-  useEffect(()=>()=>reads.cancel(),[reads]);
+  useEffect(()=>()=>{reads.cancel();if(mergeTimer.current)clearTimeout(mergeTimer.current);},[reads]);
   const libraryDirty=useCallback((value:boolean)=>dirtyChanged('library',value),[dirtyChanged]);const uploadDirty=useCallback((value:boolean)=>dirtyChanged('upload',value),[dirtyChanged]);
-  const load=useCallback(async(cursor?:string)=>{const request=reads.start();setLoading(true);try{const result=await api<WorkspaceCandidate[]>(`/api/v1/workspaces/${workspaceId}/candidates${cursor?`?cursor=${encodeURIComponent(cursor)}`:''}`,{signal:request.signal});if(!request.isCurrent())return;setItems(current=>cursor?[...current,...result.data]:result.data);setNext(result.page?.next_cursor??null);if(!cursor)setReadRevision(value=>value+1);setError('');}catch(reason){if(request.isCurrent())setError(errorMessage(reason));}finally{if(request.isCurrent())setLoading(false);}},[workspaceId,reads]);
+  const load=useCallback(async(cursor?:string)=>{const request=reads.start();setLoading(true);try{const result=await api<WorkspaceCandidate[]>(`/api/v1/workspaces/${workspaceId}/candidates${cursor?`?cursor=${encodeURIComponent(cursor)}`:''}`,{signal:request.signal});if(!request.isCurrent())return;setItems(current=>cursor?[...current,...result.data.filter(item=>!current.some(known=>known.id===item.id))]:result.data);setNext(result.page?.next_cursor??null);if(!cursor)setReadRevision(value=>value+1);setError('');}catch(reason){if(request.isCurrent())setError(errorMessage(reason));}finally{if(request.isCurrent())setLoading(false);}},[workspaceId,reads]);
   useEffect(()=>{let current=true;api<WorkspaceCandidate[]>(`/api/v1/workspaces/${workspaceId}/candidates`).then(result=>{if(current){setItems(result.data);setNext(result.page?.next_cursor??null);setError('');}}).catch(reason=>{if(current)setError(errorMessage(reason));}).finally(()=>{if(current)setLoading(false);});return()=>{current=false;};},[workspaceId]);useEffect(()=>{onDirtyChange(Object.values(dirty).some(Boolean));return()=>onDirtyChange(false);},[dirty,onDirtyChange]);
   const anyDirty=Object.values(dirty).some(Boolean);
   function retryRead(){if(anyDirty){setError('Save or discard your open edits before reloading project candidates.');return;}void load();}
@@ -42,45 +58,99 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
   const canWrite=!!actor.capabilities?.includes('workspaces.write');
   const canUpload=actor.upload_purposes?.includes('candidate_video')&&canWrite;
   const validUploadMaximum=typeof uploadMaximum==='number'&&Number.isSafeInteger(uploadMaximum)&&uploadMaximum>0&&uploadMaximum<=256*1024*1024;
-  function saved(nextItem:WorkspaceCandidate){setItems(current=>current.some(item=>item.id===nextItem.id)?current.map(item=>item.id===nextItem.id?nextItem:item):[...current,nextItem]);onWorkspaceChanged();}
-  function removed(id:string){setOpenId(null);setRetirement(id);setItems(current=>current.filter(item=>item.id!==id));onWorkspaceChanged();}
-  async function refreshAdded(){try{const result=await api<WorkspaceCandidate[]>(`/api/v1/workspaces/${workspaceId}/candidates`);setItems(current=>{const known=new Set(current.map(item=>item.id));return [...current,...result.data.filter(item=>!known.has(item.id))];});}catch(reason){setError(errorMessage(reason));}onWorkspaceChanged();}
-  async function chooseTab(nextTab:Tab){if(nextTab===tab)return;if(tab==='library'&&dirty.library&&!await confirm({title:'Leave the Cast Library tab?',description:'Your unfinished manual entry is discarded.',confirmLabel:'Discard entry',danger:true}))return;setTab(nextTab);}
+  function saved(nextItem:WorkspaceCandidate){setItems(current=>current.some(item=>item.id===nextItem.id)?current.map(item=>item.id===nextItem.id?nextItem:item):[nextItem,...current]);onWorkspaceChanged();}
+  function removed(id:string){const gone=itemsRef.current.find(item=>item.id===id);setOpenId(null);setRetirement(id);setItems(current=>current.filter(item=>item.id!==id));if(gone)setMembership(current=>({...current,[gone.candidate_id]:null}));onWorkspaceChanged();}
+  // A person added from the Library joins this list at once; the Library stays open for more.
+  const libraryAdded=useCallback((added:WorkspaceCandidateAdded)=>{const {already_member:_already,...row}=added;void _already;setMembership(current=>({...current,[row.candidate_id]:row.id}));setItems(current=>current.some(item=>item.id===row.id)?current:[row,...current]);onWorkspaceChanged();},[onWorkspaceChanged]);
+  // The newest person is on page 1 (newest first), so a finished upload is merged from a fresh first page.
+  const mergeFirstPage=useCallback(async()=>{try{const result=await api<WorkspaceCandidate[]>(`/api/v1/workspaces/${workspaceId}/candidates`);setItems(current=>{const known=new Set(current.map(item=>item.id));const fresh=result.data.filter(item=>!known.has(item.id));return fresh.length?[...fresh,...current]:current;});setRepairRevision(value=>value+1);}catch(reason){setError(errorMessage(reason));}onWorkspaceChanged();},[workspaceId,onWorkspaceChanged]);
+  const uploadResolved=useCallback((row:CandidateUploadRow)=>{if(!row.workspace_candidate_id||itemsRef.current.some(item=>item.id===row.workspace_candidate_id))return;if(mergeTimer.current)clearTimeout(mergeTimer.current);mergeTimer.current=setTimeout(()=>void mergeFirstPage(),150);},[mergeFirstPage]);
+  const presentIds=useMemo(()=>new Set(items.map(item=>item.id)),[items]);
+  const processingChanged=useCallback((ids:ReadonlySet<string>)=>setProcessing(current=>current.size===ids.size&&[...ids].every(id=>current.has(id))?current:ids),[]);
+  async function chooseTab(nextTab:Tab){if(nextTab===tab)return;if(tab==='library'&&!await confirmLeave({scope:'editor:library'}))return;if(tab==='library')setLibraryTop(window.scrollY);setTab(nextTab);if(nextTab==='library'){setLibraryOpened(true);const top=libraryTop;requestAnimationFrame(()=>window.scrollTo({top}));}}
   function tabKeys(event:React.KeyboardEvent<HTMLDivElement>){const order:Tab[]=canUpload?['project','library','uploads']:['project','library'];const index=order.indexOf(tab);const target=event.key==='ArrowRight'?order[(index+1)%order.length]:event.key==='ArrowLeft'?order[(index-1+order.length)%order.length]:null;if(!target)return;event.preventDefault();void chooseTab(target).then(()=>document.getElementById(`candidates-tab-${target}`)?.focus());}
   const tabProps=(value:Tab)=>({id:`candidates-tab-${value}`,role:'tab' as const,type:'button' as const,'aria-selected':tab===value,'aria-controls':`candidates-panel-${value}`,tabIndex:tab===value?0:-1,onClick:()=>void chooseTab(value)});
+  const actions=<div className="button-row intake-actions">{canUpload&&<button type="button" className="button button-primary" onClick={()=>void chooseTab('uploads')}><Icon name="upload"/>Upload new candidates</button>}{canWrite&&<button type="button" className="button" onClick={()=>void chooseTab('library')}><Icon name="people"/>Choose from Library</button>}</div>;
+  const returnFromLibrary=()=>{if(context.returnTo)window.location.assign(context.returnTo);else void chooseTab('project');};
 
   return <section className="workspace-candidates" aria-busy={loading}>{retirement&&<RetirementUndo workspaceId={workspaceId} resourceId={retirement} label="project removal" canWrite={canWrite} disabled={Object.entries(dirty).some(([id,value])=>id!=='retirement-undo'&&value)} onDirtyChange={retirementDirty} onDismiss={()=>setRetirement(null)} onRestored={()=>{setRetirement(null);setUndoLocked(false);void load();onWorkspaceChanged();}}/>}<fieldset className="presentation-read-lock" disabled={loading||undoLocked} aria-label="Project candidate controls">
-    <header className="section-heading candidates-heading"><div><h2>Project candidates</h2><p>Choose introductions, frames and availability for this project. Shared facts stay in Cast Library.</p></div><div className="button-row"><button className="button button-small button-quiet" disabled={loading||anyDirty} onClick={()=>void load()}><Icon name="refresh"/>Reload saved candidates</button><Link className="button button-small button-quiet" href="/processing"><Icon name="processing"/>Open Processing</Link></div></header>
+    <header className="section-heading candidates-heading"><div><h2>Project candidates</h2><p>Newest added first. Choose each person’s introduction, frames, presentation picture and availability for this project. Shared facts stay in Cast Library.</p></div><div className="button-row">{actions}<button className="button button-small button-quiet" disabled={loading||anyDirty} onClick={()=>void load()}><Icon name="refresh"/>Reload saved candidates</button><Link className="button button-small button-quiet" href="/processing"><Icon name="processing"/>Open Processing</Link></div></header>
     <div className="tabs" role="tablist" aria-label="Candidate sources" onKeyDown={tabKeys}><button {...tabProps('project')}>In this project <span className="count">{items.length}{next?'+':''}</span></button><button {...tabProps('library')}>Cast Library</button>{canUpload&&<button {...tabProps('uploads')}>Uploads{dirty.upload&&<span className="badge badge-info">Active</span>}</button>}</div>
     {error&&<ErrorNotice message={error} retry={retryRead}/>}
+    <div hidden={tab==='library'}><CandidateUploadStatus workspaceId={workspaceId} refreshToken={uploadToken} canRetry={!!actor.capabilities?.includes('operations.retry')} presentIds={presentIds} onResolved={uploadResolved} onProcessingChange={processingChanged}/></div>
     <div id="candidates-panel-project" role="tabpanel" aria-labelledby="candidates-tab-project" hidden={tab!=='project'}>
-      {loading&&!items.length?<Loading label="Opening project candidates…"/>:!items.length&&!error?<div className="empty-state"><Icon name="people"/><h2>No candidates in this project</h2><p>Upload introduction videos, reuse a library profile or add someone manually. Missing information is permitted.</p><div className="button-row"><button type="button" className="button" onClick={()=>void chooseTab('library')}>Add from Cast Library</button>{canUpload&&<button type="button" className="button" onClick={()=>void chooseTab('uploads')}><Icon name="upload"/>Upload videos</button>}</div></div>
-        :<><div className="candidate-list-head" aria-hidden="true"><span>Candidate</span><span>Project frames</span><span>Availability</span><span>Attention</span><span/></div><div className="project-candidate-list">{items.map(item=><ProjectCandidate key={`${actor.id}/${item.id}/${item.row_version}/${readRevision}`} item={item} actor={actor} storageOrigin={storageOrigin} canWrite={canWrite} open={openId===item.id} onOpenChange={value=>setOpenId(value?item.id:null)} onSaved={saved} onRemoved={removed} onDirtyChange={dirtyChanged}/>)}</div></>}
+      {canWrite&&<MediaRepairPanel workspaceId={workspaceId} revision={repairRevision} onApplied={result=>{setItems(current=>current.map(item=>result.applied.find(row=>row.id===item.id)??item));if(result.applied.length)onWorkspaceChanged();}}/>}
+      {loading&&!items.length?<Loading label="Opening project candidates…"/>:!items.length&&!error?<div className="empty-state"><Icon name="people"/><h2>No candidates in this project</h2><p>Upload introduction videos or choose people from the Cast Library. Missing information is permitted.</p>{actions}</div>
+        :<><div className="candidate-list-head" aria-hidden="true"><span>Candidate</span><span>Project frames</span><span>Availability</span><span>Attention</span><span/></div><div className="project-candidate-list">{items.map(item=><ProjectCandidate key={`${actor.id}/${item.id}/${item.row_version}/${readRevision}`} item={item} actor={actor} storageOrigin={storageOrigin} canWrite={canWrite} processing={processing.has(item.candidate_id)} open={openId===item.id} onOpenChange={value=>setOpenId(value?item.id:null)} onSaved={saved} onRemoved={removed} onDirtyChange={dirtyChanged} onTapeQueued={()=>setUploadToken(value=>value+1)}/>)}</div></>}
       {next&&<div className="load-more"><button className="button" disabled={loading} onClick={()=>void load(next)}>Load more candidates</button></div>}
-      <p className="section-note"><Icon name="info"/><span>Shared facts live in the Cast Library. This list holds project choices only: introduction, frames, availability and internal notes.</span></p>
+      <p className="section-note"><Icon name="info"/><span>Shared facts live in the Cast Library. This list holds project choices only: introduction, frames, presentation picture, availability and internal notes.</span></p>
     </div>
-    <div id="candidates-panel-library" role="tabpanel" aria-labelledby="candidates-tab-library" hidden={tab!=='library'}>{tab==='library'&&<CastLibraryView actor={actor} workspaceId={workspaceId} onDirtyChange={libraryDirty} onAdded={nextItem=>{setTab('project');saved(nextItem);}}/>}</div>
-    {canUpload&&<div id="candidates-panel-uploads" role="tabpanel" aria-labelledby="candidates-tab-uploads" hidden={tab!=='uploads'}>{validUploadMaximum?<CandidateResumableUploads key={`${actor.id}:${workspaceId}`} workspaceId={workspaceId} actorId={actor.id} maximumBytes={uploadMaximum} storageOrigin={storageOrigin} onDirtyChange={uploadDirty} onQueued={()=>void refreshAdded()}/>:<ErrorNotice message="The current video upload limit is unavailable. Reload your session before choosing videos."/>}</div>}
+    {/* Kept mounted once opened so search, filters, loaded pages and scroll survive switching back. */}
+    <div id="candidates-panel-library" role="tabpanel" aria-labelledby="candidates-tab-library" hidden={tab!=='library'}>{libraryOpened&&<CastLibraryView actor={actor} workspaceId={workspaceId} onDirtyChange={libraryDirty} onAdded={libraryAdded} membershipOverrides={membership}
+      context={context.roleId||context.sceneId?{roleId:context.roleId,sceneId:context.sceneId}:undefined} onDone={returnFromLibrary} onAddAndReturn={context.roleId||context.sceneId?returnFromLibrary:undefined}/>}</div>
+    {canUpload&&<div id="candidates-panel-uploads" role="tabpanel" aria-labelledby="candidates-tab-uploads" hidden={tab!=='uploads'}>{validUploadMaximum?<CandidateResumableUploads key={`${actor.id}:${workspaceId}`} workspaceId={workspaceId} actorId={actor.id} maximumBytes={uploadMaximum} storageOrigin={storageOrigin} onDirtyChange={uploadDirty} onReserved={()=>setUploadToken(value=>value+1)} onQueued={()=>setUploadToken(value=>value+1)}/>:<ErrorNotice message="The current video upload limit is unavailable. Reload your session before choosing videos."/>}</div>}
     <footer className="sticky-bar workspace-continue"><Link className="icon-button workspace-back" href={`/projects/${projectId}/casting/${workspaceId}/specs`} aria-label="Back to Specs" data-tip="Back to Specs" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/organize`}>Continue to Casting<Icon name="arrow"/></Link></footer>
   </fieldset></section>;
 }
 
-function ProjectCandidate({item,actor,storageOrigin,canWrite,open,onOpenChange,onSaved,onRemoved,onDirtyChange}:{item:WorkspaceCandidate;actor:Actor;storageOrigin?:string;canWrite:boolean;open:boolean;onOpenChange:(open:boolean)=>void;onSaved:(item:WorkspaceCandidate)=>void;onRemoved:(id:string)=>void;onDirtyChange:(key:string,dirty:boolean)=>void}){
-  const [supportBusy,setSupportBusy]=useState(false);const [sourceBusy,setSourceBusy]=useState(false);const [candidate,setCandidate]=useState<Candidate|null>(null);const [media,setMedia]=useState<CandidateMedia[]>([]);const [selected,setSelected]=useState(item.selected_candidate_media_id??'');const [frames,setFrames]=useState(item.selected_frame_asset_ids);
+/** Reviewable defaults for legacy rows that never had media chosen: list, choose rows, apply. Nothing
+ * changes until applied; rows changed since they were listed are rejected and named. */
+function MediaRepairPanel({workspaceId,revision,onApplied}:{workspaceId:string;revision:number;onApplied:(result:MediaRepairResult)=>void}){
+  const [rows,setRows]=useState<MediaRepairSuggestion[]>([]);const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [notice,setNotice]=useState('');const [readToken,setReadToken]=useState(0);
+  const [chosen,setChosen]=useState<Set<string>>(new Set());const [names,setNames]=useState<Record<string,string>>({});const intent=useRef<{body:string;init:RequestInit}|null>(null);
+  useEffect(()=>{let current=true;api<MediaRepairSuggestion[]>(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/media-repairs`).then(result=>{if(!current)return;setRows(result.data);setChosen(new Set(result.data.filter(row=>row.reason==='default_available').map(row=>row.workspace_candidate_id)));}).catch(()=>{if(current)setRows([]);});return()=>{current=false;};},[workspaceId,revision,readToken]);
+  const fixable=rows.filter(row=>row.reason==='default_available');const empty=rows.length-fixable.length;
+  const requested=useRef(new Set<string>());
+  useEffect(()=>{const missing=rows.filter(row=>row.reason==='default_available').slice(0,50).filter(row=>!requested.current.has(row.candidate_id));if(!missing.length)return;for(const row of missing)requested.current.add(row.candidate_id);
+    Promise.all(missing.map(row=>api<Candidate>(`/api/v1/candidates/${encodeURIComponent(row.candidate_id)}`).then(result=>[row.candidate_id,result.data.facts.name??'Name not provided'] as const).catch(()=>[row.candidate_id,'Name unavailable'] as const)))
+      .then(entries=>setNames(value=>({...value,...Object.fromEntries(entries)})));},[rows]);
+  if(!fixable.length&&!notice)return null;
+  const selected=fixable.filter(row=>chosen.has(row.workspace_candidate_id));
+  async function apply(){setBusy(true);setError('');const body={items:selected.map(row=>({workspace_candidate_id:row.workspace_candidate_id,row_version:row.row_version}))};const serialized=JSON.stringify(body);if(intent.current?.body!==serialized)intent.current={body:serialized,init:mutation('POST',body)};
+    try{const result=await api<MediaRepairResult>(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/media-repairs`,intent.current.init);intent.current=null;onApplied(result.data);
+      const stale=result.data.skipped.filter(row=>row.reason==='changed'||row.reason==='already_chosen').length;
+      setNotice(`${result.data.applied.length} ${result.data.applied.length===1?'person now has':'people now have'} the suggested introduction and picture.${stale?` ${stale} not changed because ${stale===1?'it was':'they were'} edited since this list was made — review ${stale===1?'it':'them'} again.`:''}`);setReadToken(value=>value+1);}
+    catch(reason){setError(errorMessage(reason));}finally{setBusy(false);}}
+  return <section className="panel media-repairs" aria-labelledby={`repairs-${workspaceId}`}><div className="panel-body stack">
+    <h3 id={`repairs-${workspaceId}`}>Suggested picture fixes</h3>
+    {notice&&<p className="small" role="status">{notice}</p>}{error&&<ErrorNotice message={error}/>}
+    {fixable.length>0&&<><p className="small">{fixable.length} {fixable.length===1?'person in this project has':'people in this project have'} no introduction or presentation picture chosen yet. Suggested: the newest ready introduction with its chosen frames, and the archive cover photo (else the first chosen frame) as the picture.{empty?` ${empty} more ${empty===1?'has':'have'} no media available.`:''}</p>
+      <details className="repair-review"><summary>Review {fixable.length} {fixable.length===1?'suggestion':'suggestions'}</summary>
+        <fieldset className="stack"><legend className="sr-only">People to repair</legend>{fixable.map(row=><label key={row.workspace_candidate_id} className="check-line"><input type="checkbox" checked={chosen.has(row.workspace_candidate_id)} onChange={event=>setChosen(current=>{const next=new Set(current);if(event.target.checked)next.add(row.workspace_candidate_id);else next.delete(row.workspace_candidate_id);return next;})}/>
+          <span dir="auto">{names[row.candidate_id]??'Loading name…'}</span><span className="small muted">{row.suggestion?.portrait_source==='photo'?'Archive cover photo':row.suggestion?.portrait_source==='frame'?'First chosen frame':'Introduction only'}</span></label>)}</fieldset>
+      </details>
+      <div className="button-row"><button type="button" className="button" disabled={busy||!selected.length} onClick={()=>void apply()}>{busy?'Applying…':`Apply to ${selected.length} selected`}</button></div></>}
+  </div></section>;
+}
+
+interface CandidatePhoto { id: string; position: number; cover: boolean; asset_id: string; thumb_asset_id: string }
+type PictureChoice={asset:string|null;source:PortraitSource|null;state:MediaSelectionState};
+
+function ProjectCandidate({item,actor,storageOrigin,canWrite,processing,open,onOpenChange,onSaved,onRemoved,onDirtyChange,onTapeQueued}:{item:WorkspaceCandidate;actor:Actor;storageOrigin?:string;canWrite:boolean;processing:boolean;open:boolean;onOpenChange:(open:boolean)=>void;onSaved:(item:WorkspaceCandidate)=>void;onRemoved:(id:string)=>void;onDirtyChange:(key:string,dirty:boolean)=>void;onTapeQueued:()=>void}){
+  const {confirmLeave}=useUnsavedChanges();
+  const [supportBusy,setSupportBusy]=useState(false);const [sourceBusy,setSourceBusy]=useState(false);const [candidate,setCandidate]=useState<Candidate|null>(null);const [media,setMedia]=useState<CandidateMedia[]>([]);const [photos,setPhotos]=useState<CandidatePhoto[]>([]);const [selected,setSelected]=useState(item.selected_candidate_media_id??'');const [frames,setFrames]=useState(item.selected_frame_asset_ids);
   const [availability,setAvailability]=useState(item.availability??'');const [notes,setNotes]=useState(item.internal_notes??'');const [fresh,setFresh]=useState(item.fresh_material_required);const [confirmed,setConfirmed]=useState(item.media_confirmed);const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [removeReview,setRemoveReview]=useState(false);
+  const savedPicture:PictureChoice={asset:item.portrait_asset_id,source:item.portrait_source,state:item.media_selection_state};const [picture,setPicture]=useState<PictureChoice>(savedPicture);
   const formId=useId();
-  const intent=useRef<{body:string;init:RequestInit}|null>(null);const dirty=selected!==(item.selected_candidate_media_id??'')||JSON.stringify(frames)!==JSON.stringify(item.selected_frame_asset_ids)||availability!==(item.availability??'')||notes!==(item.internal_notes??'')||fresh!==item.fresh_material_required||confirmed!==item.media_confirmed;
+  const pictureDirty=picture.asset!==item.portrait_asset_id||picture.state!==item.media_selection_state;
+  const intent=useRef<{body:string;init:RequestInit}|null>(null);const dirty=selected!==(item.selected_candidate_media_id??'')||JSON.stringify(frames)!==JSON.stringify(item.selected_frame_asset_ids)||availability!==(item.availability??'')||notes!==(item.internal_notes??'')||fresh!==item.fresh_material_required||confirmed!==item.media_confirmed||pictureDirty;
   useEffect(()=>{let current=true;Promise.all([api<Candidate>(`/api/v1/candidates/${item.candidate_id}`),readCandidateMedia(item.candidate_id)]).then(([profile,sources])=>{if(current){setCandidate(profile.data);setMedia(sources.data);}}).catch(reason=>{if(current)setError(errorMessage(reason));});return()=>{current=false;};},[item.candidate_id]);
+  useEffect(()=>{if(!open)return;let current=true;api<CandidatePhoto[]>(`/api/v1/candidates/${encodeURIComponent(item.candidate_id)}/photos`).then(result=>{if(current)setPhotos(Array.isArray(result.data)?result.data:[]);}).catch(()=>{if(current)setPhotos([]);});return()=>{current=false;};},[open,item.candidate_id]);
   useEffect(()=>{onDirtyChange(item.id,dirty||busy||supportBusy||sourceBusy||removeReview);return()=>onDirtyChange(item.id,false);},[item.id,dirty,busy,supportBusy,sourceBusy,removeReview,onDirtyChange]);
   // Their slide follows availability and the chosen introduction/frames while they are edited.
   useDraftValue(draftKey.availability(item.id),availability||null,availability!==(item.availability??''));
   useDraftValue(draftKey.material(item.id),{mediaId:selected||null,frames},selected!==(item.selected_candidate_media_id??'')||JSON.stringify(frames)!==JSON.stringify(item.selected_frame_asset_ids));
-  async function save(event:React.FormEvent){event.preventDefault();setBusy(true);setError('');const body={row_version:item.row_version,selected_candidate_media_id:selected||null,selected_frame_asset_ids:frames,availability:availability||null,internal_notes:notes||null,fresh_material_required:fresh,media_confirmed:confirmed};const serialized=JSON.stringify(body);if(intent.current?.body!==serialized)intent.current={body:serialized,init:mutation('PATCH',body)};
-    try{const result=await api<WorkspaceCandidate>(`/api/v1/workspace-candidates/${item.id}`,intent.current.init);intent.current=null;onSaved(result.data);}catch(reason){setError(errorMessage(reason));}finally{setBusy(false);}}
-  function discard(){setSelected(item.selected_candidate_media_id??'');setFrames(item.selected_frame_asset_ids);setAvailability(item.availability??'');setNotes(item.internal_notes??'');setFresh(item.fresh_material_required);setConfirmed(item.media_confirmed);intent.current=null;}
+  const name=candidate?.facts.name??'Name not provided';
+  /** Resolves only after the server saved; on failure the input stays and the error shows here. */
+  async function persist(){setBusy(true);setError('');const body={row_version:item.row_version,selected_candidate_media_id:selected||null,selected_frame_asset_ids:frames,availability:availability||null,internal_notes:notes||null,fresh_material_required:fresh,media_confirmed:confirmed,
+      ...(pictureDirty?picture.state==='intentionally_empty'?{media_selection_state:'intentionally_empty' as const}:{portrait_asset_id:picture.asset,portrait_source:picture.source,media_selection_state:'pinned' as const}:{})};const serialized=JSON.stringify(body);if(intent.current?.body!==serialized)intent.current={body:serialized,init:mutation('PATCH',body)};
+    try{const result=await api<WorkspaceCandidate>(`/api/v1/workspace-candidates/${item.id}`,intent.current.init);intent.current=null;onSaved(result.data);}catch(reason){setError(errorMessage(reason));throw reason;}finally{setBusy(false);}}
+  function save(event:React.FormEvent){event.preventDefault();void persist().catch(()=>undefined);}
+  function discard(){setSelected(item.selected_candidate_media_id??'');setFrames(item.selected_frame_asset_ids);setAvailability(item.availability??'');setNotes(item.internal_notes??'');setFresh(item.fresh_material_required);setConfirmed(item.media_confirmed);setPicture(savedPicture);intent.current=null;}
+  useUnsavedEditor(`pool:${item.id}`,{scope:`editor:pool:${item.id}`,label:`project choices for ${name}`,dirty,save:persist,discard});
+  const requestClose=()=>{void confirmLeave({scope:`editor:pool:${item.id}`}).then(proceed=>{if(proceed)onOpenChange(false);});};
   function removalSaved(value:unknown){const result=value as{success?:unknown;affected_ids?:unknown}|null;if(!result||result.success!==true||!Array.isArray(result.affected_ids)||!result.affected_ids.includes(item.id))throw new Error('The project removal response could not be confirmed. Retry the same removal.');onRemoved(item.id);}
   const source=media.find(value=>value.id===selected);
-  const name=candidate?.facts.name??'Name not provided';
   const reviewed=candidate?.review_status==='reviewed';
   const savedFrames=item.selected_frame_asset_ids;
   const attention:{label:string;tone:'warn'|'info'|'bad'}[]=[];
@@ -89,19 +159,32 @@ function ProjectCandidate({item,actor,storageOrigin,canWrite,open,onOpenChange,o
   else if(savedFrames.length<3)attention.push({label:`${savedFrames.length} ${savedFrames.length===1?'frame':'frames'} only`,tone:'warn'});
   if(item.fresh_material_required)attention.push({label:'Fresh material requested',tone:'info'});
   if(item.selected_candidate_media_id&&!item.media_confirmed)attention.push({label:'Material not confirmed',tone:'warn'});
+  if(processing)attention.push({label:'New tape processing',tone:'info'});
   const locked=busy||supportBusy||sourceBusy;
+  const frameChoices=media.flatMap((intro,index)=>intro.available_frames.map(frame=>({asset:frame.asset_id,label:`Introduction ${index+1} · frame at ${(frame.timestamp_ms/1000).toFixed(2)}s`})));
   return <article className={`candidate-row${open?' is-open':''}`} data-draft-focus={`pool:${item.id}`}>
     <div className="candidate-row-summary">
-      <div className="identity">{savedFrames[0]?<span className="candidate-portrait"><CandidateFrameImage assetId={savedFrames[0]} alt=""/></span>:<span className="candidate-portrait candidate-portrait-photo" aria-hidden="true">{candidate?<CandidatePortrait candidateId={candidate.id} name={candidate.facts.name}/>:<Icon name="people"/>}</span>}<div><h3 dir="auto">{name}</h3><span className="identity-meta">{cardCastingId(candidate?.facts.casting_id??null)?`${cardCastingId(candidate?.facts.casting_id??null)} · `:''}<span className={reviewed?'text-ok':undefined}>{reviewed?'Reviewed':'Unreviewed'}</span></span></div></div>
+      <div className="identity"><ProjectPicture item={item} processing={processing}/><div><h3 dir="auto">{name}</h3><span className="identity-meta">{cardCastingId(candidate?.facts.casting_id??null)?`${cardCastingId(candidate?.facts.casting_id??null)} · `:''}<span className={reviewed?'text-ok':undefined}>{reviewed?'Reviewed':'Unreviewed'}</span></span></div></div>
       <div className="frame-strip" role="img" aria-label={`${savedFrames.length} of 3 project frames chosen`}>{[0,1,2].map(index=>savedFrames[index]?<span className="frame-thumb" key={index}><CandidateFrameImage assetId={savedFrames[index]} alt=""/></span>:<span className="frame-thumb frame-thumb-empty" key={index} aria-hidden="true"/>)}</div>
       <p className={item.availability?'candidate-availability':'candidate-availability muted'} dir="auto">{item.availability??'Pending'}</p>
       <div className="cluster">{dirty&&!open&&<span className="badge badge-warn">Unsaved changes</span>}{attention.length?attention.map(entry=><span key={entry.label} className={`badge badge-${entry.tone}`}>{entry.label}</span>):<span className="muted" aria-label="No attention needed">—</span>}</div>
       <button type="button" className="button button-small" aria-haspopup="dialog" aria-expanded={open} onClick={()=>onOpenChange(true)} aria-label={`Edit project material for ${name}`}>Edit<Icon name="chevron-right"/></button>
     </div>
-    {open&&<Drawer inline wide title={name} description={<>{reviewed?'Reviewed':'Unreviewed'}{cardCastingId(candidate?.facts.casting_id??null)?` · ${cardCastingId(candidate?.facts.casting_id??null)}`:''} · Project material for this workspace only</>} onClose={()=>onOpenChange(false)} busy={locked} closeLabel={`Close ${name}`}
+    {open&&<Drawer inline wide title={name} description={<>{reviewed?'Reviewed':'Unreviewed'}{cardCastingId(candidate?.facts.casting_id??null)?` · ${cardCastingId(candidate?.facts.casting_id??null)}`:''} · Project material for this workspace only</>} onClose={requestClose} busy={locked} closeLabel={`Close ${name}`}
       footer={<>{canWrite&&<button type="button" className="button button-danger-quiet" disabled={busy||dirty||supportBusy||sourceBusy||removeReview} onClick={()=>setRemoveReview(true)}>Remove from project</button>}<Link className="button button-quiet" href={`/library/cast/${item.candidate_id}`}>Open shared profile<Icon name="external"/></Link><span className="grow"/>{dirty&&<><button type="button" className="button" disabled={busy} onClick={discard}>Discard project edits</button><button className="button button-primary" form={formId} disabled={busy}>{busy?'Saving…':'Save project choices'}</button></>}</>}>
       {error&&<ErrorNotice message={error}/>}
       <form id={formId} onSubmit={save} className="stack-lg"><fieldset className="stack-lg" disabled={!canWrite||busy||supportBusy||sourceBusy||removeReview}>
+        <section className="stack" aria-labelledby={`${formId}-picture`}><h3 id={`${formId}-picture`} className="eyebrow">Presentation picture</h3>
+          <div className="picture-current"><ProjectPicture item={{portrait_asset_id:picture.asset,portrait_source:picture.source,portrait_crop:pictureDirty?null:item.portrait_crop,media_selection_state:picture.state}}/><p className="small muted">Used on this project’s slides, PDF and PowerPoint. Library edits never change it.</p></div>
+          <details className="picture-chooser"><summary>Change picture</summary>
+            <fieldset className="picture-choices"><legend className="sr-only">Choose the presentation picture</legend>
+              {photos.map(photo=><label key={photo.id} className="picture-choice"><input type="radio" name={`${formId}-picture-choice`} checked={picture.state!=='intentionally_empty'&&picture.asset===photo.asset_id} onChange={()=>setPicture({asset:photo.asset_id,source:'photo',state:'pinned'})}/><img src={pictureUrl(photo.thumb_asset_id,'photo')} alt="" loading="lazy"/><span>Archive photo {photo.position}{photo.cover?' · cover':''}</span></label>)}
+              {frameChoices.map(choice=><label key={choice.asset} className="picture-choice"><input type="radio" name={`${formId}-picture-choice`} checked={picture.state!=='intentionally_empty'&&picture.asset===choice.asset} onChange={()=>setPicture({asset:choice.asset,source:'frame',state:'pinned'})}/><img src={pictureUrl(choice.asset,'frame')} alt="" loading="lazy"/><span>{choice.label}</span></label>)}
+              <label className="picture-choice picture-choice-none"><input type="radio" name={`${formId}-picture-choice`} checked={picture.state==='intentionally_empty'} onChange={()=>setPicture({asset:null,source:null,state:'intentionally_empty'})}/><span>No picture for this project</span></label>
+              {!photos.length&&!frameChoices.length&&<p className="small muted">This person has no frames or archive photos yet.</p>}
+            </fieldset>
+          </details>
+        </section>
         <section className="stack" aria-labelledby={`${formId}-material`}><h3 id={`${formId}-material`} className="eyebrow">Project material</h3><div className="form-grid"><div className="field"><label htmlFor={`material-${item.id}`}>Selected introduction</label><select id={`material-${item.id}`} value={selected} onChange={event=>{const chosen=media.find(value=>value.id===event.target.value);setSelected(event.target.value);setFrames(chosen?.selected_frame_asset_ids??[]);setConfirmed(false);}}><option value="">Not provided</option>{media.map((value,index)=><option key={value.id} value={value.id}>Introduction {index+1} · {value.languages.join(', ')||'Language not provided'}{value.id===item.selected_candidate_media_id?' · current project choice':''}</option>)}</select></div><div className="field" data-draft-field="availability"><label htmlFor={`availability-${item.id}`}>Project availability</label><input id={`availability-${item.id}`} dir="auto" value={availability} maxLength={4000} placeholder="Pending" onChange={event=>setAvailability(event.target.value)}/></div></div>
           {source&&<CandidateProcessingIssues issues={source.processing_issues}/>}
           {source&&<><p className="small muted">Choose up to three frames, in presentation order. {frames.length} of 3 chosen.{source.available_frames.length<3?` This introduction has ${source.available_frames.length} available ${source.available_frames.length===1?'frame':'frames'}; fewer frames are permitted.`:''}</p><div className="candidate-frames project-frame-picks">{source.available_frames.map(frame=><div className={`candidate-frame${frames.includes(frame.asset_id)?' is-picked':''}`} key={frame.asset_id}><CandidateFrameImage assetId={frame.asset_id} alt={`Introduction frame at ${(frame.timestamp_ms/1000).toFixed(2)} seconds`}/><label><input type="checkbox" aria-label={`Introduction frame at ${(frame.timestamp_ms/1000).toFixed(2)} seconds`} checked={frames.includes(frame.asset_id)} disabled={!frames.includes(frame.asset_id)&&frames.length>=3} onChange={event=>{setFrames(current=>event.target.checked?[...current,frame.asset_id]:current.filter(id=>id!==frame.asset_id));setConfirmed(false);}}/>{frames.includes(frame.asset_id)?`#${frames.indexOf(frame.asset_id)+1} · `:''}{(frame.timestamp_ms/1000).toFixed(2)}s</label></div>)}</div></>}
@@ -110,7 +193,7 @@ function ProjectCandidate({item,actor,storageOrigin,canWrite,open,onOpenChange,o
       </fieldset></form>
       {removeReview&&<CastingRetirementReview key={`${actor.id}:${item.id}:${item.row_version}`} workspaceId={item.workspace_id} scope={{kind:'workspace_candidate',id:item.id,row_version:item.row_version}} scopeLabel="this person from the project and all their casting assignments" confirmLabel="Confirm remove from project" cancelLabel="Keep project candidate" request={{path:`/api/v1/workspace-candidates/${item.id}/remove`,body:{row_version:item.row_version}}} onSaved={removalSaved} onCancel={()=>setRemoveReview(false)}/>}
       <section className="stack" aria-label="Files"><SupportingFiles candidateId={item.candidate_id} workspaceId={item.workspace_id} actorId={actor.id} maximumBytes={actor.upload_maximum_bytes??0} storageOrigin={storageOrigin} canUpload={!removeReview&&!!actor.upload_purposes?.includes('candidate_support')&&!!actor.capabilities?.includes('cast.upload')&&canWrite} canArchive={!removeReview&&!!actor.capabilities?.includes('cast.write')} onDirtyChange={setSupportBusy}/></section>
-      {!removeReview&&!!actor.upload_purposes?.includes('candidate_video')&&actor.capabilities?.includes('cast.upload')&&canWrite&&typeof actor.upload_maximum_bytes==='number'&&<details className="requirements-details"><summary>Add a new introduction for this person</summary><p className="small muted">New material is appended to the shared profile. Existing project choices stay pinned until explicitly changed.</p><CandidateResumableUploads workspaceId={item.workspace_id} candidateId={item.candidate_id} actorId={actor.id} maximumBytes={actor.upload_maximum_bytes} storageOrigin={storageOrigin} onDirtyChange={setSourceBusy}/></details>}
+      {!removeReview&&!!actor.upload_purposes?.includes('candidate_video')&&actor.capabilities?.includes('cast.upload')&&canWrite&&typeof actor.upload_maximum_bytes==='number'&&<details className="requirements-details"><summary>Add another tape for this person</summary><p className="small muted">New material is appended to the shared profile. This project’s introduction, frames and picture stay as chosen until you change them.</p><CandidateResumableUploads workspaceId={item.workspace_id} candidateId={item.candidate_id} actorId={actor.id} maximumBytes={actor.upload_maximum_bytes} storageOrigin={storageOrigin} onDirtyChange={setSourceBusy} onReserved={onTapeQueued} onQueued={onTapeQueued}/></details>}
     </Drawer>}
   </article>;
 }

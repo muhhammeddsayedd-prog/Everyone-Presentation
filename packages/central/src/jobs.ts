@@ -39,6 +39,8 @@ export interface CentralJob {
   resource_id: string | null; error: { code: string; message: string; details: Record<string, string | number>; retryable: boolean } | null;
   created_at: string; updated_at: string; row_version: number; frame_extraction?: FrameExtractionOutcome;
   can_retry?: boolean; can_cancel?: boolean;
+  /** A succeeded candidate_scan: the person and the project row it produced (null row for a re-scan). */
+  candidate_result?: { candidate_id: string; candidate_media_id: string; workspace_candidate_id: string | null };
 }
 export type { JobListOptions } from '@eps/domain';
 export interface JobMutationInput { row_version: number; reason?: string | null }
@@ -50,10 +52,15 @@ const id = (value: unknown): value is string => typeof value === 'string' && val
 const count = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
 function jobDto(value: unknown): CentralJob {
   const hasOutcome=Object.hasOwn(object(value),'frame_extraction');
+  const hasCandidateResult=Object.hasOwn(object(value),'candidate_result');
   const actionKind = object(value).kind === 'presentation_render' || object(value).kind === 'presentation_export';
   const hasActions = actionKind || Object.hasOwn(object(value), 'can_retry') || Object.hasOwn(object(value), 'can_cancel');
-  const row = exact(value, ['id', 'workspace_id', 'kind', 'status', 'stage', 'attempt', 'progress_completed', 'progress_total', 'batch_id', 'input_asset_id', 'resource_id', 'error', 'created_at', 'updated_at', 'row_version',...(hasOutcome?['frame_extraction']:[]), ...(hasActions ? ['can_retry', 'can_cancel'] : [])]);
+  const row = exact(value, ['id', 'workspace_id', 'kind', 'status', 'stage', 'attempt', 'progress_completed', 'progress_total', 'batch_id', 'input_asset_id', 'resource_id', 'error', 'created_at', 'updated_at', 'row_version',...(hasOutcome?['frame_extraction']:[]), ...(hasCandidateResult?['candidate_result']:[]), ...(hasActions ? ['can_retry', 'can_cancel'] : [])]);
   if(hasOutcome!==(row.kind==='frame_extract'&&row.status==='succeeded'))fail();
+  if(hasCandidateResult){
+    const result=exact(row.candidate_result,['candidate_id','candidate_media_id','workspace_candidate_id']);
+    if(row.kind!=='candidate_scan'||row.status!=='succeeded'||!id(result.candidate_id)||!id(result.candidate_media_id)||!(result.workspace_candidate_id===null||id(result.workspace_candidate_id)))fail();
+  }
   if(hasOutcome){
     const outcome=exact(row.frame_extraction,['requested_count','extracted_count','unavailable_timestamps_ms','warnings']);
     if(!count(outcome.requested_count)||outcome.requested_count<1||outcome.requested_count>10||!count(outcome.extracted_count)||outcome.extracted_count>outcome.requested_count

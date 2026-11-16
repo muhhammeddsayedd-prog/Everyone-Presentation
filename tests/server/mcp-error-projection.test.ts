@@ -69,7 +69,7 @@ test('advertised optional revoke reason reaches the service and its safe rejecti
 test('post-commit response rejection exposes reconciliation guidance without leaking the invalid candidate output', async () => {
   const ports = services(); let commits = 0; const receipts = new Set<string>();
   const candidate = { id: 'synthetic-pool', workspace_id: 'synthetic-workspace', candidate_id: 'synthetic-candidate', selected_candidate_media_id: null,
-    selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, row_version: 1 };
+    selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, portrait_asset_id: null, portrait_source: null, portrait_crop: null, media_selection_state: 'unset', row_version: 1 };
   ports.candidates = { async addWorkspaceCandidate(_actor: Actor, _workspace: string, _body: WorkspaceCandidateCreate, context?: MutationContext) {
     if (!receipts.has(context!.idempotencyKey!)) { receipts.add(context!.idempotencyKey!); commits++; }
     return { ...candidate, private_field: 'synthetic-private-output' };
