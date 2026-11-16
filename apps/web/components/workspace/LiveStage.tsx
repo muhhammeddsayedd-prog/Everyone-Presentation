@@ -12,6 +12,8 @@ import { DeckStage, type StageChip } from './DeckStage';
 import { useWorkspaceDraft } from './WorkspaceDraftProvider';
 
 const NO_ASSETS: Record<string, LoadedAsset> = {};
+/** Templates the live stage draws: the current one and the earlier slot-page template. */
+const STAGE_TEMPLATES: readonly string[] = ['1.4.0', '1.3.0'];
 const outputTitle = (output: 'selection' | 'shortlist') => output === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
 const fetchMedia: AssetFetch = (id, signal) => fetch(`/api/v1/media/${encodeURIComponent(id)}/content`, { cache: 'no-store', signal, headers: { Accept: 'image/*' } });
 
@@ -21,20 +23,22 @@ export function LiveStage() {
   const draft = useWorkspaceDraft();
   const [choice, setChoice] = useState<string>('auto');
   const output = draft?.output ?? 'selection';
-  // The draft is always drawn in Everyone Film Editorial 1.3.0, the only template new series use.
-  const series = useMemo(() => (draft?.series ?? []).filter(row => row.output_type === output && isCurrentTemplate(row.template_version) && supportedTemplate(row.template_version)), [draft?.series, output]);
-  const chosen = choice === 'default' ? null : series.find(row => row.id === choice) ?? (choice === 'auto' ? series[0] ?? null : null);
+  // The draft is drawn in the selected series' own template (1.3.0 or 1.4.0); without a series, in the Studio default
+  // when it is one of those, else in the current template. The Standard/Scene view never changes the composition.
+  const series = useMemo(() => (draft?.series ?? []).filter(row => row.output_type === output && STAGE_TEMPLATES.includes(row.template_version) && supportedTemplate(row.template_version)), [draft?.series, output]);
+  const chosen = choice === 'default' ? null : series.find(row => row.id === choice) ?? (choice === 'auto' ? series.find(row => isCurrentTemplate(row.template_version)) ?? series[0] ?? null : null);
   const defaultTemplate = draft?.defaultTemplate ?? null;
-  const templateVersion = CURRENT_TEMPLATE; const title = chosen?.title ?? outputTitle(output);
+  const templateVersion = chosen?.template_version ?? (defaultTemplate && STAGE_TEMPLATES.includes(defaultTemplate) ? defaultTemplate : CURRENT_TEMPLATE); const title = chosen?.title ?? outputTitle(output);
+  const coverNote = chosen?.cover_note ?? null;
 
   // Typing never waits for the deck: on very large drafts the slide catches up a frame later.
   const source = draft?.source ?? null; const overlay = useDeferredValue(draft?.overlay); const profilesReadable = draft?.profilesReadable ?? false;
   const built = useMemo(() => {
     if (!source || !overlay) return null;
-    const context: DraftContext = { output, title, templateVersion };
+    const context: DraftContext = { output, title, templateVersion, coverNote };
     try { const result = buildDraftReview(source, overlay, context); return { deck: stageDeck(result.review), notes: result.notes, error: '' }; }
     catch (reason) { return { deck: null, notes: [], error: reason instanceof Error && reason.message === 'DRAFT_PROFILE_UNAVAILABLE' ? (profilesReadable ? 'A profile on this draft could not be read.' : 'Showing people on slides needs Cast Library access.') : 'An edit is not consistent yet (for example, a record changed elsewhere).' }; }
-  }, [source, overlay, profilesReadable, output, title, templateVersion]);
+  }, [source, overlay, profilesReadable, output, title, templateVersion, coverNote]);
   // Keep the last consistent deck on screen while an intermediate edit or refresh cannot be projected.
   const [good, setGood] = useState<StageDeck | null>(null);
   if (built?.deck && built.deck !== good) setGood(built.deck);
@@ -48,9 +52,9 @@ export function LiveStage() {
   </section>;
   const pendingDefault = !series.length && defaultTemplate !== null && !isCurrentTemplate(defaultTemplate);
   return <StageView deck={deck} paused={built?.error ?? ''} notes={built?.notes ?? []} choice={chosen?.id ?? 'default'} onChoice={setChoice}
-    seriesOptions={series.map(row => ({ id: row.id, label: `${row.title} · ${row.audience_snapshot.label}` }))}
+    seriesOptions={series.map(row => ({ id: row.id, label: `${row.title} · ${row.audience_snapshot.label}${isCurrentTemplate(row.template_version) ? '' : ` · ${row.template_version}`}` }))}
     previewOnly={pendingDefault ? `The Studio default is still ${templateName(defaultTemplate)}. Generating with ${templateName(CURRENT_TEMPLATE)} starts once a Studio manager selects it in Settings.` : ''}
-    defaultLabel={`No saved series · ${templateName(CURRENT_TEMPLATE)}`} />;
+    defaultLabel={`No saved series · Everyone Film Editorial ${defaultTemplate && STAGE_TEMPLATES.includes(defaultTemplate) ? defaultTemplate : CURRENT_TEMPLATE}`} />;
 }
 
 interface StageViewProps { deck: StageDeck; paused: string; notes: string[]; previewOnly?: string; choice: string; onChoice: (value: string) => void; seriesOptions: { id: string; label: string }[]; defaultLabel: string }
@@ -91,5 +95,5 @@ function StageView({ deck, paused, notes, previewOnly, choice, onChoice, seriesO
       {draft.stale && <div className="notice stage-notice"><p>{draft.stale}</p><button className="button button-small" type="button" disabled={draft.refreshing} onClick={() => draft.refresh(true)}>Retry</button></div>}
       {(failed.length > 0 || notes.includes('frames')) && <p className="stage-note small"><Icon name="info" />{failed.length > 0 ? `${failed.length} image${failed.length === 1 ? '' : 's'} could not be opened for the preview. ` : ''}{notes.includes('frames') ? 'Frames that are not part of the selected introduction are left out, as generation would.' : ''}</p>}
     </>}
-    disclaimer={<>Draft preview in {templateName(deck.template)}, recomputed from saved records and your unsaved edits. Checks, layout fit and the saved PDF come from Review.</>} />;
+    disclaimer={<>Draft preview in {deck.template === '1.3.0' || deck.template === '1.4.0' ? `Everyone Film Editorial ${deck.template}` : templateName(deck.template)}, recomputed from saved records and your unsaved edits. Checks, layout fit and the saved PDF come from Review.</>} />;
 }

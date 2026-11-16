@@ -21,6 +21,7 @@ const privateErrors: Record<string, { code: string; status: number; message: str
   RETIREMENT_UNDO_ALREADY_USED: { code: 'RETIREMENT_UNDO_ALREADY_USED', status: 409, message: 'This retirement was already restored.' },
   RETIREMENT_UNDO_UNAVAILABLE: { code: 'RETIREMENT_UNDO_UNAVAILABLE', status: 409, message: 'This retirement is no longer available to restore. Reload current choices.' },
   TEMPLATE_UNAVAILABLE: { code: 'TEMPLATE_UNAVAILABLE', status: 503, message: 'The selected presentation template is unavailable.' },
+  AUDIENCE_DEFAULT_REQUIRED: { code: 'AUDIENCE_DEFAULT_REQUIRED', status: 409, message: 'Choose the default review audience in Settings, or choose a review context in Share.' },
 };
 
 /** Request-scoped verified-user facade. SQL owns scope, locks, fingerprinting,
@@ -64,7 +65,8 @@ export async function createCentralReview(client: SupabaseClient): Promise<Revie
       actorRequired(actor); const input = parseSeriesCreate(value); const trace = context(metadata);
       const response = await rpc(actor, 'eps_create_presentation_series', { p_input: input, p_idempotency_key: trace.idempotencyKey }, trace);
       const result = checked(() => presentationSeriesDto(response));
-      if (result.workspace_id !== input.workspace_id || result.output_type !== input.output_type || result.audience_preset_id !== input.audience_preset_id) failed();
+      // Without an explicit audience the server applies the configured default; with one it must be echoed exactly.
+      if (result.workspace_id !== input.workspace_id || result.output_type !== input.output_type || input.audience_preset_id !== undefined && result.audience_preset_id !== input.audience_preset_id) failed();
       return result;
     },
     async getPresentationSeries(actor, seriesId) {

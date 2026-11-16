@@ -2696,6 +2696,19 @@
               "row_version": {
                 "$ref": "#/$defs/RowVersion"
               },
+              "presentation_note": {
+                "description": "Highlighted note printed on this role's last template 1.4.0 page.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
               "archived": {
                 "type": "boolean"
               }
@@ -3163,6 +3176,19 @@
               "row_version": {
                 "$ref": "#/$defs/RowVersion"
               },
+              "presentation_note": {
+                "description": "Highlighted note printed on this role's last template 1.4.0 page.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
               "archived": {
                 "type": "boolean"
               }
@@ -3522,7 +3548,7 @@
     },
     {
       "name": "update_role",
-      "description": "Correct role name or requirements",
+      "description": "Correct role name or requirements, or set its template 1.4.0 presentation note",
       "operationId": "update_role",
       "http": {
         "method": "PATCH",
@@ -3613,6 +3639,19 @@
                 "items": {
                   "$ref": "#/$defs/Clarification"
                 }
+              },
+              "presentation_note": {
+                "description": "Template 1.4.0 role note (1-500 characters), or null to clear it.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -3887,6 +3926,19 @@
               },
               "row_version": {
                 "$ref": "#/$defs/RowVersion"
+              },
+              "presentation_note": {
+                "description": "Highlighted note printed on this role's last template 1.4.0 page.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               },
               "archived": {
                 "type": "boolean"
@@ -4368,6 +4420,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "presentation_note": {
+                "description": "Highlighted note printed on the page with this slot's last person (template 1.4.0).",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -4594,6 +4659,19 @@
               "row_version": {
                 "$ref": "#/$defs/RowVersion"
               },
+              "presentation_note": {
+                "description": "Highlighted note printed on this role's last template 1.4.0 page.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
               "archived": {
                 "type": "boolean"
               }
@@ -4804,7 +4882,7 @@
     },
     {
       "name": "update_slot",
-      "description": "Rename individual slot",
+      "description": "Rename an individual slot or set its template 1.4.0 presentation note",
       "operationId": "update_slot",
       "http": {
         "method": "PATCH",
@@ -4841,17 +4919,41 @@
           "SlotPatch": {
             "type": "object",
             "additionalProperties": false,
+            "description": "A label change, a template 1.4.0 presentation note change, or both.",
             "properties": {
               "row_version": {
                 "$ref": "#/$defs/RowVersion"
               },
               "label": {
                 "type": "string"
+              },
+              "presentation_note": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
-              "row_version",
-              "label"
+              "row_version"
+            ],
+            "anyOf": [
+              {
+                "required": [
+                  "label"
+                ]
+              },
+              {
+                "required": [
+                  "presentation_note"
+                ]
+              }
             ]
           }
         }
@@ -4911,6 +5013,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "presentation_note": {
+                "description": "Highlighted note printed on the page with this slot's last person (template 1.4.0).",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -11500,6 +11615,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "presentation_note": {
+                "description": "Highlighted note printed on the page with this slot's last person (template 1.4.0).",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -11876,6 +12004,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "presentation_note": {
+                "description": "Highlighted note printed on the page with this slot's last person (template 1.4.0).",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -14417,6 +14558,19 @@
               },
               "font_key": {
                 "$ref": "#/$defs/Id"
+              },
+              "cover_note": {
+                "description": "Highlighted cover note (template 1.4.0).",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -14479,7 +14633,7 @@
     },
     {
       "name": "create_presentation_series",
-      "description": "Create/reuse series scoped to workspace, output and audience snapshot",
+      "description": "Create/reuse series scoped to workspace, output and audience snapshot. Omit audience_preset_id for an ordinary series: the configured default review audience is used (AUDIENCE_DEFAULT_REQUIRED when Settings has none). Pass an audience only for an explicit review context.",
       "operationId": "create_presentation_series",
       "http": {
         "path": "/presentation-series",
@@ -14525,6 +14679,7 @@
                 ]
               },
               "audience_preset_id": {
+                "description": "Explicit review context. Omit it for an ordinary series, which uses the configured default review audience (AUDIENCE_DEFAULT_REQUIRED when none is configured).",
                 "$ref": "#/$defs/Id"
               },
               "title": {
@@ -14533,8 +14688,7 @@
             },
             "required": [
               "workspace_id",
-              "output_type",
-              "audience_preset_id"
+              "output_type"
             ]
           }
         }
@@ -14675,6 +14829,19 @@
               },
               "font_key": {
                 "$ref": "#/$defs/Id"
+              },
+              "cover_note": {
+                "description": "Highlighted cover note (template 1.4.0).",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -14900,6 +15067,19 @@
               },
               "font_key": {
                 "$ref": "#/$defs/Id"
+              },
+              "cover_note": {
+                "description": "Highlighted cover note (template 1.4.0).",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -14962,7 +15142,7 @@
     },
     {
       "name": "update_presentation_series",
-      "description": "Rename/archive a series without changing its audience scope",
+      "description": "Rename/archive a series or set its template 1.4.0 cover note without changing its audience scope",
       "operationId": "update_presentation_series",
       "http": {
         "path": "/presentation-series/{series_id}",
@@ -15009,6 +15189,19 @@
               },
               "archived": {
                 "type": "boolean"
+              },
+              "cover_note": {
+                "description": "Template 1.4.0 cover note (1-500 characters), or null to clear it.",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -15158,6 +15351,19 @@
               },
               "font_key": {
                 "$ref": "#/$defs/Id"
+              },
+              "cover_note": {
+                "description": "Highlighted cover note (template 1.4.0).",
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -20332,6 +20538,17 @@
               },
               "row_version": {
                 "$ref": "#/$defs/RowVersion"
+              },
+              "default_audience_preset_id": {
+                "description": "Audience an ordinary new series uses. Null until a Studio manager chooses it in Settings; never set by a migration.",
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -20380,7 +20597,7 @@
     },
     {
       "name": "update_settings",
-      "description": "Update allowed app settings without exposing credentials",
+      "description": "Update allowed app settings (timezone, template for new series, default review audience) without exposing credentials",
       "operationId": "update_settings",
       "http": {
         "method": "PATCH",
@@ -20405,6 +20622,12 @@
           "idempotency_key"
         ],
         "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
           "RowVersion": {
             "type": "integer",
             "minimum": 1,
@@ -20422,6 +20645,17 @@
               },
               "template_version": {
                 "type": "string"
+              },
+              "default_audience_preset_id": {
+                "description": "Default review audience for ordinary new series (an active preset), or null to clear it.",
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -20485,6 +20719,17 @@
               },
               "row_version": {
                 "$ref": "#/$defs/RowVersion"
+              },
+              "default_audience_preset_id": {
+                "description": "Audience an ordinary new series uses. Null until a Studio manager chooses it in Settings; never set by a migration.",
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -22365,6 +22610,48 @@
           "data"
         ],
         "$defs": {
+          "DateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "RowVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
+            ]
+          },
           "WorkspaceSummary": {
             "type": "object",
             "additionalProperties": false,
@@ -22479,48 +22766,6 @@
               "latest_ready_versions",
               "review_issue_count"
             ]
-          },
-          "DateTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "Id": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 200,
-            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
-          },
-          "RowVersion": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Optimistic version from the last read of the mutated resource; stale write returns 409."
-          },
-          "Warning": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "code": {
-                "type": "string"
-              },
-              "message": {
-                "type": "string"
-              },
-              "entity_id": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/Id"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
-              }
-            },
-            "required": [
-              "code",
-              "message",
-              "entity_id"
-            ]
           }
         }
       },
@@ -22577,6 +22822,44 @@
           "data"
         ],
         "$defs": {
+          "FeedbackCounts": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "preferred": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "maybe": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "not_preferred": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "comment_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "unresolved_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "preferred",
+              "maybe",
+              "not_preferred",
+              "comment_count",
+              "unresolved_count"
+            ]
+          },
           "FeedbackSummary": {
             "type": "object",
             "additionalProperties": false,
@@ -22644,43 +22927,11 @@
               "totals"
             ]
           },
-          "FeedbackCounts": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "preferred": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 9007199254740991
-              },
-              "maybe": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 9007199254740991
-              },
-              "not_preferred": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 9007199254740991
-              },
-              "comment_count": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 9007199254740991
-              },
-              "unresolved_count": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 9007199254740991
-              }
-            },
-            "required": [
-              "preferred",
-              "maybe",
-              "not_preferred",
-              "comment_count",
-              "unresolved_count"
-            ]
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
           },
           "Warning": {
             "type": "object",
@@ -22708,12 +22959,6 @@
               "message",
               "entity_id"
             ]
-          },
-          "Id": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 200,
-            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
           }
         }
       },
@@ -22808,6 +23053,22 @@
           "data"
         ],
         "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
+          "NullableText": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "Project": {
             "type": "object",
             "additionalProperties": false,
@@ -22892,22 +23153,6 @@
               "client_row_version",
               "casting_workspace_id",
               "can_edit"
-            ]
-          },
-          "Id": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 200,
-            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
-          },
-          "NullableText": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
             ]
           },
           "RowVersion": {
@@ -23036,6 +23281,25 @@
             "maxLength": 200,
             "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
           },
+          "Page": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "next_cursor": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "next_cursor"
+            ]
+          },
           "Warning": {
             "type": "object",
             "additionalProperties": false,
@@ -23061,25 +23325,6 @@
               "code",
               "message",
               "entity_id"
-            ]
-          },
-          "Page": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "next_cursor": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
-              }
-            },
-            "required": [
-              "next_cursor"
             ]
           }
         }
@@ -23132,6 +23377,12 @@
           "data"
         ],
         "$defs": {
+          "Id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
+          },
           "PresentationType": {
             "type": "object",
             "additionalProperties": false,
@@ -23166,12 +23417,6 @@
               "label",
               "status"
             ]
-          },
-          "Id": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 200,
-            "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
           },
           "Warning": {
             "type": "object",
@@ -23211,7 +23456,7 @@
     },
     {
       "name": "download_version_pptx",
-      "description": "Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template (1.2.0 or 1.3.0), from the same frozen content as its PDF, using only the caller's own version and media access. Returns the slide count, size and filename of the verified build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open it in a browser signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED; unfinished versions return PRESENTATION_NOT_READY. Nothing is stored or shared.",
+      "description": "Build the editable PowerPoint of a Ready version saved with the Everyone Film editorial template (1.2.0, 1.3.0 or 1.4.0), from the same frozen content as its PDF, using only the caller's own version and media access. Returns the slide count, size and filename of the verified build and download_url: the in-app content route that requires the same signed-in user (no bearer or public URL). Open it in a browser signed in to the app; it is rebuilt from the same frozen content on download. Retained 1.0.0/1.1.0 versions return PPTX_TEMPLATE_UNSUPPORTED; unfinished versions return PRESENTATION_NOT_READY. Nothing is stored or shared.",
       "operationId": "download_version_pptx",
       "http": {
         "method": "POST",
@@ -23270,33 +23515,6 @@
             "maxLength": 200,
             "description": "Opaque resource identifier. Do not parse business meaning or assume source database PK type."
           },
-          "Warning": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "code": {
-                "type": "string"
-              },
-              "message": {
-                "type": "string"
-              },
-              "entity_id": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/Id"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
-              }
-            },
-            "required": [
-              "code",
-              "message",
-              "entity_id"
-            ]
-          },
           "PptxDownload": {
             "type": "object",
             "additionalProperties": false,
@@ -23329,7 +23547,8 @@
                 "type": "string",
                 "enum": [
                   "1.2.0",
-                  "1.3.0"
+                  "1.3.0",
+                  "1.4.0"
                 ]
               }
             },
@@ -23341,6 +23560,33 @@
               "size_bytes",
               "slide_count",
               "template_version"
+            ]
+          },
+          "Warning": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "entity_id": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/Id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "entity_id"
             ]
           }
         }
@@ -23410,6 +23656,47 @@
           "page"
         ],
         "$defs": {
+          "CandidatePhoto": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/Id"
+              },
+              "position": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "cover": {
+                "type": "boolean"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096
+              },
+              "asset_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "thumb_asset_id": {
+                "$ref": "#/$defs/Id"
+              }
+            },
+            "required": [
+              "id",
+              "position",
+              "cover",
+              "width",
+              "height",
+              "asset_id",
+              "thumb_asset_id"
+            ]
+          },
           "DateTime": {
             "type": "string",
             "format": "date-time"
@@ -23593,47 +23880,6 @@
               "code",
               "message",
               "entity_id"
-            ]
-          },
-          "CandidatePhoto": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "$ref": "#/$defs/Id"
-              },
-              "position": {
-                "type": "integer",
-                "minimum": 1
-              },
-              "cover": {
-                "type": "boolean"
-              },
-              "width": {
-                "type": "integer",
-                "minimum": 1,
-                "maximum": 4096
-              },
-              "height": {
-                "type": "integer",
-                "minimum": 1,
-                "maximum": 4096
-              },
-              "asset_id": {
-                "$ref": "#/$defs/Id"
-              },
-              "thumb_asset_id": {
-                "$ref": "#/$defs/Id"
-              }
-            },
-            "required": [
-              "id",
-              "position",
-              "cover",
-              "width",
-              "height",
-              "asset_id",
-              "thumb_asset_id"
             ]
           }
         }

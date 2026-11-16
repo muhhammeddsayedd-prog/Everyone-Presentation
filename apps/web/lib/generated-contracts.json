@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "98e91b1b5001742d346c3b89d3b241f1d4bf39f0afc1fec40a5edbb373b145ac",
+  "x-source-sha256": "c5dec6396d176fcc58b1b39dc454736a50d5a36e7fccc7de66475054a4aa3eee",
   "$defs": {
     "Id": {
       "type": "string",
@@ -782,6 +782,19 @@
         "row_version": {
           "$ref": "#/$defs/RowVersion"
         },
+        "presentation_note": {
+          "description": "Highlighted note printed on this role's last template 1.4.0 page.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "archived": {
           "type": "boolean"
         }
@@ -907,6 +920,19 @@
           "items": {
             "$ref": "#/$defs/Clarification"
           }
+        },
+        "presentation_note": {
+          "description": "Template 1.4.0 role note (1-500 characters), or null to clear it.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -958,6 +984,19 @@
         },
         "archived": {
           "type": "boolean"
+        },
+        "presentation_note": {
+          "description": "Highlighted note printed on the page with this slot's last person (template 1.4.0).",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -972,17 +1011,41 @@
     "SlotPatch": {
       "type": "object",
       "additionalProperties": false,
+      "description": "A label change, a template 1.4.0 presentation note change, or both.",
       "properties": {
         "row_version": {
           "$ref": "#/$defs/RowVersion"
         },
         "label": {
           "type": "string"
+        },
+        "presentation_note": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
-        "row_version",
-        "label"
+        "row_version"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "label"
+          ]
+        },
+        {
+          "required": [
+            "presentation_note"
+          ]
+        }
       ]
     },
     "CandidateFacts": {
@@ -2989,6 +3052,19 @@
         },
         "font_key": {
           "$ref": "#/$defs/Id"
+        },
+        "cover_note": {
+          "description": "Highlighted cover note (template 1.4.0).",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -3023,6 +3099,7 @@
           ]
         },
         "audience_preset_id": {
+          "description": "Explicit review context. Omit it for an ordinary series, which uses the configured default review audience (AUDIENCE_DEFAULT_REQUIRED when none is configured).",
           "$ref": "#/$defs/Id"
         },
         "title": {
@@ -3031,8 +3108,7 @@
       },
       "required": [
         "workspace_id",
-        "output_type",
-        "audience_preset_id"
+        "output_type"
       ]
     },
     "PresentationSeriesPatch": {
@@ -3047,6 +3123,19 @@
         },
         "archived": {
           "type": "boolean"
+        },
+        "cover_note": {
+          "description": "Template 1.4.0 cover note (1-500 characters), or null to clear it.",
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -4859,6 +4948,17 @@
         },
         "row_version": {
           "$ref": "#/$defs/RowVersion"
+        },
+        "default_audience_preset_id": {
+          "description": "Audience an ordinary new series uses. Null until a Studio manager chooses it in Settings; never set by a migration.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -4881,6 +4981,17 @@
         },
         "template_version": {
           "type": "string"
+        },
+        "default_audience_preset_id": {
+          "description": "Default review audience for ordinary new series (an active preset), or null to clear it.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -6249,7 +6360,8 @@
           "type": "string",
           "enum": [
             "1.2.0",
-            "1.3.0"
+            "1.3.0",
+            "1.4.0"
           ]
         }
       },

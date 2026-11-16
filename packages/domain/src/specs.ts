@@ -75,7 +75,7 @@ export function parseRoleCreate(value: unknown): RoleCreate {
 /** A template 1.4.0 presentation note: 1-500 characters after trimming, or null to clear. */
 export function parsePresentationNote(value: unknown): string | null {
   if (value === null) return null;
-  const checked = text(value); if (checked.length > 500 || !checked.trim() || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(checked)) invalid(); return checked;
+  const checked = text(value); if (checked.length > 500 || !checked.trim() || [...checked].some(char => { const point = char.codePointAt(0)!; return point < 32 && ![9, 10, 13].includes(point) || point === 127; })) invalid(); return checked;
 }
 export function parseRolePatch(value: unknown): RolePatch {
   const item = object(value, ['row_version', 'name', 'category', 'requirements', 'clarifications', 'presentation_note'], ['row_version']);

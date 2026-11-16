@@ -131,12 +131,12 @@ export function SavedSlideList({ version, index, onIndex, badges }: { version: P
   </li>)}</ol></nav>;
 }
 
-/** Everyone Film editorial (1.2.0 / 1.3.0): the same composed pages and markup as the saved PDF.
+/** Everyone Film editorial (1.2.0 / 1.3.0 / 1.4.0): the same composed pages and markup as the saved PDF.
  * App view shows the page this slide is on (in 1.3.0 a slot page shows its people side by side);
  * PDF preview shows every page in print order. */
 function SavedEditorial({ version, slide, layout }: { version: PresentationVersion; slide: VersionSlide; layout: 'app' | 'pdf' }) {
   const review = useMemo(() => reviewFromPresentationVersion(version, 'saved-version'), [version]);
-  const options = useMemo(() => ({ versionLabel: `Version ${version.version_no}`, dateLabel: editorialDateLabel(version.created_at) }), [version.version_no, version.created_at]);
+  const options = useMemo(() => ({ versionLabel: `Version ${version.version_no}`, versionNumber: version.version_no, dateLabel: editorialDateLabel(version.created_at) }), [version.version_no, version.created_at]);
   const template = editorialTemplateOf(version.render_context.template)!;
   const base = useMemo(() => template.compose(review, options), [template, review, options]);
   const pages = useMemo(() => layout === 'pdf' ? undefined : pagesForSlide(base, slide.order), [base, layout, slide.order]);

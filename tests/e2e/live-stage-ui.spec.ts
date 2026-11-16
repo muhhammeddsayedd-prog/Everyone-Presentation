@@ -39,7 +39,7 @@ async function workspace(page: Page, options: Options = {}) {
       { id: PL1, workspace_id: W, candidate_id: C1, selected_candidate_media_id: M1, selected_frame_asset_ids: [F1, F2], availability: 'Available 12–14 Dec', fresh_material_required: false, media_confirmed: true, internal_notes: null, row_version: 1 },
       { id: PL2, workspace_id: W, candidate_id: C2, selected_candidate_media_id: null, selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, row_version: 1 }]);
     if (method === 'GET' && path === `/api/v1/workspaces/${W}/assignments`) return list(assignments);
-    // A 1.3.0 series and an earlier-template one: only 1.3.0 is offered on the stage.
+    // A 1.3.0 series and an earlier-template one: the stage offers 1.3.0/1.4.0 series and draws each in its own template.
     if (method === 'GET' && path === '/api/v1/presentation-series') return list(options.noEditorialSeries ? [series(SER11, 'Client selection', '1.1.0')] : [series(SER12, 'Editorial selection', '1.3.0'), series(SER11, 'Client selection', '1.1.0')]);
     if (method === 'GET' && path === '/api/v1/settings') return ok({ template_version: options.noEditorialSeries ? '1.1.0' : '1.3.0', default_timezone: 'Africa/Cairo', row_version: 1 });
     if (method === 'GET' && path === `/api/v1/candidates/${C1}/media`) return list([{ id: M1, candidate_id: C1, source_asset_id: V1, preview_asset_id: null, transcript_asset_id: null, original_transcript: null, languages: ['ar'],
@@ -149,10 +149,10 @@ test('stage and panel select each other: a thumbnail marks its row, a row brings
   expect(model.errors).toEqual([]);
 });
 
-test('only Everyone Film Editorial 1.3.0 is offered: an earlier-template series is not a preview choice', async ({ page }) => {
+test('the stage draws the chosen series in its own template; a 1.1.0 series is not a preview choice', async ({ page }) => {
   const model = await workspace(page); await page.goto(`${base}/organize`);
   await expect(page.getByLabel('Preview as')).toHaveValue(SER12);
-  await expect(page.getByLabel('Preview as').locator('option')).toHaveText(['Editorial selection · Client', 'No saved series · Everyone Film Editorial 1.3.0']);
+  await expect(page.getByLabel('Preview as').locator('option')).toHaveText(['Editorial selection · Client · 1.3.0', 'No saved series · Everyone Film Editorial 1.3.0']);
   await expect(slide(page).locator('.ef-slide')).toHaveCount(1);
   await expect(stage(page).getByText(/Draft preview in Everyone Film Editorial 1\.3\.0/)).toBeVisible();
   await page.getByRole('button', { name: 'All pages' }).click();
@@ -218,12 +218,12 @@ test('a remote change to another record appears on its slide while an unsaved ed
   expect(model.writes).toEqual([]); expect(model.errors).toEqual([]);
 });
 
-test('with an earlier Studio default and no 1.3.0 series the stage still draws 1.3.0 and says generation waits for Settings', async ({ page }) => {
+test('with an earlier Studio default and no editorial series the stage draws 1.4.0 and says generation waits for Settings', async ({ page }) => {
   const model = await workspace(page, { noEditorialSeries: true }); await page.goto(`${base}/organize`);
   await expect(strip(page).getByRole('button')).toHaveCount(5);
   await expect(page.locator('.stage-frame .ef-slide[data-layout="cover_floward"]')).toHaveCount(1);
-  await expect(page.getByLabel('Preview as').locator('option')).toHaveText(['No saved series · Everyone Film Editorial 1.3.0']);
-  await expect(stage(page).getByText(/^The Studio default is still Everyone Casting 1\.1\.0 \(earlier template\)\. Generating with Everyone Film Editorial 1\.3\.0 starts once a Studio manager selects it in Settings\./u)).toBeVisible();
+  await expect(page.getByLabel('Preview as').locator('option')).toHaveText(['No saved series · Everyone Film Editorial 1.4.0']);
+  await expect(stage(page).getByText(/^The Studio default is still Everyone Casting 1\.1\.0 \(earlier template\)\. Generating with Everyone Film Editorial 1\.4\.0 starts once a Studio manager selects it in Settings\./u)).toBeVisible();
   expect(model.errors).toEqual([]);
 });
 

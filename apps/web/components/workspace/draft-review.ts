@@ -1,12 +1,13 @@
 import { projectReviewSlides } from '../../../../packages/domain/src/review.ts';
 import { slideWordingFields, type Assignment, type CastingOutput } from '../../../../packages/domain/src/casting-types.ts';
 import type { Candidate, CandidateMedia, WorkspaceCandidate } from '../../../../packages/domain/src/candidate-types.ts';
-import type { ReviewFields, ReviewProjectionInput, ReviewSlide, TemplateIdentity, WorkspaceReview } from '../../../../packages/domain/src/review-types.ts';
+import type { PresentationContext, PresentationScene, ReviewFields, ReviewProjectionInput, ReviewSlide, TemplateIdentity, WorkspaceReview } from '../../../../packages/domain/src/review-types.ts';
 import type { Role, RoleRequirements, Slot } from '../../../../packages/domain/src/specs-types.ts';
 import legacyRegistry from '../../../../packages/templates/registry.json';
 import completeRegistry from '../../../../packages/templates/versions/1.1.0/registry.json';
 import editorialRegistry from '../../../../packages/templates/versions/1.2.0/registry.json';
 import slotRegistry from '../../../../packages/templates/versions/1.3.0/registry.json';
+import referenceRegistry from '../../../../packages/templates/versions/1.4.0/registry.json';
 
 /** Saved workspace records the live preview is projected from. Every value comes from the API; nothing is invented. */
 export interface DraftSource {
@@ -17,9 +18,11 @@ export interface DraftSource {
   candidates: Record<string, Candidate>;
   /** Introductions by candidate id. Only people whose selected material is needed are loaded. */
   media: Record<string, CandidateMedia[]>;
+  /** Confirmed scenes in order (template 1.4.0), when the scene API provides them. */
+  scenes?: PresentationScene[];
 }
 /** The series a draft is previewed for: its title, output and pinned template, or the Studio default before one exists. */
-export interface DraftContext { output: CastingOutput; title: string; templateVersion: string }
+export interface DraftContext { output: CastingOutput; title: string; templateVersion: string; coverNote?: string | null }
 
 /** Unsaved panel edits, keyed by record and field. Only these keys are read; anything else is ignored. */
 export type DraftOverlay = Readonly<Record<string, unknown>>;
@@ -37,7 +40,7 @@ export const draftKey = {
 };
 export interface DraftMaterial { mediaId: string | null; frames: string[] }
 
-export const TEMPLATE_REGISTRY: Record<string, TemplateIdentity> = Object.fromEntries([legacyRegistry, completeRegistry, editorialRegistry, slotRegistry]
+export const TEMPLATE_REGISTRY: Record<string, TemplateIdentity> = Object.fromEntries([legacyRegistry, completeRegistry, editorialRegistry, slotRegistry, referenceRegistry]
   .map(row => [row.version, { key: row.key, version: row.version, content_sha256: row.content_sha256, font_key: row.font_key }]));
 export const supportedTemplate = (version: string) => Object.hasOwn(TEMPLATE_REGISTRY, version);
 
@@ -53,7 +56,23 @@ function sourceFields(candidate: Candidate, availability: string | null, notes: 
     previous_projects_roles: shown(facts.previous_projects_roles), classification: shown(facts.classification), availability: shown(availability), presentation_notes: shown(notes) };
 }
 
-export interface DraftResult { review: Pick<WorkspaceReview, 'cover' | 'slides' | 'output_type' | 'template' | 'candidate_slide_count' | 'pending_slide_count'>; notes: string[] }
+export interface DraftResult { review: Pick<WorkspaceReview, 'cover' | 'slides' | 'output_type' | 'template' | 'candidate_slide_count' | 'pending_slide_count' | 'presentation'>; notes: string[] }
+
+/** 1.4.0 presentation context for the live preview, from the same saved records the server captures: role/slot notes,
+ * the series cover note, scenes when provided, and each person's pinned portrait or deliberately empty picture. The
+ * portrait's pixel size and hash are only known to the server; the preview draws the image at the same crop focus. */
+function draftPresentation(source: DraftSource, context: DraftContext, slides: ReviewSlide[]): PresentationContext {
+  const note = (value: unknown) => typeof value === 'string' && value.trim() ? value : null;
+  return { cover_note: note(context.coverNote), scenes: source.scenes ?? [], slides: slides.map(slide => {
+    const role = source.roles.find(item => item.id === slide.role_id); const slot = source.slots.find(item => item.id === slide.slot_id);
+    const pool = slide.kind === 'candidate' ? source.pool.find(item => item.id === slide.workspace_candidate_id) as (WorkspaceCandidate & { portrait_asset_id?: string | null; portrait_source?: 'frame' | 'photo' | null; portrait_crop?: { focal_x?: number; focal_y?: number } | null; media_selection_state?: 'unset' | 'pinned' | 'intentionally_empty' }) | undefined : undefined;
+    const state = slide.kind === 'candidate' ? pool?.media_selection_state ?? 'unset' : null;
+    const focal = (value: unknown, fallback: number) => typeof value === 'number' && Number.isFinite(value) ? Math.max(0, Math.min(1000, Math.round(value * 1000))) : fallback;
+    const portrait = pool?.portrait_asset_id && pool.portrait_source && state !== 'intentionally_empty'
+      ? { asset_id: pool.portrait_asset_id, source: pool.portrait_source, width: 1000, height: 1000, sha256: '0'.repeat(64), focal: [focal(pool.portrait_crop?.focal_x, 500), focal(pool.portrait_crop?.focal_y, 400)] as [number, number] } : null;
+    return { role_note: note(role?.presentation_note), slot_note: note(slot?.presentation_note), picture_state: portrait ? 'pinned' : state, portrait };
+  }) };
+}
 
 /** Projects the working draft exactly as the server review does (role, slot and assignment order; Pending pages;
  * Selection = every active assignment, Shortlist = explicitly included ones), then applies unsaved panel edits.
@@ -93,7 +112,8 @@ export function buildDraftReview(source: DraftSource, overlay: DraftOverlay, con
     slide.fields = fields;
   }
   const output = context.output;
-  return { notes: [...new Set(notes)], review: { output_type: output, template, slides, candidate_slide_count: slides.filter(slide => slide.kind === 'candidate').length, pending_slide_count: slides.filter(slide => slide.kind === 'pending').length,
+  const presentation = template.version === '1.4.0' ? { presentation: draftPresentation(source, context, slides) } : {};
+  return { notes: [...new Set(notes)], review: { ...presentation, output_type: output, template, slides, candidate_slide_count: slides.filter(slide => slide.kind === 'candidate').length, pending_slide_count: slides.filter(slide => slide.kind === 'pending').length,
     cover: { project_name: textOr(overlay, draftKey.projectName, source.project.name) ?? source.project.name, client_name: textOr(overlay, draftKey.clientName, source.project.client_name), title: context.title, output_type: output,
       logo_asset_id: source.workspace.logo_asset_id, logo_placement: (has(overlay, draftKey.logoPlacement) ? overlay[draftKey.logoPlacement] : source.workspace.logo_placement) as 'cover' | 'every_slide' } } };
 }

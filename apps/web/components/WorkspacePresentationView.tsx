@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { isCurrentTemplate, templateName } from './workspace/template-names';
+import { isGenerationTemplate, templateName } from './workspace/template-names';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PresentationSeries, PresentationVersion, ReviewJobAccepted, WorkspaceReview } from '@eps/domain';
 import { summarizePresentationChanges } from '../../../packages/domain/src/presentation';
@@ -46,8 +46,8 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
         for (let n = 0; n < 100; n++) {
           const page: Envelope<PresentationSeries[]> = await api(`/api/v1/presentation-series?workspace_id=${workspaceId}&limit=100${next ? `&cursor=${encodeURIComponent(next)}` : ''}`, { signal });
           if (!Array.isArray(page.data) || page.data.some(row => row.workspace_id !== workspaceId)) throw new Error('The saved series could not be read for this workspace.');
-          // Only Everyone Film Editorial 1.3.0 series generate here; earlier-template series stay readable in Presentations.
-          all.push(...page.data.filter(row => !row.archived && (isCurrentTemplate(row.template_version) || row.id === requestedSeriesId))); next = page.page?.next_cursor ?? null;
+          // 1.4.0 and frame-based 1.3.0 series generate here; earlier-template series stay readable in Presentations.
+          all.push(...page.data.filter(row => !row.archived && (isGenerationTemplate(row.template_version) || row.id === requestedSeriesId))); next = page.page?.next_cursor ?? null;
           if (!next) break; if (seen.has(next) || n === 99) throw new Error('Series changed while paging. Refresh the choices.'); seen.add(next);
         }
         if (!current || intent.current) return;

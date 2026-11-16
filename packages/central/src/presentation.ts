@@ -101,7 +101,8 @@ export async function createCentralPresentations(client: SupabaseClient, options
     },
     async getVersionMediaContent(actor, versionId, assetId) {
       const version = await getVersion(actor, versionId); const id = identifier(assetId);
-      const purpose = version.slides.some(slide => slide.frame_asset_ids.includes(id)) ? 'frame' : version.slides.some(slide => slide.logo_asset_id === id) ? 'logo' : null;
+      const portrait = (version.render_context.presentation?.slides ?? []).some(slide => slide.portrait?.asset_id === id);
+      const purpose = portrait || version.slides.some(slide => slide.frame_asset_ids.includes(id)) ? 'frame' : version.slides.some(slide => slide.logo_asset_id === id) ? 'logo' : null;
       if (!purpose) {
         if (version.slides.some(slide => slide.video_asset_id === id)) throw new DomainError('USE_PLAYBACK', 'Use fixed-version playback for this original video.', 409);
         throw new DomainError('RESOURCE_NOT_FOUND', 'This image does not belong to the fixed version.', 404);

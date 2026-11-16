@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { CURRENT_TEMPLATE, isCurrentTemplate, templateName } from '../workspace/template-names';
+import { CURRENT_TEMPLATE, isCurrentTemplate, isGenerationTemplate, templateName } from '../workspace/template-names';
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import type { AiSuggestion, AudiencePreset, CandidateMedia, PresentationSeries, ReviewJobAccepted, ReviewSlide, WorkspaceReview } from '@eps/domain';
 import { slideWordingFields, type SlideWordingField } from '../../../../packages/domain/src/casting-types.ts';
@@ -24,7 +24,8 @@ interface Intent { path: string; init: RequestInit; label: string; refresh?: boo
 type Issue = WorkspaceReview['issues'][number];
 type InspectorTab = 'facts' | 'video' | 'wording';
 
-const editorialLabels: Record<string, string> = { role_name: 'Role / slot title', project_name: 'Cover title', client_name: 'Client name', title: 'Presentation title', layout: 'Page layout' };
+const editorialLabels: Record<string, string> = { role_name: 'Role / slot title', project_name: 'Cover title', client_name: 'Client name', title: 'Presentation title', layout: 'Page layout',
+  'presentation.subtitle': 'Page subtitle (scene | setting | role)', 'presentation.note': 'Highlighted note', cover_note: 'Cover note', scene_title: 'Scene divider' };
 export function fitFieldLabel(field: string) {
   const key = field.replace(/^requirements\./, '');
   return REVIEW_FIELD_LABELS[field as SlideWordingField] ?? PENDING_REQUIREMENT_LABELS[key as keyof typeof PENDING_REQUIREMENT_LABELS] ?? editorialLabels[field] ?? field;
@@ -49,9 +50,12 @@ function slideTitle(slide: ReviewSlide) { return slide.kind === 'candidate' ? sl
 export function ReviewWorkspace(props: Props) { return <ReviewScope key={`${props.actor.id}:${props.workspaceId}`} {...props} />; }
 function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSeriesId, onSeriesChanged, onDirtyChange, onWorkspaceChanged }: Props) {
   const [series, setSeries] = useState<PresentationSeries[]>([]); const [presets, setPresets] = useState<AudiencePreset[]>([]);
-  // Only Everyone Film Editorial 1.3.0 series are offered; earlier-template series stay readable in Presentations.
+  // Only current-template series are offered; earlier-template series stay readable in Presentations.
   const [earlierSeries, setEarlierSeries] = useState(0); const [defaultTemplate, setDefaultTemplate] = useState<string | null>(null);
-  const [seriesId, setSeriesId] = useState(''); const [output, setOutput] = useState(initialOutput); const [presetId, setPresetId] = useState('');
+  // Ordinary series use the Studio's default review audience; `undefined` = not readable here (no Settings permission).
+  const [defaultAudience, setDefaultAudience] = useState<string | null | undefined>(undefined); const [audienceMissing, setAudienceMissing] = useState(false);
+  const [seriesId, setSeriesId] = useState(''); const [output, setOutput] = useState(initialOutput);
+  const [coverNote, setCoverNote] = useState(''); const [coverNoteDirty, setCoverNoteDirty] = useState(false);
   const [review, setReview] = useState<WorkspaceReview | null>(null); const [loading, setLoading] = useState(true); const [refresh, setRefresh] = useState(0);
   const [error, setError] = useState(''); const [notice, setNotice] = useState(''); const [busy, setBusy] = useState(false); const [uncertain, setUncertain] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null); const [field, setField] = useState<SlideWordingField>('skills_experience');
@@ -89,14 +93,15 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
   useEffect(() => {
     const controller = new AbortController(); const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(30000)]); let current = true;
     Promise.all([allRows<PresentationSeries>(`/api/v1/presentation-series?workspace_id=${encodeURIComponent(workspaceId)}`, signal), allRows<AudiencePreset>('/api/v1/audience-presets', signal),
-      api<{ template_version: string }>('/api/v1/settings', { signal }).then(result => typeof result.data?.template_version === 'string' ? result.data.template_version : null).catch(() => null)])
-      .then(([choices, audiences, studioTemplate]) => { if (!current) return; setDefaultTemplate(studioTemplate);
+      api<{ template_version: string; default_audience_preset_id?: string | null }>('/api/v1/settings', { signal }).then(result => result.data ?? null).catch(() => null)])
+      .then(([choices, audiences, studio]) => { if (!current) return; setDefaultTemplate(typeof studio?.template_version === 'string' ? studio.template_version : null);
+        setDefaultAudience(studio && Object.hasOwn(studio, 'default_audience_preset_id') ? studio.default_audience_preset_id ?? null : undefined);
         if (choices.some(row => row.workspace_id !== workspaceId)) throw new Error('The saved series belongs to a different workspace.');
         const unarchived = choices.filter(row => !row.archived); const available = audiences.filter(row => !row.archived);
-        const active = unarchived.filter(row => isCurrentTemplate(row.template_version) || row.id === requestedSeriesId); setEarlierSeries(unarchived.length - active.length);
+        const active = unarchived.filter(row => isGenerationTemplate(row.template_version) || row.id === requestedSeriesId); setEarlierSeries(unarchived.length - active.length);
         if (requestedSeriesId && !active.some(row => row.id === requestedSeriesId)) throw new Error('The linked review series is unavailable in this workspace. Choose a review context from the workspace again.');
-        setSeries(active); setPresets(available); setPresetId(value => available.some(row => row.id === value) ? value : available[0]?.id ?? '');
-        setSeriesId(value => active.some(row => row.id === value) ? value : requestedSeriesId ?? active.find(row => row.output_type === initialOutput && isCurrentTemplate(row.template_version))?.id ?? active.find(row => isCurrentTemplate(row.template_version))?.id ?? ''); setError('');
+        setSeries(active); setPresets(available);
+        setSeriesId(value => active.some(row => row.id === value) ? value : requestedSeriesId ?? active.find(row => row.output_type === initialOutput && isCurrentTemplate(row.template_version))?.id ?? active.find(row => row.output_type === initialOutput && isGenerationTemplate(row.template_version))?.id ?? active.find(row => isCurrentTemplate(row.template_version))?.id ?? ''); setError('');
       }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) setLoading(false); });
     return () => { current = false; controller.abort(); };
   }, [workspaceId, initialOutput, requestedSeriesId, refresh]);
@@ -151,9 +156,20 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
       setUncertain(unknown); if (!unknown) intent.current = null; setError(`${unknown ? 'This change may have saved. Retry the same request to confirm it. ' : ''}${errorMessage(reason)}`); }
     } finally { pending.current = false; if (alive.current) setBusy(false); }
   }
-  function createSeries() {
-    void send({ path: '/api/v1/presentation-series', init: mutation('POST', { workspace_id: workspaceId, output_type: output, audience_preset_id: presetId }), label: 'Review series', accepted: data => {
-      const value = data as PresentationSeries; setSeries(old => [...old.filter(row => row.id !== value.id), value]); setSeriesId(value.id); setSelectedId(null);
+  /** An ordinary series: the server applies the Studio's default review audience. A specific review context
+   * (another audience) is chosen in Share, which keeps that history in its own series. */
+  async function createSeries() {
+    if (pending.current || uncertain) return; pending.current = true; setBusy(true); setError(''); setNotice(''); setAudienceMissing(false);
+    try { const value = (await api<PresentationSeries>('/api/v1/presentation-series', { ...mutation('POST', { workspace_id: workspaceId, output_type: output }), signal: AbortSignal.timeout(30000) })).data;
+      if (!alive.current) return; setSeries(old => [...old.filter(row => row.id !== value.id), value]); setSeriesId(value.id); setSelectedId(null); setNotice('Review series saved.');
+    } catch (reason) { if (!alive.current) return;
+      if (reason instanceof ApiError && reason.code === 'AUDIENCE_DEFAULT_REQUIRED') setAudienceMissing(true); else setError(errorMessage(reason));
+    } finally { pending.current = false; if (alive.current) setBusy(false); }
+  }
+  function saveCoverNote(value: string | null) {
+    const target = series.find(row => row.id === seriesId); if (!target) return;
+    void send({ path: `/api/v1/presentation-series/${encodeURIComponent(target.id)}`, init: mutation('PATCH', { row_version: target.row_version, cover_note: value }), label: 'Cover note', accepted: data => {
+      const saved = data as PresentationSeries; setSeries(old => old.map(row => row.id === saved.id ? saved : row)); setCoverNoteDirty(false);
     } });
   }
   function open(slide: ReviewSlide, nextTab: InspectorTab = tab, nextField: SlideWordingField = 'skills_experience') {
@@ -230,6 +246,10 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
     }
   }
   const selectedSeries = series.find(row => row.id === seriesId) ?? null;
+  const shownCoverNote = coverNoteDirty ? coverNote : selectedSeries?.cover_note ?? '';
+  const defaultPreset = defaultAudience ? presets.find(row => row.id === defaultAudience) ?? null : null;
+  // No usable default: none configured, or the configured one is no longer an active preset.
+  const noDefault = audienceMissing || defaultAudience === null || typeof defaultAudience === 'string' && presets.length > 0 && !defaultPreset;
   const blocking = review?.issues.filter(issue => issue.severity === 'blocking').length ?? 0;
   const notes = (review?.issues.length ?? 0) - blocking;
   const fitState = !review ? null : fitJob ? { tone: 'info', text: 'Measuring…' } : review.fit.status === 'measured' ? review.fit.overflows.length ? { tone: 'error', text: `${review.fit.overflows.length} overflow${review.fit.overflows.length === 1 ? '' : 's'}` } : { tone: 'ok', text: 'Fits' }
@@ -246,13 +266,22 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
         <select id="review-series-choice" aria-label="Saved review series" value={seriesId} onChange={event => { setSeriesId(event.target.value); setReview(null); setSelectedId(null); setProposal(null); setSuggestionId(null); setFitJob(null); setStageKey('cover'); setMark(null); }}>
           <option value="">Choose or create a series</option>{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} · {templateName(row.template_version)}</option>)}</select>
         {earlierSeries > 0 && <p className="small muted">{earlierSeries === 1 ? '1 series uses' : `${earlierSeries} series use`} an earlier template; {earlierSeries === 1 ? 'its' : 'their'} saved versions stay in <Link href="/presentations">Presentations</Link>.</p>}
-        {selectedSeries && !isCurrentTemplate(selectedSeries.template_version) && <p className="small" role="status">This linked series uses an earlier template. Create a series to present with {templateName(CURRENT_TEMPLATE)}.</p>}
+        {selectedSeries && !isGenerationTemplate(selectedSeries.template_version) && <p className="small" role="status">This linked series uses an earlier template. Create a series to present with {templateName(CURRENT_TEMPLATE)}.</p>}
+        {selectedSeries && isGenerationTemplate(selectedSeries.template_version) && !isCurrentTemplate(selectedSeries.template_version) && <p className="small muted" role="status">This series keeps {templateName(selectedSeries.template_version)}. Archive photos and the reference layout need a series with {templateName(CURRENT_TEMPLATE)}.</p>}
         {selectedSeries && <p className="small muted">{outputName(selectedSeries.output_type)} · Audience: {selectedSeries.audience_snapshot.label} ({selectedSeries.audience_snapshot.scope === 'external' ? 'guests see shared feedback only' : 'internal only'}) · {templateName(selectedSeries.template_version)}</p>}
+        {selectedSeries && selectedSeries.template_version === '1.4.0' && <form className="review-cover-note" onSubmit={event => { event.preventDefault(); saveCoverNote(shownCoverNote.trim() || null); }}>
+          <label>Cover note<input type="text" maxLength={500} value={shownCoverNote} placeholder="e.g. Pending Availability." disabled={!canCreate || locked} onChange={event => { setCoverNote(event.target.value); setCoverNoteDirty(true); }} /></label>
+          <p className="small muted">Printed highlighted on the cover of this series&apos; next version. Leave empty for no note.</p>
+          <span className="button-row"><button className="button button-small" type="submit" disabled={!canCreate || locked || !coverNoteDirty}>Save cover note</button>
+            {selectedSeries.cover_note && <button className="button button-small button-quiet" type="button" disabled={!canCreate || locked} onClick={() => { setCoverNote(''); saveCoverNote(null); }}>Remove cover note</button>}</span>
+        </form>}
         <details className="review-new-series" open={!series.length || undefined}><summary>Create or reuse a series</summary>
-          <div className="form-grid"><label>Output for a new series<select value={output} onChange={event => setOutput(event.target.value as typeof output)}><option value="selection">Cast Selection</option><option value="shortlist">Cast Shortlist</option></select></label><label>Audience for a new series<select value={presetId} onChange={event => setPresetId(event.target.value)}>{presets.map(row => <option key={row.id} value={row.id}>{row.label} · {row.scope}</option>)}</select></label></div>
-          <p className="small muted">Output, audience and template are fixed per series. New series use {templateName(CURRENT_TEMPLATE)}. Changing the audience creates a separate series; an existing matching series is reused.</p>
+          <div className="form-grid"><label>Output for a new series<select value={output} onChange={event => setOutput(event.target.value as typeof output)}><option value="selection">Cast Selection</option><option value="shortlist">Cast Shortlist</option></select></label></div>
+          <p className="small muted">New series use the Studio&apos;s default review audience{defaultPreset ? <> ({defaultPreset.label})</> : null} and {templateName(CURRENT_TEMPLATE)}; an existing matching series is reused. A different review context (for example Agency) is chosen in Share and keeps its own series.</p>
+          {noDefault && <div className="notice notice-warning" role="status" data-testid="audience-default-recovery"><p>{defaultAudience && !defaultPreset && !audienceMissing ? 'The default review audience in Settings is no longer available.' : 'No default review audience is set yet.'} Choose the Client audience as the default in Settings, then create the series here. To review with a different audience, choose a review context in Share.</p>
+            <span className="button-row"><Link className="button button-small" href="/settings#studio-defaults">Choose default audience in Settings</Link><Link className="button button-small button-quiet" href={`${base}/share`}>Open Share</Link></span></div>}
           {defaultTemplate !== null && !isCurrentTemplate(defaultTemplate) && <div className="notice notice-warning" role="status"><p>The Studio default is still {templateName(defaultTemplate)}, so a new series would not use {templateName(CURRENT_TEMPLATE)}. A Studio manager selects it in Settings.</p><Link className="button button-small" href="/settings#studio-defaults">Open Settings</Link></div>}
-          <button className="button" type="button" disabled={!canCreate || !presetId || loading || (defaultTemplate !== null && !isCurrentTemplate(defaultTemplate))} onClick={createSeries}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}
+          <button className="button" type="button" disabled={!canCreate || loading || (defaultTemplate !== null && !isCurrentTemplate(defaultTemplate))} onClick={() => void createSeries()}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}
         </details>
       </fieldset>
     </section>

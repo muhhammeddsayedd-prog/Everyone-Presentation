@@ -29,7 +29,7 @@ export const AI_SUGGESTION_FIELDS = Object.freeze({
 /** A template 1.4.0 presentation note: 1-500 characters after trimming, or null to clear. */
 function presentationNote(value: unknown): string | null {
   if (value === null) return null;
-  const checked = text(value, 500); if (!checked.trim() || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(checked)) invalid(); return checked;
+  const checked = text(value, 500); if (!checked.trim() || [...checked].some(char => { const point = char.codePointAt(0)!; return point < 32 && ![9, 10, 13].includes(point) || point === 127; })) invalid(); return checked;
 }
 /** Without an audience the configured default review audience is used (AUDIENCE_DEFAULT_REQUIRED when none is set). */
 export function parseSeriesCreate(value: unknown): SeriesCreate {

@@ -1,5 +1,6 @@
 import { DomainError } from './types.ts';
 import { parseVersionSlide } from './presentation.ts';
+import { hasPresentationContext, parsePresentationContext } from './presentation-context.ts';
 import type { CommentCreate, CommentPatch, ExportPreparation, ExportPrepare, ExternalPresentationVersion, Feedback,
   FeedbackComment, FeedbackListOptions, FeedbackPreference, GuestAccess, GuestCommentCreate, GuestCommentPatch,
   GuestIdentity, PreferenceResult, PreferenceSet, PresentationExport, ReviewLink, ReviewLinkCreate, ReviewLinkListOptions, ReviewLinkPatch } from './guest-types.ts';
@@ -103,9 +104,15 @@ export function guestAccessDto(value: unknown, accessToken: string): GuestAccess
       download_enabled: bool(row.download_enabled), display_name: nullableText(row.display_name, 120), guest_session_id: guestIdentifier(row.guest_session_id) };
   });
 }
+function context(row: Record<string, unknown>, count: number) {
+  const presentation = parsePresentationContext(row.presentation, count, invalid); const keys = row.presentation_role_keys;
+  if (!Array.isArray(keys) || keys.length !== count || keys.some(key => typeof key !== 'string' || !/^[rw][0-9]{1,4}$/u.test(key))) invalid();
+  return { presentation, presentation_role_keys: [...keys] as string[] };
+}
 export function externalVersionDto(value: unknown): ExternalPresentationVersion {
   return projected(() => {
-    const row = guestRecord(value, ['id', 'series_id', 'version_no', 'title', 'output_type', 'status', 'slides', 'created_at', 'download_enabled', 'cover', 'template_version', 'template_content_hash']);
+    const contextual = hasPresentationContext((value as { template_version?: unknown } | null)?.template_version);
+    const row = guestRecord(value, ['id', 'series_id', 'version_no', 'title', 'output_type', 'status', 'slides', 'created_at', 'download_enabled', 'cover', 'template_version', 'template_content_hash', ...(contextual ? ['presentation', 'presentation_role_keys'] : [])]);
     if (row.status !== 'ready' || !['selection', 'shortlist'].includes(row.output_type as string)) invalid();
     const slides = array(row.slides, 1000).map(parseVersionSlide); const id = guestIdentifier(row.id);
     if (slides.length < 2 || slides[0].kind !== 'cover' || slides.slice(1).some(slide => slide.kind === 'cover')
@@ -117,7 +124,7 @@ export function externalVersionDto(value: unknown): ExternalPresentationVersion 
       status: 'ready', slides, created_at: guestTimestamp(row.created_at), download_enabled: bool(row.download_enabled),
       cover: { project_name: guestText(cover.project_name), client_name: nullableText(cover.client_name), title: guestText(cover.title), output_type: cover.output_type as 'selection' | 'shortlist',
         logo_asset_id: nullableId(cover.logo_asset_id), logo_placement: cover.logo_placement as 'cover' | 'every_slide' },
-      template_version: guestText(row.template_version, 200, true), template_content_hash: row.template_content_hash };
+      template_version: guestText(row.template_version, 200, true), template_content_hash: row.template_content_hash, ...(contextual ? context(row, slides.length - 1) : {}) };
   });
 }
 export function feedbackCommentDto(value: unknown, externalOnly = false): FeedbackComment {

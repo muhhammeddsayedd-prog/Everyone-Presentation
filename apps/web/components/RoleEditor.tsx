@@ -10,6 +10,7 @@ import { CastingRetirementReview } from './CastingRetirementReview';
 import { Icon } from './Icon';
 import { useDraftValue } from './workspace/WorkspaceDraftProvider';
 import { draftKey } from './workspace/draft-review';
+import { PresentationNoteField } from './PresentationNoteField';
 
 export function Clarifications({ entries, disabled, onChange, level = 4 }: { entries: SpecsClarification[]; disabled: boolean; onChange: (entries: SpecsClarification[]) => void; level?: 3 | 4 }) {
   if (!entries.length) return null;
@@ -93,7 +94,8 @@ export function RoleEditor({ role, canWrite, onSaved, onArchived, onWorkspaceCha
         <textarea id={`role-${role.id}-${field}`} rows={2} value={form.requirements[field]} readOnly={!canWrite || archiving} placeholder="Not provided" dir="auto" onChange={event => {
           const value = event.target.value; setForm(current => ({ ...current, requirements: { ...current.requirements, [field]: value } })); setSaved(false);
         }} />{multiple && <span className="small muted">One entry per line.</span>}</div>)}
-    </div><Clarifications entries={form.clarifications} disabled={!canWrite || archiving} onChange={clarifications => change({ clarifications })} />
+    </div><PresentationNoteField record={role} path={`/api/v1/roles/${encodeURIComponent(role.id)}`} label="Presentation note" canWrite={canWrite && !archiving && !dirty && !saving} onSaved={onSaved} />
+      <Clarifications entries={form.clarifications} disabled={!canWrite || archiving} onChange={clarifications => change({ clarifications })} />
       {canWrite && <div className="button-row role-actions"><button className="button button-small" disabled={!dirty || saving || archiving} onClick={save}>{saving ? 'Saving…' : 'Save requirements'}</button>
         <button ref={archiveButton} className="button button-small button-danger-quiet" disabled={saving || dirty || archiveReview} onClick={() => setArchiveReview(true)}><Icon name="trash" />Remove role</button></div>}
     </details>

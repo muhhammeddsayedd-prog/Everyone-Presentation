@@ -88,14 +88,49 @@ test('without scenes every role follows in role order with no dividers (no categ
   assert.deepEqual(deck.pages.slice(1, 3).map(page => texts(deck, page.index)[1]), ['Father.', 'Mother.']);
 });
 
-test('Main/Backup: one Backup per page beside the Main; a missing Main is the silhouette; options of that slot follow unlabelled', () => {
-  const deck = composeCastingDeck(referenceReview([{ name: 'Lead', slots: [[{ position: 'main' }, { position: 'backup' }, { position: 'backup' }, { position: 'option' }, { position: 'option' }]], slotNotes: ['Two backups held.'] },
-    { name: 'Second', slots: [[{ position: 'backup' }]] }], { output: 'selection' }));
-  assert.deepEqual(deck.pages.slice(1, -1).map(page => [page.layout, page.sources]), [['cast_main_backup', [1, 2]], ['cast_main_backup', [1, 3]], ['cast_group_strip', [4, 5]], ['cast_main_backup', [6]]]);
+type Case = { name: string; slots: RefPerson[][]; pages: [string, number[], string[], string[]][] };
+/** The composition matrix (docs/templates/1.4.0-composition.md): [layout, sources, labels, drawn roles]. */
+const MATRIX: Case[] = [
+  { name: 'one intended portrait', slots: [options(1)], pages: [['cast_single', [1], [], ['frame']]] },
+  { name: 'Main + Backup', slots: [[{ position: 'main' }, { position: 'backup' }]], pages: [['cast_main_backup', [1, 2], ['Main', 'Backup'], ['frame', 'frame']]] },
+  { name: 'Main without a Backup (open Backup position)', slots: [[{ position: 'main' }]], pages: [['cast_main_backup', [1], ['Main', 'Backup'], ['frame', 'placeholder']]] },
+  { name: 'Backup with an intentionally empty picture', slots: [[{ position: 'main' }, { position: 'backup', state: 'intentionally_empty' }]], pages: [['cast_main_backup', [1, 2], ['Main', 'Backup'], ['frame', 'placeholder']]] },
+  { name: 'Backup without a Main', slots: [[{ position: 'backup' }]], pages: [['cast_main_backup', [1], ['Main', 'Backup'], ['placeholder', 'frame']]] },
+  { name: 'Options without a Main', slots: [options(2)], pages: [['cast_group_strip', [1, 2], [], ['frame', 'frame']]] },
+  { name: 'Main plus shortlisted Options', slots: [[{ position: 'main' }, { position: 'option' }, { position: 'option' }]], pages: [['cast_main_backup', [1], ['Main', 'Backup'], ['frame', 'placeholder']], ['cast_group_strip', [2, 3], [], ['frame', 'frame']]] },
+  { name: 'Main with three Backups', slots: [[{ position: 'main' }, { position: 'backup' }, { position: 'backup' }, { position: 'backup' }]], pages: [['cast_main_backup', [1, 2], ['Main', 'Backup'], ['frame', 'frame']], ['cast_main_backup', [3, 4], ['Backup', 'Backup'], ['frame', 'frame']]] },
+  { name: 'Main, two Backups, two Options', slots: [[{ position: 'main' }, { position: 'backup' }, { position: 'backup' }, { position: 'option' }, { position: 'option' }]], pages: [['cast_main_backup', [1, 2], ['Main', 'Backup'], ['frame', 'frame']], ['cast_main_backup', [3], ['Backup'], ['frame']], ['cast_group_strip', [4, 5], [], ['frame', 'frame']]] },
+  { name: 'four intended candidates', slots: [options(4)], pages: [['cast_group_strip', [1, 2], [], ['frame', 'frame']], ['cast_group_strip', [3, 4], [], ['frame', 'frame']]] },
+  { name: 'five intended candidates', slots: [options(5)], pages: [['cast_group_strip', [1, 2, 3], [], ['frame', 'frame', 'frame']], ['cast_group_strip', [4, 5], [], ['frame', 'frame']]] },
+  { name: 'six intended candidates', slots: [options(6)], pages: [['cast_group_strip', [1, 2, 3], [], ['frame', 'frame', 'frame']], ['cast_group_strip', [4, 5, 6], [], ['frame', 'frame', 'frame']]] },
+  { name: 'Options across two slots of one role', slots: [options(2), options(1)], pages: [['cast_group_strip', [1, 2, 3], [], ['frame', 'frame', 'frame']]] },
+  { name: 'unfilled role', slots: [[]], pages: [['cast_pending', [1], [], ['placeholder']]] },
+  { name: 'filled role with missing media', slots: [[{ position: 'option', frame: false }, { position: 'option' }]], pages: [['cast_group_strip', [1, 2], [], ['placeholder', 'frame']]] },
+];
+for (const item of MATRIX) test(`composition matrix: ${item.name}`, () => {
+  const review = referenceReview([{ name: 'Matrix Role', slots: item.slots }]);
+  const deck = composeCastingDeck(review);
+  const cast = deck.pages.slice(1, -1);
+  assert.deepEqual(cast.map(page => [page.layout, page.sources, texts(deck, page.index).filter(value => value === 'Main' || value === 'Backup'),
+    images(deck, page.index).map(element => element.kind === 'image' ? element.role : '')]), item.pages);
+  // Every intended candidate appears exactly once; nobody is invented or duplicated for pagination.
+  const people = review.slides.flatMap((slide, n) => slide.kind === 'candidate' ? [n + 1] : []);
+  assert.deepEqual(cast.flatMap(page => page.layout === 'cast_pending' ? [] : page.sources!).sort((a, b) => a - b), people);
+  // Each drawn portrait (or a person's silhouette) names its own assignment; open positions name none.
+  for (const page of cast) {
+    const owners = images(deck, page.index).flatMap(element => element.kind === 'image' && element.owner !== undefined ? [element.owner] : []);
+    assert.deepEqual(owners, page.layout === 'cast_pending' ? [] : page.sources);
+    const html = renderPageMarkup(deck, page.index, {});
+    for (const owner of owners) assert.ok(html.includes(`data-fit-source="${owner}"`));
+  }
+});
+
+test('Selection heading, slot note on the last page of that slot and the cover title', () => {
+  const deck = composeCastingDeck(referenceReview([{ name: 'Lead', slots: [[{ position: 'main' }, { position: 'backup' }, { position: 'backup' }, { position: 'option' }, { position: 'option' }]], slotNotes: ['Two backups held.'] }], { output: 'selection' }));
   assert.equal(texts(deck, 1)[0], 'Cast Selection.');
-  assert.ok(texts(deck, 3).includes('Note: Two backups held.') && !texts(deck, 2).some(value => value.startsWith('Note:')));
-  assert.deepEqual(images(deck, 4).map(element => element.kind === 'image' && element.role), ['placeholder', 'frame']);
+  assert.ok(texts(deck, 3).includes('Note: Two backups held.') && !texts(deck, 1).some(value => value.startsWith('Note:')) && !texts(deck, 2).some(value => value.startsWith('Note:')));
   assert.equal(texts(deck, 0)[0], 'Synthetic Launch | Cast Selection.');
+  assert.equal(composeCastingDeck(referenceReview([{ name: 'Lead', slots: [options(1)] }]), { versionNumber: 4 }).title, 'Synthetic Launch | Cast Shortlist - V4.');
 });
 
 test('pictures: pinned photo with its focus, frame fallback, deliberately empty and missing pictures draw the silhouette', () => {

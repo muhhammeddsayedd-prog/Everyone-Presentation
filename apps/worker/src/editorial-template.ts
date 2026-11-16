@@ -95,7 +95,8 @@ export function editorialDeck(review: DeckReview, options: DeckOptions = {}): De
 /** Captured candidate slides drawn on person pages (1.2.0: one per page; 1.3.0: up to three per slot page;
  * 1.4.0: each assignment at least once on a portrait page, counted once). */
 export function editorialPersonSlides(deck: Deck) {
-  const portraits = (deck.pages as Deck['pages']).filter(page => ['cast_main_backup', 'cast_group_strip', 'cast_single'].includes(page.layout));
+  // 1.4.0 portrait pages always name their sources; 1.2.0 overview pages of the same layout names do not.
+  const portraits = (deck.pages as Deck['pages']).filter(page => ['cast_main_backup', 'cast_group_strip', 'cast_single'].includes(page.layout) && (page as { sources?: number[] }).sources !== undefined);
   if (portraits.length) return new Set(portraits.flatMap(page => (page as { sources?: number[] }).sources ?? [])).size;
   return (deck.pages as Deck['pages']).filter(page => page.layout === 'cast_detail' || page.layout === 'cast_group_detail').reduce((sum, page) => sum + ((page as { sources?: number[] }).sources?.length ?? 1), 0);
 }
