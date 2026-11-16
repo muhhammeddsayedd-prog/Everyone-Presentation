@@ -1,0 +1,12 @@
+.filters{display:grid;gap:var(--space-3);min-width:0}
+.head{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3)}
+.total{font-weight:600;margin:0}
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.chip{display:inline-flex;gap:var(--space-1);align-items:center;border:1px solid var(--color-border-strong);border-radius:999px;padding:var(--space-1) var(--space-3);background:var(--color-surface-2);color:var(--color-text-primary);font:inherit;font-size:var(--text-small);cursor:pointer}
+.chip:focus-visible{outline:2px solid var(--color-accent-ring);outline-offset:2px}
+.unknown{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;font-size:var(--text-small)}
+.group{border-top:1px solid var(--color-border);padding:var(--space-3) 0}
+.group summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:var(--space-1);align-items:baseline;font-weight:600}
+.values{list-style:none;margin:var(--space-2) 0 0;padding:0;display:grid;gap:var(--space-1)}
+.values label{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-2);align-items:center;font-size:var(--text-small);cursor:pointer}
+.count{color:var(--color-text-muted);font-variant-numeric:tabular-nums}

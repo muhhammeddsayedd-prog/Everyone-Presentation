@@ -25,6 +25,8 @@ import { mcpCapabilityAllowed } from './mcp-capabilities';
 import { handleSettingsRequest, isSettingsRoute } from './settings-http';
 import type { SettingsOperations } from '@eps/domain';
 import { handleWorkspaceSummaryRequest, isWorkspaceSummaryRoute } from './workspace-summary-http';
+import { handleAppearanceRequest, isAppearanceRoute } from './appearance-http';
+import type { AppearanceOperations } from './appearance';
 
 const IMPLEMENTED = new Set(['get_capabilities','list_projects','list_clients','list_presentation_types','create_project','get_project','update_project','list_workspaces','create_workspace',
   'get_workspace','get_workspace_summary','update_workspace','get_specs','submit_specs','update_specs','list_roles','create_role','update_role',
@@ -34,6 +36,7 @@ const IMPLEMENTED = new Set(['get_capabilities','list_projects','list_clients','
   'search_candidates','create_candidate','get_candidate','update_candidate','confirm_candidate_reviewed','archive_candidate',
   'get_candidate_media','update_candidate_frames','list_duplicate_matches','resolve_duplicate','suggest_candidate_filters','extract_candidate_frames',
   'list_candidate_support','archive_candidate_support','list_candidate_photos',
+  'list_candidate_observations','review_candidate_observation','start_enrichment_batch','get_enrichment_batch','get_candidate_facets',
   'list_workspace_candidates','add_workspace_candidate','update_workspace_candidate','remove_workspace_candidate']);
 const CASTING_TOOLS = new Set(['list_assignments','create_assignment','update_assignment','set_slot_main','undo_slot_main','remove_assignment']);
 const REVIEW_TOOLS = new Set(['list_presentation_series','create_presentation_series','get_presentation_series','update_presentation_series','get_workspace_review','create_ai_suggestion','get_ai_suggestion','request_workspace_review_fit','get_casting_retirement','undo_casting_retirement']);
@@ -43,7 +46,7 @@ const SETTINGS_TOOLS = new Set(['get_settings', 'update_settings']);
 const entries = catalog.tools.filter(tool => IMPLEMENTED.has(tool.name) || CASTING_TOOLS.has(tool.name) || REVIEW_TOOLS.has(tool.name) || PRESENTATION_TOOLS.has(tool.name) || SHARING_TOOLS.has(tool.name) || SETTINGS_TOOLS.has(tool.name));
 const ajv = new Ajv2020({ allErrors: true, strict: false }); addFormats(ajv);
 const checks = new Map(entries.map(tool => [tool.name, ajv.compile(tool.inputSchema)]));
-export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations; presentation?: PresentationOperations; sharing?: ReviewLinkOperations; settings?: SettingsOperations }
+export interface McpServices { studio: Awaited<ReturnType<typeof createCentralStudio>>; specs: SpecsOperations; jobs: JobOperations; candidates: CandidatesOperations; casting?: CastingOperations; review?: ReviewOperations; presentation?: PresentationOperations; sharing?: ReviewLinkOperations; settings?: SettingsOperations; appearance?: AppearanceOperations }
 export interface McpToolCompleted { operation: string; result: Record<string, unknown> }
 export interface McpAuthority { allowedCapabilities?: readonly string[];
   onToolCompleted?(event: McpToolCompleted): void | Promise<void> }
@@ -112,6 +115,10 @@ export async function invokeMcpTool(name: string, supplied: unknown, actor: Acto
     else if (CASTING_TOOLS.has(name)) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Casting assignments are not available in this server composition.', 503);
     else if (isManualSpecsRoute(s)) response = await handleSpecsRequest(request, s, actor, services.specs, context);
     else if (s[0] === 'jobs') response = await handleJobRequest(request, s, actor, services.jobs, context);
+    else if (isAppearanceRoute(s)) {
+      if (!services.appearance) throw new DomainError('FEATURE_NOT_IMPLEMENTED', 'Appearance observations are not available in this server composition.', 503);
+      response = await handleAppearanceRequest(request, s, actor, services.appearance, context);
+    }
     else if (isCandidatesRoute(s)) response = await handleCandidatesRequest(request, s, actor, services.candidates, context);
     else if (isMediaPlaybackRoute(s)) response = await handleMediaPlaybackRequest(request, s, actor, services.studio, requestId);
     else {

@@ -13,6 +13,7 @@ import { CandidateEnglishTranscript, spokenLanguageLabel } from './english-trans
 import { CandidateFrameImage } from './CandidateFrameImage';
 import { CandidateFrameExtraction } from './CandidateFrameExtraction';
 import { SupportingFiles } from './SupportingFiles';
+import { AppearanceObservations } from './candidate/AppearanceObservations';
 import { StudioDateTime } from './StudioTimeZone';
 import type {FrameExtractionOutcome} from '@eps/central';
 import {frameOutcomeSummary} from '../lib/frame-outcome-summary';
@@ -84,6 +85,7 @@ export function CandidateDetailView({candidateId,actor,onDirtyChange}:{candidate
       {candidate.possible_duplicate&&canWrite&&!candidate.archived&&!candidate.merged_into_candidate_id&&<section className="editor-section"><div className="section-heading"><div><h2>Possible duplicate</h2><p>A matching name is a suggestion. Choose whether these are the same person.</p></div></div>{duplicates.map(match=><div className="preset-row" key={match.candidate_id}><div><Link href={`/library/cast/${match.candidate_id}`}>{match.display_name??'Name not provided'}</Link><p className="small muted">{match.match_reasons.join(' · ')}</p></div><button className="button" disabled={lockOthers} onClick={()=>void resolve(match)}>Link to this profile</button></div>)}<div className="button-row"><button className="button" disabled={lockOthers} onClick={()=>void resolve()}>Keep as a separate candidate</button></div></section>}
       <section className="editor-section profile-media"><div className="section-heading"><div><h2>Introductions &amp; frames</h2><p>Original video, English transcript and actual video frames. Each project keeps its selected material.</p></div></div>{media.length?media.map(item=><CandidateMediaEditor key={`${item.id}/${item.row_version}`} media={item} canExtract={!!actor.capabilities?.includes('cast.upload')&&!candidate.archived&&!editing&&!Object.entries(mediaDirty).some(([key,value])=>key!==item.id&&value)} canWrite={!!canWrite&&!candidate.archived&&!editing&&!Object.entries(mediaDirty).some(([key,value])=>key!==item.id&&value)} onSaved={async()=>{await load();}} onExtractionReady={async outcome=>{await load();setMessage(outcome?frameOutcomeSummary(outcome):'Frame extraction finished. Check the saved frame list and Processing for details.');}} onDirtyChange={mediaDirtyChanged}/>):<p className="muted">No introduction provided. Upload one from a project to add new material.</p>}</section>
       <SupportingFiles candidateId={candidateId} actorId={actor.id} canArchive={!!canWrite&&!candidate.archived} onDirtyChange={supportDirtyChanged}/>
+      <AppearanceObservations candidateId={candidateId} canReview={!!actor.capabilities?.includes('cast.review')&&!candidate.archived}/>
     </PageFrame>
   </fieldset></section>;
 }

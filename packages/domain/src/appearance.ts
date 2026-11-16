@@ -29,14 +29,22 @@ export interface ObservationMedia {
   target_person_index: number | null; quality_note: string | null; model: string; prompt_version: string; analyzed_at: string; row_version: number;
   observations: AppearanceObservation[];
 }
-export interface CandidateObservations { candidate_id: string; media: ObservationMedia[] }
+/** Supplied information shown beside observations, each with its real source. Archive labels are imported, never
+ * self-reported or human-confirmed; stated age is supplied information, separate from playing-age suggestions. */
+export interface SuppliedAppearance {
+  archive: null | { source: { kind: 'archive_import'; source_project: string | null; source_id: string | null; imported_at: string | null }; name_ar: string | null;
+    talent_type: string; look: string | null; skin_tone: string | null; playing_age: string[]; hair_length: string[]; hair_texture: string[]; hair_colour: string[];
+    hair_style: string[]; hair_colouring: string[]; tags: string[] };
+  facts: { key: 'stated_gender' | 'age_or_range' | 'city' | 'languages'; value: string | string[] | null; source: 'manual' | 'transcript' | 'archive' | null }[];
+}
+export interface CandidateObservations { candidate_id: string; supplied: SuppliedAppearance; media: ObservationMedia[] }
 export type ObservationReview = { row_version: number; action: 'confirm' | 'reject' | 'reset' } | { row_version: number; action: 'override'; value: string };
 
 /** Library facet filter: OR within one facet, AND across facets. "unknown" may be selected as a value. */
-export interface FacetFilters { facets: Partial<Record<string, string[]>>; include_unknown: boolean }
+export interface FacetFilters { facets: Partial<Record<string, string[]>>; include_unknown: boolean; q?: string }
 export interface FacetValueCount { value: string; count: number }
 export interface FacetCounts { key: string; matched: number; unknown: number; values: FacetValueCount[]; selected: string[] }
-export interface CandidateFacets { total: number; filters: FacetFilters; facets: FacetCounts[] }
+export interface CandidateFacets { total: number; filters: { facets: Partial<Record<string, string[]>>; include_unknown: boolean; q: string | null }; facets: FacetCounts[] }
 export interface EnrichmentBatchStart { workspace_id: string; candidate_ids?: string[]; filters?: FacetFilters; limit: number; spend_cap_cents: number }
 export interface EnrichmentBatch {
   id: string; workspace_id: string; status: 'running' | 'completed' | 'stopped_spend_cap' | 'cancelled'; scope: Record<string, unknown>; item_limit: number;
@@ -92,8 +100,9 @@ export function appearanceValueLabel(attribute: string, value: string, arabic = 
 
 export function parseFacetFilters(value: unknown): FacetFilters {
   if (value === undefined || value === null) return { facets: {}, include_unknown: false };
-  if (typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['facets', 'include_unknown'].includes(key))) invalid('Provide facets and include_unknown only.');
+  if (typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['facets', 'include_unknown', 'q'].includes(key))) invalid('Provide facets, include_unknown and q only.');
   const input = value as Record<string, unknown>;
+  if (input.q !== undefined && (typeof input.q !== 'string' || input.q.length > 200)) invalid('q is a short text query.');
   if (input.include_unknown !== undefined && typeof input.include_unknown !== 'boolean') invalid('include_unknown must be a boolean.');
   const facets: Partial<Record<string, string[]>> = {};
   if (input.facets !== undefined) {
@@ -103,7 +112,7 @@ export function parseFacetFilters(value: unknown): FacetFilters {
       if ((list as string[]).length) facets[key] = [...new Set(list as string[])];
     }
   }
-  return { facets, include_unknown: input.include_unknown === true };
+  return { facets, include_unknown: input.include_unknown === true, ...(typeof input.q === 'string' && input.q.trim() ? { q: input.q } : {}) };
 }
 /** Library URL state: facet=hair_colour:black&facet=city:Dubai&include_unknown=true (repeatable "facet"). */
 export function facetFiltersToSearchParams(filters: FacetFilters, params = new URLSearchParams()): URLSearchParams {

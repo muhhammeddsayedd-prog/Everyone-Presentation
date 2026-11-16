@@ -10,7 +10,7 @@ import { appearanceAccessFromGrant } from '../../packages/central/src/appearance
 // Synthetic bytes, recorded provider answers and an in-memory gateway: no network, storage, database or provider.
 const job = '7a000000-0000-4000-8000-000000000001', attempt = '7a000000-0000-4000-8000-000000000002', candidate = '7a000000-0000-4000-8000-000000000003';
 const photo = '7a000000-0000-4000-8000-000000000011', frame = '7a000000-0000-4000-8000-000000000012';
-const bytes = { [photo]: Uint8Array.from([0xff, 0xd8, 0xff, 0xe0, 1, 1]), [frame]: Uint8Array.from([0xff, 0xd8, 0xff, 0xe0, 2, 2]) };
+const bytes: Record<string, Uint8Array> = { [photo]: Uint8Array.from([0xff, 0xd8, 0xff, 0xe0, 1, 1]), [frame]: Uint8Array.from([0xff, 0xd8, 0xff, 0xe0, 2, 2]) };
 const sha = (value: Uint8Array) => createHash('sha256').update(value).digest('hex');
 const inputHash = 'c'.repeat(64);
 const media = [

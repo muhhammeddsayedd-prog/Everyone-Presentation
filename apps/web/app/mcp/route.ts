@@ -9,6 +9,7 @@ import { getJobs } from '../../lib/jobs';
 import { failure } from '../../lib/http';
 import { getStudio } from '../../lib/studio';
 import { getCandidatesService } from '../../lib/candidates';
+import { getAppearanceService } from '../../lib/appearance';
 import { getCastingService } from '../../lib/casting';
 import { getReviewService } from '../../lib/review';
 import { getPresentationService } from '../../lib/presentation';
@@ -27,7 +28,7 @@ async function handle(request: Request) {
       // All factories read the current Next request's same user bearer/session.
       // The transport verifies their central principal against its authenticated actor.
       const studio = await getStudio() as Awaited<ReturnType<typeof createCentralStudio>>;
-      return { studio, specs: await getSpecsService(), jobs: await getJobs(), candidates: await getCandidatesService(),
+      return { studio, specs: await getSpecsService(), jobs: await getJobs(), candidates: await getCandidatesService(), appearance: await getAppearanceService(),
         casting: await getCastingService(), review: await getReviewService(), presentation: await getPresentationService(),
         sharing: await optionalSharing(getReviewLinkService), settings: await getSettingsService() };
     }
