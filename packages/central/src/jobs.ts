@@ -3,7 +3,7 @@ import { DomainError, JOB_STATUSES as STATUSES, parseJobListOptions, type JobLis
 import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
 
-const KINDS = ['specs_extract', 'candidate_scan', 'frame_extract', 'ai_suggestion', 'review_fit', 'presentation_render', 'presentation_export'] as const;
+const KINDS = ['specs_extract', 'candidate_scan', 'frame_extract', 'ai_suggestion', 'review_fit', 'presentation_render', 'presentation_export', 'candidate_appearance'] as const;
 const SAFE_ERRORS: Record<string, string> = {
   SOURCE_UNREADABLE: 'The supplied source could not be read. Replace it with a valid supported file, or enter the available information manually.', UNSUPPORTED_FORMAT: 'The source format is unsupported.',
   RESULT_INVALID: 'The processing result failed validation.', EXTRACTION_REFUSED: 'Extraction could not complete for this input.',

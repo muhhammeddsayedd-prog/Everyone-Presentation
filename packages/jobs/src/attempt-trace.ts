@@ -26,6 +26,7 @@ const stages: Record<JobKind, readonly string[]> = {
   review_fit: ['measure_review_fit'],
   presentation_render: ['prepare_presentation', 'render_presentation', 'validate_presentation', 'publish_presentation'],
   presentation_export: ['render_export'],
+  candidate_appearance: ['analyze_appearance'],
 };
 const fields = ['schema_version', 'job_id', 'attempt_id', 'kind', 'stage', 'attempt', 'stage_attempt', 'dispatch_generation',
   'correlation_id', 'input_hash', 'workflow_execution_id', 'workflow_execution_ref_state', 'claimed_at', 'job_row_version'];

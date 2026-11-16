@@ -31,7 +31,7 @@ export interface AppearanceResult {
 export type AppearanceTransport = (request: ResponseCreateParamsNonStreaming, configuration: OpenAIMediaConfig, signal?: AbortSignal) => Promise<unknown>;
 const sha = (value: string | Uint8Array) => createHash('sha256').update(value).digest('hex');
 const exact = (value: unknown, keys: readonly string[]): value is Record<string, unknown> => Boolean(record(value)) && Object.keys(value as object).length === keys.length && keys.every(key => Object.hasOwn(value as object, key));
-const invalidOutput = (message = 'Appearance analysis exceeded its result contract.'): never => { throw new IntegrationError('AI_APPEARANCE_RESULT_INVALID', message); };
+function invalidOutput(message = 'Appearance analysis exceeded its result contract.'): never { throw new IntegrationError('AI_APPEARANCE_RESULT_INVALID', message); }
 function inputError(): never { throw new IntegrationError('APPEARANCE_INPUT_INVALID', 'Appearance analysis requires verified JPEG images from the authorised media list.'); }
 function stopped(signal?: AbortSignal) { if (signal?.aborted) throw new IntegrationError('PROCESSING_CANCELLED', 'Appearance analysis was cancelled.'); }
 

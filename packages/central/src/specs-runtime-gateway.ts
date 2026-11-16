@@ -4,13 +4,14 @@ import { Client, Pool, type ClientConfig, type PoolConfig } from 'pg';
 import { createSpecsRuntimeAssets, type SpecsRuntimeAssetConfig, type SpecsAssetOperation } from './specs-runtime-assets.ts';
 import { createCandidateRuntimeAssets } from './candidate-runtime-assets.ts';
 import { createPresentationRuntimeAssets } from './presentation-runtime-assets.ts';
+import { createAppearanceRuntimeAssets } from './appearance-runtime-assets.ts';
 import type { JobEvent, JobEventReceipt, StageClaim, StageLease } from '../../jobs/src/types.ts';
 
 export const SPECS_RUNTIME_ROLE = 'eps_specs_runtime';
 export const SPECS_RUNTIME_PROJECT = 'pyibofyctwnqpvktepse';
 export const SPECS_RUNTIME_HOST = 'aws-0-eu-west-1.pooler.supabase.com';
 const PRESENTATION_STAGES = ['prepare_presentation', 'render_presentation', 'validate_presentation', 'publish_presentation'];
-const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate','extract_frames','apply_frames','prepare_suggestion','generate_suggestion','validate_suggestion','measure_review_fit', ...PRESENTATION_STAGES, 'render_export'];
+const STAGES = ['prepare_document', 'extract_specs', 'apply_specs','prepare_candidate','transcribe_candidate','extract_candidate','select_frames','apply_candidate','extract_frames','apply_frames','prepare_suggestion','generate_suggestion','validate_suggestion','measure_review_fit', ...PRESENTATION_STAGES, 'render_export', 'analyze_appearance'];
 const KIND_STAGES: Readonly<Record<string, readonly string[]>> = {
   specs_extract: ['prepare_document', 'extract_specs', 'apply_specs'],
   candidate_scan: ['prepare_candidate', 'transcribe_candidate', 'extract_candidate', 'select_frames', 'apply_candidate'],
@@ -19,6 +20,7 @@ const KIND_STAGES: Readonly<Record<string, readonly string[]>> = {
   review_fit: ['measure_review_fit'],
   presentation_render: PRESENTATION_STAGES,
   presentation_export: ['render_export'],
+  candidate_appearance: ['analyze_appearance'],
 };
 const STATUSES = ['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'];
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/u;
@@ -229,6 +231,8 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
     await execute(ASSET_SQL[operation],[safeJson(input,operation==='prepare' ? 44*1024*1024 : 294_912)],signal));
   const candidateAssets=!candidateEnabled||fileConfiguration===undefined?undefined:createCandidateRuntimeAssets(fileConfiguration,async(operation,input,signal)=>
     await execute(ASSET_SQL[operation],[safeJson(input,409_600)],signal));
+  const appearanceAssets=!candidateEnabled||fileConfiguration===undefined?undefined:createAppearanceRuntimeAssets(fileConfiguration,async(operation,input,signal)=>
+    await execute(ASSET_SQL[operation],[safeJson(input,409_600)],signal));
   const presentationAssets=!presentationEnabled||fileConfiguration===undefined?undefined:createPresentationRuntimeAssets(fileConfiguration,async(operation,input,signal)=>
     await execute(ASSET_SQL[operation],[safeJson(input)],signal));
   const config = checkedConfig(supplied);
@@ -301,6 +305,7 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
     get verifiedFunctionOperations(){return functionOperations;},
     files: assets,
     candidateFiles:candidateAssets,
+    appearanceFiles:appearanceAssets,
     presentationFiles:presentationAssets,
     async claimOutbox(limit: number, signal?: AbortSignal) {
       integer(limit); const row = response(await execute('select eps.claim_job_outbox($1::integer) as value', [limit], signal), ['leases']);
@@ -358,7 +363,7 @@ export async function createSpecsRuntimeGateway(supplied: SpecsRuntimeConfig, de
         || !id(event.event_id) || !id(event.job_id) || !id(event.attempt_id) || !STAGES.includes(event.stage) || !HASH.test(event.input_hash)
         || !['heartbeat', 'progress', 'succeeded', 'failed'].includes(event.event_type)) fail('INVALID_REQUEST', 400);
       integer(event.sequence, Number.MAX_SAFE_INTEGER); token(event.lease_token);
-      const row = response(await execute('select eps.record_job_event($1::jsonb) as value', [safeJson(event,event.stage==='measure_review_fit'?1_048_576:event.stage.endsWith('_candidate')||event.stage.endsWith('_frames')?409_600:294_912)], signal), ['event_id', 'applied', 'duplicate', 'stale', 'job_status']);
+      const row = response(await execute('select eps.record_job_event($1::jsonb) as value', [safeJson(event,event.stage==='measure_review_fit'?1_048_576:event.stage.endsWith('_candidate')||event.stage.endsWith('_frames')||event.stage==='analyze_appearance'?409_600:294_912)], signal), ['event_id', 'applied', 'duplicate', 'stale', 'job_status']);
       if (row.event_id !== event.event_id || !['applied', 'duplicate', 'stale'].every(key => typeof row[key] === 'boolean')
         || !row.applied && !row.duplicate && !row.stale || !STATUSES.includes(String(row.job_status))) fail('RUNTIME_RESPONSE_INVALID', 503, 'unknown');
       return row as unknown as JobEventReceipt;

@@ -8,11 +8,12 @@ export type ReviewStage = 'prepare_suggestion' | 'generate_suggestion' | 'valida
 export type FitStage = 'measure_review_fit';
 export type PresentationStage = 'prepare_presentation' | 'render_presentation' | 'validate_presentation' | 'publish_presentation';
 export type ExportStage = 'render_export';
+export type AppearanceStage = 'analyze_appearance';
 export interface StageWorkOrder {
   schema_version: '1.0';
-  event_id: string; job_id: string; kind: 'specs_extract' | 'candidate_scan' | 'frame_extract' | 'ai_suggestion' | 'review_fit' | 'presentation_render' | 'presentation_export'; stage: SpecsStage | CandidateStage | FrameStage | ReviewStage | FitStage | PresentationStage | ExportStage; input_hash: string; correlation_id: string;
+  event_id: string; job_id: string; kind: 'specs_extract' | 'candidate_scan' | 'frame_extract' | 'ai_suggestion' | 'review_fit' | 'presentation_render' | 'presentation_export' | 'candidate_appearance'; stage: SpecsStage | CandidateStage | FrameStage | ReviewStage | FitStage | PresentationStage | ExportStage | AppearanceStage; input_hash: string; correlation_id: string;
   workflow_execution_id: string;
-  handler: 'native.prepare_document' | 'openai.extract_specs' | 'domain.apply_specs' | 'native.prepare_candidate' | 'openai.transcribe_candidate' | 'openai.extract_candidate' | 'openai.select_frames' | 'domain.apply_candidate' | 'native.extract_frames' | 'domain.apply_frames' | 'domain.prepare_suggestion' | 'openai.generate_suggestion' | 'domain.validate_suggestion' | 'native.measure_review_fit' | 'native.prepare_presentation' | 'native.render_presentation' | 'native.validate_presentation' | 'domain.publish_presentation' | 'native.render_export';
+  handler: 'native.prepare_document' | 'openai.extract_specs' | 'domain.apply_specs' | 'native.prepare_candidate' | 'openai.transcribe_candidate' | 'openai.extract_candidate' | 'openai.select_frames' | 'domain.apply_candidate' | 'native.extract_frames' | 'domain.apply_frames' | 'domain.prepare_suggestion' | 'openai.generate_suggestion' | 'domain.validate_suggestion' | 'native.measure_review_fit' | 'native.prepare_presentation' | 'native.render_presentation' | 'native.validate_presentation' | 'domain.publish_presentation' | 'native.render_export' | 'openai.analyze_appearance';
 }
 /** Construct only after the adapter has verified its authenticated narrow LOGIN.
  * No user JWT, SET ROLE, public endpoint or connection target comes from a job. */
@@ -32,7 +33,7 @@ export interface SpecsStageRouter {
 export interface WorkerNotice {
   event: 'idle' | 'stage_callback_committed' | 'stage_unconfirmed' | 'dispatch_rejected' | 'dispatch_unconfirmed' | 'recovery_completed' | 'recovery_unconfirmed';
   job_id?: string;
-  stage?: SpecsStage | CandidateStage | FrameStage | ReviewStage | FitStage | PresentationStage | ExportStage;
+  stage?: SpecsStage | CandidateStage | FrameStage | ReviewStage | FitStage | PresentationStage | ExportStage | AppearanceStage;
   code?: string;
   gateway_phase?: string;
   transport_code?: string;

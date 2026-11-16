@@ -17,6 +17,7 @@ const pairs = [
   ['candidate_scan', 'apply_candidate', 'domain.apply_candidate'],
   ['frame_extract', 'extract_frames', 'native.extract_frames'],
   ['frame_extract', 'apply_frames', 'domain.apply_frames'],
+  ['candidate_appearance', 'analyze_appearance', 'openai.analyze_appearance'],
 ];
 const base = { event_id: 'synthetic-vision-event', event_type: 'job.stage_ready', contract_version: '1.0',
   job_id: 'synthetic-vision-job', input_hash: 'a'.repeat(64), correlation_id: 'synthetic-vision-correlation' };
@@ -64,8 +65,11 @@ test('saved WF02 export changes only the selection handler and preserves byte-ex
   const currentCredential = prior.nodes[0].credentials.httpHeaderAuth;
   assert.equal(validateCandidateWf02(saved, currentCredential), true);
   const expectedGraph = JSON.parse(JSON.stringify(prior).replaceAll('native.select_frames', 'openai.select_frames'));
-  assert.deepEqual(saved, expectedGraph);
-  assert.deepEqual(buildCandidateWf02(currentCredential), expectedGraph);
+  assert.deepEqual(saved, buildCandidateWf02(currentCredential));
+  // Cycle 7 (A4) adds only the analyze_appearance branch to the same envelope mapper; every other node is unchanged.
+  const withoutMapper = graph => ({ ...graph, nodes: graph.nodes.map((node, index) => index === 1 ? { ...node, parameters: { ...node.parameters, jsonOutput: null } } : node) });
+  assert.deepEqual(withoutMapper(saved), withoutMapper(expectedGraph));
+  assert.ok(saved.nodes[1].parameters.jsonOutput.includes("analyze_appearance: 'openai.analyze_appearance'"));
 });
 
 test('WF02 strict graph validation rejects the old selector, auth bypasses, payload retention and dropped error exits', () => {
