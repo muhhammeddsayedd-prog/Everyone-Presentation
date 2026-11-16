@@ -17,6 +17,7 @@ select id,jsonb_build_object('name','A1Order '||n,'casting_id','A1O-'||n,'age_or
 from (values(1,'a1100000-0000-4000-8000-0000000e0001'::uuid,timestamptz '2026-01-01 00:00:00+00'),(2,'a1100000-0000-4000-8000-0000000e0002','2026-01-02 00:00:00+00'),(3,'a1100000-0000-4000-8000-0000000e0003','2026-01-02 00:00:00+00'),
  (4,'a1100000-0000-4000-8000-0000000e0004','2026-01-03 00:00:00+00'),(5,'a1100000-0000-4000-8000-0000000e0005','2026-01-04 00:00:00+00'),(6,'a1100000-0000-4000-8000-0000000e0006','2026-01-04 00:00:00+00'),
  (7,'a1100000-0000-4000-8000-0000000e0007','2026-01-05 00:00:00+00')) v(n,id,at);
+update eps.candidates set facts=facts||'{"city":"Filterville"}' where id in('a1100000-0000-4000-8000-0000000e0002','a1100000-0000-4000-8000-0000000e0003','a1100000-0000-4000-8000-0000000e0006');
 insert into eps.candidate_attributes(candidate_id,name_ar,talent_type) values('a1100000-0000-4000-8000-0000000e0007','أ ترتيب سبعة','group');
 insert into eps.media_assets(id,origin_workspace_id,purpose,filename,mime_type,bucket,object_key,size_bytes,sha256,width,height,duration_ms,status)
 select id,'a1100000-0000-4000-8000-00000000d001','candidate_video','o'||n||'.mp4','video/mp4','eps-candidate-assets','assets/a1o/'||n||'.mp4',1000,repeat('a',64),640,480,1000,'ready'
@@ -74,6 +75,16 @@ do $$declare page jsonb; seen text[]:='{}'; expected text[]; cursor_value text; 
  if failed<>'RESOURCE_NOT_FOUND' then raise exception 'A1_FAIL foreign workspace %',failed;end if;
 end $$;
 
+-- Filtered results keep the same order and a filter-bound cursor (equal timestamps 2/3 split across pages).
+do $$declare page jsonb; seen text[]:='{}'; begin
+ page:=public.eps_search_candidates('{"q":"A1Order","city":"Filterville","include_unknown":false,"limit":2}');
+ seen:=seen||array(select item->>'id' from jsonb_array_elements(page->'data') item);
+ page:=public.eps_search_candidates(jsonb_build_object('q','A1Order','city','Filterville','include_unknown',false,'limit',2,'cursor',page#>>'{page,next_cursor}'));
+ seen:=seen||array(select item->>'id' from jsonb_array_elements(page->'data') item);
+ if seen<>array['a1100000-0000-4000-8000-0000000e0006','a1100000-0000-4000-8000-0000000e0003','a1100000-0000-4000-8000-0000000e0002'] or page#>'{page,next_cursor}'<>'null'::jsonb
+ then raise exception 'A1_FAIL filtered order % %',seen,page->'page';end if;
+end $$;
+
 -- Project list: newest person first by creation time (not membership time), across pages.
 do $$declare page jsonb; seen text[]:='{}'; failed text; begin
  page:=public.eps_list_workspace_candidates('a1100000-0000-4000-8000-00000000d001',null,2);
@@ -93,5 +104,5 @@ end $$;
 reset role;
 
 select json_build_object('result','passed','file','a1-newest-first','checks',json_build_array('search_pages_newest_first','equal_timestamps_tiebreak','new_arrival_stable_pages','old_edit_not_reordered',
- 'card_fields','processing_flag','membership_batched','foreign_cursor','v1_cursor','garbage_cursor','foreign_workspace','project_pages_by_creation','list_raw_cursor_refused'))::text;
+ 'filtered_pages','card_fields','processing_flag','membership_batched','foreign_cursor','v1_cursor','garbage_cursor','foreign_workspace','project_pages_by_creation','list_raw_cursor_refused'))::text;
 rollback;

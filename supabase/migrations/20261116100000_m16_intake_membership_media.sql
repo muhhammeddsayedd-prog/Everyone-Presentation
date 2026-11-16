@@ -308,7 +308,18 @@ $o7$  update eps.workspace_candidates set selected_candidate_media_id=media_id,s
 $n7$  update eps.workspace_candidates set selected_candidate_media_id=media_id,selected_frame_asset_ids=frames,
    portrait_asset_id=pic_asset,portrait_source=pic_source,portrait_crop=pic_crop,media_selection_state=pic_state,$n7$,
 $o8$   media_confirmed=case when p_input?'media_confirmed' then (p_input->>'media_confirmed')::boolean when selection_changed then false else media_confirmed end,$o8$,
-$n8$   media_confirmed=case when p_input?'media_confirmed' then (p_input->>'media_confirmed')::boolean when selection_changed or picture_changed then false else media_confirmed end,$n8$]);
+$n8$   media_confirmed=case when p_input?'media_confirmed' then (p_input->>'media_confirmed')::boolean when selection_changed or picture_changed then false else media_confirmed end,$n8$,
+$o9$  if replay is not null then return replay; end if;
+  if p_operation<>'add_workspace_candidate' then select * into pool$o9$,
+$n9$  -- m16: an add replay is only returned while the membership it created is still active. After a
+  -- removal the same key adds again (or returns whichever membership is active now); it never
+  -- replays an archived membership and never blocks a later add.
+  if replay is not null and not(p_operation='add_workspace_candidate' and not exists(select 1 from eps.workspace_candidates replayed
+   where replayed.id=eps.input_uuid(replay->>'id') and replayed.archived_at is null)) then return replay; end if;
+  if p_operation<>'add_workspace_candidate' then select * into pool$n9$,
+$o10$ return eps.finish_mutation(operation,p_key,payload,result,coalesce(generated_id,p_resource_id));$o10$,
+$n10$ -- A stale add replay keeps its original idempotency record; this outcome is audited, not re-recorded.
+ return eps.finish_mutation(operation,case when replay is null then p_key end,payload,result,coalesce(generated_id,p_resource_id));$n10$]);
 
 -- 6b. Save step: an extra tape no longer fails on a profile edit; a new membership pins its picture.
 select pg_temp.m16_patch('eps.apply_candidate_scan(uuid,uuid,text,text,jsonb)'::regprocedure,array[

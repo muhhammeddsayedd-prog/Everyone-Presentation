@@ -157,6 +157,30 @@ do $$declare suggested jsonb; applied jsonb; again jsonb; begin
 end $$;
 reset role;
 
+-- Remove and re-add: a key reused for one add never replays the archived membership nor blocks a later add.
+set local role authenticated;
+do $$declare again jsonb; readded jsonb; removed jsonb; begin
+ again:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000003');
+ -- An already-active member keeps its project choices (picture, crop, introduction).
+ if again->>'id'<>current_setting('a1.pool1') or again->'already_member'<>'true'::jsonb or again->>'portrait_asset_id'<>'a1000000-0000-4000-8000-0000000f0001'
+  or again->'portrait_crop' is null or again->'portrait_crop'='null'::jsonb or again->>'selected_candidate_media_id'<>'a1000000-0000-4000-8000-0000000b0001' then raise exception 'A1_FAIL active member untouched %',again;end if;
+ removed:=public.eps_remove_workspace_candidate(current_setting('a1.pool1')::uuid,jsonb_build_object('row_version',(again->>'row_version')::int),'a1-remove-p1-key-0001');
+ if removed->'success'<>'true'::jsonb then raise exception 'A1_FAIL remove %',removed;end if;
+ readded:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000001');
+ if readded->>'id'=current_setting('a1.pool1') or readded->'already_member'<>'false'::jsonb or readded->>'media_selection_state'<>'pinned' then raise exception 'A1_FAIL re-add with the first key %',readded;end if;
+ again:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000001');
+ if again->>'id'<>readded->>'id' or again->'already_member'<>'true'::jsonb then raise exception 'A1_FAIL first key after re-add %',again;end if;
+ again:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000002');
+ if again->>'id'<>readded->>'id' then raise exception 'A1_FAIL second key after re-add %',again;end if;
+ perform set_config('a1.pool1_new',readded->>'id',true);
+end $$;
+reset role;
+do $$begin
+ if (select count(*) from eps.workspace_candidates where workspace_id='a1000000-0000-4000-8000-00000000d001' and candidate_id='a1000000-0000-4000-8000-0000000e0001' and archived_at is null)<>1
+  or (select archived_at is null from eps.workspace_candidates where id=current_setting('a1.pool1')::uuid)
+ then raise exception 'A1_FAIL remove/re-add rows';end if;
+end $$;
+
 -- Save step: an extra tape for P5 after two profile edits succeeds and pins the cover photo.
 set local session_replication_role=replica;
 insert into eps.media_assets(id,origin_workspace_id,purpose,filename,mime_type,bucket,object_key,size_bytes,sha256,width,height,status,source_asset_id,producing_job_id,producing_attempt_id,output_stage,output_key,source_timestamp_ms)
@@ -225,5 +249,5 @@ reset role;
 
 select json_build_object('result','passed','file','a1-membership-media','checks',json_build_array('default_pins','replay','repeat_add_other_key','other_user_add','single_membership',
  'cover_photo_default','foreign_picture_refused','picture_update','intro_change_keeps_picture','crop_bound','library_edits_isolated','intentionally_empty',
- 'repair_suggest','repair_apply','repair_replay','repair_stale','extra_tape_after_edit','apply_pins_cover','archived_target_fails','get_job_candidate_result','uploads_list'))::text;
+ 'repair_suggest','repair_apply','repair_replay','repair_stale','active_member_untouched','remove_readd_new_row','old_key_no_archived_replay','extra_tape_after_edit','apply_pins_cover','archived_target_fails','get_job_candidate_result','uploads_list'))::text;
 rollback;
