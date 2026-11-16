@@ -103,6 +103,29 @@ do $$declare page jsonb; seen text[]:='{}'; failed text; begin
 end $$;
 reset role;
 
+-- The processing flag shows only jobs the caller may see: a project colleague without operations.read does not see
+-- someone else's upload; with operations.read they do.
+set local session_replication_role=replica;
+insert into auth.users(id,instance_id,aud,role,email) values('a1100000-0000-4000-8000-0000000000a2','00000000-0000-0000-0000-000000000000','authenticated','authenticated','a1-colleague@example.invalid');
+insert into public.app_capability_grants(principal_id,capability) select 'a1100000-0000-4000-8000-0000000000a2',capability from unnest(array['projects.read','workspaces.read','cast.read']) capability;
+insert into public.project_memberships(project_id,principal_id,can_write) values('a1100000-0000-4000-8000-00000000c001','a1100000-0000-4000-8000-0000000000a2',false);
+set local session_replication_role=origin;
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"a1100000-0000-4000-8000-0000000000a2","role":"authenticated","is_anonymous":false}',true),set_config('request.jwt.claim.sub','a1100000-0000-4000-8000-0000000000a2',true);
+do $$declare card jsonb; begin
+ select item into card from jsonb_array_elements(public.eps_search_candidates('{"q":"A1Order 6"}')->'data') item where item->>'id'='a1100000-0000-4000-8000-0000000e0006';
+ if card is null or card->'processing'<>'false'::jsonb then raise exception 'A1_FAIL colleague sees foreign upload %',card;end if;
+end $$;
+reset role;
+insert into public.app_capability_grants(principal_id,capability) values('a1100000-0000-4000-8000-0000000000a2','operations.read');
+set local role authenticated;
+do $$declare card jsonb; begin
+ select item into card from jsonb_array_elements(public.eps_search_candidates('{"q":"A1Order 6"}')->'data') item where item->>'id'='a1100000-0000-4000-8000-0000000e0006';
+ if card is null or card->'processing'<>'true'::jsonb then raise exception 'A1_FAIL operations.read sees uploads %',card;end if;
+end $$;
+reset role;
+
 select json_build_object('result','passed','file','a1-newest-first','checks',json_build_array('search_pages_newest_first','equal_timestamps_tiebreak','new_arrival_stable_pages','old_edit_not_reordered',
- 'filtered_pages','card_fields','processing_flag','membership_batched','foreign_cursor','v1_cursor','garbage_cursor','foreign_workspace','project_pages_by_creation','list_raw_cursor_refused'))::text;
+ 'filtered_pages','card_fields','processing_flag','membership_batched','foreign_cursor','v1_cursor','garbage_cursor','foreign_workspace','project_pages_by_creation','list_raw_cursor_refused',
+ 'processing_flag_requester_only','processing_flag_operations_read'))::text;
 rollback;

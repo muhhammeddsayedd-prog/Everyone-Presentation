@@ -39,6 +39,15 @@ declare routine text; begin
   if position('spec_extract_v2.0.0' in pg_get_functiondef('eps.specs_stage_configuration(jsonb)'::regprocedure))>0 then
     raise exception 'M17_SPECS_V2_ALREADY_APPLIED';
   end if;
+  -- The four validators below are replaced whole: only the exact reviewed pre-v2 bodies (CRLF-normalised) qualify.
+  if exists(select 1 from (values
+      ('eps.specs_stage_configuration(jsonb)','7310e5be3cdeb6744621fbfffcfefe2f8a31a534c9b979800befd7b70fc7f877'),
+      ('eps.specs_stage_extract(jsonb,jsonb)','85be350115863cd541ce373f71959f0ac07389c07c5b95e768797fe01dc1e8dc'),
+      ('eps.specs_document_extract(jsonb,jsonb,uuid)','de252b1f2ee803feca3b45c95aa49bd207422fcfbee41476075243d0c26ebe98'),
+      ('eps.specs_stage_metadata(jsonb,eps.jobs,jsonb)','0503ca79216d543e10de6708c6421b7f3c8b1771800e73c1d296a2d83e8df438')) v(signature,expected)
+    where encode(sha256(convert_to(replace((select prosrc from pg_proc where oid=v.signature::regprocedure),E'\r\n',E'\n'),'UTF8')),'hex') is distinct from v.expected) then
+    raise exception 'M17_SPECS_V2_PREIMAGE_REQUIRED';
+  end if;
 end $$;
 
 create or replace function eps.specs_stage_configuration(p_configuration jsonb) returns void language plpgsql immutable security invoker set search_path='' as $function$ begin

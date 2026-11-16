@@ -7,7 +7,7 @@
 --    a Studio manager chooses it in Settings. eps_create_presentation_series without an explicit preset uses
 --    it and fails AUDIENCE_DEFAULT_REQUIRED when none is configured. It never picks the first preset.
 -- Requires m15. Function bodies are patched with exact-once needles against pinned preimages (the live
--- bodies, verified on the cycle-7 replica); any other body is refused. Guarded against double apply.
+-- bodies, verified on the cycle-7 replica, hashed after CRLF->LF normalisation); any other body is refused. Guarded against double apply.
 set local search_path='';set local lock_timeout='5s';set local statement_timeout='45s';
 
 do $m18_target$begin
@@ -16,10 +16,10 @@ do $m18_target$begin
  or exists(select 1 from information_schema.columns where table_schema='eps'and table_name='app_settings'and column_name='default_audience_preset_id')
  then raise exception'M18_ALREADY_APPLIED';end if;
  if to_regclass('eps.scenes')is null or to_regclass('eps.audience_presets')is null or to_regclass('eps.app_settings')is null then raise exception'M18_PREREQUISITES_MISSING';end if;
- if(select jsonb_object_agg(p.oid::regprocedure::text,encode(sha256(convert_to(p.prosrc,'UTF8')),'hex'))from pg_proc p
+ if(select jsonb_object_agg(p.oid::regprocedure::text,encode(sha256(convert_to(replace(p.prosrc,E'\r\n',E'\n'),'UTF8')),'hex'))from pg_proc p
    where p.oid::regprocedure::text=any(array['eps.specs_role_dto(uuid)','eps.specs_slot_dto(uuid)','eps.settings_dto()','eps.review_series_dto(eps.presentation_series)',
     'public.eps_update_role(uuid,jsonb,text)','public.eps_update_slot(uuid,jsonb,text)','public.eps_update_settings(jsonb,text)','public.eps_create_presentation_series(jsonb,text)','public.eps_update_presentation_series(uuid,jsonb,text)']))
-  is distinct from'{"eps.settings_dto()":"20fd20b7d78b359da498c2308da918b29d2257b5b00562671854a00d153e04e9","eps.specs_role_dto(uuid)":"67529b104e691166f85f2170aa92729265c27b31d800052ab0e7bf4f52b17a88","eps.specs_slot_dto(uuid)":"9994a41806f124724c88b6e734f3365ea5c49de02a1ae9c8b81db94d03dbb314","public.eps_update_role(uuid,jsonb,text)":"83b14cf8feb20890f740ad606f9e0645dccef508455eac9c0ebb8539063bc00c","public.eps_update_slot(uuid,jsonb,text)":"18ded26898f6c0b1a95573113c692ecd00db20be171f78c572d79f020393c0a4","public.eps_update_settings(jsonb,text)":"53cab1029afe4d79de4aa6f9ae9dd4bc913b5ebcaa3fa15d0997a7549d07fb91","public.eps_create_presentation_series(jsonb,text)":"413271b9fe4d7305d23ef59a08ea49f3c1e284132fdd6d7b3b4c5d6040e0713f","eps.review_series_dto(eps.presentation_series)":"a5ec3cc73c82bf04f6d9160591336f5eecf187de04d79a79c7a33f045462263f","public.eps_update_presentation_series(uuid,jsonb,text)":"5b79b2bce9967eb2f15ec43683f44aaa8bfb530f229c1a82e80e46fe8e73716c"}'::jsonb
+  is distinct from'{"eps.settings_dto()":"20fd20b7d78b359da498c2308da918b29d2257b5b00562671854a00d153e04e9","eps.specs_role_dto(uuid)":"67529b104e691166f85f2170aa92729265c27b31d800052ab0e7bf4f52b17a88","eps.specs_slot_dto(uuid)":"9994a41806f124724c88b6e734f3365ea5c49de02a1ae9c8b81db94d03dbb314","public.eps_update_role(uuid,jsonb,text)":"83b14cf8feb20890f740ad606f9e0645dccef508455eac9c0ebb8539063bc00c","public.eps_update_slot(uuid,jsonb,text)":"18ded26898f6c0b1a95573113c692ecd00db20be171f78c572d79f020393c0a4","public.eps_update_settings(jsonb,text)":"53cab1029afe4d79de4aa6f9ae9dd4bc913b5ebcaa3fa15d0997a7549d07fb91","public.eps_create_presentation_series(jsonb,text)":"413271b9fe4d7305d23ef59a08ea49f3c1e284132fdd6d7b3b4c5d6040e0713f","eps.review_series_dto(eps.presentation_series)":"7e9e21679486ed31e036bd0e5ffb342698697b1b257d1d65d0f476c5837b978d","public.eps_update_presentation_series(uuid,jsonb,text)":"85b4b5d5c44ccad6a16d1905310070c3ad29ec89d6b591a6a09ad803cc1b7890"}'::jsonb
  then raise exception'M18_PREIMAGE_REQUIRED';end if;
 end$m18_target$;
 
@@ -118,7 +118,7 @@ do $m18_readback$begin
  or not has_column_privilege('eps_specs_owner','eps.roles','presentation_note','UPDATE')
  or not has_column_privilege('eps_settings_owner','eps.app_settings','default_audience_preset_id','UPDATE')
  or(select default_audience_preset_id from eps.app_settings where singleton)is not null
- or(select jsonb_object_agg(p.oid::regprocedure::text,encode(sha256(convert_to(p.prosrc,'UTF8')),'hex'))from pg_proc p
+ or(select jsonb_object_agg(p.oid::regprocedure::text,encode(sha256(convert_to(replace(p.prosrc,E'\r\n',E'\n'),'UTF8')),'hex'))from pg_proc p
    where p.oid::regprocedure::text=any(array['eps.specs_role_dto(uuid)','eps.specs_slot_dto(uuid)','eps.settings_dto()','eps.review_series_dto(eps.presentation_series)',
     'public.eps_update_role(uuid,jsonb,text)','public.eps_update_slot(uuid,jsonb,text)','public.eps_update_settings(jsonb,text)','public.eps_create_presentation_series(jsonb,text)','public.eps_update_presentation_series(uuid,jsonb,text)']))
   is distinct from'{"eps.settings_dto()":"3cd819002b92ae1714aa89cf31dc889368b55c3c9e2ff783a24a5636cb3b9968","eps.specs_role_dto(uuid)":"e9939c4fef42320563db688ee06b885d05659761537cf0bd34624dfd5341e101","eps.specs_slot_dto(uuid)":"e59b8fc4c96317aa635d4e5a9b33fee384b62b247db8e6885986f53ccea2e66f","public.eps_update_settings(jsonb,text)":"9b2f5cbdd0bc7c10b7b5550687932224760b215026128bf011079c53b4f9a7d5","public.eps_update_role(uuid,jsonb,text)":"a5b4618974b39f2da14080a80b578bbe02207a246e2cc94d06c363b63c2be99f","public.eps_update_slot(uuid,jsonb,text)":"3efd93e5e544abd966579229cb8fe4bd1c2f1df33f5fb1ac70c30e43669c4d86","public.eps_create_presentation_series(jsonb,text)":"ab5de6937e25f566a3ee257b55a53aaaddc4242a235732afcc65892754625a46","eps.review_series_dto(eps.presentation_series)":"219c08d0a84d154636119b225f73d99a75597a6e43d51aae842923f6d5c8176e","public.eps_update_presentation_series(uuid,jsonb,text)":"25cd9823c1ce0e1cdaa9c5ae5b3a8f9b6852cd814c32aa99f101ab21594e8220"}'::jsonb

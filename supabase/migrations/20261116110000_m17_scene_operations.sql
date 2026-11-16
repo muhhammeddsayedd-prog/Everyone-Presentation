@@ -5,7 +5,9 @@
 -- and shortlist. Nothing here reads or writes assignments, candidates or workspace candidates.
 --
 -- 1. Review state: proposals (from specs extraction) are 'proposed' until a person confirms or
---    rejects them. A rejected proposal is kept (archived) so a later import does not re-propose it.
+--    rejects them. A rejected proposal is kept (archived) so a later import does not re-propose it; a
+--    rejected link also keeps rejection_key (scene key + role source name) because imports create new roles.
+--    Rejecting a scene rejects only its proposed links; a proposed scene holding a confirmed link is skipped.
 --    proposal_key (generated) identifies "the same scene" across imports; proposal_base records the
 --    role row_version and fingerprint an occurrence proposal was made against, so a stale proposal
 --    never confirms over a newer human edit of that role.
@@ -36,6 +38,11 @@ do $$ begin
   if (select pg_get_userbyid(proowner) from pg_proc where oid='eps.specs_stage_apply(eps.jobs)'::regprocedure)<>'eps_specs_apply_owner' then
     raise exception 'M17_SCENES_PREREQUISITES_MISSING: unexpected specs_stage_apply owner';
   end if;
+  -- Section 5 replaces the whole body: only the exact reviewed pre-m17 body (CRLF-normalised) may be replaced.
+  if encode(sha256(convert_to(replace((select prosrc from pg_proc where oid='eps.specs_stage_apply(eps.jobs)'::regprocedure),E'\r\n',E'\n'),'UTF8')),'hex')
+    <>'a7b6c61fff4727108a09cda3aac1895586d638ee85ed6c3b7c38cb61836ed2ab' then
+    raise exception 'M17_SPECS_APPLY_PREIMAGE_REQUIRED';
+  end if;
 end $$;
 
 -- 1. Review state -------------------------------------------------------------------------
@@ -48,10 +55,16 @@ alter table eps.scene_occurrences add constraint scene_occurrences_rejected_arch
 alter table eps.scenes add column proposal_key text generated always as (lower(btrim(coalesce(scene_number,'')))||'|'||lower(btrim(title))) stored;
 alter table eps.scene_occurrences add column proposal_base jsonb
   check (proposal_base is null or (jsonb_typeof(proposal_base)='object' and octet_length(proposal_base::text)<=2000));
+-- A rejected link keeps a stable key (scene proposal_key|normalised role source name), because a later import
+-- creates new role rows: the key, not the role id, stops the same link from being proposed again.
+alter table eps.scene_occurrences add column rejection_key text
+  check (rejection_key is null or (status='rejected' and length(rejection_key) between 1 and 1000));
 create index scenes_workspace_proposal_key_idx on eps.scenes(workspace_id, proposal_key);
+create index scene_occurrences_rejection_key_idx on eps.scene_occurrences(workspace_id, rejection_key) where rejection_key is not null;
 comment on column eps.scenes.proposal_key is 'Normalised scene number + title. Imports never duplicate or re-propose a scene with the same key.';
 comment on column eps.scene_occurrences.proposal_base is 'For a proposed occurrence: {role_id, role_row_version, role_sha256} at proposal time. Confirm skips it when the role changed.';
-grant update(proposal_base) on eps.scene_occurrences to eps_specs_owner;
+comment on column eps.scene_occurrences.rejection_key is 'Set when a proposed link is rejected: scene proposal_key|lower(trim(role source name)). Imports never re-propose a link with this key.';
+grant update(proposal_base, rejection_key) on eps.scene_occurrences to eps_specs_owner;
 -- The import may archive its own untouched earlier proposals (never confirmed or edited rows).
 grant update(archived_at,row_version,updated_at) on eps.scenes, eps.scene_occurrences to eps_specs_apply_owner;
 create policy scenes_stage_apply_update on eps.scenes for update to eps_specs_apply_owner using (true) with check (true);
@@ -107,6 +120,11 @@ end $$;
 
 create function eps.scene_role_fingerprint(p_role uuid) returns text language sql stable set search_path='' as $$
   select encode(sha256(convert_to(r.name||E'\n'||r.requirements::text,'UTF8')),'hex') from eps.roles r where r.id=p_role
+$$;
+
+-- Stable identity of a rejected link across imports (role rows are replaced by a new import, names are not).
+create function eps.scene_rejection_key(p_proposal_key text, p_role_source_name text) returns text language sql immutable set search_path='' as $$
+  select left(p_proposal_key||'|'||lower(btrim(coalesce(p_role_source_name,''))),1000)
 $$;
 
 create function eps.scene_occurrence_dto(p_occurrence uuid) returns jsonb language sql stable set search_path='' as $$
@@ -281,7 +299,7 @@ declare workspace uuid; payload jsonb; result jsonb; v_role uuid; existing eps.s
   select * into existing from eps.scene_occurrences o where o.scene_id=p_scene_id and o.role_id=v_role order by o.archived_at is null desc,o.updated_at desc limit 1 for update;
   if found and existing.archived_at is null then perform eps.fail('SCENE_OCCURRENCE_EXISTS','This role is already linked to this scene.',409); end if;
   if found then
-    update eps.scene_occurrences o set archived_at=null,status='confirmed',proposal_base=null,
+    update eps.scene_occurrences o set archived_at=null,status='confirmed',proposal_base=null,rejection_key=null,
       slot_ids=coalesce(array(select eps.input_uuid(x) from jsonb_array_elements_text(p_input->'slot_ids') x),'{}'),
       display_title=p_input->>'display_title',setting_override=p_input->>'setting_override',presentation_note=p_input->>'presentation_note',
       deck_placement=coalesce(p_input->>'deck_placement','auto'),row_version=o.row_version+1,updated_at=clock_timestamp() where o.id=existing.id;
@@ -394,11 +412,21 @@ declare operation text:='scenes.'||p_decision||'_scene_proposals'; payload jsonb
       where id=any(occurrence_ids) and status='proposed' and not id=any(skipped) returning id)
       select coalesce(array_agg(id order by id),'{}') into done_occurrences from changed;
   else
-    -- Rejecting a scene proposal also removes its links; roles, slots and casting stay untouched.
-    with changed as (update eps.scene_occurrences set status=case when status='proposed' then 'rejected' else status end,archived_at=stamp,row_version=row_version+1,updated_at=stamp
-      where archived_at is null and (id=any(occurrence_ids) and status='proposed' or scene_id in (select id from eps.scenes where id=any(scene_ids) and status='proposed')) returning id)
+    -- A proposed scene that holds a confirmed link (a person linked or confirmed a role there) is a human
+    -- decision: it is not rejected and the confirmed link is never archived. It stays proposed and is returned
+    -- in skipped_scene_ids; unlink that link or confirm the scene instead.
+    select coalesce(array_agg(s.id order by s.id),'{}') into skipped from eps.scenes s where s.id=any(scene_ids) and s.status='proposed'
+      and exists(select 1 from eps.scene_occurrences o where o.scene_id=s.id and o.archived_at is null and o.status<>'proposed');
+    -- Rejecting a scene proposal rejects only its still-proposed links; roles, slots and casting stay untouched.
+    -- Each rejected link records a stable key so a later import does not propose it again.
+    with changed as (update eps.scene_occurrences o set status='rejected',archived_at=stamp,row_version=o.row_version+1,updated_at=stamp,
+        rejection_key=eps.scene_rejection_key(s.proposal_key,coalesce(r.source_role->>'name',r.name))
+      from eps.scenes s, eps.roles r
+      where s.id=o.scene_id and r.id=o.role_id and o.archived_at is null and o.status='proposed'
+        and (o.id=any(occurrence_ids) or o.scene_id=any(scene_ids) and s.status='proposed' and not o.scene_id=any(skipped)) returning o.id)
       select coalesce(array_agg(id order by id),'{}') into done_occurrences from changed;
-    with changed as (update eps.scenes set status='rejected',archived_at=stamp,row_version=row_version+1,updated_at=stamp where id=any(scene_ids) and status='proposed' returning id)
+    with changed as (update eps.scenes set status='rejected',archived_at=stamp,row_version=row_version+1,updated_at=stamp
+      where id=any(scene_ids) and status='proposed' and not id=any(skipped) returning id)
       select coalesce(array_agg(id order by id),'{}') into done_scenes from changed;
   end if;
   if cardinality(done_scenes)+cardinality(done_occurrences)>0 then perform eps.specs_changed(p_workspace_id); end if;
@@ -406,7 +434,7 @@ declare operation text:='scenes.'||p_decision||'_scene_proposals'; payload jsonb
   if p_decision='confirm' then
     result:=result||jsonb_build_object('confirmed_scene_ids',to_jsonb(done_scenes),'confirmed_occurrence_ids',to_jsonb(done_occurrences),'skipped_occurrence_ids',to_jsonb(skipped));
   else
-    result:=result||jsonb_build_object('rejected_scene_ids',to_jsonb(done_scenes),'rejected_occurrence_ids',to_jsonb(done_occurrences));
+    result:=result||jsonb_build_object('rejected_scene_ids',to_jsonb(done_scenes),'rejected_occurrence_ids',to_jsonb(done_occurrences),'skipped_scene_ids',to_jsonb(skipped));
   end if;
   return eps.finish_mutation(operation,p_idempotency_key,payload,result,p_workspace_id);
 end $$;
@@ -539,6 +567,9 @@ begin
    for occurrence_value in select value from jsonb_array_elements(coalesce(role_value->'occurrences','[]')) loop
     new_scene_id:=(scene_map->>(occurrence_value->>'scene_key'))::uuid;
     continue when new_scene_id is null or exists(select 1 from eps.scene_occurrences where scene_id=new_scene_id and role_id=current_role_id and archived_at is null);
+    -- A link a person rejected earlier (same scene key and role source name) is never proposed again.
+    continue when exists(select 1 from eps.scene_occurrences rejected where rejected.workspace_id=p_job.workspace_id and rejected.rejection_key is not null
+      and rejected.rejection_key=eps.scene_rejection_key((select s.proposal_key from eps.scenes s where s.id=new_scene_id),role_value->>'name'));
     select coalesce(max(sort_order),-1)+1 into occurrence_order from eps.scene_occurrences where scene_id=new_scene_id;
     insert into eps.scene_occurrences(workspace_id,scene_id,role_id,display_title,status,source_refs,sort_order,proposal_base)
      values(p_job.workspace_id,new_scene_id,current_role_id,left(nullif(occurrence_value->>'display_title',''),300),'proposed',occurrence_value->'evidence',occurrence_order,
@@ -573,7 +604,7 @@ end $function$;
 -- 6. Ownership and grants ----------------------------------------------------------------------
 grant create on schema eps,public to eps_specs_owner;
 do $$ declare routine regprocedure; begin
-  foreach routine in array array['eps.scene_check_text(jsonb,integer,boolean)','eps.scene_check_requirements(jsonb)','eps.scene_uuid_list(jsonb,integer)',
+  foreach routine in array array['eps.scene_check_text(jsonb,integer,boolean)','eps.scene_check_requirements(jsonb)','eps.scene_uuid_list(jsonb,integer)','eps.scene_rejection_key(text,text)',
     'eps.scene_role_fingerprint(uuid)','eps.scene_occurrence_dto(uuid)','eps.scene_dto(uuid)','eps.scene_write_scope(uuid)','eps.scene_require_key(text)',
     'eps.scene_check_occurrence_fields(jsonb)','eps.scene_occurrence_write(uuid,jsonb,text,text)','eps.scene_review(uuid,jsonb,text,text)',
     'public.eps_list_scenes(uuid,text,integer)','public.eps_create_scene(uuid,jsonb,text)','public.eps_update_scene(uuid,jsonb,text)',
@@ -588,7 +619,7 @@ end $$;
 revoke create on schema eps,public from eps_specs_owner;
 -- The import computes the proposal fingerprint; the guard trigger runs for every writer.
 revoke all on function eps.scene_occurrence_guard() from public,anon,authenticated,service_role;
-grant execute on function eps.scene_role_fingerprint(uuid) to eps_specs_apply_owner;
+grant execute on function eps.scene_role_fingerprint(uuid), eps.scene_rejection_key(text,text) to eps_specs_apply_owner;
 
 do $$ begin
   if (select pg_get_userbyid(proowner) from pg_proc where oid='eps.specs_stage_apply(eps.jobs)'::regprocedure)<>'eps_specs_apply_owner'

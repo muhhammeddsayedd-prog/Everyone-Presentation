@@ -57,14 +57,24 @@ insert into eps.assignments(id,workspace_id,slot_id,workspace_candidate_id,posit
 insert into eps.scenes(id,workspace_id,scene_number,title,sequence_label,setting,sort_order) values
  ('a3000000-0000-4000-8000-000000050001','a3000000-0000-4000-8000-00000000d001','1','Front Door','Mother’s Birthday',null,0),
  ('a3000000-0000-4000-8000-000000050002','a3000000-0000-4000-8000-00000000d001','2','Home Gathering','Mother’s Birthday',null,1),
- ('a3000000-0000-4000-8000-000000050003','a3000000-0000-4000-8000-00000000d001','3','Draft scene',null,null,2);
+ ('a3000000-0000-4000-8000-000000050003','a3000000-0000-4000-8000-00000000d001','3','Draft scene',null,null,2),
+ ('a3000000-0000-4000-8000-000000050004','a3000000-0000-4000-8000-00000000d001','4','Secret scene',null,'Secret setting',3);
 update eps.scenes set status='proposed' where id='a3000000-0000-4000-8000-000000050003';
 insert into eps.scene_occurrences(id,workspace_id,scene_id,role_id,display_title,presentation_note,deck_placement,sort_order) values
  ('a3000000-0000-4000-8000-000000060001','a3000000-0000-4000-8000-00000000d001','a3000000-0000-4000-8000-000000050001','a3000000-0000-4000-8000-0000000e0101',null,null,'auto',0),
  ('a3000000-0000-4000-8000-000000060002','a3000000-0000-4000-8000-00000000d001','a3000000-0000-4000-8000-000000050002','a3000000-0000-4000-8000-0000000e0101',null,'We’ll choose Only One.','auto',0),
- ('a3000000-0000-4000-8000-000000060003','a3000000-0000-4000-8000-00000000d001','a3000000-0000-4000-8000-000000050002','a3000000-0000-4000-8000-0000000e0102','Web Designer',null,'auto',1);
+ ('a3000000-0000-4000-8000-000000060003','a3000000-0000-4000-8000-00000000d001','a3000000-0000-4000-8000-000000050002','a3000000-0000-4000-8000-0000000e0102','Web Designer',null,'auto',1),
+ -- Hidden links (one on a printed scene, one on a scene nothing prints) are internal only.
+ ('a3000000-0000-4000-8000-000000060004','a3000000-0000-4000-8000-00000000d001','a3000000-0000-4000-8000-000000050001','a3000000-0000-4000-8000-0000000e0102','Secret hidden title','Secret hidden note','hidden',1),
+ ('a3000000-0000-4000-8000-000000060005','a3000000-0000-4000-8000-00000000d001','a3000000-0000-4000-8000-000000050004','a3000000-0000-4000-8000-0000000e0101','Secret title','Secret note','hidden',0);
 set local session_replication_role=origin;
 
+-- The deck a guest composes: the snapshot with the guest scenes and per-version role keys in place of internal ids.
+create function pg_temp.a3_guest_snapshot(p_snapshot jsonb)returns jsonb language sql immutable as $$
+ select jsonb_set(jsonb_set(p_snapshot,'{presentation,scenes}',g#>'{presentation,scenes}'),'{slides}',
+  (select jsonb_agg(v||jsonb_build_object('role_id',g->'presentation_role_keys'->((n-1)::integer))order by n)
+   from(select v,row_number()over(order by o)n from jsonb_array_elements(p_snapshot->'slides')with ordinality x(v,o)where v->>'kind'<>'cover')q))
+ from(select eps.guest_presentation_1_4(p_snapshot)g)z$$;
 set local role authenticated;
 select set_config('request.jwt.claims','{"sub":"a3000000-0000-4000-8000-0000000000a1","role":"authenticated","is_anonymous":false}',true),set_config('request.jwt.claim.sub','a3000000-0000-4000-8000-0000000000a1',true);
 do $$declare settings jsonb;series jsonb;review jsonb;legacy jsonb;failed text;role jsonb;slot jsonb;fingerprint text;begin
@@ -103,7 +113,7 @@ do $$declare settings jsonb;series jsonb;review jsonb;legacy jsonb;failed text;r
  perform set_config('a3.series',series->>'id',true);
  review:=public.eps_get_workspace_review('a3000000-0000-4000-8000-00000000d001',(series->>'id')::uuid,null);
  if review#>>'{presentation,cover_note}'<>'Pending Availability.'or jsonb_array_length(review#>'{presentation,slides}')<>jsonb_array_length(review->'slides')
-  or jsonb_array_length(review#>'{presentation,scenes}')<>2 or review#>>'{presentation,scenes,0,sequence_label}'<>'Mother’s Birthday'
+  or jsonb_array_length(review#>'{presentation,scenes}')<>3 or review#>>'{presentation,scenes,0,sequence_label}'<>'Mother’s Birthday'
   or jsonb_array_length(review#>'{presentation,scenes,1,occurrences}')<>2 or review#>>'{presentation,scenes,1,occurrences,0,presentation_note}'<>'We’ll choose Only One.'
  then raise exception'A3_FAIL presentation scenes %',review->'presentation';end if;
  -- Pictures: P1 frame portrait (default focus), P2 photo portrait (crop focus in thousandths), P3 none -> warning; slot/role notes.
@@ -139,12 +149,36 @@ do $$declare review jsonb;begin
  perform set_config('a3.fingerprint',review->>'input_fingerprint',true);
 end $$;
 
--- Generation: a measured layout for the exact fingerprint, then the immutable snapshot.
+-- Generation needs a measured layout for the exact fingerprint. It arrives through the real worker stage path (fit
+-- request, claim, stage input, recorded measurement), which rebuilds the 1.4.0 snapshot as eps_review_stage_owner with
+-- an archive-photo portrait pinned (P2).
 reset role;
-set local session_replication_role=replica;
-insert into eps.review_fit_results(job_id,workspace_id,series_id,input_fingerprint,status,result)
- values(gen_random_uuid(),'a3000000-0000-4000-8000-00000000d001',current_setting('a3.series')::uuid,current_setting('a3.fingerprint'),'measured','{"overflows":[],"measured_at":"2026-11-16T12:00:00Z"}');
-set local session_replication_role=origin;
+-- The replica image's extensions schema lacks the canonical USAGE grant for the stage owner (rolled back).
+grant usage on schema extensions to eps_review_stage_owner;
+insert into eps.review_processing_config(id,enabled,model,prompt_version,renderer_version) values(true,true,'synthetic-model','synthetic-prompt','everyone-casting-pdf-v1')
+ on conflict(id) do update set enabled=true,renderer_version='everyone-casting-pdf-v1';
+set local role authenticated;
+do $$declare queued jsonb;begin
+ queued:=public.eps_request_workspace_review_fit('a3000000-0000-4000-8000-00000000d001',current_setting('a3.series')::uuid,jsonb_build_object('expected_input_fingerprint',current_setting('a3.fingerprint')),'a3-fit-key-000000001');
+ perform set_config('a3.fit_job',queued->>'job_id',true);
+end $$;
+reset role;
+do $$declare job eps.jobs;claim jsonb;input jsonb;receipt jsonb;fonts jsonb;begin
+ select * into job from eps.jobs where id=current_setting('a3.fit_job')::uuid;
+ if not eps.review_stage_source_matches(job)then raise exception'A3_FAIL stage source match';end if;
+ claim:=eps.claim_review_job_stage(jsonb_build_object('job_id',job.id,'stage','measure_review_fit','input_hash',job.input_hash));
+ input:=eps.get_review_stage_input(job.id,(claim->>'attempt_id')::uuid,claim->>'lease_token');
+ if input#>>'{review,presentation,slides,1,portrait,source}'<>'photo'or input#>>'{review,input_fingerprint}'<>current_setting('a3.fingerprint')
+ then raise exception'A3_FAIL stage input %',input#>'{review,presentation,slides}';end if;
+ select font_hashes into fonts from eps.presentation_templates where key=job.input#>>'{template,key}'and version=job.input#>>'{template,version}';
+ receipt:=eps.record_review_job_event(jsonb_build_object('event_id','a3-fit-measured','job_id',job.id,'attempt_id',claim->>'attempt_id','lease_token',claim->>'lease_token',
+  'stage','measure_review_fit','sequence',1,'event_type','succeeded','input_hash',job.input_hash,'result_schema','review-fit-measurement.v1',
+  'result',jsonb_build_object('schema_version','1.0','input_fingerprint',current_setting('a3.fingerprint'),'template_content_sha256',job.input#>>'{template,content_sha256}',
+   'renderer_version',job.input#>>'{configuration,renderer_version}','chromium_version','synthetic-chromium','font_hashes',fonts,'overflows','[]'::jsonb,
+   'measured_at',to_char(clock_timestamp()at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS"Z"'))));
+ if receipt->>'job_status'<>'succeeded'or not exists(select 1 from eps.review_fit_results where job_id=job.id and status='measured'and input_fingerprint=current_setting('a3.fingerprint'))
+ then raise exception'A3_FAIL fit not recorded % %',receipt,(select error from eps.jobs where id=job.id);end if;
+end $$;
 select set_config('a3.wsrv',(select row_version::text from eps.workspaces where id='a3000000-0000-4000-8000-00000000d001'),true);
 set local role authenticated;
 do $$declare review jsonb;accepted jsonb;version eps.presentation_versions;counts jsonb;guest jsonb;begin
@@ -172,6 +206,11 @@ do $$declare version eps.presentation_versions;counts jsonb;guest jsonb;begin
  guest:=eps.guest_presentation_1_4(version.snapshot);
  if guest->'presentation_role_keys'<>'["r1","r1","r1","r4"]'::jsonb or guest#>>'{presentation,scenes,0,occurrences,0,role_id}'<>'r1'
   or guest::text like'%a3000000-0000-4000-8000-0000000e0101%'then raise exception'A3_FAIL guest context %',guest;end if;
+ -- Hidden links and the scene that prints nothing never reach guests (the snapshot keeps them), and the deck a guest
+ -- composes from what it receives equals the PDF deck.
+ if guest::text like'%Secret%'or jsonb_array_length(guest#>'{presentation,scenes}')<>2 or jsonb_array_length(guest#>'{presentation,scenes,0,occurrences}')<>1
+  or version.snapshot::text not like'%Secret hidden note%'then raise exception'A3_FAIL guest printed-only scenes %',guest#>'{presentation,scenes}';end if;
+ if eps.editorial_deck_counts_1_4(pg_temp.a3_guest_snapshot(version.snapshot))<>counts then raise exception'A3_FAIL guest deck differs %',guest#>'{presentation,scenes}';end if;
  -- Earlier snapshots keep their manifest and render context shape.
  if eps.presentation_manifest(version.snapshot-'presentation')?'presentation'or eps.presentation_render_context(version.snapshot-'presentation')?'presentation'then raise exception'A3_FAIL older shape';end if;
 end $$;
@@ -182,7 +221,40 @@ do $$declare legacy jsonb;begin
  if legacy->'template'->>'version'<>'1.3.0'or legacy?'presentation'then raise exception'A3_FAIL legacy series changed %',legacy->'template';end if;
 end $$;
 reset role;
+update eps.workspace_candidates set portrait_asset_id=null,portrait_source=null,portrait_crop=null,media_selection_state='intentionally_empty' where id='a3000000-0000-4000-8000-000000030001';
+set local role authenticated;
+do $$declare legacy jsonb;begin
+ legacy:=public.eps_get_workspace_review('a3000000-0000-4000-8000-00000000d001',current_setting('a3.legacy')::uuid,null);
+ if not exists(select 1 from jsonb_array_elements(legacy->'issues')i where i->>'code'='TEMPLATE_PORTRAIT_EMPTY_IGNORED'and i->>'severity'='warning'
+   and i->>'entity_id'='a3000000-0000-4000-8000-000000040001'and i->>'repair_action'like'%1.4.0%')
+ then raise exception'A3_FAIL legacy empty picture warning %',legacy->'issues';end if;
+end $$;
+reset role;
+-- Guest scene grouping stays identical to the PDF when scenes that print nothing are left out (synthetic snapshots):
+-- between two printing scenes of one sequence a neutral separator keeps them apart; inside a printing sequence the
+-- empty scene stays as a stub without its own title, number or setting.
+do $$declare base jsonb;snap jsonb;guest jsonb;begin
+ base:=jsonb_build_object('cover',jsonb_build_object('client_name','Synthetic','logo_asset_id',null),
+  'slides',jsonb_build_array(jsonb_build_object('kind','candidate','role_id','R1','slot_id','S1','position','main','frames','[]'::jsonb),
+   jsonb_build_object('kind','open_slot','role_id','R2','slot_id','S2','position',null,'frames','[]'::jsonb)),
+  'presentation',jsonb_build_object('cover_note',null,'slides',jsonb_build_array(
+   jsonb_build_object('role_note',null,'slot_note',null,'picture_state','pinned','portrait',null),jsonb_build_object('role_note',null,'slot_note',null,'picture_state',null,'portrait',null))));
+ snap:=jsonb_set(base,'{presentation,scenes}',jsonb_build_array(
+  jsonb_build_object('scene_id','X','scene_number','1','title','Arrival','sequence_label','Seq A','setting',null,'occurrences',jsonb_build_array(jsonb_build_object('occurrence_id','o1','role_id','R1','display_title',null,'setting_override',null,'presentation_note',null,'deck_placement','auto'))),
+  jsonb_build_object('scene_id','Y','scene_number','2','title','Hidden middle','sequence_label','Seq B','setting','Hidden place','occurrences',jsonb_build_array(jsonb_build_object('occurrence_id','o2','role_id','R2','display_title','Hidden title','setting_override',null,'presentation_note','Hidden note','deck_placement','hidden'))),
+  jsonb_build_object('scene_id','Z','scene_number','3','title','Departure','sequence_label','Seq A','setting',null,'occurrences',jsonb_build_array(jsonb_build_object('occurrence_id','o3','role_id','R1','display_title',null,'setting_override',null,'presentation_note',null,'deck_placement','repeat')))));
+ guest:=eps.guest_presentation_1_4(snap);
+ if guest::text like'%Hidden%'or jsonb_array_length(guest#>'{presentation,scenes}')<>3 or guest#>'{presentation,scenes,1,sequence_label}'<>'null'::jsonb
+  or eps.editorial_deck_counts_1_4(pg_temp.a3_guest_snapshot(snap))<>eps.editorial_deck_counts_1_4(snap)
+ then raise exception'A3_FAIL guest separator %',guest#>'{presentation,scenes}';end if;
+ snap:=jsonb_set(snap,'{presentation,scenes,1,sequence_label}','"Seq A"');
+ guest:=eps.guest_presentation_1_4(snap);
+ if guest::text like'%Hidden%'or jsonb_array_length(guest#>'{presentation,scenes}')<>3 or guest#>>'{presentation,scenes,1,title}'<>'Seq A'
+  or guest#>'{presentation,scenes,1,occurrences}'<>'[]'::jsonb or eps.editorial_deck_counts_1_4(pg_temp.a3_guest_snapshot(snap))<>eps.editorial_deck_counts_1_4(snap)
+ then raise exception'A3_FAIL guest stub %',guest#>'{presentation,scenes}';end if;
+end $$;
 select json_build_object('result','passed','checks',json_build_array('audience_default_required','archived_default_refused','default_saved','legacy_photo_explained',
  'role_slot_notes','note_length','template_1_4_via_settings','explicit_context_series','cover_note','scenes_captured','portraits_captured','no_picture_warning',
- 'fingerprint_tracks_presentation','processing_distinct','intentionally_empty','generation_snapshot','photo_inventory','manifest_render_context','mirror_pages','guest_context','older_shapes'))::text;
+ 'fingerprint_tracks_presentation','processing_distinct','intentionally_empty','fit_stage_path_photo_portrait','generation_snapshot','photo_inventory','manifest_render_context','mirror_pages',
+ 'guest_context','guest_printed_scenes_only','guest_deck_equals_pdf','older_shapes','legacy_empty_picture_warning','guest_grouping_separator','guest_grouping_stub'))::text;
 rollback;

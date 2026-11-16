@@ -79,23 +79,16 @@ create function eps.cast_portrait_valid(p_candidate uuid,p_asset uuid,p_source t
   else false end
 $$;
 
--- Crop: {focal_x,focal_y} in 0..1 and an optional rect {x,y,width,height} inside the picture.
+-- Crop: exactly {focal_x,focal_y} in 0..1, the focus point preview, PDF and PowerPoint all use. Any other key
+-- (a crop rectangle included) is refused, so the app never stores framing that the outputs would ignore.
 create function eps.cast_crop_valid(p_crop jsonb) returns boolean language plpgsql immutable set search_path='' as $$
 declare key text;begin
  if p_crop is null or p_crop='null'::jsonb then return true;end if;
  if jsonb_typeof(p_crop)<>'object' or octet_length(p_crop::text)>2000 then return false;end if;
- if exists(select 1 from jsonb_object_keys(p_crop) k where k not in('focal_x','focal_y','rect')) then return false;end if;
+ if exists(select 1 from jsonb_object_keys(p_crop) k where k not in('focal_x','focal_y')) then return false;end if;
  foreach key in array array['focal_x','focal_y'] loop
   if jsonb_typeof(p_crop->key) is distinct from 'number' or (p_crop->>key)::numeric not between 0 and 1 then return false;end if;
  end loop;
- if p_crop?'rect' and p_crop->'rect'<>'null'::jsonb then
-  if jsonb_typeof(p_crop->'rect')<>'object' or exists(select 1 from jsonb_object_keys(p_crop->'rect') k where k not in('x','y','width','height')) then return false;end if;
-  foreach key in array array['x','y','width','height'] loop
-   if jsonb_typeof(p_crop->'rect'->key) is distinct from 'number' or (p_crop->'rect'->>key)::numeric not between 0 and 1 then return false;end if;
-  end loop;
-  if (p_crop#>>'{rect,width}')::numeric<=0 or (p_crop#>>'{rect,height}')::numeric<=0
-   or (p_crop#>>'{rect,x}')::numeric+(p_crop#>>'{rect,width}')::numeric>1 or (p_crop#>>'{rect,y}')::numeric+(p_crop#>>'{rect,height}')::numeric>1 then return false;end if;
- end if;
  return true;
 end $$;
 
@@ -109,7 +102,7 @@ begin
   or p_input?'portrait_crop' and not eps.cast_crop_valid(p_input->'portrait_crop')
   or p_input?'media_selection_state' and coalesce(p_input->>'media_selection_state','') not in('pinned','intentionally_empty')
   or p_input->>'media_selection_state'='intentionally_empty' and (coalesce(p_input->'portrait_asset_id','null'::jsonb)<>'null'::jsonb or coalesce(p_input->'portrait_crop','null'::jsonb)<>'null'::jsonb)
- then perform eps.fail('INVALID_REQUEST','Choose a frame or photo of this person, a crop inside the picture, and pinned or intentionally_empty.',400);end if;
+ then perform eps.fail('INVALID_REQUEST','Choose a frame or photo of this person, a focus point {focal_x,focal_y} in 0..1, and pinned or intentionally_empty.',400);end if;
 end $$;
 
 -- What adding a person pins by default: the newest ready introduction and its chosen frames;
@@ -132,11 +125,14 @@ create function eps.cast_default_media(p_candidate uuid) returns jsonb language 
   'portrait_source',case when (select asset_id from cover) is not null then 'photo' when (select frames[1] from intro) is not null then 'frame' end)
 $$;
 
--- Active new-tape jobs for these people, visible under the caller's job read scope.
+-- Active new-tape jobs for these people that the caller may see: their own uploads, or any upload when they hold
+-- operations.read; always within a project workspace they can read (the jobs RLS scope, checked explicitly too).
 create function eps.candidate_scans_active(p_candidates uuid[]) returns uuid[] language sql stable security definer set search_path='' as $$
  select coalesce(array_agg(distinct (job.input->>'target_candidate_id')::uuid),'{}'::uuid[]) from eps.jobs job
  where job.kind='candidate_scan' and job.status in('queued','running','waiting_for_input')
   and job.input->>'target_candidate_id'=any(array(select item::text from unnest(p_candidates) item))
+  and auth.uid() is not null and (job.requested_by=auth.uid() or eps.has_capability('operations.read'))
+  and eps.jobs_can_access(job.workspace_id,'read')
 $$;
 
 -- 4. Project row DTO gains the presentation picture -------------------------------------------
@@ -311,15 +307,16 @@ $o8$   media_confirmed=case when p_input?'media_confirmed' then (p_input->>'medi
 $n8$   media_confirmed=case when p_input?'media_confirmed' then (p_input->>'media_confirmed')::boolean when selection_changed or picture_changed then false else media_confirmed end,$n8$,
 $o9$  if replay is not null then return replay; end if;
   if p_operation<>'add_workspace_candidate' then select * into pool$o9$,
-$n9$  -- m16: an add replay is only returned while the membership it created is still active. After a
-  -- removal the same key adds again (or returns whichever membership is active now); it never
-  -- replays an archived membership and never blocks a later add.
-  if replay is not null and not(p_operation='add_workspace_candidate' and not exists(select 1 from eps.workspace_candidates replayed
-   where replayed.id=eps.input_uuid(replay->>'id') and replayed.archived_at is null)) then return replay; end if;
-  if p_operation<>'add_workspace_candidate' then select * into pool$n9$,
-$o10$ return eps.finish_mutation(operation,p_key,payload,result,coalesce(generated_id,p_resource_id));$o10$,
-$n10$ -- A stale add replay keeps its original idempotency record; this outcome is audited, not re-recorded.
- return eps.finish_mutation(operation,case when replay is null then p_key end,payload,result,coalesce(generated_id,p_resource_id));$n10$]);
+$n9$  -- m16: an add replay is returned only while the membership it produced is still active. Once that
+  -- membership was removed, the old key neither re-adds the person nor returns the archived row:
+  -- 409 MEMBERSHIP_REMOVED names it, and a legitimate re-add is a new request with a new key.
+  if replay is not null and p_operation='add_workspace_candidate' and not exists(select 1 from eps.workspace_candidates replayed
+   where replayed.id=eps.input_uuid(replay->>'id') and replayed.archived_at is null) then
+   raise exception using errcode='P0001',message='MEMBERSHIP_REMOVED',detail=jsonb_build_object('message','This person was removed from the project after this add. Start a new add to bring them back.',
+    'status',409,'removed_workspace_candidate_id',replay->>'id')::text;
+  end if;
+  if replay is not null then return replay; end if;
+  if p_operation<>'add_workspace_candidate' then select * into pool$n9$]);
 
 -- 6b. Save step: an extra tape no longer fails on a profile edit; a new membership pins its picture.
 select pg_temp.m16_patch('eps.apply_candidate_scan(uuid,uuid,text,text,jsonb)'::regprocedure,array[

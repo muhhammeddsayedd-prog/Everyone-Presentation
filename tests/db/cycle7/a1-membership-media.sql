@@ -102,7 +102,7 @@ end $$;
 set local role authenticated;
 select set_config('request.jwt.claims','{"sub":"a1000000-0000-4000-8000-0000000000a1","role":"authenticated","is_anonymous":false}',true),set_config('request.jwt.claim.sub','a1000000-0000-4000-8000-0000000000a1',true);
 do $$declare pool jsonb; failed text; profile jsonb; media jsonb; begin
- pool:=public.eps_update_workspace_candidate(current_setting('a1.pool1')::uuid,'{"row_version":1,"portrait_asset_id":"a1000000-0000-4000-8000-0000000f0001","portrait_source":"frame","portrait_crop":{"focal_x":0.4,"focal_y":0.3,"rect":{"x":0.1,"y":0.1,"width":0.6,"height":0.8}},"media_confirmed":true}','a1-upd-p1-key-000001');
+ pool:=public.eps_update_workspace_candidate(current_setting('a1.pool1')::uuid,'{"row_version":1,"portrait_asset_id":"a1000000-0000-4000-8000-0000000f0001","portrait_source":"frame","portrait_crop":{"focal_x":0.4,"focal_y":0.3},"media_confirmed":true}','a1-upd-p1-key-000001');
  if pool->>'portrait_asset_id'<>'a1000000-0000-4000-8000-0000000f0001' or pool->'portrait_crop'->>'focal_x'<>'0.4' or pool->>'media_selection_state'<>'pinned' or pool->'media_confirmed'<>'true'::jsonb then raise exception 'A1_FAIL set picture %',pool;end if;
  -- Changing the introduction keeps the chosen picture.
  pool:=public.eps_update_workspace_candidate(current_setting('a1.pool1')::uuid,jsonb_build_object('row_version',(pool->>'row_version')::int,'selected_candidate_media_id','a1000000-0000-4000-8000-0000000b0001'),'a1-upd-p1-key-000002');
@@ -114,6 +114,12 @@ do $$declare pool jsonb; failed text; profile jsonb; media jsonb; begin
   failed:='accepted';
  exception when raise_exception then failed:=sqlerrm; end;
  if failed<>'INVALID_REQUEST' then raise exception 'A1_FAIL crop bound %',failed;end if;
+ -- A crop rectangle is not part of the picture contract (outputs use only the focus point): refused, not ignored.
+ begin
+  perform public.eps_update_workspace_candidate(current_setting('a1.pool1')::uuid,jsonb_build_object('row_version',(pool->>'row_version')::int,'portrait_crop',jsonb_build_object('focal_x',0.5,'focal_y',0.4,'rect',jsonb_build_object('x',0,'y',0,'width',1,'height',1))),'a1-upd-p1-key-000004');
+  failed:='accepted';
+ exception when raise_exception then failed:=sqlerrm; end;
+ if failed<>'INVALID_REQUEST' then raise exception 'A1_FAIL crop rect refused %',failed;end if;
  -- Library edits: facts and the library frame choice never touch the project row.
  profile:=public.eps_get_candidate('a1000000-0000-4000-8000-0000000e0001');
  perform public.eps_update_candidate('a1000000-0000-4000-8000-0000000e0001',jsonb_build_object('row_version',(profile->>'row_version')::int,'facts',(profile->'facts')||'{"city":"Synthetic City"}'),'a1-lib-p1-key-000001');
@@ -157,21 +163,35 @@ do $$declare suggested jsonb; applied jsonb; again jsonb; begin
 end $$;
 reset role;
 
--- Remove and re-add: a key reused for one add never replays the archived membership nor blocks a later add.
+-- Remove and re-add: an add key whose membership was removed never re-adds the person and never replays the
+-- archived row (409 MEMBERSHIP_REMOVED naming it); a re-add is a new request with a new key.
 set local role authenticated;
-do $$declare again jsonb; readded jsonb; removed jsonb; begin
+do $$declare again jsonb; readded jsonb; removed jsonb; failed text; detail text; begin
  again:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000003');
  -- An already-active member keeps its project choices (picture, crop, introduction).
  if again->>'id'<>current_setting('a1.pool1') or again->'already_member'<>'true'::jsonb or again->>'portrait_asset_id'<>'a1000000-0000-4000-8000-0000000f0001'
   or again->'portrait_crop' is null or again->'portrait_crop'='null'::jsonb or again->>'selected_candidate_media_id'<>'a1000000-0000-4000-8000-0000000b0001' then raise exception 'A1_FAIL active member untouched %',again;end if;
  removed:=public.eps_remove_workspace_candidate(current_setting('a1.pool1')::uuid,jsonb_build_object('row_version',(again->>'row_version')::int),'a1-remove-p1-key-0001');
  if removed->'success'<>'true'::jsonb then raise exception 'A1_FAIL remove %',removed;end if;
- readded:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000001');
- if readded->>'id'=current_setting('a1.pool1') or readded->'already_member'<>'false'::jsonb or readded->>'media_selection_state'<>'pinned' then raise exception 'A1_FAIL re-add with the first key %',readded;end if;
- again:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000001');
- if again->>'id'<>readded->>'id' or again->'already_member'<>'true'::jsonb then raise exception 'A1_FAIL first key after re-add %',again;end if;
- again:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000002');
- if again->>'id'<>readded->>'id' then raise exception 'A1_FAIL second key after re-add %',again;end if;
+ -- Old keys (the original add and an already_member replay) now fail instead of re-adding or replaying the archived row.
+ begin perform public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000001'); failed:='accepted';
+ exception when raise_exception then failed:=sqlerrm; get stacked diagnostics detail=pg_exception_detail; end;
+ if failed<>'MEMBERSHIP_REMOVED' or (detail::jsonb)->>'removed_workspace_candidate_id'<>current_setting('a1.pool1') or ((detail::jsonb)->>'status')::int<>409 then raise exception 'A1_FAIL old key after removal % %',failed,detail;end if;
+ begin perform public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000003'); failed:='accepted';
+ exception when raise_exception then failed:=sqlerrm; end;
+ if failed<>'MEMBERSHIP_REMOVED' then raise exception 'A1_FAIL old already_member key after removal %',failed;end if;
+ -- A new key re-adds as a new row (already_member false proves the old keys added nobody); its replay returns it.
+ readded:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000004');
+ if readded->>'id'=current_setting('a1.pool1') or readded->'already_member'<>'false'::jsonb or readded->>'media_selection_state'<>'pinned' then raise exception 'A1_FAIL re-add with a new key %',readded;end if;
+ again:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000004');
+ if again->>'id'<>readded->>'id' or again->'already_member'<>'false'::jsonb then raise exception 'A1_FAIL new key replay %',again;end if;
+ -- The old key still names the removed row, never the new membership.
+ begin perform public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000001'); failed:='accepted';
+ exception when raise_exception then failed:=sqlerrm; end;
+ if failed<>'MEMBERSHIP_REMOVED' then raise exception 'A1_FAIL old key after re-add %',failed;end if;
+ -- Another fresh key while the person is active returns the existing membership.
+ again:=public.eps_add_workspace_candidate('a1000000-0000-4000-8000-00000000d001','{"candidate_id":"a1000000-0000-4000-8000-0000000e0001"}','a1-add-p1-key-000005');
+ if again->>'id'<>readded->>'id' or again->'already_member'<>'true'::jsonb then raise exception 'A1_FAIL fresh key after re-add %',again;end if;
  perform set_config('a1.pool1_new',readded->>'id',true);
 end $$;
 reset role;
@@ -249,5 +269,5 @@ reset role;
 
 select json_build_object('result','passed','file','a1-membership-media','checks',json_build_array('default_pins','replay','repeat_add_other_key','other_user_add','single_membership',
  'cover_photo_default','foreign_picture_refused','picture_update','intro_change_keeps_picture','crop_bound','library_edits_isolated','intentionally_empty',
- 'repair_suggest','repair_apply','repair_replay','repair_stale','active_member_untouched','remove_readd_new_row','old_key_no_archived_replay','extra_tape_after_edit','apply_pins_cover','archived_target_fails','get_job_candidate_result','uploads_list'))::text;
+ 'repair_suggest','repair_apply','repair_replay','repair_stale','crop_rect_refused','active_member_untouched','remove_readd_new_row','old_key_no_archived_replay','old_key_membership_removed','extra_tape_after_edit','apply_pins_cover','archived_target_fails','get_job_candidate_result','uploads_list'))::text;
 rollback;
