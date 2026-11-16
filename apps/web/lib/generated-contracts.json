@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "98e91b1b5001742d346c3b89d3b241f1d4bf39f0afc1fec40a5edbb373b145ac",
+  "x-source-sha256": "427b4b9296decc4c51ba4fc8224434c7f743d69113fd9600d815f59d7aba2274",
   "$defs": {
     "Id": {
       "type": "string",
@@ -1966,6 +1966,50 @@
         "internal_notes": {
           "$ref": "#/$defs/NullableText"
         },
+        "portrait_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Project presentation picture: a ready extracted frame or archive photo asset of this person. Library edits never change it."
+        },
+        "portrait_source": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "frame",
+                "photo"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portrait_crop": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PortraitCrop"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "media_selection_state": {
+          "type": "string",
+          "enum": [
+            "unset",
+            "pinned",
+            "intentionally_empty"
+          ],
+          "description": "unset = legacy row, nothing chosen; pinned = chosen (by a person or the add default); intentionally_empty = deliberately no picture."
+        },
         "row_version": {
           "$ref": "#/$defs/RowVersion"
         }
@@ -1980,6 +2024,10 @@
         "fresh_material_required",
         "media_confirmed",
         "internal_notes",
+        "portrait_asset_id",
+        "portrait_source",
+        "portrait_crop",
+        "media_selection_state",
         "row_version"
       ]
     },
@@ -2005,6 +2053,47 @@
         },
         "fresh_material_required": {
           "type": "boolean"
+        },
+        "portrait_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portrait_source": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "frame",
+                "photo"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portrait_crop": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PortraitCrop"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "media_selection_state": {
+          "type": "string",
+          "enum": [
+            "pinned",
+            "intentionally_empty"
+          ]
         }
       },
       "required": [
@@ -2047,6 +2136,47 @@
         },
         "internal_notes": {
           "$ref": "#/$defs/NullableText"
+        },
+        "portrait_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portrait_source": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "frame",
+                "photo"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portrait_crop": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PortraitCrop"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "media_selection_state": {
+          "type": "string",
+          "enum": [
+            "pinned",
+            "intentionally_empty"
+          ]
         }
       },
       "required": [
@@ -4281,6 +4411,34 @@
         "can_cancel": {
           "type": "boolean",
           "description": "Current server-derived cancellation action for presentation_render."
+        },
+        "candidate_result": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Present on a succeeded candidate_scan: the person and the project row the upload produced (workspace_candidate_id is null for a re-scan).",
+          "properties": {
+            "candidate_id": {
+              "$ref": "#/$defs/Id"
+            },
+            "candidate_media_id": {
+              "$ref": "#/$defs/Id"
+            },
+            "workspace_candidate_id": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Id"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "candidate_id",
+            "candidate_media_id",
+            "workspace_candidate_id"
+          ]
         }
       },
       "required": [
@@ -6302,6 +6460,718 @@
         "height",
         "asset_id",
         "thumb_asset_id"
+      ]
+    },
+    "PortraitCrop": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and PowerPoint.",
+      "properties": {
+        "focal_x": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "focal_y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "rect": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "x": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "y": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "width": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "height": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                }
+              },
+              "required": [
+                "x",
+                "y",
+                "width",
+                "height"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "focal_x",
+        "focal_y"
+      ]
+    },
+    "WorkspaceCandidateAdded": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The project membership. already_member is true when the person was already in the project (added by someone else, a retry or a concurrent request); nothing was changed then.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "workspace_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "candidate_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "selected_candidate_media_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selected_frame_asset_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "maxItems": 3,
+          "uniqueItems": true
+        },
+        "availability": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "fresh_material_required": {
+          "type": "boolean"
+        },
+        "media_confirmed": {
+          "type": "boolean"
+        },
+        "internal_notes": {
+          "$ref": "#/$defs/NullableText"
+        },
+        "portrait_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Project presentation picture: a ready extracted frame or archive photo asset of this person. Library edits never change it."
+        },
+        "portrait_source": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "frame",
+                "photo"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portrait_crop": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PortraitCrop"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "media_selection_state": {
+          "type": "string",
+          "enum": [
+            "unset",
+            "pinned",
+            "intentionally_empty"
+          ],
+          "description": "unset = legacy row, nothing chosen; pinned = chosen (by a person or the add default); intentionally_empty = deliberately no picture."
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "already_member": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "workspace_id",
+        "candidate_id",
+        "selected_candidate_media_id",
+        "selected_frame_asset_ids",
+        "availability",
+        "fresh_material_required",
+        "media_confirmed",
+        "internal_notes",
+        "portrait_asset_id",
+        "portrait_source",
+        "portrait_crop",
+        "media_selection_state",
+        "row_version",
+        "already_member"
+      ]
+    },
+    "LibraryCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "facts": {
+          "$ref": "#/$defs/CandidateFacts"
+        },
+        "review_status": {
+          "type": "string",
+          "enum": [
+            "unreviewed",
+            "reviewed"
+          ]
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reviewed_by": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "search_match": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "matched_filter_fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "unknown_filter_fields": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "matched_filter_fields",
+                "unknown_filter_fields"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "possible_duplicate": {
+          "type": "boolean"
+        },
+        "merged_into_candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "created_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "updated_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "name_ar": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Arabic name as supplied (render right-to-left)."
+        },
+        "talent_type": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "talent",
+                "real_family",
+                "group"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tape_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Introduction recordings stored for this person."
+        },
+        "portrait_photo": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "photo_id": {
+                  "$ref": "#/$defs/Id"
+                },
+                "asset_id": {
+                  "$ref": "#/$defs/Id"
+                },
+                "thumb_asset_id": {
+                  "$ref": "#/$defs/Id"
+                }
+              },
+              "required": [
+                "photo_id",
+                "asset_id",
+                "thumb_asset_id"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "portrait_frame_asset_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "processing": {
+          "type": "boolean",
+          "description": "A new introduction for this person is still being processed."
+        },
+        "membership": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "workspace_candidate_id": {
+                  "$ref": "#/$defs/Id"
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "in_project"
+                  ]
+                }
+              },
+              "required": [
+                "workspace_candidate_id",
+                "state"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "facts",
+        "review_status",
+        "reviewed_at",
+        "reviewed_by",
+        "search_match",
+        "possible_duplicate",
+        "merged_into_candidate_id",
+        "archived",
+        "row_version",
+        "created_at",
+        "updated_at",
+        "name_ar",
+        "talent_type",
+        "tape_count",
+        "portrait_photo",
+        "portrait_frame_asset_id",
+        "processing",
+        "membership"
+      ],
+      "description": "A Cast Library search row: the profile plus card fields, read in the same query."
+    },
+    "CandidateUploadRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One of the caller's candidate video uploads in a project, with its processing state.",
+      "properties": {
+        "upload_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "workspace_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "asset_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "filename": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "mime_type": {
+          "type": "string"
+        },
+        "target_candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "upload_status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "completed",
+            "cancelled",
+            "expired"
+          ]
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "uploading",
+            "processing",
+            "ready",
+            "needs_attention",
+            "failed",
+            "cancelled",
+            "expired"
+          ]
+        },
+        "job": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "$ref": "#/$defs/Id"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "queued",
+                    "running",
+                    "waiting_for_input",
+                    "succeeded",
+                    "failed",
+                    "cancelled"
+                  ]
+                },
+                "stage": {
+                  "type": "string"
+                },
+                "error_code": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "retryable": {
+                  "type": "boolean"
+                },
+                "row_version": {
+                  "$ref": "#/$defs/RowVersion"
+                },
+                "updated_at": {
+                  "$ref": "#/$defs/DateTime"
+                }
+              },
+              "required": [
+                "id",
+                "status",
+                "stage",
+                "error_code",
+                "retryable",
+                "row_version",
+                "updated_at"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "workspace_candidate_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "upload_id",
+        "workspace_id",
+        "asset_id",
+        "filename",
+        "size_bytes",
+        "mime_type",
+        "target_candidate_id",
+        "created_at",
+        "upload_status",
+        "state",
+        "job",
+        "candidate_id",
+        "workspace_candidate_id"
+      ]
+    },
+    "MediaRepairSuggestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "A legacy project row with nothing chosen and the default it would receive (newest ready introduction, its frames, cover photo else first frame).",
+      "properties": {
+        "workspace_candidate_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "candidate_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "row_version": {
+          "$ref": "#/$defs/RowVersion"
+        },
+        "reason": {
+          "type": "string",
+          "enum": [
+            "default_available",
+            "no_media_available"
+          ]
+        },
+        "suggestion": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "selected_candidate_media_id": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/Id"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "selected_frame_asset_ids": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/Id"
+                  },
+                  "maxItems": 3,
+                  "uniqueItems": true
+                },
+                "portrait_asset_id": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/Id"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "portrait_source": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "frame",
+                        "photo"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "selected_candidate_media_id",
+                "selected_frame_asset_ids",
+                "portrait_asset_id",
+                "portrait_source"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "workspace_candidate_id",
+        "candidate_id",
+        "row_version",
+        "reason",
+        "suggestion"
+      ]
+    },
+    "MediaRepairApply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "workspace_candidate_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "row_version": {
+                "$ref": "#/$defs/RowVersion"
+              }
+            },
+            "required": [
+              "workspace_candidate_id",
+              "row_version"
+            ]
+          }
+        }
+      },
+      "required": [
+        "items"
+      ]
+    },
+    "MediaRepairResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Rows repaired, and rows left alone with the reason (changed since listed, already chosen, nothing available, not found).",
+      "properties": {
+        "applied": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WorkspaceCandidate"
+          }
+        },
+        "skipped": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "workspace_candidate_id": {
+                "$ref": "#/$defs/Id"
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "changed",
+                  "already_chosen",
+                  "no_media_available",
+                  "not_found"
+                ]
+              },
+              "current_row_version": {
+                "$ref": "#/$defs/RowVersion"
+              }
+            },
+            "required": [
+              "workspace_candidate_id",
+              "reason"
+            ]
+          }
+        }
+      },
+      "required": [
+        "applied",
+        "skipped"
       ]
     }
   }

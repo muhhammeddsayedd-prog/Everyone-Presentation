@@ -1821,7 +1821,7 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Candidate'
+                      $ref: '#/components/schemas/LibraryCandidate'
                   page:
                     $ref: '#/components/schemas/Page'
                   warnings:
@@ -1934,8 +1934,15 @@ paths:
         in: query
         schema:
           type: string
+      - name: workspace_id
+        in: query
+        schema:
+          $ref: '#/components/schemas/Id'
+        description: Report membership in this project for each row.
       - *id002
       - *id003
+      description: Newest added to the app first (creation time, then id). The cursor is opaque and versioned; a cursor from an older list or
+        other filters fails with INVALID_CURSOR. With workspace_id (a project you can read) each row reports your project membership.
     post:
       operationId: create_candidate
       summary: Create manually entered Unreviewed candidate
@@ -3462,12 +3469,32 @@ paths:
           $ref: '#/components/schemas/Id'
       - *id002
       - *id003
+      description: Newest person first by their creation time in the app (not membership or edit time), id as tie-breaker. Versioned opaque cursor.
     post:
       operationId: add_workspace_candidate
       summary: Reuse library candidate in project and pin chosen media
       tags:
       - workspaces
       responses:
+        '200':
+          description: The person was already in this project; the existing membership is returned unchanged.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/WorkspaceCandidateAdded'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
         '201':
           description: Successful operation
           content:
@@ -3479,7 +3506,7 @@ paths:
                   request_id:
                     type: string
                   data:
-                    $ref: '#/components/schemas/WorkspaceCandidate'
+                    $ref: '#/components/schemas/WorkspaceCandidateAdded'
                   warnings:
                     type: array
                     items:
@@ -3487,49 +3514,49 @@ paths:
                 required:
                 - request_id
                 - data
-        '400':
+        '400': &id012
           description: Malformed input
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '401':
+        '401': &id013
           description: Authentication missing or invalid
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '403':
+        '403': &id014
           description: Required capability or scope absent
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '404':
+        '404': &id015
           description: Resource not found in accessible scope
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '409':
+        '409': &id016
           description: Stale version, idempotency mismatch, or business constraint conflict
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '422':
+        '422': &id017
           description: Valid request structure with invalid domain/media state
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '429':
+        '429': &id018
           description: Rate limit; inspect Retry-After
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-        '503':
+        '503': &id019
           description: Temporary dependency unavailable
           content:
             application/json:
@@ -3553,6 +3580,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/WorkspaceCandidateCreate'
+      description: 'Idempotent per person: if the person is already in the project the existing membership returns with already_member true and
+        status 200. A new membership pins the newest ready introduction, its frames and a picture (cover photo, else first frame) unless the request
+        chooses them.'
   /workspace-candidates/{workspace_candidate_id}:
     patch:
       operationId: update_workspace_candidate
@@ -11493,6 +11523,254 @@ paths:
           $ref: '#/components/schemas/Id'
       description: Private JPEG bytes of a ready candidate photo or its thumbnail, read with the caller's own session (cast.read). Archive photos
         never change, so the response may be kept privately for a day.
+  /workspaces/{workspace_id}/candidate-uploads:
+    get:
+      operationId: list_workspace_uploads
+      summary: List your candidate video uploads in a project with their processing state
+      tags:
+      - candidates
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CandidateUploadRow'
+                  page:
+                    $ref: '#/components/schemas/Page'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - page
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read AND cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: list_workspace_uploads
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      description: Your candidate video uploads in this project, newest first, including ones still transferring or processing, so pending rows
+        survive a refresh. A finished upload names the person and the project row it produced.
+  /workspaces/{workspace_id}/media-repairs:
+    get:
+      operationId: suggest_media_repairs
+      summary: Suggest presentation media for legacy project rows
+      tags:
+      - workspaces
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MediaRepairSuggestion'
+                  has_more:
+                    type: boolean
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+                - has_more
+        '400':
+          description: Malformed input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Required capability or scope absent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found in accessible scope
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Stale version, idempotency mismatch, or business constraint conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Valid request structure with invalid domain/media state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit; inspect Retry-After
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Temporary dependency unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-capability: workspaces.read AND cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: suggest_media_repairs
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      description: Project rows with nothing chosen (state unset) and the default each would receive. Nothing changes until apply_media_repairs
+        is called with the rows to repair.
+    post:
+      operationId: apply_media_repairs
+      summary: Apply suggested presentation media to listed legacy rows
+      tags:
+      - workspaces
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  request_id:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/MediaRepairResult'
+                  warnings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Warning'
+                required:
+                - request_id
+                - data
+        '400': *id012
+        '401': *id013
+        '403': *id014
+        '404': *id015
+        '409': *id016
+        '422': *id017
+        '429': *id018
+        '503': *id019
+      x-capability: workspaces.write AND cast.read
+      x-mcp-exposed: true
+      x-shared-service-operation: apply_media_repairs
+      security:
+      - InternalBearer: []
+      parameters:
+      - name: workspace_id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/Id'
+      - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaRepairApply'
+      description: Applies the default only to listed rows that are still unset and unchanged (row_version); pinned and intentionally empty rows
+        are never touched. Replays with the same Idempotency-Key.
 components:
   securitySchemes:
     InternalBearer:
@@ -12829,6 +13107,31 @@ components:
           type: boolean
         internal_notes:
           $ref: '#/components/schemas/NullableText'
+        portrait_asset_id:
+          anyOf: &id021
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+          description: 'Project presentation picture: a ready extracted frame or archive photo asset of this person. Library edits never change
+            it.'
+        portrait_source:
+          anyOf:
+          - type: string
+            enum:
+            - frame
+            - photo
+          - type: 'null'
+        portrait_crop:
+          anyOf:
+          - $ref: '#/components/schemas/PortraitCrop'
+          - type: 'null'
+        media_selection_state:
+          type: string
+          enum:
+          - unset
+          - pinned
+          - intentionally_empty
+          description: unset = legacy row, nothing chosen; pinned = chosen (by a person or the add default); intentionally_empty = deliberately
+            no picture.
         row_version:
           $ref: '#/components/schemas/RowVersion'
       required:
@@ -12841,6 +13144,10 @@ components:
       - fresh_material_required
       - media_confirmed
       - internal_notes
+      - portrait_asset_id
+      - portrait_source
+      - portrait_crop
+      - media_selection_state
       - row_version
     WorkspaceCandidateCreate:
       type: object
@@ -12856,6 +13163,26 @@ components:
           $ref: '#/components/schemas/NullableText'
         fresh_material_required:
           type: boolean
+        portrait_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        portrait_source:
+          anyOf:
+          - type: string
+            enum:
+            - frame
+            - photo
+          - type: 'null'
+        portrait_crop:
+          anyOf:
+          - $ref: '#/components/schemas/PortraitCrop'
+          - type: 'null'
+        media_selection_state:
+          type: string
+          enum:
+          - pinned
+          - intentionally_empty
       required:
       - candidate_id
     WorkspaceCandidatePatch:
@@ -12882,6 +13209,26 @@ components:
           type: boolean
         internal_notes:
           $ref: '#/components/schemas/NullableText'
+        portrait_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        portrait_source:
+          anyOf:
+          - type: string
+            enum:
+            - frame
+            - photo
+          - type: 'null'
+        portrait_crop:
+          anyOf:
+          - $ref: '#/components/schemas/PortraitCrop'
+          - type: 'null'
+        media_selection_state:
+          type: string
+          enum:
+          - pinned
+          - intentionally_empty
       required:
       - row_version
     Position:
@@ -13512,7 +13859,7 @@ components:
           type: boolean
         template_key: *id008
         template_version: *id008
-        template_content_sha256: &id012
+        template_content_sha256: &id022
           type: string
           pattern: ^[a-f0-9]{64}$
         font_key: *id008
@@ -14366,6 +14713,21 @@ components:
         can_cancel:
           type: boolean
           description: Current server-derived cancellation action for presentation_render.
+        candidate_result:
+          type: object
+          additionalProperties: false
+          description: 'Present on a succeeded candidate_scan: the person and the project row the upload produced (workspace_candidate_id is null
+            for a re-scan).'
+          properties:
+            candidate_id: &id020
+              $ref: '#/components/schemas/Id'
+            candidate_media_id: *id020
+            workspace_candidate_id: &id033
+              anyOf: *id021
+          required:
+          - candidate_id
+          - candidate_media_id
+          - workspace_candidate_id
       required:
       - id
       - workspace_id
@@ -14890,7 +15252,7 @@ components:
       properties:
         key: *id008
         version: *id008
-        content_sha256: *id012
+        content_sha256: *id022
         font_key: *id008
       required:
       - key
@@ -14903,7 +15265,7 @@ components:
       properties:
         asset_id: *id008
         source_asset_id: *id008
-        timestamp_ms: &id014
+        timestamp_ms: &id024
           type: integer
           minimum: 0
         width:
@@ -14912,7 +15274,7 @@ components:
         height:
           type: integer
           minimum: 1
-        sha256: *id012
+        sha256: *id022
       required:
       - asset_id
       - source_asset_id
@@ -14933,13 +15295,13 @@ components:
           anyOf:
           - *id008
           - type: 'null'
-        role_name: &id013
+        role_name: &id023
           type: string
         slot_id:
           anyOf:
           - *id008
           - type: 'null'
-        slot_label: *id013
+        slot_label: *id023
         assignment_id:
           anyOf:
           - *id008
@@ -14985,7 +15347,7 @@ components:
           - type: 'null'
         requirements:
           $ref: '#/components/schemas/RoleRequirements'
-        provisional: &id015
+        provisional: &id025
           type: boolean
         fields:
           $ref: '#/components/schemas/ReviewFields'
@@ -15029,7 +15391,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        slide_index: *id014
+        slide_index: *id024
         field: *id008
         axis:
           type: string
@@ -15056,7 +15418,7 @@ components:
           - failed
         input_fingerprint:
           anyOf:
-          - *id012
+          - *id022
           - type: 'null'
         measured_at:
           anyOf:
@@ -15081,12 +15443,12 @@ components:
       type: object
       additionalProperties: false
       properties:
-        project_name: *id013
+        project_name: *id023
         client_name:
           anyOf:
-          - *id013
+          - *id023
           - type: 'null'
-        title: *id013
+        title: *id023
         output_type:
           type: string
           enum:
@@ -15113,7 +15475,7 @@ components:
       additionalProperties: false
       properties:
         series_id: *id008
-        expected_input_fingerprint: *id012
+        expected_input_fingerprint: *id022
       required:
       - series_id
       - expected_input_fingerprint
@@ -15142,12 +15504,12 @@ components:
           uniqueItems: true
           maxItems: 1000
           items: *id008
-        main_count: *id014
-        shortlist_count: *id014
-        can_undo: *id015
+        main_count: *id024
+        shortlist_count: *id024
+        can_undo: *id025
         unavailable_reason:
           anyOf:
-          - *id013
+          - *id023
           - type: 'null'
       required:
       - workspace_id
@@ -15304,7 +15666,7 @@ components:
           - not_captured
         original_text:
           anyOf:
-          - &id016
+          - &id026
             type: string
             minLength: 1
             maxLength: 200000
@@ -15325,7 +15687,7 @@ components:
           const: source_transcript
         source_sha256:
           anyOf:
-          - &id017
+          - &id027
             type: string
             pattern: ^[a-f0-9]{64}$
           - type: 'null'
@@ -15368,8 +15730,8 @@ components:
           - status
         then:
           properties:
-            original_text: *id016
-            source_sha256: *id017
+            original_text: *id026
+            source_sha256: *id027
         else:
           properties:
             original_text:
@@ -15414,31 +15776,31 @@ components:
       type: object
       additionalProperties: false
       properties:
-        workspace_id: &id019
+        workspace_id: &id029
           type: string
           format: uuid
           pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
-        row_version: &id020
+        row_version: &id030
           type: integer
           minimum: 1
           maximum: 9007199254740991
-        draft_revision: &id018
+        draft_revision: &id028
           type: integer
           minimum: 0
           maximum: 9007199254740991
-        roles_needing_clarification: *id018
-        project_candidate_count: *id018
+        roles_needing_clarification: *id028
+        project_candidate_count: *id028
         unreviewed_candidate_count:
           anyOf:
-          - *id018
+          - *id028
           - type: 'null'
-        open_slot_count: *id018
+        open_slot_count: *id028
         assignment_count:
           type: object
           additionalProperties: false
           properties:
-            selection: *id018
-            shortlist: *id018
+            selection: *id028
+            shortlist: *id028
           required:
           - selection
           - shortlist
@@ -15449,13 +15811,13 @@ components:
             type: object
             additionalProperties: false
             properties:
-              series_id: *id019
+              series_id: *id029
               output_type:
                 enum:
                 - selection
                 - shortlist
                 type: string
-              version_no: *id020
+              version_no: *id030
             required:
             - series_id
             - output_type
@@ -15507,7 +15869,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        version_id: &id021
+        version_id: &id031
           type: string
           format: uuid
           pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
@@ -15518,7 +15880,7 @@ components:
             type: object
             additionalProperties: false
             properties:
-              version_slide_id: *id021
+              version_slide_id: *id031
               preferred:
                 type: integer
                 minimum: 0
@@ -15560,7 +15922,7 @@ components:
           type: string
           minLength: 1
           maxLength: 500
-        presentation_type: &id022
+        presentation_type: &id032
           type: string
           enum:
           - casting
@@ -15597,7 +15959,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        key: *id022
+        key: *id032
         label:
           type: string
         status:
@@ -15674,4 +16036,429 @@ components:
       - height
       - asset_id
       - thumb_asset_id
+    PortraitCrop:
+      type: object
+      additionalProperties: false
+      description: Focal point (0..1 of width/height) and an optional crop rectangle inside the picture, used identically by preview, PDF and
+        PowerPoint.
+      properties:
+        focal_x:
+          type: number
+          minimum: 0
+          maximum: 1
+        focal_y:
+          type: number
+          minimum: 0
+          maximum: 1
+        rect:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              x:
+                type: number
+                minimum: 0
+                maximum: 1
+              y:
+                type: number
+                minimum: 0
+                maximum: 1
+              width:
+                type: number
+                exclusiveMinimum: 0
+                maximum: 1
+              height:
+                type: number
+                exclusiveMinimum: 0
+                maximum: 1
+            required:
+            - x
+            - y
+            - width
+            - height
+          - type: 'null'
+      required:
+      - focal_x
+      - focal_y
+    WorkspaceCandidateAdded:
+      type: object
+      additionalProperties: false
+      description: The project membership. already_member is true when the person was already in the project (added by someone else, a retry or
+        a concurrent request); nothing was changed then.
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        workspace_id:
+          $ref: '#/components/schemas/Id'
+        candidate_id:
+          $ref: '#/components/schemas/Id'
+        selected_candidate_media_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        selected_frame_asset_ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+          maxItems: 3
+          uniqueItems: true
+        availability:
+          $ref: '#/components/schemas/NullableText'
+        fresh_material_required:
+          type: boolean
+        media_confirmed:
+          type: boolean
+        internal_notes:
+          $ref: '#/components/schemas/NullableText'
+        portrait_asset_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+          description: 'Project presentation picture: a ready extracted frame or archive photo asset of this person. Library edits never change
+            it.'
+        portrait_source:
+          anyOf:
+          - type: string
+            enum:
+            - frame
+            - photo
+          - type: 'null'
+        portrait_crop:
+          anyOf:
+          - $ref: '#/components/schemas/PortraitCrop'
+          - type: 'null'
+        media_selection_state:
+          type: string
+          enum:
+          - unset
+          - pinned
+          - intentionally_empty
+          description: unset = legacy row, nothing chosen; pinned = chosen (by a person or the add default); intentionally_empty = deliberately
+            no picture.
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        already_member:
+          type: boolean
+      required:
+      - id
+      - workspace_id
+      - candidate_id
+      - selected_candidate_media_id
+      - selected_frame_asset_ids
+      - availability
+      - fresh_material_required
+      - media_confirmed
+      - internal_notes
+      - portrait_asset_id
+      - portrait_source
+      - portrait_crop
+      - media_selection_state
+      - row_version
+      - already_member
+    LibraryCandidate:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        facts:
+          $ref: '#/components/schemas/CandidateFacts'
+        review_status:
+          type: string
+          enum:
+          - unreviewed
+          - reviewed
+        reviewed_at:
+          anyOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        reviewed_by:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        search_match:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              matched_filter_fields:
+                type: array
+                items:
+                  type: string
+              unknown_filter_fields:
+                type: array
+                items:
+                  type: string
+            required:
+            - matched_filter_fields
+            - unknown_filter_fields
+          - type: 'null'
+        possible_duplicate:
+          type: boolean
+        merged_into_candidate_id:
+          anyOf:
+          - $ref: '#/components/schemas/Id'
+          - type: 'null'
+        archived:
+          type: boolean
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        created_at:
+          $ref: '#/components/schemas/DateTime'
+        updated_at:
+          $ref: '#/components/schemas/DateTime'
+        name_ar:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Arabic name as supplied (render right-to-left).
+        talent_type:
+          anyOf:
+          - type: string
+            enum:
+            - talent
+            - real_family
+            - group
+          - type: 'null'
+        tape_count:
+          type: integer
+          minimum: 0
+          description: Introduction recordings stored for this person.
+        portrait_photo:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              photo_id: *id020
+              asset_id: *id020
+              thumb_asset_id: *id020
+            required:
+            - photo_id
+            - asset_id
+            - thumb_asset_id
+          - type: 'null'
+        portrait_frame_asset_id: *id033
+        processing:
+          type: boolean
+          description: A new introduction for this person is still being processed.
+        membership:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              workspace_candidate_id: *id020
+              state:
+                type: string
+                enum:
+                - in_project
+            required:
+            - workspace_candidate_id
+            - state
+          - type: 'null'
+      required:
+      - id
+      - facts
+      - review_status
+      - reviewed_at
+      - reviewed_by
+      - search_match
+      - possible_duplicate
+      - merged_into_candidate_id
+      - archived
+      - row_version
+      - created_at
+      - updated_at
+      - name_ar
+      - talent_type
+      - tape_count
+      - portrait_photo
+      - portrait_frame_asset_id
+      - processing
+      - membership
+      description: 'A Cast Library search row: the profile plus card fields, read in the same query.'
+    CandidateUploadRow:
+      type: object
+      additionalProperties: false
+      description: One of the caller's candidate video uploads in a project, with its processing state.
+      properties:
+        upload_id: *id020
+        workspace_id: *id020
+        asset_id: *id020
+        filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+        size_bytes:
+          type: integer
+          minimum: 1
+        mime_type:
+          type: string
+        target_candidate_id: *id033
+        created_at: &id034
+          $ref: '#/components/schemas/DateTime'
+        upload_status:
+          type: string
+          enum:
+          - open
+          - completed
+          - cancelled
+          - expired
+        state:
+          type: string
+          enum:
+          - uploading
+          - processing
+          - ready
+          - needs_attention
+          - failed
+          - cancelled
+          - expired
+        job:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              id: *id020
+              status:
+                type: string
+                enum:
+                - queued
+                - running
+                - waiting_for_input
+                - succeeded
+                - failed
+                - cancelled
+              stage:
+                type: string
+              error_code:
+                anyOf:
+                - type: string
+                - type: 'null'
+              retryable:
+                type: boolean
+              row_version:
+                $ref: '#/components/schemas/RowVersion'
+              updated_at: *id034
+            required:
+            - id
+            - status
+            - stage
+            - error_code
+            - retryable
+            - row_version
+            - updated_at
+          - type: 'null'
+        candidate_id: *id033
+        workspace_candidate_id: *id033
+      required:
+      - upload_id
+      - workspace_id
+      - asset_id
+      - filename
+      - size_bytes
+      - mime_type
+      - target_candidate_id
+      - created_at
+      - upload_status
+      - state
+      - job
+      - candidate_id
+      - workspace_candidate_id
+    MediaRepairSuggestion:
+      type: object
+      additionalProperties: false
+      description: A legacy project row with nothing chosen and the default it would receive (newest ready introduction, its frames, cover photo
+        else first frame).
+      properties:
+        workspace_candidate_id: *id020
+        candidate_id: *id020
+        row_version:
+          $ref: '#/components/schemas/RowVersion'
+        reason:
+          type: string
+          enum:
+          - default_available
+          - no_media_available
+        suggestion:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            properties:
+              selected_candidate_media_id: *id033
+              selected_frame_asset_ids:
+                type: array
+                items: *id020
+                maxItems: 3
+                uniqueItems: true
+              portrait_asset_id: *id033
+              portrait_source:
+                anyOf:
+                - type: string
+                  enum:
+                  - frame
+                  - photo
+                - type: 'null'
+            required:
+            - selected_candidate_media_id
+            - selected_frame_asset_ids
+            - portrait_asset_id
+            - portrait_source
+          - type: 'null'
+      required:
+      - workspace_candidate_id
+      - candidate_id
+      - row_version
+      - reason
+      - suggestion
+    MediaRepairApply:
+      type: object
+      additionalProperties: false
+      properties:
+        items:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              workspace_candidate_id: *id020
+              row_version:
+                $ref: '#/components/schemas/RowVersion'
+            required:
+            - workspace_candidate_id
+            - row_version
+      required:
+      - items
+    MediaRepairResult:
+      type: object
+      additionalProperties: false
+      description: Rows repaired, and rows left alone with the reason (changed since listed, already chosen, nothing available, not found).
+      properties:
+        applied:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceCandidate'
+        skipped:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              workspace_candidate_id: *id020
+              reason:
+                type: string
+                enum:
+                - changed
+                - already_chosen
+                - no_media_available
+                - not_found
+              current_row_version:
+                $ref: '#/components/schemas/RowVersion'
+            required:
+            - workspace_candidate_id
+            - reason
+      required:
+      - applied
+      - skipped
 x-contract-status: implementation specification; verify with generated routes and contract tests
