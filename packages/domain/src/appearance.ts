@@ -54,7 +54,7 @@ export function isForbiddenAttribute(name: string) { return APPEARANCE_TAXONOMY.
 
 /** Same normalisation as eps.appearance_norm: case, whitespace, tatweel, Arabic diacritics, alef forms, alef maqsura. */
 export function normalizeSearchText(value: string | null | undefined): string | null {
-  const text = (value ?? '').toLowerCase().replace(/[ـً-ٰٟ]/gu, '').replace(/[أإآٱ]/gu, 'ا').replace(/ى/gu, 'ي')
+  const text = (value ?? '').toLowerCase().replace(/[\u0640\u064B-\u065F\u0670]/gu, '').replace(/[\u0623\u0625\u0622\u0671]/gu, '\u0627').replace(/\u0649/gu, '\u064A')
     .replace(/\s+/gu, ' ').trim();
   return text || null;
 }

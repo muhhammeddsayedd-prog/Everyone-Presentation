@@ -13,6 +13,13 @@ export const APPEARANCE_TAXONOMY_VERSION = taxonomy.version;
 const ATTRIBUTES = taxonomy.attributes as Record<string, { values: { key: string }[] }>;
 export const APPEARANCE_ATTRIBUTE_KEYS = Object.freeze(Object.keys(ATTRIBUTES));
 const CATEGORIES = ['portfolio_photo', 'headshot', 'full_body', 'video_frame'] as const;
+const fold = (value: string) => ` ${value.toLowerCase().replace(/[\u0640\u064B-\u065F\u0670]/gu, '').replace(/[\u0623\u0625\u0622\u0671]/gu, '\u0627').replace(/\u0649/gu, '\u064A')
+  .replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
+const FORBIDDEN_TERMS = (taxonomy.forbidden_terms as string[]).map(term => fold(term));
+/** Identity terms (race, ethnicity, nationality, religion, gender identity and look-alike phrasing) never allowed in model free text. */
+export function forbiddenIdentityTerm(value: string | null): string | null {
+  if (value === null) return null; const text = fold(value); return FORBIDDEN_TERMS.find(term => text.includes(term))?.trim() ?? null;
+}
 export type AppearanceDetail = 'low' | 'high' | 'auto';
 export interface AppearanceImage { media_ref: string; asset_id: string; source_kind: 'photo' | 'frame'; frame_timestamp_ms: number | null; sha256: string; bytes: Uint8Array }
 export interface AppearanceInput { candidate_ref: string; input_hash: string; images: AppearanceImage[]; detail?: AppearanceDetail }
@@ -32,6 +39,7 @@ export type AppearanceTransport = (request: ResponseCreateParamsNonStreaming, co
 const sha = (value: string | Uint8Array) => createHash('sha256').update(value).digest('hex');
 const exact = (value: unknown, keys: readonly string[]): value is Record<string, unknown> => Boolean(record(value)) && Object.keys(value as object).length === keys.length && keys.every(key => Object.hasOwn(value as object, key));
 function invalidOutput(message = 'Appearance analysis exceeded its result contract.'): never { throw new IntegrationError('AI_APPEARANCE_RESULT_INVALID', message); }
+function forbidden(): never { throw new IntegrationError('AI_APPEARANCE_FORBIDDEN_INFERENCE', 'Appearance analysis named a protected identity characteristic; the result was refused.'); }
 function inputError(): never { throw new IntegrationError('APPEARANCE_INPUT_INVALID', 'Appearance analysis requires verified JPEG images from the authorised media list.'); }
 function stopped(signal?: AbortSignal) { if (signal?.aborted) throw new IntegrationError('PROCESSING_CANCELLED', 'Appearance analysis was cancelled.'); }
 
@@ -77,16 +85,19 @@ export function validateAppearanceOutput(payload: unknown, images: Pick<Appearan
     if (!ref || seen.has(ref.media_ref) || !CATEGORIES.includes(entry.media_category as typeof CATEGORIES[number]) || !Number.isSafeInteger(entry.people_count)
       || Number(entry.people_count) < 0 || Number(entry.people_count) > APPEARANCE_LIMITS.people || typeof entry.ambiguous !== 'boolean' || !text(entry.quality_note, APPEARANCE_LIMITS.qualityNote)
       || !Array.isArray(entry.people) || entry.people.length > Number(entry.people_count)) invalidOutput();
+    if (forbiddenIdentityTerm(entry.quality_note as string | null)) forbidden();
     seen.add(ref.media_ref); const people: AppearancePerson[] = []; const indexes = new Set<number>();
     for (const person of entry.people as unknown[]) {
       if (!exact(person, ['person_index', 'position_note', 'attributes']) || !Number.isSafeInteger(person.person_index) || Number(person.person_index) < 0
         || Number(person.person_index) >= Number(entry.people_count) || indexes.has(Number(person.person_index)) || !text(person.position_note, APPEARANCE_LIMITS.positionNote)
         || !exact(person.attributes, APPEARANCE_ATTRIBUTE_KEYS)) invalidOutput();
+      if (forbiddenIdentityTerm(person.position_note as string | null)) forbidden();
       indexes.add(Number(person.person_index)); const attributes: Record<string, AppearanceAttributeValue> = {};
       for (const key of APPEARANCE_ATTRIBUTE_KEYS) {
         const value = (person.attributes as Record<string, unknown>)[key];
         if (!exact(value, ['value', 'confidence', 'evidence']) || typeof value.value !== 'string' || !(value.value === 'unknown' || ATTRIBUTES[key].values.some(item => item.key === value.value))
           || !['low', 'medium', 'high'].includes(String(value.confidence)) || !text(value.evidence, APPEARANCE_LIMITS.evidence)) invalidOutput();
+        if (forbiddenIdentityTerm(value.evidence as string | null)) forbidden();
         attributes[key] = { value: value.value as string, confidence: value.confidence as AppearanceAttributeValue['confidence'], evidence: value.evidence === null ? null : (value.evidence as string).trim() };
       }
       people.push({ person_index: Number(person.person_index), position_note: person.position_note === null ? null : (person.position_note as string).trim(), attributes });

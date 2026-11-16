@@ -89,7 +89,7 @@ insert into eps.candidate_photos(id,candidate_id,position,asset_id,thumb_asset_i
  ('a4000000-0000-4000-8000-000000000251','a4000000-0000-4000-8000-0000000000c5',1,'a4000000-0000-4000-8000-000000000151','a4000000-0000-4000-8000-000000000152',400,500,'syn/5');
 insert into eps.candidate_attributes(candidate_id,name_ar,talent_type,hair_colour,playing_age,tags,cover_photo_id)values
  ('a4000000-0000-4000-8000-0000000000c1','أَحْمَد',  'talent','{Black}','{"Age 25-34"}','{Dancer}','a4000000-0000-4000-8000-000000000211'),
- ('a4000000-0000-4000-8000-0000000000c2',null,'real_family','{Brown}','{}','{}',null);
+ ('a4000000-0000-4000-8000-0000000000c2',null,'real_family','{Brown}','{}','{" DANCER ",رَقص}',null);
 update eps.candidate_attributes set hair_length='{Long}' where candidate_id='a4000000-0000-4000-8000-0000000000c2';
 insert into eps.media_assets(id,purpose,filename,bucket,object_key,mime_type,size_bytes,sha256,width,height,duration_ms,status,origin_workspace_id)values
  ('a4000000-0000-4000-8000-000000000301','candidate_video','t1.mp4','eps-candidate-assets','assets/t1/original.mp4','video/mp4',1000,repeat('c',64),640,360,5000,'ready','a4000000-0000-4000-8000-0000000000b1'),
@@ -197,6 +197,42 @@ do $test$declare producer uuid:='a4000000-0000-4000-8000-000000000001';viewer uu
  perform pg_temp.ok('forbidden_facet_refused',err='VALIDATION_FAILED',to_jsonb(err));
  perform pg_temp.ok('cast_facet_match',eps.cast_facet_match(c1,'{"facets":{"city":["DUBAI"]}}') and not eps.cast_facet_match(c3,'{"facets":{"city":["Dubai"]}}')
   and eps.cast_facet_match(c3,'{}'));
+
+ -- Search: normalised EN/AR names, casting id and tag aliases; facet totals agree with per-value counts and with cast_facet_match.
+ f:=pg_temp.facets(viewer,'{}');
+ perform pg_temp.ok('tag_aliases_merge',pg_temp.facet_count(f,'tags','dancer')=2 and pg_temp.facet_count(f,'tags','رقص')=1,f);
+ perform pg_temp.ok('q_arabic_name',(pg_temp.facets(viewer,'{"q":"احمد"}')->>'total')::int=1 and (pg_temp.facets(viewer,'{"q":"أحمد"}')->>'total')::int=1);
+ perform pg_temp.ok('q_english_name',(pg_temp.facets(viewer,'{"q":"  SYNTHETIC   three"}')->>'total')::int=1 and (pg_temp.facets(viewer,'{"q":"synthetic"}')->>'total')::int=4);
+ perform pg_temp.ok('q_casting_id_and_tag',(pg_temp.facets(viewer,'{"q":"a4-syn-3"}')->>'total')::int=1 and (pg_temp.facets(viewer,'{"q":"رقص"}')->>'total')::int=1);
+ perform pg_temp.ok('q_combines_with_facets',(pg_temp.facets(viewer,'{"q":"synthetic","facets":{"city":["dubai"]}}')->>'total')::int=2);
+ perform pg_temp.ok('cast_text_match',eps.cast_text_match(c1,'أَحمد') and not eps.cast_text_match(c3,'احمد') and eps.cast_text_match(c3,'A4-SYN-3'));
+ declare filt jsonb;v jsonb;sub jsonb;direct bigint;begin
+  foreach filt in array array['{}'::jsonb,'{"facets":{"city":["Dubai"]}}'::jsonb,'{"facets":{"hair_colour":["black","brown"]},"include_unknown":true}'::jsonb] loop
+   f:=pg_temp.facets(viewer,filt::text::jsonb);
+   select count(*) into direct from eps.candidate_search_projection p where p.active and eps.cast_facet_match(p.candidate_id,filt);
+   perform pg_temp.ok('total_matches_cast_facet_match_'||md5(filt::text),(f->>'total')::bigint=direct,jsonb_build_object('total',f->'total','direct',direct));
+  end loop;
+  -- Each value count equals the result total when that value is added as the facet's only filter.
+  f:=pg_temp.facets(viewer,'{"facets":{"city":["Dubai","Cairo"]}}');
+  for v in select x||jsonb_build_object('facet',fa->>'key') from jsonb_array_elements(f->'facets') fa,jsonb_array_elements(fa->'values') x where fa->>'key' in('hair_colour','tags','talent_type','playing_age') loop
+   sub:=pg_temp.facets(viewer,jsonb_build_object('facets',jsonb_build_object('city',jsonb_build_array('Dubai','Cairo'),v->>'facet',jsonb_build_array(v->>'value'))));
+   perform pg_temp.ok('value_count_equals_result_'||(v->>'facet')||'_'||(v->>'value'),(sub->>'total')::bigint=(v->>'count')::bigint,jsonb_build_object('value',v,'total',sub->'total'));
+  end loop;
+ end;
+ -- Provenance: archive labels keep their import source; supplied facts keep theirs; stated age is separate from playing age.
+ r:=pg_temp.as_user(viewer,format('select public.eps_list_candidate_observations(%L::uuid)',c1));
+ perform pg_temp.ok('archive_provenance',r#>>'{data,supplied,archive,source,kind}'='archive_import' and r#>'{data,supplied,archive,hair_colour}'='["Black"]'::jsonb
+  and (select e->>'source' from jsonb_array_elements(r#>'{data,supplied,facts}') e where e->>'key'='stated_gender')='archive'
+  and exists(select 1 from jsonb_array_elements(r#>'{data,supplied,facts}') e where e->>'key'='age_or_range'),r#>'{data,supplied}');
+
+ -- Protected identity wording in model free text is refused and nothing is applied.
+ b2:=pg_temp.as_user(producer,format('select public.eps_start_enrichment_batch(%L::jsonb,%L)',jsonb_build_object('workspace_id',ws,'candidate_ids',jsonb_build_array(c5),'limit',1,'spend_cap_cents',100),'a4-batch-key-0005'));
+ select id into job1 from eps.jobs where kind='candidate_appearance' and resource_id=c5 and status='queued';
+ r:=pg_temp.run_job(job1,jsonb_build_array(jsonb_build_object('skin_tone',jsonb_build_object('value','medium','confidence','low','evidence','Middle Eastern look'))),100,10);
+ perform pg_temp.ok('forbidden_evidence_refused',r->>'job_status'='failed' and (select error->>'code' from eps.jobs where id=job1)='RESULT_INVALID'
+  and not exists(select 1 from eps.candidate_observations where candidate_id=c5),r);
+ perform pg_temp.ok('forbidden_text_guard',not eps.appearance_text_allowed('Saudi lookalike') and not eps.appearance_text_allowed('رجل') and not eps.appearance_text_allowed('a woman, left')
+  and eps.appearance_text_allowed('white hair, left') and eps.appearance_text_allowed(null));
 
  -- Re-analysis keeps human decisions and only refreshes suggestions.
  b2:=pg_temp.as_user(producer,format('select public.eps_start_enrichment_batch(%L::jsonb,%L)',jsonb_build_object('workspace_id',ws,'candidate_ids',jsonb_build_array(c3),'limit',1,'spend_cap_cents',100),'a4-batch-key-0003'));

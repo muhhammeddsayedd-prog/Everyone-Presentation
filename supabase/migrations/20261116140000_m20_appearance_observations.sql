@@ -84,6 +84,11 @@ create function eps.appearance_facet_keys_allowed() returns text[] language sql 
 create function eps.appearance_norm(p_text text) returns text language sql immutable set search_path='' as $$
  select nullif(btrim(regexp_replace(translate(regexp_replace(lower(coalesce(p_text,'')),'[ـً-ٰٟ]','','g'),
   chr(1571)||chr(1573)||chr(1570)||chr(1649)||chr(1609),chr(1575)||chr(1575)||chr(1575)||chr(1575)||chr(1610)),'\s+',' ','g')),'')$$;
+-- Identity terms that must never appear in model free text (contracts/appearance-taxonomy.json forbidden_terms).
+create function eps.appearance_forbidden_terms() returns text[] language sql immutable set search_path='' as $$select array['race','racial','ethnic','ethnicity','nationality','national','citizen','religion','religious','muslim','christian','jewish','hindu','buddhist','sikh','arab','arabian','middle eastern','mideast','north african','african','asian','south asian','east asian','european','caucasian','white person','black person','latino','latina','hispanic','indian','pakistani','filipino','khaleeji','gulf','levantine','saudi','emirati','egyptian','lebanese','syrian','jordanian','iraqi','moroccan','sudanese','persian','iranian','turkish','lookalike','look-alike','looks like','resembles','gender','male','female','man','woman','men','women','boy','girl','masculine','feminine','transgender','trans','nonbinary','non-binary','gay','lesbian','queer','hijab','niqab','abaya','kandura','dishdasha','thobe','ghutra','shemagh','keffiyeh','turban','kippah','yarmulke','burqa','عربي','عربية','مسلم','مسلمة','مسيحي','سعودي','سعودية','اماراتي','مصري','مصرية','خليجي','خليجية','شامي','رجل','امرأة','ولد','بنت','حجاب','نقاب','عباية']::text[]$$;
+create function eps.appearance_text_allowed(p_text text) returns boolean language sql immutable set search_path='' as $$
+ select p_text is null or not exists(select 1 from unnest(eps.appearance_forbidden_terms()) t
+  where ' '||regexp_replace(eps.appearance_norm(p_text),'[^[:alnum:]؀-ۿ]+',' ','g')||' ' like '% '||btrim(regexp_replace(eps.appearance_norm(t),'[^[:alnum:]؀-ۿ]+',' ','g'))||' %')$$;
 create function eps.appearance_supplied_key(p_attribute text,p_label text) returns text language sql immutable set search_path='' as $$
  select coalesce(eps.appearance_supplied_map()->p_attribute->>eps.appearance_norm(p_label),eps.appearance_norm(p_label))$$;
 
@@ -150,7 +155,7 @@ create table eps.candidate_observation_media(
  people_count smallint not null check(people_count between 0 and 10),
  ambiguous boolean not null,
  target_person_index smallint check(target_person_index between 0 and 9),
- quality_note text check(quality_note is null or length(quality_note)<=300),
+ quality_note text check(quality_note is null or length(quality_note)<=300 and eps.appearance_text_allowed(quality_note)),
  last_job_id uuid not null references eps.jobs(id) on delete restrict,
  model text not null check(length(model) between 1 and 200),
  prompt_version text not null check(prompt_version='appearance-v1'),
@@ -164,11 +169,11 @@ create table eps.candidate_observations(
  candidate_id uuid not null,
  media_id uuid not null,
  person_index smallint not null check(person_index between 0 and 9),
- position_note text check(position_note is null or length(position_note) between 1 and 200),
+ position_note text check(position_note is null or length(position_note) between 1 and 200 and eps.appearance_text_allowed(position_note)),
  attribute text not null check(eps.appearance_vocabulary() ? attribute),
  suggested_value text not null check(eps.appearance_value_valid(attribute,suggested_value)),
  confidence text not null check(confidence in('low','medium','high')),
- evidence text check(evidence is null or length(evidence) between 1 and 300),
+ evidence text check(evidence is null or length(evidence) between 1 and 300 and eps.appearance_text_allowed(evidence)),
  status text not null default 'suggested' check(status in('suggested','confirmed','rejected','overridden')),
  override_value text check(override_value is null or eps.appearance_value_valid(attribute,override_value) and override_value<>'unknown'),
  reviewed_by uuid references auth.users(id) on delete restrict,
@@ -311,8 +316,9 @@ create trigger appearance_projection after update of ambiguous,target_person_ind
 -- 7. Facet filters: {"facets":{"hair_colour":["black","dark"],...},"include_unknown":false}. OR within a facet, AND across.
 create function eps.appearance_filters(p_filters jsonb) returns jsonb language plpgsql immutable set search_path='' as $$declare f record;v jsonb;begin
  if p_filters is null or p_filters='null'::jsonb then return '{"facets":{},"include_unknown":false}'::jsonb;end if;
- if jsonb_typeof(p_filters)<>'object' or exists(select 1 from jsonb_object_keys(p_filters) k where k not in('facets','include_unknown'))
+ if jsonb_typeof(p_filters)<>'object' or exists(select 1 from jsonb_object_keys(p_filters) k where k not in('facets','include_unknown','q'))
   or p_filters ? 'include_unknown' and jsonb_typeof(p_filters->'include_unknown')<>'boolean'
+  or p_filters ? 'q' and (jsonb_typeof(p_filters->'q')<>'string' or length(p_filters->>'q')>200)
   or p_filters ? 'facets' and jsonb_typeof(p_filters->'facets')<>'object' then perform eps.fail('VALIDATION_FAILED','Provide facets as {facet:[values]} and include_unknown as a boolean.',400);end if;
  for f in select key,value from jsonb_each(coalesce(p_filters->'facets','{}')) loop
   if not f.key=any(eps.appearance_facet_keys_allowed()) or jsonb_typeof(f.value)<>'array' or jsonb_array_length(f.value)>50 then perform eps.fail('VALIDATION_FAILED','Unsupported facet filter.',400);end if;
@@ -322,12 +328,19 @@ create function eps.appearance_filters(p_filters jsonb) returns jsonb language p
  end loop;
  return jsonb_build_object('facets',coalesce((select jsonb_object_agg(key,(select coalesce(jsonb_agg(distinct x order by x),'[]'::jsonb) from(
    select case when e='unknown' then e when key in('city','stated_gender','languages','look','tags') then eps.appearance_norm(e) else e end x from jsonb_array_elements_text(value) e)y))
-  from jsonb_each(coalesce(p_filters->'facets','{}')) where jsonb_array_length(value)>0),'{}'::jsonb),'include_unknown',coalesce((p_filters->>'include_unknown')::boolean,false));
+  from jsonb_each(coalesce(p_filters->'facets','{}')) where jsonb_array_length(value)>0),'{}'::jsonb),'include_unknown',coalesce((p_filters->>'include_unknown')::boolean,false),
+  'q',eps.appearance_norm(p_filters->>'q'));
 end$$;
+-- Normalised substring match over English/Arabic names, casting id and tags (null/empty query matches everyone).
+create function eps.appearance_text_ok(p_name text,p_name_ar text,p_casting text,p_tags text[],p_q text) returns boolean language sql immutable set search_path='' as $$
+ select p_q is null or strpos(coalesce(p_name,''),p_q)>0 or strpos(coalesce(p_name_ar,''),p_q)>0 or strpos(p_casting,p_q)>0 or exists(select 1 from unnest(p_tags) t where strpos(t,p_q)>0)$$;
 create function eps.appearance_filter_ok(p_keys text[],p_names text[],p_filters jsonb,p_skip text) returns boolean language sql immutable set search_path='' as $$
  select not exists(select 1 from jsonb_each(p_filters->'facets') f where f.key is distinct from p_skip
   and not(p_keys && array(select f.key||':'||v from jsonb_array_elements_text(f.value) v)
    or not(f.key=any(p_names)) and ((p_filters->>'include_unknown')::boolean or f.value ? 'unknown')))$$;
+-- For A1's search: normalised EN/AR name, casting id or tag match (same rule eps_candidate_facets applies for "q").
+create function eps.cast_text_match(p_candidate_id uuid,p_q text) returns boolean language sql stable security definer set search_path='' as $$
+ select coalesce((select eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,eps.appearance_norm(p_q)) from eps.candidate_search_projection p where p.candidate_id=p_candidate_id),false)$$;
 -- For A1's search: true when the candidate passes every facet filter (normalised filters only; see eps.appearance_filters).
 create function eps.cast_facet_match(p_candidate_id uuid,p_filters jsonb) returns boolean language plpgsql stable security definer set search_path='' as $$
 declare filters jsonb:=eps.appearance_filters(p_filters);begin
@@ -337,13 +350,14 @@ end$$;
 create function public.eps_candidate_facets(p_filters jsonb) returns jsonb language plpgsql stable security definer set search_path='' as $$
 declare filters jsonb;facets jsonb:='[]';f text;total bigint;unknown bigint;matched bigint;vals jsonb;begin
  perform eps.require_capability('cast.read');filters:=eps.appearance_filters(p_filters);
- select count(*) into total from eps.candidate_search_projection p where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null);
+ select count(*) into total from eps.candidate_search_projection p where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null)
+  and eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,filters->>'q');
  foreach f in array eps.appearance_facet_keys_allowed() loop
   select count(*),count(*) filter(where not(f=any(p.facet_names))) into matched,unknown from eps.candidate_search_projection p
-   where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,f);
+   where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,f) and eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,filters->>'q');
   select coalesce(jsonb_agg(jsonb_build_object('value',value,'count',n) order by n desc,value),'[]') into vals from(
    select substr(k,length(f)+2) value,count(distinct p.candidate_id) n from eps.candidate_search_projection p cross join unnest(p.facet_keys) k
-   where p.active and k like f||':%' and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,f)
+   where p.active and k like f||':%' and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,f) and eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,filters->>'q')
    group by 1 order by 2 desc,1 limit case when f='tags' then 30 else 100 end)x;
   facets:=facets||jsonb_build_array(jsonb_build_object('key',f,'matched',matched,'unknown',unknown,'values',vals,
    'selected',coalesce(filters#>array['facets',f],'[]'::jsonb)));
@@ -364,10 +378,24 @@ create function eps.appearance_media_dto(m eps.candidate_observation_media) retu
   'media_added_at',m.media_added_at,'people_count',m.people_count,'ambiguous',m.ambiguous,'target_person_index',m.target_person_index,'quality_note',m.quality_note,
   'model',m.model,'prompt_version',m.prompt_version,'analyzed_at',m.analyzed_at,'row_version',m.row_version,
   'observations',coalesce((select jsonb_agg(eps.appearance_observation_dto(o) order by o.person_index,o.attribute) from eps.candidate_observations o where o.media_id=m.id),'[]'::jsonb))$$;
+-- Supplied information with its real provenance, shown beside (never merged with) observations:
+--  * archive labels (m09) carry their import source; they are neither self-reported nor human-confirmed;
+--  * supplied facts carry their field source (transcript/manual/archive) as stored on the candidate;
+--  * stated age is supplied information, separate from any playing-age suggestion.
+create function eps.appearance_supplied_dto(p_candidate uuid) returns jsonb language sql stable security definer set search_path='' as $$
+ select jsonb_build_object(
+  'archive',(select jsonb_build_object('source',jsonb_build_object('kind','archive_import','source_project',a.source_project,'source_id',a.source_id,'imported_at',a.imported_at),
+    'name_ar',a.name_ar,'talent_type',a.talent_type,'look',a.look,'skin_tone',a.skin_tone,'playing_age',to_jsonb(a.playing_age),'hair_length',to_jsonb(a.hair_length),
+    'hair_texture',to_jsonb(a.hair_texture),'hair_colour',to_jsonb(a.hair_colour),'hair_style',to_jsonb(a.hair_style),'hair_colouring',to_jsonb(a.hair_colouring),'tags',to_jsonb(a.tags))
+   from eps.candidate_attributes a where a.candidate_id=p_candidate),
+  'facts',(select jsonb_agg(jsonb_build_object('key',k,'value',c.facts->k,
+    'source',case when jsonb_typeof(c.field_sources->k)='object' and c.field_sources->k->>'kind' in('manual','transcript','archive') then c.field_sources->k->>'kind'
+     when c.source_kind='archive' and c.facts->k is not null and c.facts->k<>'null'::jsonb then 'archive' else null end) order by ord)
+   from eps.candidates c,unnest(array['stated_gender','age_or_range','city','languages']) with ordinality u(k,ord) where c.id=p_candidate))$$;
 create function public.eps_list_candidate_observations(p_candidate_id uuid) returns jsonb language plpgsql stable security definer set search_path='' as $$begin
  perform eps.require_capability('cast.read');
  if p_candidate_id is null or not exists(select 1 from eps.candidates where id=p_candidate_id) then perform eps.fail('RESOURCE_NOT_FOUND','Candidate not found.',404);end if;
- return jsonb_build_object('data',jsonb_build_object('candidate_id',p_candidate_id,'media',coalesce((select jsonb_agg(eps.appearance_media_dto(m) order by m.media_added_at desc,m.id)
+ return jsonb_build_object('data',jsonb_build_object('candidate_id',p_candidate_id,'supplied',eps.appearance_supplied_dto(p_candidate_id),'media',coalesce((select jsonb_agg(eps.appearance_media_dto(m) order by m.media_added_at desc,m.id)
   from(select * from eps.candidate_observation_media where candidate_id=p_candidate_id order by media_added_at desc,id limit 100)m),'[]'::jsonb)));
 end$$;
 -- body: {"row_version":n,"action":"confirm"|"reject"|"override"|"reset","value":"<taxonomy key>"(override only)}.
@@ -537,7 +565,7 @@ declare principal uuid:=auth.uid();cfg eps.appearance_config;existing eps.enrich
   insert into eps.enrichment_batch_items(batch_id,candidate_id,position)
   select v_batch,p.candidate_id,row_number() over(order by analysed,c.created_at desc,c.id) from eps.candidate_search_projection p join eps.candidates c on c.id=p.candidate_id
    cross join lateral(select exists(select 1 from eps.candidate_observation_media m where m.candidate_id=p.candidate_id and m.prompt_version=cfg.prompt_version) analysed)a
-   where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null) order by analysed,c.created_at desc,c.id limit (p_input->>'limit')::integer;
+   where p.active and eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,null) and eps.appearance_text_ok(p.name_norm,p.name_ar_norm,p.casting_id_norm,p.tags,filters->>'q') order by analysed,c.created_at desc,c.id limit (p_input->>'limit')::integer;
  end if;
  get diagnostics n=row_count;
  if n=0 then perform eps.fail('VALIDATION_FAILED','No active people match this batch.',422);end if;
@@ -583,7 +611,8 @@ declare media jsonb;person jsonb;attr record;ref jsonb;m eps.candidate_observati
   perform eps.specs_stage_assert(eps.specs_stage_shape(media,array['media_ref','asset_id','media_category','people_count','ambiguous','quality_note','people'],array['media_ref','asset_id','media_category','people_count','ambiguous','quality_note','people'])
    and media->>'media_category' in('portfolio_photo','headshot','full_body','video_frame') and eps.specs_stage_integer(media->'people_count',0,10)
    and jsonb_typeof(media->'ambiguous')='boolean' and (media->'quality_note'='null' or jsonb_typeof(media->'quality_note')='string' and length(media->>'quality_note') between 1 and 300)
-   and jsonb_typeof(media->'people')='array' and jsonb_array_length(media->'people')<=(media->>'people_count')::integer,'RESULT_INVALID');
+   and jsonb_typeof(media->'people')='array' and jsonb_array_length(media->'people')<=(media->>'people_count')::integer
+   and eps.appearance_text_allowed(media->>'quality_note'),'RESULT_INVALID');
   select value into ref from jsonb_array_elements(p_job.input->'media') where value->>'media_ref'=media->>'media_ref' and value->>'asset_id'=media->>'asset_id';
   perform eps.specs_stage_assert(ref is not null,'RESULT_INVALID');
   perform eps.specs_stage_assert((select count(*) from jsonb_array_elements(p_result->'media') x where x->>'media_ref'=media->>'media_ref')=1,'RESULT_INVALID');
@@ -604,11 +633,13 @@ declare media jsonb;person jsonb;attr record;ref jsonb;m eps.candidate_observati
    perform eps.specs_stage_assert(eps.specs_stage_shape(person,array['person_index','position_note','attributes'],array['person_index','position_note','attributes'])
     and eps.specs_stage_integer(person->'person_index',0,9) and (person->'position_note'='null' or jsonb_typeof(person->'position_note')='string' and length(person->>'position_note') between 1 and 200)
     and jsonb_typeof(person->'attributes')='object' and (person->>'person_index')::integer<people
-    and (select count(*) from jsonb_array_elements(media->'people') x where x->'person_index'=person->'person_index')=1,'RESULT_INVALID');
+    and (select count(*) from jsonb_array_elements(media->'people') x where x->'person_index'=person->'person_index')=1
+    and eps.appearance_text_allowed(person->>'position_note'),'RESULT_INVALID');
    for attr in select key,value from jsonb_each(person->'attributes') loop
     perform eps.specs_stage_assert(eps.specs_stage_shape(attr.value,array['value','confidence','evidence'],array['value','confidence','evidence'])
      and jsonb_typeof(attr.value->'value')='string' and eps.appearance_value_valid(attr.key,attr.value->>'value') and attr.value->>'confidence' in('low','medium','high')
-     and (attr.value->'evidence'='null' or jsonb_typeof(attr.value->'evidence')='string' and length(attr.value->>'evidence') between 1 and 300),'RESULT_INVALID');
+     and (attr.value->'evidence'='null' or jsonb_typeof(attr.value->'evidence')='string' and length(attr.value->>'evidence') between 1 and 300)
+     and eps.appearance_text_allowed(attr.value->>'evidence'),'RESULT_INVALID');
     insert into eps.candidate_observations(candidate_id,media_id,person_index,position_note,attribute,suggested_value,confidence,evidence,job_id)
     values(p_job.resource_id,m.id,(person->>'person_index')::smallint,person->>'position_note',attr.key,attr.value->>'value',attr.value->>'confidence',attr.value->>'evidence',p_job.id)
     on conflict(media_id,person_index,attribute) do update set position_note=excluded.position_note,suggested_value=excluded.suggested_value,confidence=excluded.confidence,evidence=excluded.evidence,
@@ -751,7 +782,7 @@ end$$;
 grant create on schema eps,public to eps_appearance_owner;
 do $own$declare r regprocedure;begin
  for r in select p.oid::regprocedure from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='eps' and (p.proname like 'appearance\_%' or p.proname in('refresh_candidate_projection',
-  'cast_facet_match','claim_appearance_job_stage','get_appearance_stage_input','get_appearance_asset_access','record_appearance_job_event','recover_appearance_job_stages'))
+  'cast_facet_match','cast_text_match','claim_appearance_job_stage','get_appearance_stage_input','get_appearance_asset_access','record_appearance_job_event','recover_appearance_job_stages'))
   or n.nspname='public' and p.proname in('eps_candidate_facets','eps_list_candidate_observations','eps_review_candidate_observation','eps_start_enrichment_batch','eps_get_enrichment_batch') loop
   execute format('alter function %s owner to eps_appearance_owner',r);execute format('revoke all on function %s from public,anon,authenticated,service_role',r);
  end loop;
@@ -760,11 +791,11 @@ revoke create on schema eps,public from eps_appearance_owner;
 grant execute on function eps.fail(text,text,integer,bigint),eps.require_capability(text),eps.has_capability(text),eps.input_uuid(text),eps.specs_stage_assert(boolean,text),
  eps.specs_stage_shape(jsonb,text[],text[]),eps.specs_stage_integer(jsonb,bigint,bigint),eps.job_requester_active(uuid) to eps_appearance_owner;
 -- Pure helpers used inside checks/indexes and by the owner's own functions.
-grant execute on function eps.appearance_vocabulary(),eps.appearance_value_valid(text,text),eps.appearance_supplied_map(),eps.appearance_supplied_key(text,text),eps.appearance_norm(text),
- eps.appearance_facet_keys_allowed(),eps.appearance_filters(jsonb),eps.appearance_filter_ok(text[],text[],jsonb,text) to public;
+grant execute on function eps.appearance_vocabulary(),eps.appearance_value_valid(text,text),eps.appearance_forbidden_terms(),eps.appearance_text_allowed(text),eps.appearance_supplied_map(),eps.appearance_supplied_key(text,text),eps.appearance_norm(text),
+ eps.appearance_facet_keys_allowed(),eps.appearance_filters(jsonb),eps.appearance_filter_ok(text[],text[],jsonb,text),eps.appearance_text_ok(text,text,text,text[],text) to public;
 grant execute on function public.eps_candidate_facets(jsonb),public.eps_list_candidate_observations(uuid),public.eps_review_candidate_observation(uuid,jsonb,text),
  public.eps_start_enrichment_batch(jsonb,text),public.eps_get_enrichment_batch(uuid) to authenticated;
-grant execute on function eps.cast_facet_match(uuid,jsonb) to eps_cast_owner;
+grant execute on function eps.cast_facet_match(uuid,jsonb),eps.cast_text_match(uuid,text) to eps_cast_owner;
 grant execute on function eps.appearance_is_job(uuid),eps.claim_appearance_job_stage(jsonb),eps.get_appearance_stage_input(uuid,uuid,text),eps.record_appearance_job_event(jsonb),
  eps.recover_appearance_job_stages(integer) to eps_specs_stage_owner;
 grant execute on function eps.appearance_is_job(uuid),eps.get_appearance_asset_access(jsonb) to eps_specs_assets_owner;

@@ -67,3 +67,20 @@ test('inputs must be verified JPEG bytes within bounds', async () => {
   await assert.rejects(analyzeAppearance(input, { apiKey: '', model: 'x' }, undefined, async () => recorded(good)), code('OPENAI_CONFIGURATION_INVALID'));
   assert.throws(() => appearanceCostUsd({ input_tokens: 1, output_tokens: 1 }, { input_usd_per_mtok: -1, output_usd_per_mtok: 1 }), code('PRICE_TABLE_INVALID'));
 });
+test('protected identity terms in any free-text field are refused (schema has no such field; post-validation catches prose)', async () => {
+  const { forbiddenIdentityTerm } = await import('../../packages/integrations/src/openai-appearance.ts');
+  for (const phrase of ['Middle Eastern look', 'Saudi lookalike', 'looks Arab', 'a woman on the left', 'wears a hijab', 'رجل على اليسار', 'ملامح خليجية', 'non-binary presentation'])
+    assert.ok(forbiddenIdentityTerm(phrase), phrase);
+  for (const phrase of ['hair reaches below the shoulders', 'person on the left, foreground', 'strong coloured lighting', 'white hair', 'dark brown wavy hair', 'mannequin in background'])
+    assert.equal(forbiddenIdentityTerm(phrase), null, phrase);
+  for (const [field, mutate] of [
+    ['evidence', (value: typeof good) => { value.media[1].people[0].attributes.skin_tone = { value: 'medium', confidence: 'low', evidence: 'Middle Eastern look' } as never; }],
+    ['position_note', (value: typeof good) => { (value.media[0].people[1] as { position_note: string | null }).position_note = 'Saudi lookalike on the right'; }],
+    ['quality_note', (value: typeof good) => { (value.media[1] as { quality_note: string | null }).quality_note = 'Arab man, clear face'; }],
+  ] as const) {
+    const payload = structuredClone(good); mutate(payload);
+    await assert.rejects(analyzeAppearance(input, config, undefined, async () => recorded(payload)), code('AI_APPEARANCE_FORBIDDEN_INFERENCE'), field);
+  }
+  const schema = appearanceSchema(['m1']); const enums = JSON.stringify(schema).match(/"enum":\[[^\]]*\]/gu)!.join(' ');
+  for (const term of ['look', 'arab', 'saudi', 'middle_eastern', 'male', 'female', 'muslim']) assert.equal(enums.includes(`"${term}"`), false, term);
+});
