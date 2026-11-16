@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import type { Candidate, CandidateFacts, LibraryCandidate, WorkspaceCandidateAdded } from '@eps/domain';
-import { api, errorMessage, mutation, type Actor } from './api';
+import { api, ApiError, errorMessage, mutation, type Actor } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { CandidateFactsEditor, emptyCandidateFacts } from './CandidateFactsEditor';
 import { createCastLibraryRequests } from '../lib/cast-library-requests';
@@ -37,7 +37,17 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
   const [items, setItems] = useState<LibraryCandidate[]>([]); const [next, setNext] = useState<string | null>(null);
   const [adds, setAdds] = useState<Record<string, AddState>>({});
   // One stable Idempotency-Key per (project, person) until the add is confirmed: retries and repeat clicks converge.
+  // The key is dropped once the add is confirmed or the membership is removed, so a later re-add is a new request.
   const addKeys = useRef(new Map<string, string>()); const inFlight = useRef(new Set<string>());
+  const previousOverrides = useRef<Record<string, string | null>>({});
+  useEffect(() => {
+    const removed = Object.keys(membershipOverrides).filter(id => membershipOverrides[id] === null && previousOverrides.current[id] !== null);
+    previousOverrides.current = { ...membershipOverrides };
+    if (!removed.length) return;
+    for (const id of removed) addKeys.current.delete(id);
+    setAdds(current => removed.some(id => Object.hasOwn(current, id) && current[id].status !== 'adding')
+      ? Object.fromEntries(Object.entries(current).filter(([id, state]) => !removed.includes(id) || state.status === 'adding')) : current);
+  }, [membershipOverrides]);
   const [filters, setFilters] = useState<Record<string,string>>({include_unknown:'true'}); const [query,setQuery] = useState('');
   const [loading,setLoading] = useState(true); const [error,setError] = useState(''); const [busy,setBusy] = useState(false);
   const [layout,setLayout] = useState<'grid'|'list'>('grid'); const [creating,setCreating] = useState(false);
@@ -66,7 +76,13 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
       addKeys.current.delete(candidate.id);
       setAdds(current => ({ ...current, [candidate.id]: { status: 'added', already: result.data.already_member } }));
       onAdded?.(result.data); afterwards?.();
-    } catch (reason) { setAdds(current => ({ ...current, [candidate.id]: { status: 'error', error: errorMessage(reason) } })); }
+    } catch (reason) {
+      // An earlier add with this key was later removed from the project: refresh membership and allow a fresh add.
+      if (reason instanceof ApiError && reason.status === 409 && reason.code === 'MEMBERSHIP_REMOVED') {
+        addKeys.current.delete(candidate.id); setRevision(value => value + 1);
+        setAdds(current => ({ ...current, [candidate.id]: { status: 'error', error: 'This person was removed from the project after an earlier add. Add them again to rejoin.' } }));
+      } else setAdds(current => ({ ...current, [candidate.id]: { status: 'error', error: errorMessage(reason) } }));
+    }
     finally { inFlight.current.delete(candidate.id); }
   }
   /** Resolves only after the person is saved; on failure the entry stays open with its input. */

@@ -21,6 +21,9 @@ type Props = {
   workspaceId: string; refreshToken: number; canRetry: boolean;
   /** Project rows already shown; a finished upload says "Added to this project" only once its row is present. */
   presentIds: ReadonlySet<string>;
+  /** Whether a person is a project member now (null = unknown). Read while a new tape for an existing person is
+   * still processing, so a finished job that also added them to the project can say so. */
+  isMember?: (candidateId: string) => boolean | null;
   /** A finished upload produced this project row: insert it (the person is newest, so page 1 has them). */
   onResolved: (row: CandidateUploadRow) => void;
   onProcessingChange?: (candidateIds: ReadonlySet<string>) => void;
@@ -29,15 +32,24 @@ type Props = {
 
 /** Server-backed upload rows: restored after a refresh, polled until each job finishes. Leaving the screen
  * never cancels a server job; this only reads and, when permitted, retries a failed job. */
-export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, presentIds, onResolved, onProcessingChange, pollMs = 3000 }: Props) {
+export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, presentIds, isMember, onResolved, onProcessingChange, pollMs = 3000 }: Props) {
   const [rows, setRows] = useState<CandidateUploadRow[]>([]);
   const [error, setError] = useState('');
   const [retrying, setRetrying] = useState<Record<string, string>>({});
   const resolved = useRef(new Set<string>());
   const retryKeys = useRef(new Map<string, string>()); const [pollToken, setPollToken] = useState(0);
   const rowsRef = useRef<CandidateUploadRow[]>([]);
+  // Membership of a new tape's existing person, captured before its job finished (known values only).
+  const memberCheck = useRef(isMember); useEffect(() => { memberCheck.current = isMember; }, [isMember]);
+  const [memberBefore, setMemberBefore] = useState<Record<string, boolean>>({}); const memberSeen = useRef(new Set<string>());
   const publish = useCallback((next: CandidateUploadRow[]) => {
     rowsRef.current = next; setRows(next); setError('');
+    const seen: Record<string, boolean> = {};
+    for (const row of next) if (row.target_candidate_id && row.state !== 'ready' && !memberSeen.current.has(row.upload_id)) {
+      const known = memberCheck.current?.(row.target_candidate_id) ?? null; if (known === null) continue;
+      memberSeen.current.add(row.upload_id); seen[row.upload_id] = known;
+    }
+    if (Object.keys(seen).length) setMemberBefore(current => ({ ...current, ...seen }));
     for (const row of next) if (row.state === 'ready' && row.workspace_candidate_id && !resolved.current.has(row.upload_id)) { resolved.current.add(row.upload_id); onResolved(row); }
   }, [onResolved]);
   // Rows are restored from the server (they survive a refresh); in-flight transfers appear once reserved.
@@ -85,7 +97,9 @@ export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, pre
     {error && <div className="notice notice-error" role="alert"><p>Upload status could not be read: {error}</p></div>}
     <ul className="upload-status-list">{rows.map(row => {
       const present = row.workspace_candidate_id !== null && presentIds.has(row.workspace_candidate_id);
-      const outcome = row.state !== 'ready' ? null : row.target_candidate_id ? 'New tape saved in Library' : present ? 'Added to this project · Saved in Library' : row.workspace_candidate_id ? 'Saved in Library · adding to this project…' : 'Saved in Library';
+      // A new tape for someone who was not yet in this project, whose job also added them; unknown stays the plain wording.
+      const joined = row.target_candidate_id !== null && row.workspace_candidate_id !== null && memberBefore[row.upload_id] === false;
+      const outcome = row.state !== 'ready' ? null : row.target_candidate_id ? joined ? present ? 'Added to this project · New tape saved in Library' : 'New tape saved in Library · adding to this project…' : 'New tape saved in Library' : present ? 'Added to this project · Saved in Library' : row.workspace_candidate_id ? 'Saved in Library · adding to this project…' : 'Saved in Library';
       const busy = Object.hasOwn(retrying, row.upload_id) && retrying[row.upload_id] === '';
       return <li key={row.upload_id} className="upload-status-row" aria-busy={ACTIVE.has(row.state) || undefined}>
         <span className="upload-status-name" dir="auto">{row.filename ?? 'Introduction video'}</span>

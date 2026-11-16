@@ -2,6 +2,7 @@
 
 import { useId, useState } from 'react';
 import type { CandidateFacts } from '@eps/domain';
+import { useUnsavedEditor } from './ui/UnsavedChanges';
 
 export const emptyCandidateFacts = (): CandidateFacts => ({ name: null, casting_id: null, age_or_range: null, stated_gender: null,
   height_measurements: null, languages: [], accents: [], skills_experience: null, city: null, previous_projects_roles: null, classification: null });
@@ -23,6 +24,13 @@ export function CandidateFactsEditor({ facts, onChange, disabled = false }: { fa
     {key==='languages'||key==='accents'?<SuppliedArrayInput id={`${prefix}-${key}`} value={facts[key]} disabled={disabled} onChange={value=>onChange({...facts,[key]:value})}/>:<input id={`${prefix}-${key}`} dir="auto" disabled={disabled} maxLength={4000} placeholder="Not provided"
       value={facts[key] ?? ''} onChange={event => onChange({ ...facts, [key]: event.target.value || null })} />}
   </div>)}</div>;
+}
+
+/** The facts editor registered with "Save your changes?": `save` resolves only after the server confirmed the
+ * change and throws on failure (the draft stays); `discard` resets the draft. Registered only while mounted. */
+export function UnsavedCandidateFactsEditor({ id, label, dirty, save, discard, ...editor }: Parameters<typeof CandidateFactsEditor>[0] & { id: string; label: string; dirty: boolean; save: () => Promise<void>; discard: () => void }) {
+  useUnsavedEditor(id, { scope: `editor:${id}`, label, dirty, save, discard });
+  return <CandidateFactsEditor {...editor} />;
 }
 
 export function CandidateFactsView({ facts }: { facts: CandidateFacts }) {

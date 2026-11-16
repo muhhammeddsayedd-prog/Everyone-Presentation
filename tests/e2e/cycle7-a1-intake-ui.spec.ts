@@ -16,7 +16,7 @@ const poolRow = (id: string, candidate: string, patch: Record<string, unknown> =
   selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, portrait_asset_id: null, portrait_source: null,
   portrait_crop: null, media_selection_state: 'unset', row_version: 1, ...patch });
 
-type Upload = { upload_id: string; state: string; job: { id: string; status: string } | null; candidate_id: string | null; workspace_candidate_id: string | null };
+type Upload = { upload_id: string; state: string; job: { id: string; status: string; retryable?: boolean; error_code?: string } | null; candidate_id: string | null; workspace_candidate_id: string | null };
 interface State {
   pool: ReturnType<typeof poolRow>[]; adds: { key: string; candidate: string }[]; patches: Record<string, unknown>[]; failPatch: boolean;
   uploads: Upload[]; jobPolls: Record<string, string[]>; retries: number; searches: URLSearchParams[]; repairsApplied: unknown[];

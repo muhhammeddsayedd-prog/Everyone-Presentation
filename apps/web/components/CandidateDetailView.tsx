@@ -7,7 +7,8 @@ import type { Candidate, CandidateFacts, CandidateMedia, DuplicateMatch } from '
 import { api, errorMessage, mutation, type Actor } from './api';
 import { useConfirm } from './ui/Confirm';
 import { ErrorNotice, Loading } from './Feedback';
-import { CandidateFactsEditor, CandidateFactsView } from './CandidateFactsEditor';
+import { CandidateFactsView, UnsavedCandidateFactsEditor } from './CandidateFactsEditor';
+import { useUnsavedEditor } from './ui/UnsavedChanges';
 import { CandidateProcessingIssues } from './CandidateProcessingIssues';
 import { CandidateEnglishTranscript, spokenLanguageLabel } from './english-transcript';
 import { CandidateFrameImage } from './CandidateFrameImage';
@@ -43,8 +44,12 @@ export function CandidateDetailView({candidateId,actor,onDirtyChange}:{candidate
     if(!request.isCurrent())return;setCandidate(profile.data);setFacts(profile.data.facts);setMedia(sources.data);setDuplicates(matches.data);setError('');
   }catch(reason){if(request.isCurrent())setError(errorMessage(reason));}finally{if(request.isCurrent())setLoading(false);}},[candidateId,reads]);
   useEffect(()=>{let current=true;Promise.all([api<Candidate>(`/api/v1/candidates/${candidateId}`),readCandidateMedia(candidateId),readDuplicateMatches(candidateId)]).then(([profile,sources,matches])=>{if(current){setCandidate(profile.data);setFacts(profile.data.facts);setMedia(sources.data);setDuplicates(matches.data);setError('');}}).catch(reason=>{if(current)setError(errorMessage(reason));}).finally(()=>{if(current)setLoading(false);});return()=>{current=false;};},[candidateId]);
-  useEffect(()=>{onDirtyChange(editing||busy||Object.values(mediaDirty).some(Boolean));return()=>onDirtyChange(false);},[editing,busy,mediaDirty,onDirtyChange]);
+  // Facts count as unsaved only when they differ: saving unchanged facts would still reset Reviewed.
+  const factsDirty=editing&&!!candidate&&!!facts&&JSON.stringify(facts)!==JSON.stringify(candidate.facts);
+  useEffect(()=>{onDirtyChange(factsDirty||busy||Object.values(mediaDirty).some(Boolean));return()=>onDirtyChange(false);},[factsDirty,busy,mediaDirty,onDirtyChange]);
   const anyMediaDirty=Object.values(mediaDirty).some(Boolean);
+  // Frame selections save only from their own card; the dialog names them and offers Discard, never a silent save.
+  useUnsavedEditor(`profile-media:${candidateId}`,{scope:`editor:profile-media:${candidateId}`,label:'frame selections on this profile',dirty:anyMediaDirty});
   function retryRead(){if(editing||anyMediaDirty){setError('Save or discard your open edits before reloading this profile.');return;}void load();}
   async function save(path:string,method:string,body:unknown,success:string){
     setBusy(true);setError('');setMessage(''); const serialized=JSON.stringify(body);
@@ -52,6 +57,15 @@ export function CandidateDetailView({candidateId,actor,onDirtyChange}:{candidate
     try{await api(path,intent.current.init);intent.current=null;setEditing(false);if(path.endsWith('/archive')){router.push('/library/cast');return;}if(path.endsWith('/duplicates/resolve')&&(body as {action?:string}).action==='link_existing'){router.push(`/library/cast/${(body as {existing_candidate_id:string}).existing_candidate_id}`);return;}await load();setMessage(success);}
     catch(reason){setError(errorMessage(reason));}finally{setBusy(false);}
   }
+  /** Shared facts PATCH. Resolves only after the server confirmed it; throws on failure so the draft stays. */
+  async function persistFacts(){
+    if(!candidate||!facts)return; const path=`/api/v1/candidates/${candidateId}`; const body={row_version:candidate.row_version,facts}; const serialized=JSON.stringify(body);
+    setBusy(true);setError('');setMessage('');
+    if(intent.current?.path!==path||intent.current.body!==serialized)intent.current={path,body:serialized,init:mutation('PATCH',body)};
+    try{const result=await api<Candidate>(path,intent.current.init);intent.current=null;setCandidate(result.data);setFacts(result.data.facts);setEditing(false);setMessage('Shared facts saved.');}
+    catch(reason){setError(errorMessage(reason));throw reason;}finally{setBusy(false);}
+  }
+  function discardFacts(){setEditing(false);setFacts(candidate?.facts??null);}
   async function resolve(match?:DuplicateMatch){
     if(!candidate)return;
     if(!match)return save(`/api/v1/candidates/${candidateId}/duplicates/resolve`,'POST',{row_version:candidate.row_version,action:'keep_new'},'Kept as a separate candidate.');
@@ -62,7 +76,7 @@ export function CandidateDetailView({candidateId,actor,onDirtyChange}:{candidate
   if(loading&&!candidate)return <Loading label="Opening candidate…"/>;
   if(!candidate)return <ErrorNotice message={error||'Candidate unavailable.'} retry={retryRead}/>;
   const lockOthers=busy||editing||anyMediaDirty;
-  const factsBody=<>{editing&&facts?<form id="candidate-facts-form" onSubmit={event=>{event.preventDefault();void save(`/api/v1/candidates/${candidateId}`,'PATCH',{row_version:candidate.row_version,facts},'Shared facts saved.');}}><CandidateFactsEditor facts={facts} onChange={setFacts} disabled={busy}/><p className="section-note">Changing facts resets Reviewed. Project availability is saved separately in each project.</p><div className="button-row"><button className="button button-primary" disabled={busy}>Save facts</button><button className="button" type="button" disabled={busy} onClick={()=>{setEditing(false);setFacts(candidate.facts);}}>Discard changes</button></div></form>:<CandidateFactsView facts={candidate.facts}/>}
+  const factsBody=<>{editing&&facts?<form id="candidate-facts-form" onSubmit={event=>{event.preventDefault();void persistFacts().catch(()=>undefined);}}><UnsavedCandidateFactsEditor id={`profile-facts:${candidateId}`} label="shared facts" dirty={factsDirty} save={persistFacts} discard={discardFacts} facts={facts} onChange={setFacts} disabled={busy}/><p className="section-note">Changing facts resets Reviewed. Project availability is saved separately in each project.</p><div className="button-row"><button className="button button-primary" disabled={busy}>Save facts</button><button className="button" type="button" disabled={busy} onClick={discardFacts}>Discard changes</button></div></form>:<CandidateFactsView facts={candidate.facts}/>}
     <p className="small muted">Reviewed confirms the supplied facts. It does not approve a casting choice.</p></>;
   return <section className="candidate-detail" aria-busy={loading}><fieldset className="presentation-read-lock" disabled={loading} aria-label="Shared candidate controls">
     <PageFrame className="candidate-profile" panel={{title:'Supplied facts',subtitle:candidate.review_status==='reviewed'?'Reviewed':'Not reviewed yet',label:'Supplied facts',wide:true,

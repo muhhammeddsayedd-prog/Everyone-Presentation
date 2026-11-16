@@ -46,6 +46,10 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
   const [membership,setMembership]=useState<Record<string,string|null>>({});
   const [uploadToken,setUploadToken]=useState(0);const [processing,setProcessing]=useState<ReadonlySet<string>>(new Set());const [repairRevision,setRepairRevision]=useState(0);
   const itemsRef=useRef(items);useEffect(()=>{itemsRef.current=items;},[items]);
+  const membershipRef=useRef(membership);useEffect(()=>{membershipRef.current=membership;},[membership]);
+  const poolCompleteRef=useRef(false);useEffect(()=>{poolCompleteRef.current=!loading&&!error&&next===null;},[loading,error,next]);
+  /** Is this person a project member right now? null = unknown (later pages not loaded, or the list could not be read). */
+  const isMember=useCallback((candidateId:string)=>{if(itemsRef.current.some(item=>item.candidate_id===candidateId))return true;const known=membershipRef.current[candidateId];if(known!==undefined)return known!==null;return poolCompleteRef.current?false:null;},[]);
   const [libraryTop,setLibraryTop]=useState(0);const mergeTimer=useRef<ReturnType<typeof setTimeout>|undefined>(undefined);
   const dirtyChanged=useCallback((key:string,value:boolean)=>{if(value){reads.cancel();setLoading(false);}setDirty(current=>current[key]===value?current:{...current,[key]:value});},[reads]);
   const retirementDirty=useCallback((value:boolean)=>{setUndoLocked(value);dirtyChanged('retirement-undo',value);},[dirtyChanged]);
@@ -78,7 +82,7 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
     <header className="section-heading candidates-heading"><div><h2>Project candidates</h2><p>Newest added first. Choose each person’s introduction, frames, presentation picture and availability for this project. Shared facts stay in Cast Library.</p></div><div className="button-row">{actions}<button className="button button-small button-quiet" disabled={loading||anyDirty} onClick={()=>void load()}><Icon name="refresh"/>Reload saved candidates</button><Link className="button button-small button-quiet" href="/processing"><Icon name="processing"/>Open Processing</Link></div></header>
     <div className="tabs" role="tablist" aria-label="Candidate sources" onKeyDown={tabKeys}><button {...tabProps('project')}>In this project <span className="count">{items.length}{next?'+':''}</span></button><button {...tabProps('library')}>Cast Library</button>{canUpload&&<button {...tabProps('uploads')}>Uploads{dirty.upload&&<span className="badge badge-info">Active</span>}</button>}</div>
     {error&&<ErrorNotice message={error} retry={retryRead}/>}
-    <div hidden={tab==='library'}><CandidateUploadStatus workspaceId={workspaceId} refreshToken={uploadToken} canRetry={!!actor.capabilities?.includes('operations.retry')} presentIds={presentIds} onResolved={uploadResolved} onProcessingChange={processingChanged}/></div>
+    <div hidden={tab==='library'}><CandidateUploadStatus workspaceId={workspaceId} refreshToken={uploadToken} canRetry={!!actor.capabilities?.includes('operations.retry')} presentIds={presentIds} isMember={isMember} onResolved={uploadResolved} onProcessingChange={processingChanged}/></div>
     <div id="candidates-panel-project" role="tabpanel" aria-labelledby="candidates-tab-project" hidden={tab!=='project'}>
       {canWrite&&<MediaRepairPanel workspaceId={workspaceId} revision={repairRevision} onApplied={result=>{setItems(current=>current.map(item=>result.applied.find(row=>row.id===item.id)??item));if(result.applied.length)onWorkspaceChanged();}}/>}
       {loading&&!items.length?<Loading label="Opening project candidates…"/>:!items.length&&!error?<div className="empty-state"><Icon name="people"/><h2>No candidates in this project</h2><p>Upload introduction videos or choose people from the Cast Library. Missing information is permitted.</p>{actions}</div>
@@ -176,7 +180,7 @@ function ProjectCandidate({item,actor,storageOrigin,canWrite,processing,open,onO
       {error&&<ErrorNotice message={error}/>}
       <form id={formId} onSubmit={save} className="stack-lg"><fieldset className="stack-lg" disabled={!canWrite||busy||supportBusy||sourceBusy||removeReview}>
         <section className="stack" aria-labelledby={`${formId}-picture`}><h3 id={`${formId}-picture`} className="eyebrow">Presentation picture</h3>
-          <div className="picture-current"><ProjectPicture item={{portrait_asset_id:picture.asset,portrait_source:picture.source,portrait_crop:pictureDirty?null:item.portrait_crop,media_selection_state:picture.state}}/><p className="small muted">Used on this project’s slides, PDF and PowerPoint. Library edits never change it.</p></div>
+          <div className="picture-current"><ProjectPicture item={{portrait_asset_id:picture.asset,portrait_source:picture.source,portrait_crop:pictureDirty?null:item.portrait_crop,media_selection_state:picture.state}} processing={processing&&!pictureDirty}/><p className="small muted">Used on this project’s slides, PDF and PowerPoint. Library edits never change it.</p></div>
           <details className="picture-chooser"><summary>Change picture</summary>
             <fieldset className="picture-choices"><legend className="sr-only">Choose the presentation picture</legend>
               {photos.map(photo=><label key={photo.id} className="picture-choice"><input type="radio" name={`${formId}-picture-choice`} checked={picture.state!=='intentionally_empty'&&picture.asset===photo.asset_id} onChange={()=>setPicture({asset:photo.asset_id,source:'photo',state:'pinned'})}/><img src={pictureUrl(photo.thumb_asset_id,'photo')} alt="" loading="lazy"/><span>Archive photo {photo.position}{photo.cover?' · cover':''}</span></label>)}
