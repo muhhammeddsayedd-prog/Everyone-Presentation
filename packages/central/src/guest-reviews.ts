@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { withCentralContract } from './client.ts';
 import { DomainError, type Actor } from '@eps/domain';
 import type { GuestMutationContext, GuestReviewOperations, ReviewLinkOperations } from '../../domain/src/guest-types.ts';
 import { exportPreparationDto, externalVersionDto, feedbackCommentDto, guestAccessDto, guestFeedbackDto, guestIdentifier,
@@ -119,7 +120,7 @@ export async function createCentralReviewLinks(client: SupabaseClient, options: 
 export function createCentralGuestReviews(options: ReviewServiceOptions): GuestReviewOperations {
   const config = checkedOptions(options); const fetcher = options.fetch ?? fetch;
   const client = createClient(config.central.url, config.central.publishableKey, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
-    global: { fetch: (url, init) => fetcher(url, { ...init, cache: 'no-store', redirect: 'error', signal: init?.signal ? AbortSignal.any([init.signal, AbortSignal.timeout(15000)]) : AbortSignal.timeout(15000) }) } });
+    global: { fetch: (url, init) => fetcher(url, { ...init, headers: withCentralContract(init), cache: 'no-store', redirect: 'error', signal: init?.signal ? AbortSignal.any([init.signal, AbortSignal.timeout(15000)]) : AbortSignal.timeout(15000) }) } });
   const storage = createGuestAssetProxy(config.central, { fetch: options.fetch, now: config.now });
   async function rpc(operation: string, input: Record<string, unknown>): Promise<unknown> {
     const proof = signReviewGateway(operation, input, options.gatewayKey, config.now());

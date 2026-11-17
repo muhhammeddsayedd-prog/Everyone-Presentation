@@ -370,7 +370,7 @@ declare v_items jsonb; v_more boolean; begin
  return jsonb_build_object('data',v_items,'has_more',coalesce(v_more,false));
 end $$;
 
-create function public.eps_apply_media_repairs(p_workspace_id uuid,p_input jsonb,p_key text) returns jsonb language plpgsql security definer set search_path='' as $$
+create function public.eps_apply_media_repairs(p_workspace_id uuid,p_input jsonb,p_idempotency_key text) returns jsonb language plpgsql security definer set search_path='' as $$
 declare v_payload jsonb; v_replay jsonb; v_item jsonb; v_pool eps.workspace_candidates; v_defaults jsonb; v_applied jsonb:='[]'; v_skipped jsonb:='[]'; v_id uuid; v_result jsonb; begin
  perform eps.require_capability('workspaces.write'); perform eps.require_capability('cast.read');
  perform eps.check_input(p_input,array['items']);
@@ -381,8 +381,8 @@ declare v_payload jsonb; v_replay jsonb; v_item jsonb; v_pool eps.workspace_cand
   or (select count(distinct entry->>'workspace_candidate_id') from jsonb_array_elements(p_input->'items') entry)<>jsonb_array_length(p_input->'items')
  then perform eps.fail('INVALID_REQUEST','List up to 100 distinct project rows with their row versions.',400); end if;
  perform eps.input_uuid(entry->>'workspace_candidate_id') from jsonb_array_elements(p_input->'items') entry;
- if p_key is null or length(p_key) not between 16 and 200 then perform eps.fail('IDEMPOTENCY_KEY_REQUIRED','A stable Idempotency-Key is required.',400); end if;
- v_payload:=jsonb_build_object('id',p_workspace_id,'input',p_input); v_replay:=eps.idempotency_begin('cast.apply_media_repairs',p_key,v_payload);
+ if p_idempotency_key is null or length(p_idempotency_key) not between 16 and 200 then perform eps.fail('IDEMPOTENCY_KEY_REQUIRED','A stable Idempotency-Key is required.',400); end if;
+ v_payload:=jsonb_build_object('id',p_workspace_id,'input',p_input); v_replay:=eps.idempotency_begin('cast.apply_media_repairs',p_idempotency_key,v_payload);
  perform eps.require_capability('workspaces.write'); perform eps.require_capability('cast.read');
  if p_workspace_id is null or not eps.cast_workspace_scope(p_workspace_id,true) then perform eps.fail('RESOURCE_NOT_FOUND','Writable workspace not found.',404); end if;
  perform 1 from eps.workspaces where id=p_workspace_id for update;
@@ -406,7 +406,7 @@ declare v_payload jsonb; v_replay jsonb; v_item jsonb; v_pool eps.workspace_cand
  end loop;
  if jsonb_array_length(v_applied)>0 then perform eps.cast_changed(p_workspace_id); end if;
  v_result:=jsonb_build_object('applied',v_applied,'skipped',v_skipped);
- return eps.finish_mutation('cast.apply_media_repairs',p_key,v_payload,v_result,p_workspace_id);
+ return eps.finish_mutation('cast.apply_media_repairs',p_idempotency_key,v_payload,v_result,p_workspace_id);
 end $$;
 
 -- 8. The caller's uploads in a project, newest first (survive a refresh) -----------------------

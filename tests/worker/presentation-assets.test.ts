@@ -43,3 +43,16 @@ test('a lost completion acknowledgement reuses verified ready bytes and never up
   const changed = Buffer.from(bytes); changed[changed.length - 1] ^= 1;
   await assert.rejects(h.assets.write(scope, { ...input, bytes: changed, sha256: sha(changed) }, signal), PresentationAssetError); assert.equal(h.requests.filter(request => request.method === 'POST').length, 1);
 });
+test('1.4.0 archive photo portraits are readable by the render stage (read-only, JPEG, live key shape); unsafe keys refused', async () => {
+  const assetId = 'a5050000-0000-4000-8000-000000000904';
+  const access = (bucket: string, objectKey: string, mime = 'image/jpeg') => async (operation: string, input: Record<string, unknown>) => {
+    if (operation !== 'access') throw Error('unexpected');
+    return { asset_id: assetId, bucket, object_key: objectKey, permission: input.access, grant_token: 's'.repeat(43), expires_at: new Date(Date.now() + 60000).toISOString(), mime_type: mime, size_bytes: 1000, sha256: 'c'.repeat(64) };
+  };
+  const read = (call: (operation: string, input: Record<string, unknown>) => Promise<unknown>) =>
+    createPresentationRuntimeAssets({ storageOrigin: origin, publishableKey: key }, call).getAssetAccess({ ...scope, asset_id: assetId, access: 'read' } as never, new AbortController().signal);
+  const ok = await read(access('eps-candidate-photos', 'archive/a5050000-0000-4000-8000-000000000905/photos/3-lg.jpg')) as { url: string };
+  assert.equal(ok.url, `${origin}/storage/v1/object/authenticated/eps-candidate-photos/archive/a5050000-0000-4000-8000-000000000905/photos/3-lg.jpg`);
+  for (const [bucket, objectKey, mime] of [['eps-candidate-photos', '../escape.jpg', 'image/jpeg'], ['eps-candidate-photos', 'archive//x.jpg', 'image/jpeg'], ['eps-candidate-photos', 'archive/x.png', 'image/png'], ['eps-candidate-photos', '/archive/x.jpg', 'image/jpeg']])
+    await assert.rejects(read(access(bucket, objectKey, mime)));
+});

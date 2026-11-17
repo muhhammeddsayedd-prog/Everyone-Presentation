@@ -832,9 +832,9 @@ revoke create on schema eps,public from eps_appearance_owner;
 grant execute on function eps.fail(text,text,integer,bigint),eps.require_capability(text),eps.has_capability(text),eps.input_uuid(text),eps.specs_stage_assert(boolean,text),
  eps.specs_stage_shape(jsonb,text[],text[]),eps.specs_stage_integer(jsonb,bigint,bigint),eps.job_requester_active(uuid),
  eps.idempotency_begin(text,text,jsonb),eps.finish_mutation(text,text,jsonb,jsonb,uuid) to eps_appearance_owner;
--- Pure helpers used inside checks/indexes and by the owner's own functions.
+-- Pure helpers used inside checks and by the owners' functions. Never PUBLIC: the worker runtime login verifies its exact executable set.
 grant execute on function eps.appearance_vocabulary(),eps.appearance_value_valid(text,text),eps.appearance_forbidden_terms(),eps.appearance_text_allowed(text),eps.appearance_supplied_map(),eps.appearance_supplied_key(text,text),eps.appearance_norm(text),
- eps.appearance_facet_keys_allowed(),eps.appearance_filters(jsonb),eps.appearance_filter_ok(text[],text[],jsonb,text),eps.appearance_text_ok(text,text,text,text[],text) to public;
+ eps.appearance_facet_keys_allowed(),eps.appearance_filters(jsonb),eps.appearance_filter_ok(text[],text[],jsonb,text),eps.appearance_text_ok(text,text,text,text[],text) to eps_appearance_owner,eps_cast_owner;
 grant execute on function public.eps_candidate_facets(jsonb),public.eps_list_candidate_observations(uuid),public.eps_review_candidate_observation(uuid,jsonb,text),
  public.eps_start_enrichment_batch(jsonb,text),public.eps_get_enrichment_batch(uuid) to authenticated;
 grant execute on function eps.cast_facet_match(uuid,jsonb),eps.cast_text_match(uuid,text),eps.cast_library_row_ok(eps.candidates,jsonb) to eps_cast_owner;

@@ -11,6 +11,8 @@ const size = (value: unknown, maximum = 268435456): value is number => Number.is
 function fail(code = 'INVALID_REQUEST'): never { throw new SpecsRuntimeGatewayError(code, code === 'INVALID_REQUEST' ? 400 : 503, 'known'); }
 function scope(value: SpecsAssetScope) { if (!object(value) || !id(value.job_id) || !id(value.attempt_id) || !HASH.test(value.lease_token)) fail(); }
 const extension = (mime: unknown) => new Map<unknown, string>([['image/jpeg', 'jpg'], ['image/png', 'png'], ['image/webp', 'webp'], ['video/mp4', 'mp4'], ['video/quicktime', 'mov'], ['video/webm', 'webm'], ['video/x-matroska', 'mkv'], ['application/json', 'json'], ['application/pdf', 'pdf']]).get(mime);
+// Archive import keys are not pinned by m09 (live: archive/<uuid>/photos/<n>-lg.jpg); same bounded safe path as the appearance reader.
+const ARCHIVE_PHOTO_KEY = /^[A-Za-z0-9_-][A-Za-z0-9._/-]{0,1000}$/u;
 function destination(bucket: unknown, key: unknown, assetId: string, mime: unknown, input: SpecsAssetScope, write: boolean) {
   const ext = extension(mime); if (!ext || typeof key !== 'string') fail('RUNTIME_RESPONSE_INVALID');
   if (bucket === 'eps-presentation-outputs') {
@@ -19,6 +21,8 @@ function destination(bucket: unknown, key: unknown, assetId: string, mime: unkno
     if (write) fail('RUNTIME_RESPONSE_INVALID');
     if (bucket === 'eps-brand-assets') { if (!['jpg', 'png', 'webp'].includes(ext!) || key !== `assets/${assetId}/original.${ext}`) fail('RUNTIME_RESPONSE_INVALID'); }
     else if (bucket === 'eps-candidate-assets') { if (!['mp4', 'mov', 'webm', 'mkv'].includes(ext!) || key !== `assets/${assetId}/original.${ext}`) fail('RUNTIME_RESPONSE_INVALID'); }
+    // Template 1.4.0 portraits may be archive photos (m19 inventory): read-only, JPEG only.
+    else if (bucket === 'eps-candidate-photos') { if (ext !== 'jpg' || !ARCHIVE_PHOTO_KEY.test(key as string) || (key as string).includes('..') || (key as string).includes('//')) fail('RUNTIME_RESPONSE_INVALID'); }
     else if (bucket !== 'eps-candidate-outputs' || ext !== 'jpg' || !new RegExp(`^jobs/[a-f0-9-]{36}/attempts/[a-f0-9-]{36}/${assetId}\\.jpg$`, 'u').test(key as string)) fail('RUNTIME_RESPONSE_INVALID');
   }
   return key as string;

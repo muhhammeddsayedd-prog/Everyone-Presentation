@@ -14,11 +14,18 @@ export interface CentralClientOptions { fetch?: typeof fetch }
 function assertServer() {
   if (typeof window !== 'undefined') throw new DomainError('SERVER_CONTEXT_REQUIRED', 'The central user client must be created on the server.', 503);
 }
+/** Declares this release's response contract to the Data API (m21). Requests without it get the previous release's
+ * response shapes, which keeps the previous web/MCP release working during a rollout or rollback. */
+export const CENTRAL_CONTRACT_HEADER = 'X-EPS-Contract';
+export const CENTRAL_CONTRACT = '2026-11-cycle7';
+export function withCentralContract(init?: RequestInit): Headers {
+  const headers = new Headers(init?.headers); headers.set(CENTRAL_CONTRACT_HEADER, CENTRAL_CONTRACT); return headers;
+}
 function privateFetch(fetcher: typeof fetch = fetch): typeof fetch {
   return async (input, init) => {
     const deadline = AbortSignal.timeout(15_000);
     const signal = init?.signal ? AbortSignal.any([init.signal, deadline]) : deadline;
-    try { return await fetcher(input, { ...init, signal, cache: 'no-store', redirect: 'error' }); }
+    try { return await fetcher(input, { ...init, headers: withCentralContract(init), signal, cache: 'no-store', redirect: 'error' }); }
     catch { throw new TypeError('Central request failed.'); }
   };
 }
