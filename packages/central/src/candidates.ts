@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { DomainError, candidateEnglishFields, parseCandidateConfirmation, parseCandidateCreate, parseCandidateFacts, parseCandidatePatch,
+import { CANDIDATE_MEMBERSHIP_OUTCOMES, CANDIDATE_SCAN_OUTCOMES, DomainError, candidateEnglishFields, parseCandidateConfirmation, parseCandidateCreate, parseCandidateFacts, parseCandidatePatch,
   parseCandidateSearch, parseDuplicateResolution, parseFrameSelection, parseMediaRepairApply, parseWorkspaceCandidateCreate, parseWorkspaceCandidatePatch,
-  type Actor, type Candidate, type CandidateConfirmation, type CandidateCreate, type CandidateFrame, type CandidateMedia,
+  type Actor, type Candidate, type CandidateConfirmation, type CandidateMembershipOutcome, type CandidateScanOutcome, type CandidateCreate, type CandidateFrame, type CandidateMedia,
   type CandidatePatch, type CandidateSearch, type CandidateUploadRow, type DuplicateMatch, type DuplicateResolution, type FrameSelection,
   type LibraryCandidate, type MediaRepairApply, type MediaRepairResult, type MediaRepairSuggestion,
   type MutationContext, type Page, type WorkspaceCandidate, type WorkspaceCandidateAdded, type WorkspaceCandidateCreate, type WorkspaceCandidatePatch } from '@eps/domain';
@@ -100,12 +100,16 @@ function addedDto(value: unknown): WorkspaceCandidateAdded {
   return row;
 }
 function uploadRowDto(value: unknown): CandidateUploadRow & { id: string } {
-  const row = exact(value, ['upload_id', 'workspace_id', 'asset_id', 'filename', 'size_bytes', 'mime_type', 'target_candidate_id', 'created_at', 'upload_status', 'state', 'job', 'candidate_id', 'workspace_candidate_id']);
+  const row = exact(value, ['upload_id', 'workspace_id', 'asset_id', 'filename', 'size_bytes', 'mime_type', 'target_candidate_id', 'created_at', 'upload_status', 'state', 'job', 'candidate_id', 'workspace_candidate_id', 'candidate_outcome', 'membership_outcome']);
   if (!isId(row.upload_id) || !isId(row.workspace_id) || !isId(row.asset_id) || !isNullableText(row.filename) || !isVersion(row.size_bytes) || typeof row.mime_type !== 'string'
     || !(row.target_candidate_id === null || isId(row.target_candidate_id)) || !isDate(row.created_at)
     || !['open', 'completed', 'cancelled', 'expired'].includes(row.upload_status as string)
     || !['uploading', 'processing', 'ready', 'needs_attention', 'failed', 'cancelled', 'expired'].includes(row.state as string)
-    || !(row.candidate_id === null || isId(row.candidate_id)) || !(row.workspace_candidate_id === null || isId(row.workspace_candidate_id))) failed();
+    || !(row.candidate_id === null || isId(row.candidate_id)) || !(row.workspace_candidate_id === null || isId(row.workspace_candidate_id))
+    || !(row.candidate_outcome === null || CANDIDATE_SCAN_OUTCOMES.includes(row.candidate_outcome as CandidateScanOutcome))
+    || !(row.membership_outcome === null || CANDIDATE_MEMBERSHIP_OUTCOMES.includes(row.membership_outcome as CandidateMembershipOutcome))
+    // Outcomes are recorded only by a finished job.
+    || ((row.candidate_outcome !== null || row.membership_outcome !== null) && row.state !== 'ready')) failed();
   if (row.job !== null) {
     const job = exact(row.job, ['id', 'status', 'stage', 'error_code', 'retryable', 'row_version', 'updated_at']);
     if (!isId(job.id) || !['queued', 'running', 'waiting_for_input', 'succeeded', 'failed', 'cancelled'].includes(job.status as string) || typeof job.stage !== 'string'

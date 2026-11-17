@@ -78,6 +78,7 @@ const JOURNEYS = {
       check('worker_completes', sql(`select c7sim.advance('${jobId}')`) === 'succeeded');
       const job = (await ok('GET', `/jobs/${jobId}`)).data;
       check('job_result_names_candidate_and_membership', job.candidate_result?.candidate_id && job.candidate_result?.workspace_candidate_id, job.candidate_result);
+      check('job_result_records_outcome', job.candidate_result?.candidate_outcome === 'created' && job.candidate_result?.membership_outcome === 'added', job.candidate_result);
       const after = await members();
       const added = after.find(item => item.id === job.candidate_result.workspace_candidate_id);
       check('membership_visible_in_project', added && after.length === before.length + 1, { before: before.length, after: after.length });
@@ -86,6 +87,7 @@ const JOURNEYS = {
       check('newest_in_library_with_membership', person && library[0].id === person.id && person.membership?.workspace_candidate_id === added.id, library[0]);
       const restored = (await uploads()).find(item => item.upload_id === uploadId || item.id === uploadId);
       check('upload_row_ready_after_reload', restored && restored.workspace_candidate_id === added.id, restored);
+      check('upload_row_outcome_after_reload', restored && restored.candidate_outcome === 'created' && restored.membership_outcome === 'added', restored);
     });
   },
   async reload() {
@@ -141,6 +143,8 @@ const JOURNEYS = {
       const facts = { ...before.facts, city: 'Alexandria', skills_experience: 'Edited during processing' };
       await ok('PATCH', `/candidates/${person}`, { row_version: before.row_version, facts });
       check('apply_succeeds_after_edit', sql(`select c7sim.advance('${done.processing_job_id}')`) === 'succeeded');
+      const tapeJob = (await ok('GET', `/jobs/${done.processing_job_id}`)).data;
+      check('tape_outcome_recorded', tapeJob.candidate_result?.candidate_outcome === 'tape_added' && ['added', 'already_member'].includes(tapeJob.candidate_result?.membership_outcome), tapeJob.candidate_result);
       const after = (await ok('GET', `/candidates/${person}`)).data;
       check('edited_facts_intact', after.facts.city === 'Alexandria' && after.facts.skills_experience === 'Edited during processing', after.facts);
       check('tape_attached', sql(`select count(*) from eps.candidate_media where candidate_id='${person}'`) === '1');

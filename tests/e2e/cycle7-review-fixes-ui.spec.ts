@@ -17,7 +17,8 @@ const poolRow = (id: string, candidate: string, patch: Record<string, unknown> =
   selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, portrait_asset_id: null, portrait_source: null,
   portrait_crop: null, media_selection_state: 'unset', row_version: 1, ...patch });
 
-type Upload = { upload_id: string; target_candidate_id: string | null; state: string; job: { id: string; status: string }; candidate_id: string | null; workspace_candidate_id: string | null };
+type Upload = { upload_id: string; target_candidate_id: string | null; state: string; job: { id: string; status: string }; candidate_id: string | null; workspace_candidate_id: string | null;
+  candidate_outcome?: string | null; membership_outcome?: string | null };
 interface State {
   pool: ReturnType<typeof poolRow>[]; facts: Record<string, unknown>; factsVersion: number; factPatches: Record<string, unknown>[]; failFacts: boolean;
   uploads: Upload[]; jobStatus: Record<string, string>; jobPolls: number; pendingAssets: Set<string>; brokenAssets: Set<string>;
@@ -80,20 +81,22 @@ async function fixture(page: Page, setup: Partial<State> = {}) {
       return route.fulfill({ status: 200, contentType: 'image/png', body: PNG });
     }
     if (path === `/api/v1/workspaces/${workspace}/candidate-uploads`) return list(state.uploads.map(row => ({ workspace_id: workspace, asset_id: `asset-${row.upload_id}`, filename: `${row.upload_id}.mp4`,
-      size_bytes: 1000, mime_type: 'video/mp4', created_at: '2026-11-16T09:00:00Z', upload_status: 'completed', ...row,
+      size_bytes: 1000, mime_type: 'video/mp4', created_at: '2026-11-16T09:00:00Z', upload_status: 'completed', candidate_outcome: null, membership_outcome: null, ...row,
       job: { ...row.job, stage: 'prepare_candidate', error_code: null, retryable: false, row_version: 2, updated_at: '2026-11-16T09:00:00Z' } })));
     const job = path.match(/^\/api\/v1\/jobs\/([^/]+)$/u);
     if (job && method === 'GET') {
       state.jobPolls += 1;
       const upload = state.uploads.find(row => row.job.id === job[1])!; const status = state.jobStatus[job[1]] ?? 'running'; const target = upload.target_candidate_id!;
       let member = state.pool.find(row => row.candidate_id === target);
+      // The server records what the save step did: another tape for an existing person, added to or already in the project.
+      const membership = upload.membership_outcome ?? (member ? 'already_member' : 'added');
       if (status === 'succeeded') {
         if (!member) { member = poolRow(`pool-${target.slice(-2)}`, target, { media_selection_state: 'unset' }); state.pool.unshift(member); }
-        Object.assign(upload, { state: 'ready', job: { id: job[1], status }, candidate_id: target, workspace_candidate_id: member.id });
+        Object.assign(upload, { state: 'ready', job: { id: job[1], status }, candidate_id: target, workspace_candidate_id: member.id, candidate_outcome: 'tape_added', membership_outcome: membership });
       }
       return ok({ id: job[1], workspace_id: workspace, kind: 'candidate_scan', status, stage: status === 'succeeded' ? 'apply_candidate' : 'transcribe_candidate', attempt: 1, progress_completed: 0,
         progress_total: null, batch_id: null, input_asset_id: 'asset', resource_id: upload.upload_id, error: null, created_at: '2026-11-16T09:00:00Z', updated_at: '2026-11-16T09:00:00Z', row_version: 3,
-        ...(status === 'succeeded' ? { candidate_result: { candidate_id: target, candidate_media_id: 'media', workspace_candidate_id: member!.id } } : {}) });
+        ...(status === 'succeeded' ? { candidate_result: { candidate_id: target, candidate_media_id: 'media', workspace_candidate_id: member!.id, candidate_outcome: 'tape_added', membership_outcome: membership } } : {}) });
     }
     if (path === `/api/v1/workspaces/${workspace}/media-repairs` && method === 'GET') return route.fulfill({ json: { request_id: 'synthetic-c7-fixes', has_more: false, data: [] } });
     if (method === 'GET' && /\/(roles|assignments|presentation-series|slots|scenes)$/u.test(path)) return list([]);
@@ -176,17 +179,22 @@ test('project pictures use the template focal rule; processing and load failures
   // A pinned picture of a person whose new tape is still processing reads "Processing", not a failure.
   await expect(row(page, person.b).locator('.project-picture-state')).toHaveText('Processing');
   await expect(page.getByText('Picture can’t be loaded')).toHaveCount(0);
-  // Membership of each new tape's person is captured while the jobs run (B is a member, C is not yet).
+  // The outcome wording comes from the server-recorded result (B was already a member, C was added by the save step).
   const polls = state.jobPolls; await expect.poll(() => state.jobPolls, { timeout: 15_000 }).toBeGreaterThan(polls + 1);
   state.pendingAssets.delete('frame-b'); state.jobStatus['job-b'] = 'succeeded'; state.jobStatus['job-c'] = 'succeeded';
   const status = page.getByRole('region', { name: 'Your uploads in this project' });
-  await expect(status.locator('li').filter({ hasText: 'tape-b.mp4' })).toContainText('New tape saved in Library', { timeout: 20_000 });
+  await expect(status.locator('li').filter({ hasText: 'tape-b.mp4' })).toContainText(`New tape ready for ${names[person.b]} · Already in this project`, { timeout: 20_000 });
   await expect(status.locator('li').filter({ hasText: 'tape-b.mp4' })).not.toContainText('Added to this project');
-  await expect(status.locator('li').filter({ hasText: 'tape-c.mp4' })).toContainText('Added to this project · New tape saved in Library', { timeout: 20_000 });
+  await expect(status.locator('li').filter({ hasText: 'tape-c.mp4' })).toContainText(`New tape ready for ${names[person.c]} · Added to this project`, { timeout: 20_000 });
   await expect(row(page, person.c)).toHaveCount(1);
   // Processing ended: the picture is read again and shows, framed at the template default.
   await expect(row(page, person.b).locator('.project-picture-state')).toHaveCount(0);
   await expect(row(page, person.b).locator('.project-picture img')).toHaveCSS('object-position', '50% 40%');
+  // After a reload the same recorded outcomes are shown (nothing depended on what the page saw before).
+  await page.reload();
+  const restored = page.getByRole('region', { name: 'Your uploads in this project' });
+  await expect(restored.locator('li').filter({ hasText: 'tape-b.mp4' })).toContainText(`New tape ready for ${names[person.b]} · Already in this project`);
+  await expect(restored.locator('li').filter({ hasText: 'tape-c.mp4' })).toContainText(`New tape ready for ${names[person.c]} · Added to this project`);
 });
 
 test('a picture that fails to decode with nothing processing says it cannot be loaded', async ({ page }) => {

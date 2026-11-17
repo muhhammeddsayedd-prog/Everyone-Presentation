@@ -15,6 +15,9 @@
 -- 5. A new tape for an existing person no longer fails because the profile was edited while the
 --    video processed (facts are never touched by the save step). Archived/merged targets still fail.
 --    Successful candidate jobs expose candidate_id/workspace_candidate_id through get_job.
+--    The save step records what it actually did, so a refreshed page never guesses:
+--    candidate_outcome created|tape_added|tape_rescanned and membership_outcome
+--    added|already_member|not_requested (older results lack both: unknown).
 -- 6. Reviewable repairs for legacy rows (state unset, nothing pinned) and a durable list of the
 --    caller's uploads in a project, so pending rows survive a refresh.
 -- Owners, ACLs, search_path and SECURITY DEFINER attributes of replaced functions are preserved.
@@ -321,7 +324,7 @@ $n9$  -- m16: an add replay is returned only while the membership it produced is
 -- 6b. Save step: an extra tape no longer fails on a profile edit; a new membership pins its picture.
 select pg_temp.m16_patch('eps.apply_candidate_scan(uuid,uuid,text,text,jsonb)'::regprocedure,array[
 $o1$ candidate_id uuid; media_id uuid; rescan_id uuid; pool_id uuid;$o1$,
-$n1$ candidate_id uuid; media_id uuid; rescan_id uuid; pool_id uuid; portrait_id uuid; portrait_kind text;$n1$,
+$n1$ candidate_id uuid; media_id uuid; rescan_id uuid; pool_id uuid; portrait_id uuid; portrait_kind text; pool_added boolean:=false;$n1$,
 $o2$  perform eps.candidate_apply_assert(found and (rescan_id is not null or candidate.row_version=(job.input->>'target_candidate_row_version')::bigint),'INPUT_CHANGED');$o2$,
 $n2$  -- m16: a new tape only appends media; facts and review state are untouched, so a profile edit
   -- made while the video processed no longer fails the job. Archived or merged targets still fail.
@@ -333,12 +336,19 @@ $n3$  -- m16: pin the presentation picture too: the archive cover photo, else th
    join eps.media_assets asset on asset.id=photo.asset_id where attr.candidate_id=candidate_id and asset.status='ready' and asset.purpose='candidate_photo';
   if portrait_id is not null then portrait_kind:='photo'; elsif cardinality(chosen_frames)>0 then portrait_id:=chosen_frames[1]; portrait_kind:='frame'; end if;
   insert into eps.workspace_candidates(workspace_id,candidate_id,selected_candidate_media_id,selected_frame_asset_ids,availability,portrait_asset_id,portrait_source,media_selection_state)
-   values(job.workspace_id,candidate_id,media_id,chosen_frames,extraction->>'project_availability_statement',portrait_id,portrait_kind,'pinned') returning id into pool_id;$n3$]);
+   values(job.workspace_id,candidate_id,media_id,chosen_frames,extraction->>'project_availability_statement',portrait_id,portrait_kind,'pinned') returning id into pool_id;
+  pool_added:=true;$n3$,
+$o4$ result:=jsonb_build_object('candidate_id',candidate_id,'candidate_media_id',media_id,'workspace_candidate_id',pool_id,$o4$,
+$n4$ -- m16: record what this save step actually did; a refreshed page shows only these facts.
+ result:=jsonb_build_object('candidate_id',candidate_id,'candidate_media_id',media_id,'workspace_candidate_id',pool_id,
+  'candidate_outcome',case when rescan_id is not null then 'tape_rescanned' when job.input->>'target_candidate_id' is not null then 'tape_added' else 'created' end,
+  'membership_outcome',case when rescan_id is not null then 'not_requested' when pool_added then 'added' else 'already_member' end,$n4$]);
 
 -- 6c. get_job: a finished candidate job names the person and the project row it produced.
 select pg_temp.m16_patch('eps.jobs_dto(uuid)'::regprocedure,array[
 $o1$    ||case when kind='frame_extract' and status='succeeded' then jsonb_build_object('frame_extraction',eps.frame_user_outcome(jobs)) else '{}'::jsonb end$o1$,
-$n1$    ||case when kind='candidate_scan' and status='succeeded' and jsonb_typeof(result)='object' then jsonb_build_object('candidate_result',jsonb_build_object('candidate_id',result->'candidate_id','candidate_media_id',result->'candidate_media_id','workspace_candidate_id',coalesce(result->'workspace_candidate_id','null'::jsonb))) else '{}'::jsonb end
+$n1$    ||case when kind='candidate_scan' and status='succeeded' and jsonb_typeof(result)='object' then jsonb_build_object('candidate_result',jsonb_build_object('candidate_id',result->'candidate_id','candidate_media_id',result->'candidate_media_id','workspace_candidate_id',coalesce(result->'workspace_candidate_id','null'::jsonb),
+     'candidate_outcome',coalesce(result->'candidate_outcome','null'::jsonb),'membership_outcome',coalesce(result->'membership_outcome','null'::jsonb))) else '{}'::jsonb end
     ||case when kind='frame_extract' and status='succeeded' then jsonb_build_object('frame_extraction',eps.frame_user_outcome(jobs)) else '{}'::jsonb end$n1$]);
 
 -- 7. Reviewable repairs for legacy rows --------------------------------------------------------
@@ -409,7 +419,10 @@ create function eps.candidate_upload_row(p_upload uuid) returns jsonb language s
   'job',case when j.id is null then null else jsonb_build_object('id',j.id,'status',j.status,'stage',j.stage,'error_code',j.error->>'code',
    'retryable',(j.status='failed' and j.cancel_requested_at is null and coalesce((j.error->>'retryable')::boolean,false) and coalesce((j.stage_attempts->>j.stage)::integer,0)<3),'row_version',j.row_version,'updated_at',j.updated_at) end,
   'candidate_id',case when j.status='succeeded' then j.result->'candidate_id' end,
-  'workspace_candidate_id',case when j.status='succeeded' then j.result->'workspace_candidate_id' end)
+  'workspace_candidate_id',case when j.status='succeeded' then j.result->'workspace_candidate_id' end,
+  -- Server-recorded outcomes; null for older jobs (unknown) or unfinished ones.
+  'candidate_outcome',case when j.status='succeeded' then j.result->'candidate_outcome' end,
+  'membership_outcome',case when j.status='succeeded' then j.result->'membership_outcome' end)
  from eps.candidate_uploads u left join eps.media_assets a on a.id=u.asset_id left join eps.jobs j on j.id=u.job_id and j.kind='candidate_scan' where u.id=p_upload
 $$;
 create function public.eps_list_workspace_uploads(p_workspace_id uuid,p_cursor text default null,p_limit integer default 25) returns jsonb
@@ -465,6 +478,7 @@ do $m16_verify$begin
  or has_function_privilege('authenticated','eps.candidate_scans_active(uuid[])','execute')
  or (select count(*) from pg_policies where schemaname='eps' and policyname in('candidate_apply_attributes_read','candidate_apply_photos_read','cast_media_repair_idempotency','cast_media_repair_audit'))<>4
  or (select prosrc from pg_proc where oid='eps.apply_candidate_scan(uuid,uuid,text,text,jsonb)'::regprocedure) ~ 'target_candidate_row_version'
+ or (select prosrc from pg_proc where oid='eps.apply_candidate_scan(uuid,uuid,text,text,jsonb)'::regprocedure) !~ 'membership_outcome'
  or (select prosrc from pg_proc where oid='eps.cast_mutate(text,uuid,jsonb,text)'::regprocedure) !~ 'already_member'
  or (select prosrc from pg_proc where oid='eps.jobs_dto(uuid)'::regprocedure) !~ 'candidate_result'
  -- jobs_dto reads jobs.result; every routine that calls it must run as the jobs owner.

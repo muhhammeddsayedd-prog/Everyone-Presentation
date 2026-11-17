@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { DomainError, JOB_STATUSES as STATUSES, parseJobListOptions, type JobListOptions, type Actor, type MutationContext } from '@eps/domain';
+import { CANDIDATE_MEMBERSHIP_OUTCOMES, CANDIDATE_SCAN_OUTCOMES, DomainError, JOB_STATUSES as STATUSES, parseJobListOptions, type CandidateMembershipOutcome, type CandidateScanOutcome, type JobListOptions, type Actor, type MutationContext } from '@eps/domain';
 import { verifyCentralUser } from './client.ts';
 import { centralRpcError } from './errors.ts';
 
@@ -40,7 +40,9 @@ export interface CentralJob {
   created_at: string; updated_at: string; row_version: number; frame_extraction?: FrameExtractionOutcome;
   can_retry?: boolean; can_cancel?: boolean;
   /** A succeeded candidate_scan: the person and the project row it produced (null row for a re-scan). */
-  candidate_result?: { candidate_id: string; candidate_media_id: string; workspace_candidate_id: string | null };
+  candidate_result?: { candidate_id: string; candidate_media_id: string; workspace_candidate_id: string | null;
+    /** Recorded by the save step; null for jobs finished before outcomes were recorded (unknown). */
+    candidate_outcome: CandidateScanOutcome | null; membership_outcome: CandidateMembershipOutcome | null };
 }
 export type { JobListOptions } from '@eps/domain';
 export interface JobMutationInput { row_version: number; reason?: string | null }
@@ -58,8 +60,10 @@ function jobDto(value: unknown): CentralJob {
   const row = exact(value, ['id', 'workspace_id', 'kind', 'status', 'stage', 'attempt', 'progress_completed', 'progress_total', 'batch_id', 'input_asset_id', 'resource_id', 'error', 'created_at', 'updated_at', 'row_version',...(hasOutcome?['frame_extraction']:[]), ...(hasCandidateResult?['candidate_result']:[]), ...(hasActions ? ['can_retry', 'can_cancel'] : [])]);
   if(hasOutcome!==(row.kind==='frame_extract'&&row.status==='succeeded'))fail();
   if(hasCandidateResult){
-    const result=exact(row.candidate_result,['candidate_id','candidate_media_id','workspace_candidate_id']);
-    if(row.kind!=='candidate_scan'||row.status!=='succeeded'||!id(result.candidate_id)||!id(result.candidate_media_id)||!(result.workspace_candidate_id===null||id(result.workspace_candidate_id)))fail();
+    const result=exact(row.candidate_result,['candidate_id','candidate_media_id','workspace_candidate_id','candidate_outcome','membership_outcome']);
+    if(row.kind!=='candidate_scan'||row.status!=='succeeded'||!id(result.candidate_id)||!id(result.candidate_media_id)||!(result.workspace_candidate_id===null||id(result.workspace_candidate_id))
+      ||!(result.candidate_outcome===null||CANDIDATE_SCAN_OUTCOMES.includes(result.candidate_outcome as CandidateScanOutcome))
+      ||!(result.membership_outcome===null||CANDIDATE_MEMBERSHIP_OUTCOMES.includes(result.membership_outcome as CandidateMembershipOutcome)))fail();
   }
   if(hasOutcome){
     const outcome=exact(row.frame_extraction,['requested_count','extracted_count','unavailable_timestamps_ms','warnings']);

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "x-source-sha256": "b5a3762a27dcdf51de89304bab78c00274133a855ecb60a332826a3d2a2b210e",
+  "x-source-sha256": "0040212bb2ad4cd059c0b07f86a1e4f92697956c46c8875021bd115b47769991",
   "$defs": {
     "Id": {
       "type": "string",
@@ -4505,7 +4505,7 @@
         "candidate_result": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Present on a succeeded candidate_scan: the person and the project row the upload produced (workspace_candidate_id is null for a re-scan).",
+          "description": "Present on a succeeded candidate_scan: the person and the project row the upload produced (workspace_candidate_id is null for a re-scan) and the recorded outcomes (null for jobs finished before outcomes were recorded).",
           "properties": {
             "candidate_id": {
               "$ref": "#/$defs/Id"
@@ -4522,12 +4522,46 @@
                   "type": "null"
                 }
               ]
+            },
+            "candidate_outcome": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "created",
+                    "tape_added",
+                    "tape_rescanned"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "What processing did, recorded by the save step: created a new person, added a tape to the existing person, or re-scanned a stored tape. null = unknown (finished before outcomes were recorded, or not finished)."
+            },
+            "membership_outcome": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "added",
+                    "already_member",
+                    "not_requested"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Project membership outcome recorded by the save step: processing added the person to this project, the person was already in it, or no membership was requested (re-scan). null = unknown. Current membership is read from the project list."
             }
           },
           "required": [
             "candidate_id",
             "candidate_media_id",
-            "workspace_candidate_id"
+            "workspace_candidate_id",
+            "candidate_outcome",
+            "membership_outcome"
           ]
         }
       },
@@ -7064,6 +7098,38 @@
               "type": "null"
             }
           ]
+        },
+        "candidate_outcome": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "created",
+                "tape_added",
+                "tape_rescanned"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "What processing did, recorded by the save step: created a new person, added a tape to the existing person, or re-scanned a stored tape. null = unknown (finished before outcomes were recorded, or not finished)."
+        },
+        "membership_outcome": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "added",
+                "already_member",
+                "not_requested"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Project membership outcome recorded by the save step: processing added the person to this project, the person was already in it, or no membership was requested (re-scan). null = unknown. Current membership is read from the project list."
         }
       },
       "required": [
@@ -7079,7 +7145,9 @@
         "state",
         "job",
         "candidate_id",
-        "workspace_candidate_id"
+        "workspace_candidate_id",
+        "candidate_outcome",
+        "membership_outcome"
       ]
     },
     "MediaRepairSuggestion": {

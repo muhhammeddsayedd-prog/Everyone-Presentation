@@ -1,6 +1,7 @@
 -- Cycle 7 A1: the real upload path. reserve -> complete -> claim/stage events -> apply (record_job_event with
 -- controlled provider results), for a new person and for an extra tape after a facts edit. Proves the job
--- result names candidate_id + workspace_candidate_id (get_job, uploads list) and that replays create no
+-- result names candidate_id + workspace_candidate_id (get_job, uploads list), records the server-known
+-- candidate_outcome/membership_outcome (older results without them read as null) and that replays create no
 -- duplicate person, tape or membership. Synthetic metadata only; no bytes or providers. Rolls back.
 begin;
 set local search_path='';
@@ -65,6 +66,9 @@ do $$declare job jsonb;uploads jsonb;again jsonb;begin
  if job->>'status'<>'succeeded' or job#>>'{candidate_result,candidate_id}' is null or job#>>'{candidate_result,workspace_candidate_id}' is null then raise exception 'A1_FAIL get_job result %',job;end if;
  uploads:=public.eps_list_workspace_uploads('a1200000-0000-4000-8000-00000000d001',null,5);
  if uploads#>>'{data,0,state}'<>'ready' or uploads#>>'{data,0,workspace_candidate_id}'<>job#>>'{candidate_result,workspace_candidate_id}' or uploads#>>'{data,0,candidate_id}'<>job#>>'{candidate_result,candidate_id}' then raise exception 'A1_FAIL uploads ready %',uploads;end if;
+ -- A new person, added to this project by the save step: recorded, not guessed.
+ if job#>>'{candidate_result,candidate_outcome}'<>'created' or job#>>'{candidate_result,membership_outcome}'<>'added'
+  or uploads#>>'{data,0,candidate_outcome}'<>'created' or uploads#>>'{data,0,membership_outcome}'<>'added' then raise exception 'A1_FAIL new person outcome % %',job->'candidate_result',uploads->'data'->0;end if;
  -- The resolved row is on page 1 of the project list (newest person first).
  if public.eps_list_workspace_candidates('a1200000-0000-4000-8000-00000000d001',null,1)#>>'{data,0,id}'<>job#>>'{candidate_result,workspace_candidate_id}' then raise exception 'A1_FAIL row not first';end if;
  -- Adding the same person from the Library afterwards converges on that membership.
@@ -96,6 +100,10 @@ set local role authenticated;
 do $$declare job jsonb;profile jsonb;begin
  job:=public.eps_get_job(current_setting('a1.job2')::uuid);
  if job->>'status'<>'succeeded' or job#>>'{candidate_result,candidate_id}'<>current_setting('a1.person') or job#>>'{candidate_result,workspace_candidate_id}'<>current_setting('a1.pool') then raise exception 'A1_FAIL extra tape job %',job;end if;
+ -- Another tape for an existing person who was already in this project.
+ if job#>>'{candidate_result,candidate_outcome}'<>'tape_added' or job#>>'{candidate_result,membership_outcome}'<>'already_member'
+  or (select item->>'candidate_outcome'||'/'||(item->>'membership_outcome') from jsonb_array_elements(public.eps_list_workspace_uploads('a1200000-0000-4000-8000-00000000d001',null,5)->'data') item where item->>'workspace_candidate_id'=current_setting('a1.pool') and item->>'filename'='extra-tape.mp4')<>'tape_added/already_member'
+ then raise exception 'A1_FAIL extra tape outcome %',job->'candidate_result';end if;
  profile:=public.eps_get_candidate(current_setting('a1.person')::uuid);
  if profile#>>'{facts,name}'<>'Edited while processing' or profile#>>'{facts,city}'<>'Synthetic City' then raise exception 'A1_FAIL edited facts lost %',profile->'facts';end if;
 end $$;
@@ -107,6 +115,20 @@ do $$begin
  then raise exception 'A1_FAIL extra tape duplicated rows';end if;
 end $$;
 
+-- 3. A job finished before outcomes were recorded: both read as null (unknown), never guessed.
+set local session_replication_role=replica;
+update eps.jobs set result=result-'candidate_outcome'-'membership_outcome' where id=current_setting('a1.job')::uuid;
+set local session_replication_role=origin;
+set local role authenticated;
+do $$declare job jsonb;urow jsonb;begin
+ job:=public.eps_get_job(current_setting('a1.job')::uuid);
+ select item into urow from jsonb_array_elements(public.eps_list_workspace_uploads('a1200000-0000-4000-8000-00000000d001',null,5)->'data') item where item#>>'{job,id}'=current_setting('a1.job');
+ if job#>'{candidate_result,candidate_outcome}'<>'null'::jsonb or job#>'{candidate_result,membership_outcome}'<>'null'::jsonb
+  or urow->'candidate_outcome'<>'null'::jsonb or urow->'membership_outcome'<>'null'::jsonb or urow->>'state'<>'ready' or urow->>'workspace_candidate_id'<>current_setting('a1.pool')
+ then raise exception 'A1_FAIL legacy outcome unknown % %',job->'candidate_result',urow;end if;
+end $$;
+reset role;
+
 select json_build_object('result','passed','file','a1-upload-journey','checks',json_build_array('reserve_complete_replay','processing_row_restorable','stage_events_apply','duplicate_callback_inert',
- 'get_job_candidate_result','uploads_ready_ids','resolved_row_first','library_add_converges','no_duplicate_person_tape_membership','extra_tape_after_facts_edit','edited_facts_intact'))::text;
+ 'get_job_candidate_result','uploads_ready_ids','resolved_row_first','library_add_converges','no_duplicate_person_tape_membership','extra_tape_after_facts_edit','edited_facts_intact','outcome_created_added','outcome_tape_already_member','legacy_outcome_null'))::text;
 rollback;

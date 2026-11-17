@@ -241,6 +241,8 @@ set local session_replication_role=origin;
 do $$declare applied jsonb; failed text; begin
  applied:=eps.apply_candidate_scan('a1000000-0000-4000-8000-000000040001','a1000000-0000-4000-8000-0000000000ff','a1-lease',repeat('1',64),'{"source_asset_id":"a1000000-0000-4000-8000-0000000a0005"}');
  if applied->>'candidate_id'<>'a1000000-0000-4000-8000-0000000e0005' or applied->>'workspace_candidate_id' is null then raise exception 'A1_FAIL extra tape apply %',applied;end if;
+ -- Another tape for an existing person, who was not yet in this project: the save step added them.
+ if applied->>'candidate_outcome'<>'tape_added' or applied->>'membership_outcome'<>'added' then raise exception 'A1_FAIL extra tape outcome %',applied;end if;
  if not exists(select 1 from eps.workspace_candidates where id=(applied->>'workspace_candidate_id')::uuid and portrait_asset_id='a1000000-0000-4000-8000-000000010003' and portrait_source='photo'
    and media_selection_state='pinned' and selected_frame_asset_ids='{a1000000-0000-4000-8000-0000000f0007}')
  then raise exception 'A1_FAIL apply pins %',(select to_jsonb(w) from eps.workspace_candidates w where id=(applied->>'workspace_candidate_id')::uuid);end if;
@@ -256,7 +258,8 @@ end $$;
 set local role authenticated;
 do $$declare job jsonb; uploads jsonb; applied jsonb:=current_setting('a1.applied')::jsonb; begin
  job:=public.eps_get_job('a1000000-0000-4000-8000-000000040001');
- if job#>>'{candidate_result,workspace_candidate_id}'<>applied->>'workspace_candidate_id' or job#>>'{candidate_result,candidate_id}'<>'a1000000-0000-4000-8000-0000000e0005' then raise exception 'A1_FAIL get_job result %',job;end if;
+ if job#>>'{candidate_result,workspace_candidate_id}'<>applied->>'workspace_candidate_id' or job#>>'{candidate_result,candidate_id}'<>'a1000000-0000-4000-8000-0000000e0005'
+  or job#>>'{candidate_result,candidate_outcome}'<>'tape_added' or job#>>'{candidate_result,membership_outcome}'<>'added' then raise exception 'A1_FAIL get_job result %',job;end if;
  uploads:=public.eps_list_workspace_uploads('a1000000-0000-4000-8000-00000000d001',null,1);
  if uploads#>>'{data,0,upload_id}'<>'a1000000-0000-4000-8000-000000060003' or uploads#>>'{data,0,state}'<>'uploading' or uploads#>'{page,next_cursor}'='null'::jsonb then raise exception 'A1_FAIL uploads page 1 %',uploads;end if;
  uploads:=public.eps_list_workspace_uploads('a1000000-0000-4000-8000-00000000d001',uploads#>>'{page,next_cursor}',1);

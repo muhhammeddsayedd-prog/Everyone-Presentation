@@ -2,11 +2,14 @@ import { createHash } from 'node:crypto';
 import { DomainError } from './types.ts';
 import type { SourceReference } from './specs-types.ts';
 import { parseFacetFilters } from './appearance.ts';
-import type { CandidateConfirmation, CandidateCreate, CandidateExtraction, CandidateFacts, CandidateMedia,
+import type { CandidateConfirmation, CandidateCreate, CandidateExtraction, CandidateFacts, CandidateMedia, CandidateMembershipOutcome, CandidateScanOutcome,
   CandidatePatch, CandidateSearch, CandidateSearchMatch, CandidateSource, DuplicateResolution,
   FrameSelection, MediaRepairApply, PortraitCrop, StoredCandidate, WorkspaceCandidate, WorkspaceCandidateCreate, WorkspaceCandidatePatch,
   WorkspaceCandidatePicture } from './candidate-types.ts';
 export type * from './candidate-types.ts';
+/** Server-recorded candidate scan outcomes (job candidate_result and upload rows). */
+export const CANDIDATE_SCAN_OUTCOMES: readonly CandidateScanOutcome[] = ['created', 'tape_added', 'tape_rescanned'];
+export const CANDIDATE_MEMBERSHIP_OUTCOMES: readonly CandidateMembershipOutcome[] = ['added', 'already_member', 'not_requested'];
 
 const scalars = ['name', 'casting_id', 'age_or_range', 'stated_gender', 'height_measurements', 'skills_experience', 'city', 'previous_projects_roles', 'classification'] as const;
 const fields = [...scalars, 'languages', 'accents'] as const;
