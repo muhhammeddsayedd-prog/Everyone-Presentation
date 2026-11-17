@@ -263,14 +263,15 @@ revoke all on function eps.review_presentation_1_4(uuid,eps.presentation_series,
 grant execute on function eps.review_presentation_1_4(uuid,eps.presentation_series,jsonb)to eps_review_owner,eps_review_stage_owner;
 
 -- Series made with 1.3.0 or earlier cannot draw an archive photo. A person whose pinned picture is a photo gets an
--- explanation instead of a silent generation without it: blocking when that person has no video frame to show,
+-- explanation instead of a silent generation without it: a warning when that person has no video frame to show (the
+-- slide shows no picture, exactly as before this release, so existing series keep generating),
 -- otherwise a warning that the frame is shown instead. A person marked "no picture" (intentionally_empty) whose
 -- selected video frame these templates would still print gets a warning too. Frame-based series are otherwise unaffected.
 create function eps.review_legacy_portrait_issues(p_workspace uuid,p_slides jsonb)returns jsonb language sql stable security invoker set search_path=''as $$
  select coalesce(jsonb_agg(case when w.media_selection_state='intentionally_empty'
    then eps.review_issue('TEMPLATE_PORTRAIT_EMPTY_IGNORED','warning',(v->>'assignment_id')::uuid,null,'This person is marked as having no presentation picture, but this series'' template still shows the selected video frame.','Create a series with Everyone Film Editorial 1.4.0 to leave the picture empty, or remove the selected frames.')
    when jsonb_array_length(v->'frames')=0
-   then eps.review_issue('TEMPLATE_PORTRAIT_UNSUPPORTED','blocking',(v->>'assignment_id')::uuid,null,'This person''s presentation picture is an archive photo, which this series'' template cannot show.','Create a series with Everyone Film Editorial 1.4.0 in Presentations, or pin a video frame.')
+   then eps.review_issue('TEMPLATE_PORTRAIT_UNSUPPORTED','warning',(v->>'assignment_id')::uuid,null,'This person''s presentation picture is an archive photo, which this series'' template cannot show; their slide shows no picture, as before this release.','Create a series with Everyone Film Editorial 1.4.0 in Presentations to show the photo, or pin a video frame.')
    else eps.review_issue('TEMPLATE_PORTRAIT_SUBSTITUTED','warning',(v->>'assignment_id')::uuid,null,'This series'' template shows the selected video frame, not the pinned archive photo.','Create a series with Everyone Film Editorial 1.4.0 to show the photo.')end order by o),'[]'::jsonb)
  from jsonb_array_elements(p_slides)with ordinality x(v,o)join eps.workspace_candidates w on w.id=(v->>'workspace_candidate_id')::uuid and w.workspace_id=p_workspace
  where v->>'kind'='candidate'and(w.portrait_source='photo'and w.media_selection_state='pinned'
@@ -407,3 +408,12 @@ do $m19_readback$begin
   is distinct from'{"eps.export_asset_member(eps.jobs,eps.media_assets,text)":"bc93527bac4aa318ded89ada646188532a6f820fcaa3eec3facdea0831df40c6","eps.export_validate_result(eps.jobs,jsonb)":"5f7998a6eb693a21192edd5cf035680f7f58d8850f2c7d7f7878e7dcfd840f86","eps.guest_asset_issue(uuid,text,uuid,uuid,text,uuid)":"f1e6ffbcab2378b32beb8feddf3358a51595a39b7a1baddfdd157b16e17316a6","eps.guest_storage_allowed(text,text)":"ddf6fae991f8d81f5f8c1ff304a1b14c249b3f0b874578bfeb8e24b82ce8061b","eps.guest_version_dto(eps.presentation_versions,eps.review_links)":"35da1d09797c0e2a304cce9257ad4699f63e2928a8320d733fa0e28cef8129b1","eps.presentation_asset_member(eps.jobs,eps.media_assets,text)":"e4e8c580449108c728fd425471390f048d2da421280ccf67cb3aa6ee97a6eb4c","eps.presentation_capability_allowed(text,text,text)":"b9c76eb7e224b585852b1028c79984c09ec7dc13829335a2a8bfe9c2ce797b5c","eps.presentation_manifest(jsonb)":"a897a5af0e5380f4cf8bf8693e84c2245a0a1542079490cef6fb72a6b340a71f","eps.presentation_render_context(jsonb)":"8348ed81208ab8d83a425f5f8fe55ea83ee522002e6f65168d30d72b057304ac","eps.presentation_storage_read_allowed(text,text)":"1c3abded65f6ce23c077d20938586ded92ee31594eb76de7f294bc2eae54dcd2","eps.presentation_validate_result(eps.jobs,jsonb)":"c06fa1dcb6a4eeee1b268ea3016829132318cf10dd1948918f77ea4ed91d2300","eps.review_snapshot_data(uuid,uuid,text)":"c597c768afefa13b32196e884e12401773e32923e001727bbce3291afb4e5503","eps.review_validate_fit(eps.jobs,jsonb)":"39b3373c57661d5066c52c2e7f5d1f167f6176904f634d40588b7e5c1f6158ac","public.eps_generate_version(uuid,jsonb,text)":"387cac92111196cf5ef9ddb9aed1d1d3dbab99394ea9777e2c158cad266f27fe","public.eps_get_version_asset(uuid,uuid,text)":"d3ea401656acc68b54538f1044274f9c2348cd5af3b2bf009dbc41bc27fa529f","public.eps_get_workspace_review(uuid,uuid,text)":"e4a501549bf7b3a1e30b677415626dde9e51c141711ca01036c37a42cae3a871","public.eps_request_workspace_review_fit(uuid,uuid,jsonb,text)":"2ea5ea5a3d009a4252f0eec8d0091a72e26f6896fc7635773aa3ca2ceba235e7","public.eps_update_settings(jsonb,text)":"759f34e8fcc2dd7a4263924c888531c76ee937379a30f593ccb56660eb4ba261"}'::jsonb
  then raise exception'M19_EDITORIAL_READBACK_FAILED';end if;
 end$m19_readback$;
+
+-- Render/export stages read 1.4.0 archive-photo portraits as their captured-version inventory allows (found on the
+-- staging rehearsal: the stage owner could see frames but not photos, so a photo portrait could never render).
+-- eps.presentation_asset_member / export_asset_member still require the exact pinned inventory row.
+alter policy presentation_asset_service_read on eps.media_assets using(purpose=any(array['client_logo','candidate_video','candidate_frame','candidate_photo','presentation_manifest','presentation_pdf']));
+do $m19_photo_render$begin
+ if(select qual from pg_policies where schemaname='eps'and tablename='media_assets'and policyname='presentation_asset_service_read')!~'candidate_photo'
+ then raise exception'M19_RENDER_PHOTO_POLICY_REQUIRED';end if;
+end$m19_photo_render$;

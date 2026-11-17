@@ -94,7 +94,7 @@ do $$declare settings jsonb;series jsonb;review jsonb;legacy jsonb;failed text;r
  series:=public.eps_create_presentation_series('{"workspace_id":"a3000000-0000-4000-8000-00000000d001","output_type":"shortlist"}','a3-series-key-0000002');
  if series->>'audience_preset_id'<>'a3000000-0000-4000-8000-0000000a1c01'or series->>'template_version'<>'1.3.0'or not series?'cover_note'then raise exception'A3_FAIL default series %',series;end if;
  legacy:=public.eps_get_workspace_review('a3000000-0000-4000-8000-00000000d001',(series->>'id')::uuid,null);
- if legacy?'presentation'or not exists(select 1 from jsonb_array_elements(legacy->'issues')i where i->>'code'='TEMPLATE_PORTRAIT_UNSUPPORTED'and i->>'severity'='blocking'and i->>'entity_id'='a3000000-0000-4000-8000-000000040002')
+ if legacy?'presentation'or not exists(select 1 from jsonb_array_elements(legacy->'issues')i where i->>'code'='TEMPLATE_PORTRAIT_UNSUPPORTED'and i->>'severity'='warning'and i->>'entity_id'='a3000000-0000-4000-8000-000000040002')
   or exists(select 1 from jsonb_array_elements(legacy->'issues')i where i->>'code'like'PORTRAIT_%'or i->>'code'='NO_PRESENTATION_PICTURE')then raise exception'A3_FAIL legacy issues %',legacy->'issues';end if;
  perform set_config('a3.legacy',series->>'id',true);
  -- Notes: role and slot (note-only slot update keeps the label).

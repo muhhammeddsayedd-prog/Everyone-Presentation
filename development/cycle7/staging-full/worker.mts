@@ -35,6 +35,15 @@ const traffic: Record<string, number> = {};
 globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
   const url = new URL(typeof input === 'string' ? input : input instanceof URL ? input.href : input.url);
   let next: URL;
+  // Controlled provider response (stated in reports): only the Responses API extraction call, only when a fixture file
+  // is supplied for this run. No request leaves this machine.
+  if (url.origin === 'https://api.openai.com' && url.pathname === '/v1/responses' && process.env.EPS_STG_OPENAI_FIXTURE) {
+    traffic['controlled_openai_responses'] = (traffic['controlled_openai_responses'] ?? 0) + 1;
+    const payload = readFileSync(process.env.EPS_STG_OPENAI_FIXTURE, 'utf8');
+    return new Response(JSON.stringify({ id: `resp_staging_${Date.now()}`, _request_id: 'req_staging_controlled', model: 'staging-controlled-fixture', status: 'completed', error: null,
+      output: [{ type: 'message', role: 'assistant', status: 'completed', content: [{ type: 'output_text', text: payload }] }],
+      usage: { input_tokens: 0, output_tokens: 0, total_tokens: 0 } }), { status: 200, headers: { 'content-type': 'application/json', 'x-request-id': 'req_staging_controlled' } });
+  }
   if (url.origin === PROD) next = new URL(GATEWAY + url.pathname + url.search);
   else if (['127.0.0.1', 'localhost'].includes(url.hostname)) next = url;
   else throw new Error(`STAGING_BOUNDARY: outbound request to ${url.host} refused`);
@@ -75,10 +84,14 @@ const debug = process.env.EPS_STG_DEBUG === '1';
 // Debug only: log the class/code/message of a stage error (never bytes, tokens or URLs) before the executor classifies it.
 const traced = (name: string, fn: (...a: unknown[]) => Promise<unknown>) => async (...a: unknown[]) => { try { return await fn(...a); } catch (error) {
   const e = error as { name?: string; code?: string; message?: string }; process.stdout.write(JSON.stringify({ event: 'stage_debug_error', step: name, name: e?.name, code: e?.code, message: String(e?.message ?? '').replace(/https?:\/\/\S+/g, '<url>').slice(0, 300) }) + '\n'); throw error; } };
-const assets = createPresentationStageAssets(gateway.presentationFiles, { publishableKey: PUBLISHABLE });
+const files = gateway.presentationFiles;
+const tracedFiles = debug ? { ...files, getAssetAccess: async (input: { asset_id: string }, signal: AbortSignal) => { try { return await files.getAssetAccess(input, signal); } catch (error) {
+  const e = error as { code?: string }; process.stdout.write(JSON.stringify({ event: 'stage_debug_error', step: 'getAssetAccess', asset_id: input.asset_id, code: e?.code }) + '\n'); throw error; } } } : files;
+const assets = createPresentationStageAssets(tracedFiles, { publishableKey: PUBLISHABLE });
 const tracedAssets = debug ? { read: traced('assets.read', assets.read.bind(assets)), write: traced('assets.write', assets.write.bind(assets)) } : assets;
 const presentationOptions = debug ? { assets: tracedAssets, prepare: traced('prepare', pdf.preparePresentationAssets), render: traced('render', pdf.renderPresentationPdf), validate: traced('validate', pdf.validatePresentationPdf) } : { assets };
-const options = { openAI: { apiKey: 'staging-no-provider', model: 'staging-no-provider' }, review: { openAI: { apiKey: 'staging-no-provider', model: 'staging-no-provider' } }, fit: {},
+const providerModel = process.env.EPS_STG_OPENAI_FIXTURE ? 'gpt-6.1-sol' : 'staging-no-provider'; // name only: the call is answered by the fixture
+const options = { openAI: { apiKey: 'staging-no-provider', model: providerModel }, review: { openAI: { apiKey: 'staging-no-provider', model: 'staging-no-provider' } }, fit: {},
   presentation: presentationOptions, presentationExport: exportsEnabled ? { assets } : undefined,
   files: undefined, pollMs: 1000, recoverMs: 5000,
   notice: (event: Record<string, unknown>) => process.stdout.write(JSON.stringify({ t: new Date().toISOString(), ...event }) + '\n') };
@@ -86,6 +99,8 @@ process.stdout.write(JSON.stringify({ event: 'staging_worker_started', checkout:
 const controller = new AbortController();
 process.on('SIGINT', () => controller.abort()); process.on('SIGTERM', () => controller.abort());
 if (process.argv.includes('--once')) {
+  // Same recovery the continuous loop runs first: expired leases and due retries go back to the queue.
+  try { const recovered = await gateway.recover(25, controller.signal); options.notice({ event: 'recovery_completed', ...(recovered as object) }); } catch (error) { options.notice({ event: 'recovery_unconfirmed', code: (error as { code?: string })?.code }); }
   for (let i = 0; i < 40; i++) { const notice = await processNextSpecsStage(gateway, router, { ...options, signal: controller.signal }); options.notice(notice); if (notice.event === 'idle') break; }
 } else {
   await runSpecsWorker(gateway, router, { ...options, signal: controller.signal });

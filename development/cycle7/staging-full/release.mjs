@@ -91,6 +91,7 @@ if (run('4')) await journey('4-review-1-4-explicit', async () => {
   note('portraits', (review.presentation?.slides ?? []).map(s => s.portrait));
   note('fit', review.fit);
 });
-const { more } = await import('./release-more.mjs');
+const { more, failures } = await import('./release-more.mjs');
 await more({ ok, call, check, note, journey, runWorker, WS, seed, state, persist, before, ART, sha, members, run, NEW });
+await failures({ ok, call, check, note, journey, runWorker, WS, seed, state, persist, members, run, NEW, sql });
 save('staging-journeys.json');

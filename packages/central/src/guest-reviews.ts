@@ -131,7 +131,9 @@ export function createCentralGuestReviews(options: ReviewServiceOptions): GuestR
   async function sessionData(session: string) { return guestAccessDto(await rpc('session', sessionInput(session)), reviewToken(session)); }
   async function asset(session: string, versionId: string, assetId: string, purpose: 'frame' | 'logo' | 'video') {
     const id = guestIdentifier(assetId); const result = guestAssetRead(await rpc('get_asset', { ...sessionInput(session), version_id: guestIdentifier(versionId), asset_id: id, purpose }), config.now());
-    if (result.asset.id !== id || result.asset.purpose !== { frame: 'candidate_frame', logo: 'client_logo', video: 'candidate_video' }[purpose]) guestResponseInvalid(); return result;
+    // Template 1.4.0 portraits may be archive photos; they are read like fixed-version frames (same as the in-app reader).
+    const expected = { frame: 'candidate_frame', logo: 'client_logo', video: 'candidate_video' }[purpose];
+    if (result.asset.id !== id || result.asset.purpose !== expected && !(purpose === 'frame' && result.asset.purpose === 'candidate_photo')) guestResponseInvalid(); return result;
   }
   async function grantAsset(grant: string, versionId: string, assetId: string) { const id = guestIdentifier(assetId); const result = guestAssetRead(await rpc('grant_asset', { media_grant_digest: reviewTokenDigest(grant), version_id: guestIdentifier(versionId), asset_id: id }), config.now()); if (result.asset.id !== id || result.asset.purpose !== 'candidate_video') guestResponseInvalid(); return result; }
   async function pdfAsset(session: string, id: string) { const result = guestAssetRead(await rpc('get_export_asset', { ...sessionInput(session), export_id: guestIdentifier(id) }), config.now()); if (result.asset.purpose !== 'presentation_pdf') guestResponseInvalid(); return result; }

@@ -77,16 +77,15 @@ export async function more(ctx) {
     const current = await guest('/review/presentation', 'GET', session);
     check('guest_sees_current_1_4_version', current.status === 200 && current.body?.data?.id === state.version14, [current.status, current.body?.data?.id, current.body?.error]);
     note('guest_version_keys', current.body?.data ? Object.keys(current.body.data) : null);
-    const grant = await guest(`/review/versions/${state.version14}/media/${seed.ids.p1}`, 'POST', session);
-    note('guest_media_grant', [grant.status, grant.body?.data ? Object.keys(grant.body.data) : grant.body?.error]);
-    const g = grant.body?.data ?? {};
-    const mediaToken = g.grant_token ?? g.access_token ?? g.token ?? g.media_grant;
-    if (mediaToken) {
-      const m = await call('GET', `/review-media/versions/${state.version14}/media/${seed.ids.p1}/content`, undefined, { anonymous: true, raw: true, headers: { 'x-media-grant': mediaToken } });
+    // Guest image content (portraits/frames) is read with the guest session; the POST media grant is video playback only.
+    for (const [label, asset, key] of [['photo', seed.ids.p1, 'p1'], ['frame', seed.ids.f2, 'f2']]) {
+      const m = await call('GET', `/review/versions/${state.version14}/media/${asset}/content`, undefined, { anonymous: true, raw: true, headers: session });
       const bytes = Buffer.from(await m.arrayBuffer());
-      check('guest_reads_private_portrait', m.status === 200 && sha(bytes) === seed.image_sha256.p1, [m.status, sha(bytes)]);
-    } else check('guest_media_grant_issued', false, grant.body);
-    const notInDeck = await guest(`/review/versions/${state.version14}/media/${seed.ids.p2}`, 'POST', session);
+      check(`guest_reads_private_${label}_portrait`, m.status === 200 && sha(bytes) === seed.image_sha256[key], [m.status, bytes.subarray(0, 200).toString()]);
+    }
+    const notInDeck = await call('GET', `/review/versions/${state.version14}/media/${seed.ids.p2}/content`, undefined, { anonymous: true, raw: true, headers: session });
+    const noSession = await call('GET', `/review/versions/${state.version14}/media/${seed.ids.p1}/content`, undefined, { anonymous: true, raw: true });
+    check('guest_media_requires_session', noSession.status >= 400 && noSession.status < 500, noSession.status);
     check('guest_cannot_fetch_assets_outside_version', notInDeck.status >= 400, notInDeck.status);
     const bad = await guest('/review/open', 'POST', { 'x-review-token': 'A'.repeat(43) });
     check('invalid_guest_token_denied', bad.status >= 400 && bad.status < 500, bad.status);
@@ -96,7 +95,8 @@ export async function more(ctx) {
     const internalSeries = (await ok('POST', '/presentation-series', { workspace_id: WS, output_type: 'shortlist', audience_preset_id: state.internal })).data;
     const refused = await call('POST', '/review-links', { series_id: internalSeries.id, label: 'should fail' });
     check('internal_series_not_shareable', refused.status === 422 && refused.body?.error?.code === 'EXTERNAL_SERIES_REQUIRED', refused.body);
-    const slide = (await ok('GET', `/versions/${state.version14}`)).data.slides?.[0];
+    const slides = (await ok('GET', `/versions/${state.version14}`)).data.slides ?? []; note('slide_kinds', slides.map(x => x.kind));
+    const slide = slides.find(x => x.kind !== 'cover' && x.kind !== 'closing' && x.kind !== 'divider') ?? slides[1];
     await ok('POST', `/versions/${state.version14}/comments`, { version_slide_id: slide.id, visibility: 'internal', body: 'Internal: staging privacy check' });
     await ok('POST', `/versions/${state.version14}/comments`, { version_slide_id: slide.id, visibility: 'external', body: 'External: visible to the guest' });
     const guestFeedback = await guest(`/review/versions/${state.version14}/feedback`, 'GET', session);
@@ -121,6 +121,7 @@ export async function more(ctx) {
     await call('POST', `/workspaces/${WS}/review/fit`, { series_id: before.series.id, expected_input_fingerprint: review.input_fingerprint });
     work('fit13_worker');
     const r2 = (await ok('GET', `/workspaces/${WS}/review?series_id=${before.series.id}`)).data;
+    note('fit13', { fit: r2.fit, input_fingerprint: r2.input_fingerprint, measured_for: review.input_fingerprint, issues: r2.issues.filter(i => i.blocking).map(i => i.code) });
     check('new_worker_measures_1_3', r2.fit?.status === 'measured', r2.fit);
     const workspace = (await ok('GET', `/workspaces/${WS}`)).data;
     const g = await call('POST', `/presentation-series/${before.series.id}/versions`, { expected_input_fingerprint: r2.input_fingerprint, expected_workspace_row_version: workspace.row_version, expected_draft_revision: r2.draft_revision });
@@ -129,5 +130,35 @@ export async function more(ctx) {
     const versions = (await ok('GET', `/presentation-series/${before.series.id}/versions`)).data;
     check('new_worker_generates_1_3', versions.filter(v => v.status === 'ready').length >= 2, versions.map(v => [v.version_number, v.status]));
     state.version13b = versions.find(v => v.version_number === Math.max(...versions.map(x => x.version_number)))?.id; persist();
+  });
+}
+
+export async function failures(ctx) {
+  const { ok, call, check, note, journey, runWorker, WS, seed, state, persist, members, run, NEW, sql } = ctx;
+  if (run('9')) await journey('9-unreadable-picture-fails-visibly', async () => {
+    const row = (await members()).find(m => m.candidate_id === seed.ids.brokenPerson);
+    // Pin the unreadable archive photo (rows exist, object missing in private Storage).
+    await ok('PATCH', `/workspace-candidates/${row.id}`, { row_version: row.row_version, media_selection_state: 'pinned', portrait_source: 'photo', portrait_asset_id: seed.ids.pb });
+    let review = (await ok('GET', `/workspaces/${WS}/review?series_id=${state.series14}`)).data;
+    note('issues_pinned_unreadable', review.issues.filter(i => i.severity === 'blocking').map(i => i.code));
+    await call('POST', `/workspaces/${WS}/review/fit`, { series_id: state.series14, expected_input_fingerprint: review.input_fingerprint });
+    runWorker(NEW);
+    review = (await ok('GET', `/workspaces/${WS}/review?series_id=${state.series14}`)).data;
+    note('fit', review.fit);
+    const workspace = (await ok('GET', `/workspaces/${WS}`)).data;
+    const g = await call('POST', `/presentation-series/${state.series14}/versions`, { expected_input_fingerprint: review.input_fingerprint, expected_workspace_row_version: workspace.row_version, expected_draft_revision: review.draft_revision });
+    note('generate', [g.status, g.body?.error?.code ?? null]);
+    if (g.status === 202) {
+      const job = g.body.data.job_id;
+      for (let i = 0; i < 4; i++) { sql(`update eps.jobs set available_at=now() where id='${job}' and status='queued'`); runWorker(NEW); }
+      const j = (await ok('GET', `/jobs/${job}`)).data; note('job', { status: j.status, stage: j.stage, error: j.error?.code ?? j.error_code ?? null });
+      check('render_fails_never_placeholder', j.status === 'failed', j.status);
+      const versions = (await ok('GET', `/presentation-series/${state.series14}/versions`)).data;
+      note('versions', versions.map(v => [v.version_number, v.status, v.failure_code ?? v.error_code ?? null]));
+      check('previous_ready_version_kept', versions.some(v => v.id === state.version14 && v.status === 'ready'));
+    } else check('generation_refused_before_render', g.status === 409, g.body);
+    // Restore the producer's intentional choice for later journeys.
+    const fresh = (await members()).find(m => m.candidate_id === seed.ids.brokenPerson);
+    await ok('PATCH', `/workspace-candidates/${fresh.id}`, { row_version: fresh.row_version, media_selection_state: 'intentionally_empty' });
   });
 }

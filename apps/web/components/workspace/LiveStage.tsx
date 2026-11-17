@@ -3,6 +3,7 @@
 import { useCallback, useDeferredValue, useMemo, useState } from 'react';
 import { CURRENT_TEMPLATE, isCurrentTemplate, templateName } from './template-names';
 import { deckAssetIds, useEditorialAssets, type AssetFetch, type LoadedAsset } from '../EditorialSlide';
+import { photoPortraitIds, workspaceMediaFetch } from './useStageDeck';
 import { ErrorNotice } from '../Feedback';
 import { Icon } from '../Icon';
 import { buildDraftReview, focusFor, supportedTemplate, type DraftContext } from './draft-review';
@@ -61,7 +62,9 @@ interface StageViewProps { deck: StageDeck; paused: string; notes: string[]; pre
 function StageView({ deck, paused, notes, previewOnly, choice, onChoice, seriesOptions, defaultLabel }: StageViewProps) {
   const draft = useWorkspaceDraft()!;
   const ids = useMemo(() => 'deck' in deck ? [...new Set(deckAssetIds(deck.deck))].sort() : [], [deck]);
-  const { assets, failed } = useEditorialAssets(ids, fetchMedia);
+  const photoKey = useMemo(() => [...photoPortraitIds(deck)].sort().join(','), [deck]);
+  const fetcher = useMemo(() => workspaceMediaFetch(new Set(photoKey ? photoKey.split(',') : []), fetchMedia), [photoKey]);
+  const { assets, failed } = useEditorialAssets(ids, fetcher);
   const rendered = useRenderedDeck(deck, 'deck' in deck ? assets : NO_ASSETS);
   const [currentKey, setCurrentKey] = useState('cover');
   const found = deck.pages.findIndex(page => page.key === currentKey);
