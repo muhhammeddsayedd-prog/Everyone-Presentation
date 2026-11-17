@@ -16,7 +16,8 @@ const poolRow = (id: string, candidate: string, patch: Record<string, unknown> =
   selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, portrait_asset_id: null, portrait_source: null,
   portrait_crop: null, media_selection_state: 'unset', row_version: 1, ...patch });
 
-type Upload = { upload_id: string; state: string; job: { id: string; status: string; retryable?: boolean; error_code?: string } | null; candidate_id: string | null; workspace_candidate_id: string | null };
+type Upload = { upload_id: string; state: string; job: { id: string; status: string; retryable?: boolean; error_code?: string } | null; candidate_id: string | null; workspace_candidate_id: string | null;
+  candidate_outcome?: string | null; membership_outcome?: string | null };
 interface State {
   pool: ReturnType<typeof poolRow>[]; adds: { key: string; candidate: string }[]; patches: Record<string, unknown>[]; failPatch: boolean;
   uploads: Upload[]; jobPolls: Record<string, string[]>; retries: number; searches: URLSearchParams[]; repairsApplied: unknown[];
@@ -56,7 +57,7 @@ async function fixture(page: Page, setup: Partial<State> = {}) {
       if (['/media', '/supporting-files', '/duplicates', '/photos'].includes(person[2])) return list([]);
     }
     if (path === `/api/v1/workspaces/${workspace}/candidate-uploads`) return list(state.uploads.map(row => ({ workspace_id: workspace, asset_id: `asset-${row.upload_id}`, filename: `${row.upload_id}.mp4`,
-      size_bytes: 1000, mime_type: 'video/mp4', target_candidate_id: null, created_at: '2026-11-16T09:00:00Z', upload_status: 'completed', ...row,
+      size_bytes: 1000, mime_type: 'video/mp4', target_candidate_id: null, created_at: '2026-11-16T09:00:00Z', upload_status: 'completed', candidate_outcome: null, membership_outcome: null, ...row,
       job: row.job ? { stage: 'prepare_candidate', error_code: row.state === 'failed' ? 'PROCESSING_FAILED' : null, retryable: false, row_version: 2, updated_at: '2026-11-16T09:00:00Z', ...row.job } : null })));
     const job = path.match(/^\/api\/v1\/jobs\/([^/]+)(\/retry)?$/u);
     if (job && job[2] && method === 'POST') {
@@ -67,10 +68,10 @@ async function fixture(page: Page, setup: Partial<State> = {}) {
       const queue = state.jobPolls[job[1]] ?? []; const status = queue.length > 1 ? queue.shift()! : queue[0] ?? 'running';
       const upload = state.uploads.find(row => row.job?.id === job[1])!;
       if (status === 'succeeded' && !state.pool.some(row => row.candidate_id === 'uploaded-person')) { state.pool.unshift(poolRow('pool-uploaded', 'uploaded-person', { media_selection_state: 'pinned' })); }
-      if (status === 'succeeded') Object.assign(upload, { state: 'ready', job: { id: job[1], status }, candidate_id: 'uploaded-person', workspace_candidate_id: 'pool-uploaded' });
+      if (status === 'succeeded') Object.assign(upload, { state: 'ready', job: { id: job[1], status }, candidate_id: 'uploaded-person', workspace_candidate_id: 'pool-uploaded', candidate_outcome: 'created', membership_outcome: 'added' });
       return ok({ id: job[1], workspace_id: workspace, kind: 'candidate_scan', status, stage: status === 'succeeded' ? 'apply_candidate' : 'transcribe_candidate', attempt: 1, progress_completed: 0,
         progress_total: null, batch_id: null, input_asset_id: 'asset', resource_id: upload.upload_id, error: null, created_at: '2026-11-16T09:00:00Z', updated_at: '2026-11-16T09:00:00Z', row_version: 3,
-        ...(status === 'succeeded' ? { candidate_result: { candidate_id: 'uploaded-person', candidate_media_id: 'media', workspace_candidate_id: 'pool-uploaded' } } : {}) });
+        ...(status === 'succeeded' ? { candidate_result: { candidate_id: 'uploaded-person', candidate_media_id: 'media', workspace_candidate_id: 'pool-uploaded', candidate_outcome: 'created', membership_outcome: 'added' } } : {}) });
     }
     if (path === `/api/v1/workspaces/${workspace}/media-repairs` && method === 'GET') return route.fulfill({ json: { request_id: 'synthetic-a1', has_more: false,
       data: state.pool.filter(row => row.media_selection_state === 'unset').map(row => ({ workspace_candidate_id: row.id, candidate_id: row.candidate_id, row_version: row.row_version,
@@ -101,11 +102,27 @@ test('a finished upload appears in the project without searching, and is still t
   await page.goto(cast);
   const status = page.getByRole('region', { name: 'Your uploads in this project' });
   await expect(status.getByText('upload-1.mp4')).toBeVisible();
-  await expect(status.getByText('Added to this project · Saved in Library')).toBeVisible({ timeout: 20_000 });
+  await expect(status.getByText('New person saved in Library · Added to this project')).toBeVisible({ timeout: 20_000 });
   await expect(projectList(page).getByRole('heading', { name: 'Synthetic Uploaded Person' })).toBeVisible();
   await page.reload();
-  await expect(page.getByRole('region', { name: 'Your uploads in this project' }).getByText('Added to this project · Saved in Library')).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Your uploads in this project' }).getByText('New person saved in Library · Added to this project')).toBeVisible();
   await expect(projectList(page).getByRole('heading', { name: 'Synthetic Uploaded Person' })).toHaveCount(1);
+  expect(state.pool).toHaveLength(1);
+});
+
+test('after a reload an older finished upload without a recorded outcome claims only what is verified now', async ({ page }) => {
+  // Two jobs finished before outcomes were recorded: one person is in the project now, the other is not.
+  const state = await fixture(page, { pool: [poolRow('pool-old', people[0], { media_selection_state: 'pinned' })], uploads: [
+    { upload_id: 'old-in', state: 'ready', job: { id: 'job-old-in', status: 'succeeded' }, candidate_id: people[0], workspace_candidate_id: 'pool-old', candidate_outcome: null, membership_outcome: null },
+    { upload_id: 'old-out', state: 'ready', job: { id: 'job-old-out', status: 'succeeded' }, candidate_id: people[1], workspace_candidate_id: 'pool-removed', candidate_outcome: null, membership_outcome: null },
+  ] });
+  await page.goto(cast);
+  await page.reload();
+  const status = page.getByRole('region', { name: 'Your uploads in this project' });
+  const inProject = status.locator('li').filter({ hasText: 'old-in.mp4' }); const notInProject = status.locator('li').filter({ hasText: 'old-out.mp4' });
+  await expect(inProject.getByRole('status')).toHaveText('Tape ready · In this project');
+  await expect(notInProject.getByRole('status')).toHaveText('Tape ready');
+  for (const claim of ['New person', 'New tape', 'Added to this project', 'Already in this project', 'Saved in Library']) await expect(status).not.toContainText(claim);
   expect(state.pool).toHaveLength(1);
 });
 
@@ -118,7 +135,7 @@ test('a pending upload row is restored after reload and resolves after completio
   await page.reload();
   await expect(page.getByRole('region', { name: 'Your uploads in this project' }).getByText('Processing', { exact: true })).toBeVisible();
   state.jobPolls['job-2'] = ['succeeded'];
-  await expect(page.getByRole('region', { name: 'Your uploads in this project' }).getByText('Added to this project · Saved in Library')).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('region', { name: 'Your uploads in this project' }).getByText('New person saved in Library · Added to this project')).toBeVisible({ timeout: 20_000 });
   await expect(projectList(page).getByRole('heading', { name: 'Synthetic Uploaded Person' })).toHaveCount(1);
 });
 
@@ -129,7 +146,7 @@ test('retrying a failed upload job adds the person once', async ({ page }) => {
   const status = page.getByRole('region', { name: 'Your uploads in this project' });
   await expect(status.getByText('Failed', { exact: true })).toBeVisible();
   await status.getByRole('button', { name: 'Retry', exact: true }).click();
-  await expect(status.getByText('Added to this project · Saved in Library')).toBeVisible({ timeout: 20_000 });
+  await expect(status.getByText('New person saved in Library · Added to this project')).toBeVisible({ timeout: 20_000 });
   expect(state.retries).toBe(1);
   await expect(projectList(page).getByRole('heading', { name: 'Synthetic Uploaded Person' })).toHaveCount(1);
 });

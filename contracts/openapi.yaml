@@ -16084,17 +16084,39 @@ components:
           type: object
           additionalProperties: false
           description: 'Present on a succeeded candidate_scan: the person and the project row the upload produced (workspace_candidate_id is null
-            for a re-scan).'
+            for a re-scan) and the recorded outcomes (null for jobs finished before outcomes were recorded).'
           properties:
             candidate_id: &id029
               $ref: '#/components/schemas/Id'
             candidate_media_id: *id029
             workspace_candidate_id: &id042
               anyOf: *id030
+            candidate_outcome: &id044
+              anyOf:
+              - type: string
+                enum:
+                - created
+                - tape_added
+                - tape_rescanned
+              - type: 'null'
+              description: 'What processing did, recorded by the save step: created a new person, added a tape to the existing person, or re-scanned
+                a stored tape. null = unknown (finished before outcomes were recorded, or not finished).'
+            membership_outcome: &id045
+              anyOf:
+              - type: string
+                enum:
+                - added
+                - already_member
+                - not_requested
+              - type: 'null'
+              description: 'Project membership outcome recorded by the save step: processing added the person to this project, the person was
+                already in it, or no membership was requested (re-scan). null = unknown. Current membership is read from the project list.'
           required:
           - candidate_id
           - candidate_media_id
           - workspace_candidate_id
+          - candidate_outcome
+          - membership_outcome
       required:
       - id
       - workspace_id
@@ -17700,6 +17722,8 @@ components:
           - type: 'null'
         candidate_id: *id042
         workspace_candidate_id: *id042
+        candidate_outcome: *id044
+        membership_outcome: *id045
       required:
       - upload_id
       - workspace_id
@@ -17714,6 +17738,8 @@ components:
       - job
       - candidate_id
       - workspace_candidate_id
+      - candidate_outcome
+      - membership_outcome
     MediaRepairSuggestion:
       type: object
       additionalProperties: false
@@ -18339,7 +18365,7 @@ components:
           maximum: 9
         position_note:
           anyOf:
-          - &id044
+          - &id046
             type: string
           - type: 'null'
         attribute:
@@ -18358,7 +18384,7 @@ components:
           - visible_tattoos
         suggested_value:
           type: string
-          enum: &id045
+          enum: &id047
           - age_18_24
           - age_25_34
           - age_35_44
@@ -18419,7 +18445,7 @@ components:
           - high
         evidence:
           anyOf:
-          - *id044
+          - *id046
           - type: 'null'
         status:
           type: string
@@ -18431,12 +18457,12 @@ components:
         override_value:
           anyOf:
           - type: string
-            enum: *id045
+            enum: *id047
           - type: 'null'
         effective_value:
           anyOf:
           - type: string
-            enum: *id045
+            enum: *id047
           - type: 'null'
         reviewed_by:
           anyOf:
@@ -18486,7 +18512,7 @@ components:
           - type: 'null'
         frame_timestamp_ms:
           anyOf:
-          - &id046
+          - &id048
             type: integer
             minimum: 0
           - type: 'null'
@@ -18518,10 +18544,10 @@ components:
           - type: 'null'
         quality_note:
           anyOf:
-          - *id044
+          - *id046
           - type: 'null'
-        model: *id044
-        prompt_version: *id044
+        model: *id046
+        prompt_version: *id046
         analyzed_at:
           $ref: '#/components/schemas/DateTime'
         row_version:
@@ -18569,11 +18595,11 @@ components:
                     - archive_import
                   source_project:
                     anyOf:
-                    - *id044
+                    - *id046
                     - type: 'null'
                   source_id:
                     anyOf:
-                    - *id044
+                    - *id046
                     - type: 'null'
                   imported_at:
                     anyOf:
@@ -18586,38 +18612,38 @@ components:
                 - imported_at
               name_ar:
                 anyOf:
-                - *id044
+                - *id046
                 - type: 'null'
-              talent_type: *id044
+              talent_type: *id046
               look:
                 anyOf:
-                - *id044
+                - *id046
                 - type: 'null'
               skin_tone:
                 anyOf:
-                - *id044
+                - *id046
                 - type: 'null'
               playing_age:
                 type: array
-                items: *id044
+                items: *id046
               hair_length:
                 type: array
-                items: *id044
+                items: *id046
               hair_texture:
                 type: array
-                items: *id044
+                items: *id046
               hair_colour:
                 type: array
-                items: *id044
+                items: *id046
               hair_style:
                 type: array
-                items: *id044
+                items: *id046
               hair_colouring:
                 type: array
-                items: *id044
+                items: *id046
               tags:
                 type: array
-                items: *id044
+                items: *id046
             required:
             - source
             - name_ar
@@ -18648,9 +18674,9 @@ components:
                   - languages
                 value:
                   anyOf:
-                  - *id044
+                  - *id046
                   - type: array
-                    items: *id044
+                    items: *id046
                   - type: 'null'
                 source:
                   anyOf:
@@ -18918,7 +18944,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        total: *id046
+        total: *id048
         filters:
           type: object
           additionalProperties: false
@@ -18927,12 +18953,12 @@ components:
               type: object
               additionalProperties:
                 type: array
-                items: *id044
+                items: *id046
             include_unknown:
               type: boolean
             q:
               anyOf:
-              - *id044
+              - *id046
               - type: 'null'
             search:
               type: object
@@ -18962,22 +18988,22 @@ components:
                 - build
                 - languages
                 - tags
-              matched: *id046
-              unknown: *id046
+              matched: *id048
+              unknown: *id048
               values:
                 type: array
                 items:
                   type: object
                   additionalProperties: false
                   properties:
-                    value: *id044
-                    count: *id046
+                    value: *id046
+                    count: *id048
                   required:
                   - value
                   - count
               selected:
                 type: array
-                items: *id044
+                items: *id046
             required:
             - key
             - matched
@@ -19042,9 +19068,9 @@ components:
         spend_cap_cents:
           type: integer
           minimum: 1
-        spent_micro_usd: *id046
-        model: *id044
-        prompt_version: *id044
+        spent_micro_usd: *id048
+        model: *id046
+        prompt_version: *id046
         created_at:
           $ref: '#/components/schemas/DateTime'
         updated_at:
@@ -19059,14 +19085,14 @@ components:
           type: object
           additionalProperties: false
           properties:
-            total: *id046
-            pending: *id046
-            queued: *id046
-            succeeded: *id046
-            failed: *id046
-            skipped: *id046
-            input_tokens: *id046
-            output_tokens: *id046
+            total: *id048
+            pending: *id048
+            queued: *id048
+            succeeded: *id048
+            failed: *id048
+            skipped: *id048
+            input_tokens: *id048
+            output_tokens: *id048
           required:
           - total
           - pending
@@ -19102,9 +19128,9 @@ components:
                 - type: 'null'
               error_code:
                 anyOf:
-                - *id044
+                - *id046
                 - type: 'null'
-              cost_micro_usd: *id046
+              cost_micro_usd: *id048
             required:
             - candidate_id
             - position

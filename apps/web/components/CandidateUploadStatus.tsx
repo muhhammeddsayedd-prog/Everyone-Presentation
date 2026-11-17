@@ -2,27 +2,42 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { CandidateUploadRow } from '@eps/domain';
+import type { Candidate, CandidateUploadRow } from '@eps/domain';
 import { api, errorMessage } from './api';
 import { Icon } from './Icon';
 
 const ACTIVE = new Set(['uploading', 'processing']);
 const LABEL: Record<CandidateUploadRow['state'], string> = { uploading: 'Uploading', processing: 'Processing', ready: 'Ready', needs_attention: 'Needs attention', failed: 'Failed', cancelled: 'Cancelled', expired: 'Expired' };
 type JobView = { id: string; status: NonNullable<CandidateUploadRow['job']>['status']; stage: string; row_version: number; updated_at: string;
-  error: { code: string; retryable: boolean } | null; candidate_result?: { candidate_id: string; workspace_candidate_id: string | null } };
+  error: { code: string; retryable: boolean } | null;
+  candidate_result?: { candidate_id: string; workspace_candidate_id: string | null; candidate_outcome: CandidateUploadRow['candidate_outcome']; membership_outcome: CandidateUploadRow['membership_outcome'] } };
 function withJob(row: CandidateUploadRow, job: JobView): CandidateUploadRow {
   const state: CandidateUploadRow['state'] = job.status === 'succeeded' ? 'ready' : job.status === 'waiting_for_input' ? 'needs_attention' : job.status === 'failed' ? 'failed' : job.status === 'cancelled' ? 'cancelled' : 'processing';
   return { ...row, state, job: { id: job.id, status: job.status, stage: job.stage, error_code: job.error?.code ?? null, retryable: false, row_version: job.row_version, updated_at: job.updated_at },
-    candidate_id: job.candidate_result?.candidate_id ?? row.candidate_id, workspace_candidate_id: job.candidate_result?.workspace_candidate_id ?? row.workspace_candidate_id };
+    candidate_id: job.candidate_result?.candidate_id ?? row.candidate_id, workspace_candidate_id: job.candidate_result?.workspace_candidate_id ?? row.workspace_candidate_id,
+    candidate_outcome: job.candidate_result?.candidate_outcome ?? row.candidate_outcome ?? null, membership_outcome: job.candidate_result?.membership_outcome ?? row.membership_outcome ?? null };
+}
+/** A finished upload's copy, from server-recorded outcomes plus current membership only. Nothing is inferred from
+ * what this page saw earlier, so the text is the same after a reload. Unknown outcomes (older jobs) claim nothing
+ * about what processing did: only "Tape ready" and, when the person is in the project now, "In this project". */
+export function uploadOutcomeText(row: Pick<CandidateUploadRow, 'state' | 'candidate_outcome' | 'membership_outcome'>, member: boolean | null, personName: string | null): string | null {
+  if (row.state !== 'ready') return null;
+  const person = personName?.trim() || 'an existing person';
+  const work = row.candidate_outcome === 'created' ? 'New person saved in Library' : row.candidate_outcome === 'tape_added' ? `New tape ready for ${person}`
+    : row.candidate_outcome === 'tape_rescanned' ? `Tape processed again for ${person}` : 'Tape ready';
+  // "Added" and "Already in" are recorded events (true even if the person was removed later); otherwise only the present is stated.
+  const joined = row.candidate_outcome === null ? null : row.membership_outcome;
+  const membership = joined === 'added' ? 'Added to this project' : joined === 'already_member' ? 'Already in this project' : member === true ? 'In this project' : null;
+  return membership ? `${work} · ${membership}` : work;
 }
 const TONE: Record<CandidateUploadRow['state'], string> = { uploading: 'info', processing: 'info', ready: 'ok', needs_attention: 'warn', failed: 'bad', cancelled: 'outline', expired: 'outline' };
 
 type Props = {
   workspaceId: string; refreshToken: number; canRetry: boolean;
-  /** Project rows already shown; a finished upload says "Added to this project" only once its row is present. */
+  /** Project rows already shown: a finished upload's row among them is in the project now. */
   presentIds: ReadonlySet<string>;
-  /** Whether a person is a project member now (null = unknown). Read while a new tape for an existing person is
-   * still processing, so a finished job that also added them to the project can say so. */
+  /** Whether a person is a project member now (null = unknown). Only describes the present; what processing did
+   * comes from the server-recorded outcome. */
   isMember?: (candidateId: string) => boolean | null;
   /** A finished upload produced this project row: insert it (the person is newest, so page 1 has them). */
   onResolved: (row: CandidateUploadRow) => void;
@@ -39,17 +54,17 @@ export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, pre
   const resolved = useRef(new Set<string>());
   const retryKeys = useRef(new Map<string, string>()); const [pollToken, setPollToken] = useState(0);
   const rowsRef = useRef<CandidateUploadRow[]>([]);
-  // Membership of a new tape's existing person, captured before its job finished (known values only).
-  const memberCheck = useRef(isMember); useEffect(() => { memberCheck.current = isMember; }, [isMember]);
-  const [memberBefore, setMemberBefore] = useState<Record<string, boolean>>({}); const memberSeen = useRef(new Set<string>());
+  // Names of existing people who received a new tape (read once; a failed read leaves the generic wording).
+  const [names, setNames] = useState<Record<string, string | null>>({}); const namesAsked = useRef(new Set<string>());
+  useEffect(() => {
+    const wanted = rows.filter(row => row.state === 'ready' && row.candidate_id && (row.candidate_outcome === 'tape_added' || row.candidate_outcome === 'tape_rescanned') && !namesAsked.current.has(row.candidate_id));
+    for (const row of wanted) {
+      const id = row.candidate_id!; namesAsked.current.add(id);
+      api<Candidate>(`/api/v1/candidates/${encodeURIComponent(id)}`).then(result => setNames(current => ({ ...current, [id]: result.data.facts?.name ?? null }))).catch(() => undefined);
+    }
+  }, [rows]);
   const publish = useCallback((next: CandidateUploadRow[]) => {
     rowsRef.current = next; setRows(next); setError('');
-    const seen: Record<string, boolean> = {};
-    for (const row of next) if (row.target_candidate_id && row.state !== 'ready' && !memberSeen.current.has(row.upload_id)) {
-      const known = memberCheck.current?.(row.target_candidate_id) ?? null; if (known === null) continue;
-      memberSeen.current.add(row.upload_id); seen[row.upload_id] = known;
-    }
-    if (Object.keys(seen).length) setMemberBefore(current => ({ ...current, ...seen }));
     for (const row of next) if (row.state === 'ready' && row.workspace_candidate_id && !resolved.current.has(row.upload_id)) { resolved.current.add(row.upload_id); onResolved(row); }
   }, [onResolved]);
   // Rows are restored from the server (they survive a refresh); in-flight transfers appear once reserved.
@@ -96,10 +111,9 @@ export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, pre
     <header className="panel-header"><div><h3 id="upload-status-heading">Your uploads in this project</h3><p className="small muted">Processing continues on the server if you leave this page.</p></div></header>
     {error && <div className="notice notice-error" role="alert"><p>Upload status could not be read: {error}</p></div>}
     <ul className="upload-status-list">{rows.map(row => {
-      const present = row.workspace_candidate_id !== null && presentIds.has(row.workspace_candidate_id);
-      // A new tape for someone who was not yet in this project, whose job also added them; unknown stays the plain wording.
-      const joined = row.target_candidate_id !== null && row.workspace_candidate_id !== null && memberBefore[row.upload_id] === false;
-      const outcome = row.state !== 'ready' ? null : row.target_candidate_id ? joined ? present ? 'Added to this project · New tape saved in Library' : 'New tape saved in Library · adding to this project…' : 'New tape saved in Library' : present ? 'Added to this project · Saved in Library' : row.workspace_candidate_id ? 'Saved in Library · adding to this project…' : 'Saved in Library';
+      // Current membership: the row is shown in the project list, else what the project list knows (null = unknown).
+      const member = row.workspace_candidate_id !== null && presentIds.has(row.workspace_candidate_id) ? true : row.candidate_id ? isMember?.(row.candidate_id) ?? null : null;
+      const outcome = uploadOutcomeText(row, member, row.candidate_id ? names[row.candidate_id] ?? null : null);
       const busy = Object.hasOwn(retrying, row.upload_id) && retrying[row.upload_id] === '';
       return <li key={row.upload_id} className="upload-status-row" aria-busy={ACTIVE.has(row.state) || undefined}>
         <span className="upload-status-name" dir="auto">{row.filename ?? 'Introduction video'}</span>

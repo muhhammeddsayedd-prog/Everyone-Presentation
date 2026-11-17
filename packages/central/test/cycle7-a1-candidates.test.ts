@@ -89,7 +89,7 @@ test('project list accepts the versioned base64 cursor and rejects other shapes 
 test('uploads list, repair suggestion and repair result keep their published shapes', async () => {
   const row = { upload_id: 'upload', workspace_id: 'workspace', asset_id: 'asset', filename: 'intro.mp4', size_bytes: 1000, mime_type: 'video/mp4', target_candidate_id: null,
     created_at: '2026-11-16T09:00:00Z', upload_status: 'completed', state: 'ready', job: { id: 'job', status: 'succeeded', stage: 'apply_candidate', error_code: null, retryable: false, row_version: 4, updated_at: '2026-11-16T09:05:00Z' },
-    candidate_id: full.id, workspace_candidate_id: 'pool' };
+    candidate_id: full.id, workspace_candidate_id: 'pool', candidate_outcome: 'created', membership_outcome: 'added' };
   const responses: Record<string, unknown> = {
     eps_list_workspace_uploads: { data: [row], page: { next_cursor: null } },
     eps_suggest_media_repairs: { data: [{ workspace_candidate_id: 'pool', candidate_id: full.id, row_version: 1, reason: 'default_available',
@@ -104,17 +104,28 @@ test('uploads list, repair suggestion and repair result keep their published sha
   assert.equal(applied.skipped[0].reason, 'changed');
   await assert.rejects(service.applyMediaRepairs(actor, 'workspace', { items: [{ workspace_candidate_id: 'pool', row_version: 1 }, { workspace_candidate_id: 'pool', row_version: 1 }] }, { idempotencyKey: 'synthetic-repair-a1-02' }), code('VALIDATION_FAILED'));
   await assert.rejects(service.applyMediaRepairs(actor, 'workspace', { items: [] }, { idempotencyKey: 'synthetic-repair-a1-03' }), code('VALIDATION_FAILED'));
-  const broken = await createCentralCandidates(fixture({ data: [{ ...row, state: 'done' }], page: { next_cursor: null } }).client);
-  await assert.rejects(broken.listWorkspaceUploads(actor, 'workspace'), code('CENTRAL_RESPONSE_INVALID'));
+  // An older job without recorded outcomes reads as unknown (null), never guessed.
+  const legacy = { ...row, candidate_outcome: null, membership_outcome: null };
+  const older = await createCentralCandidates(fixture({ data: [legacy], page: { next_cursor: null } }).client);
+  assert.deepEqual((await older.listWorkspaceUploads(actor, 'workspace')).data[0], legacy);
+  for (const bad of [{ ...row, state: 'done' }, { ...row, candidate_outcome: 'guessed' }, { ...row, membership_outcome: 'joined' },
+    { ...row, state: 'processing', job: { ...row.job, status: 'running' } }, Object.fromEntries(Object.entries(row).filter(([key]) => key !== 'membership_outcome'))]) {
+    const broken = await createCentralCandidates(fixture({ data: [bad], page: { next_cursor: null } }).client);
+    await assert.rejects(broken.listWorkspaceUploads(actor, 'workspace'), code('CENTRAL_RESPONSE_INVALID'));
+  }
 });
 
 test('a succeeded candidate job exposes candidate_result; other kinds may not carry it', async () => {
   const base = { id: 'job', workspace_id: 'workspace', kind: 'candidate_scan', status: 'succeeded', stage: 'apply_candidate', attempt: 1, progress_completed: 0, progress_total: null,
     batch_id: null, input_asset_id: 'asset', resource_id: 'upload', error: null, created_at: '2026-11-16T09:00:00Z', updated_at: '2026-11-16T09:01:00Z', row_version: 5,
-    candidate_result: { candidate_id: full.id, candidate_media_id: 'media', workspace_candidate_id: 'pool' } };
+    candidate_result: { candidate_id: full.id, candidate_media_id: 'media', workspace_candidate_id: 'pool', candidate_outcome: 'tape_added', membership_outcome: 'already_member' } };
   const jobs = await createCentralJobs(fixture(base).client);
-  assert.equal((await jobs.getJob(actor, 'job')).candidate_result?.workspace_candidate_id, 'pool');
-  for (const broken of [{ ...base, status: 'running' }, { ...base, kind: 'specs_extract', stage: 'apply_specs' }, { ...base, candidate_result: { candidate_id: full.id } }]) {
+  const result = (await jobs.getJob(actor, 'job')).candidate_result;
+  assert.deepEqual([result?.workspace_candidate_id, result?.candidate_outcome, result?.membership_outcome], ['pool', 'tape_added', 'already_member']);
+  const legacy = { ...base, candidate_result: { ...base.candidate_result, candidate_outcome: null, membership_outcome: null } };
+  assert.equal((await (await createCentralJobs(fixture(legacy).client)).getJob(actor, 'job')).candidate_result?.membership_outcome, null);
+  for (const broken of [{ ...base, status: 'running' }, { ...base, kind: 'specs_extract', stage: 'apply_specs' }, { ...base, candidate_result: { candidate_id: full.id } },
+    { ...base, candidate_result: { ...base.candidate_result, candidate_outcome: 'guessed' } }, { ...base, candidate_result: { ...base.candidate_result, membership_outcome: 'joined' } }]) {
     const other = await createCentralJobs(fixture(broken).client);
     await assert.rejects(other.getJob(actor, 'job'), code('CENTRAL_RESPONSE_INVALID'));
   }

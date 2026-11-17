@@ -80,12 +80,17 @@ export interface LibraryCandidate extends Candidate {
   portrait_photo: { photo_id: string; asset_id: string; thumb_asset_id: string } | null; portrait_frame_asset_id: string | null;
   processing: boolean; membership: { workspace_candidate_id: string; state: 'in_project' } | null;
 }
+/** What a candidate scan's save step did, recorded by the server. null = unknown (older job) or not finished. */
+export type CandidateScanOutcome = 'created' | 'tape_added' | 'tape_rescanned';
+/** Whether the save step added the person to the project. null = unknown (older job) or not finished. */
+export type CandidateMembershipOutcome = 'added' | 'already_member' | 'not_requested';
 export type CandidateUploadState = 'uploading' | 'processing' | 'ready' | 'needs_attention' | 'failed' | 'cancelled' | 'expired';
 export interface CandidateUploadRow {
   upload_id: string; workspace_id: string; asset_id: string; filename: string | null; size_bytes: number; mime_type: string;
   target_candidate_id: string | null; created_at: string; upload_status: 'open' | 'completed' | 'cancelled' | 'expired'; state: CandidateUploadState;
   job: { id: string; status: 'queued' | 'running' | 'waiting_for_input' | 'succeeded' | 'failed' | 'cancelled'; stage: string; error_code: string | null; retryable: boolean; row_version: number; updated_at: string } | null;
   candidate_id: string | null; workspace_candidate_id: string | null;
+  candidate_outcome: CandidateScanOutcome | null; membership_outcome: CandidateMembershipOutcome | null;
 }
 export interface MediaDefaults { selected_candidate_media_id: string | null; selected_frame_asset_ids: string[]; portrait_asset_id: string | null; portrait_source: PortraitSource | null }
 export interface MediaRepairSuggestion { workspace_candidate_id: string; candidate_id: string; row_version: number; reason: 'default_available' | 'no_media_available'; suggestion: MediaDefaults | null }
