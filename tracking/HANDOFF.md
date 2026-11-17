@@ -1,6 +1,10 @@
 # Everyone Presentation Studio - current English-output handoff
 
-## Latest — 2026-11-16 Cycle 7 release candidate (feature/cycle-intake-scenes-floward)
+## Latest — 2026-11-17 Cycle 7 release candidate, staging-verified (feature/cycle-intake-scenes-floward)
+
+- 2026-11-17: pushed; staging stack `development/cycle7/staging-full/` (run-all.sh) — 13 journeys / 114 checks; fixes 3785cee6, c6bf5cec; m21 added (apply m15→m21). Next exact action: owner approval of §4 of docs/release/cycle7-release-candidate.md (production migrations, worker, web promotion, Settings, template 1.4.0, scene proposals). Appearance stays off pending a budget decision.
+
+### Earlier — 2026-11-16 Cycle 7 release candidate
 
 - **State:** implemented and locally verified; **no hosted change** (live history still 50, template 1.3.0 default, worker 912ee4e2). Base `main` 081e2dee.
 - **Read first:** `docs/release/cycle7-release-candidate.md` (coverage, migrations m15–m20, release procedure, recovery) and `tracking/handoffs/2026-11-16-cycle7.md` (resumable log, environment notes).

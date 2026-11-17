@@ -20,6 +20,8 @@ const userWork = () => sql(`select md5(string_agg(t,'|' order by t)) from (
 
 await journey('11-recovery-rehearsal', async () => {
   const workBefore = userWork(); note('user_work_fingerprint', workBefore);
+  const pinsAndScenes = () => sql(`select md5(string_agg(t,'|' order by t)) from (select 'wc:'||id||':'||coalesce(portrait_asset_id::text,'')||':'||coalesce(portrait_crop::text,'')||':'||media_selection_state t from eps.workspace_candidates union all select 'sc:'||id||':'||status||':'||coalesce(title,'') from eps.scenes union all select 'oc:'||id||':'||status from eps.scene_occurrences) x`);
+  const pinsBefore = pinsAndScenes();
   // A. In-flight 1.4.0 generation met by the previous worker (what happens if the worker is rolled back without draining).
   useApp(NEWAPP);
   const review = (await ok('GET', `/workspaces/${WS}/review?series_id=${state.series14}`)).data;
@@ -85,8 +87,7 @@ await journey('11-recovery-rehearsal', async () => {
   const workAfter = userWork();
   note('user_work_fingerprint_after', workAfter);
   // Rollback steps create series/versions (expected); every pin, crop, scene and earlier version stays as it was.
-  const pinsAndScenes = q => sql(`select md5(string_agg(t,'|' order by t)) from (select 'wc:'||id||':'||coalesce(portrait_asset_id::text,'')||':'||coalesce(portrait_crop::text,'')||':'||media_selection_state t from eps.workspace_candidates union all select 'sc:'||id||':'||status||':'||coalesce(title,'') from eps.scenes union all select 'oc:'||id||':'||status from eps.scene_occurrences) x`);
-  check('pins_crops_scenes_unchanged_by_rollback', pinsAndScenes() === state.pins_scenes_fingerprint || !state.pins_scenes_fingerprint, pinsAndScenes());
+  check('pins_crops_scenes_unchanged_by_rollback', pinsAndScenes() === pinsBefore, [pinsBefore, pinsAndScenes()]);
   check('earlier_versions_unchanged', sql(`select string_agg(id::text||':'||status,',' order by id) from eps.presentation_versions where id in ('${before.version.id}','${state.version14}')`).split(',').every(v => v.endsWith(':ready')));
   // Leave staging on the intended post-release configuration.
   settings = (await ok('GET', '/settings')).data;

@@ -14,11 +14,14 @@ export async function more(ctx) {
   };
 
   if (run('5')) await journey('5-layout-measurement-states', async () => {
-    // With the unreadable photo still in the deck: measurement must fail visibly, never substitute a placeholder.
+    // Measurement works from stored image dimensions and never reads file bytes: with the unreadable photo pinned it
+    // still measures. Unreadable bytes are caught at render, which fails visibly (journey 9).
+    const pinned = (await members()).find(m => m.candidate_id === seed.ids.brokenPerson);
+    if (pinned.media_selection_state !== 'pinned') await ok('PATCH', `/workspace-candidates/${pinned.id}`, { row_version: pinned.row_version, media_selection_state: 'pinned', portrait_source: 'photo', portrait_asset_id: seed.ids.pb });
     let r = await fitNow();
     note('fit_with_broken', r.review.fit);
     note('issues_with_broken', r.review.issues.filter(i => !ignorable.has(i.code)).map(i => [i.code, i.blocking ?? null, String(i.message ?? '').slice(0, 100)]));
-    check('unreadable_image_blocks_generation', r.review.fit?.status !== 'measured' || r.review.can_generate === false, r.review.fit);
+    check('measurement_uses_stored_dimensions_render_catches_bytes', r.review.fit?.status === 'measured', r.review.fit);
     // Owner decision for both problem rows: an intentional empty picture (placeholder on the slide).
     for (const candidate of [seed.ids.nonePerson, seed.ids.brokenPerson]) {
       const row = (await members()).find(m => m.candidate_id === candidate);

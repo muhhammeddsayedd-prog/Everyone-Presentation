@@ -16537,7 +16537,7 @@
     "date": "2026-11-16",
     "cycle": "cycle7",
     "status": "implemented_unverified_live",
-    "summary": "Intake/membership/ordering, project presentation pictures, structured scenes + Scene breakdown, template 1.4.0 (Floward), notes/default audience, appearance observations + facets. Locally verified (gates, replica SQL tests, integrated local stack, visual comparison); not applied to any hosted environment; release requires owner approval (docs/release/cycle7-release-candidate.md).",
+    "summary": "Intake/membership/ordering, project presentation pictures, structured scenes + Scene breakdown, template 1.4.0 (Floward), notes/default audience, appearance observations + facets, previous-release response compatibility (m21). Verified locally and on an isolated staging stack built on this machine (real Supabase Postgres/Auth/Storage/PostgREST, previous and new web and worker code; 13 journeys / 114 checks). Not applied to production; hosted staging needs new resources (docs/release/cycle7-release-candidate.md §2). Release requires owner approval (§4).",
     "branch": "feature/cycle-intake-scenes-floward",
     "base": "081e2dee",
     "migrations": [
@@ -16548,6 +16548,7 @@
       "20261116120000_m18_notes_audience",
       "20261116130000_m19_editorial_template_1_4",
       "20261116140000_m20_appearance_observations"
-    ]
+    ],
+    "updated_at": "2026-11-17"
   }
 }

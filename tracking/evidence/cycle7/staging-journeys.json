@@ -1,0 +1,1554 @@
+{
+ "generated_at": "2026-11-17T14:06:45.360Z",
+ "journeys": [
+  {
+   "name": "0-baseline-previous-release",
+   "app": "http://127.0.0.1:3161",
+   "checks": [
+    {
+     "name": "real_password_sign_in",
+     "ok": true
+    },
+    {
+     "name": "anonymous_refused",
+     "ok": true
+    },
+    {
+     "name": "outsider_cannot_read_workspace",
+     "ok": true
+    },
+    {
+     "name": "presets_like_live",
+     "ok": true
+    },
+    {
+     "name": "people_added_by_previous_release",
+     "ok": true
+    },
+    {
+     "name": "series_on_1_3",
+     "ok": true
+    },
+    {
+     "name": "fit_measured_by_previous_worker",
+     "ok": true
+    },
+    {
+     "name": "previous_release_version_ready",
+     "ok": true
+    },
+    {
+     "name": "pdf_downloads",
+     "ok": true
+    },
+    {
+     "name": "guest_link_created",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "review_keys": [
+     "fit",
+     "cover",
+     "issues",
+     "slides",
+     "template",
+     "series_id",
+     "output_type",
+     "can_generate",
+     "workspace_id",
+     "draft_revision",
+     "input_fingerprint",
+     "pending_slide_count",
+     "candidate_slide_count",
+     "unreviewed_candidate_ids"
+    ],
+    "fit_before": {
+     "status": "unmeasured",
+     "overflows": [],
+     "error_code": "FIT_MEASUREMENT_REQUIRED",
+     "measured_at": null,
+     "input_fingerprint": null
+    },
+    "fit_request": {
+     "status": 202,
+     "body": "{\"request_id\":\"fee15fc5-50cb-4eae-8048-16c1101421eb\",\"data\":{\"job_id\":\"546f543e-6f46-4bc0-8f8b-b08ab1b89132\",\"status\":\"queued\",\"poll_url\":\"/api/v1/jobs/546f543e-6f46-4bc0-8f8b-b08ab1b89132\",\"resource_id\":\"78c2da78-1b60-4e71-b951-c8968887c760\"}}"
+    },
+    "fit_worker": [
+     {
+      "event": "staging_worker_started",
+      "checkout": "D:\\Everyone\\Presentation\\EPS-c7-old",
+      "exports": true
+     },
+     {
+      "t": "2026-11-17T13:51:09.132Z",
+      "event": "recovery_completed",
+      "recovered": 0
+     },
+     {
+      "t": "2026-11-17T13:51:10.131Z",
+      "event": "stage_callback_committed",
+      "job_id": "546f543e-6f46-4bc0-8f8b-b08ab1b89132",
+      "stage": "measure_review_fit"
+     },
+     {
+      "event": "staging_worker_stopped",
+      "traffic": {}
+     }
+    ],
+    "fit_after": {
+     "status": "measured",
+     "overflows": [],
+     "error_code": null,
+     "measured_at": "2026-11-17T13:51:09.901Z",
+     "input_fingerprint": "ceab6dce00b11ae996209da246d2c7bdde71f0827b2328955f2e75cfca4dae04"
+    },
+    "workspace_keys": [
+     "id",
+     "title",
+     "module",
+     "created_at",
+     "project_id",
+     "updated_at",
+     "row_version",
+     "active_output",
+     "logo_asset_id",
+     "draft_revision",
+     "logo_placement",
+     "has_unpublished_changes"
+    ],
+    "generate": {
+     "status": 202,
+     "body": "{\"request_id\":\"1cac52f4-cf77-4250-81d6-3c71f9aa83b9\",\"data\":{\"job_id\":\"d90e76b6-3122-474c-ba09-16e060efd60b\",\"status\":\"queued\",\"poll_url\":\"/api/v1/jobs/d90e76b6-3122-474c-ba09-16e060efd60b\",\"resource_id\":\"93f7a7a4-3603-43d7-a0aa-58530c4e7f56\"}}"
+    },
+    "render_worker": [
+     {
+      "event": "staging_worker_started",
+      "checkout": "D:\\Everyone\\Presentation\\EPS-c7-old",
+      "exports": true
+     },
+     {
+      "t": "2026-11-17T13:51:20.883Z",
+      "event": "recovery_completed",
+      "recovered": 0
+     },
+     {
+      "t": "2026-11-17T13:51:21.264Z",
+      "event": "stage_callback_committed",
+      "job_id": "d90e76b6-3122-474c-ba09-16e060efd60b",
+      "stage": "prepare_presentation"
+     },
+     {
+      "t": "2026-11-17T13:51:24.078Z",
+      "event": "stage_callback_committed",
+      "job_id": "d90e76b6-3122-474c-ba09-16e060efd60b",
+      "stage": "render_presentation"
+     },
+     {
+      "t": "2026-11-17T13:51:26.637Z",
+      "event": "stage_callback_committed",
+      "job_id": "d90e76b6-3122-474c-ba09-16e060efd60b",
+      "stage": "validate_presentation"
+     },
+     {
+      "t": "2026-11-17T13:51:26.926Z",
+      "event": "stage_callback_committed",
+      "job_id": "d90e76b6-3122-474c-ba09-16e060efd60b",
+      "stage": "publish_presentation"
+     },
+     {
+      "event": "staging_worker_stopped",
+      "traffic": {
+       "POST /storage/v1/object/eps-presentation-outputs": 2,
+       "GET /storage/v1/object/authenticated": 4
+      }
+     }
+    ],
+    "pdf_bytes": 79104,
+    "link_keys": [
+     "link",
+     "token",
+     "url"
+    ]
+   },
+   "result": "passed"
+  },
+  {
+   "name": "1-migration-rehearsal",
+   "app": "http://127.0.0.1:3161",
+   "checks": [
+    {
+     "name": "preflight_history_50",
+     "ok": true
+    },
+    {
+     "name": "preflight_template_default_1_3",
+     "ok": true
+    },
+    {
+     "name": "m15_cycle7_shared_schema_applied_and_read_back",
+     "ok": true
+    },
+    {
+     "name": "m15_cycle7_shared_schema_worker_login_surface_unchanged",
+     "ok": true
+    },
+    {
+     "name": "m15_cycle7_shared_schema_second_run_refused",
+     "ok": true
+    },
+    {
+     "name": "m15_cycle7_shared_schema_previous_web_compatible",
+     "ok": true
+    },
+    {
+     "name": "m16_intake_membership_media_applied_and_read_back",
+     "ok": true
+    },
+    {
+     "name": "m16_intake_membership_media_worker_login_surface_unchanged",
+     "ok": true
+    },
+    {
+     "name": "m16_intake_membership_media_second_run_refused",
+     "ok": true
+    },
+    {
+     "name": "m16_intake_membership_media_previous_web_saved_work_readable",
+     "ok": true
+    },
+    {
+     "name": "m17_scene_operations_applied_and_read_back",
+     "ok": true
+    },
+    {
+     "name": "m17_scene_operations_worker_login_surface_unchanged",
+     "ok": true
+    },
+    {
+     "name": "m17_scene_operations_second_run_refused",
+     "ok": true
+    },
+    {
+     "name": "m17_scene_operations_previous_web_saved_work_readable",
+     "ok": true
+    },
+    {
+     "name": "m17_specs_extraction_v2_applied_and_read_back",
+     "ok": true
+    },
+    {
+     "name": "m17_specs_extraction_v2_worker_login_surface_unchanged",
+     "ok": true
+    },
+    {
+     "name": "m17_specs_extraction_v2_second_run_refused",
+     "ok": true
+    },
+    {
+     "name": "m17_specs_extraction_v2_previous_web_saved_work_readable",
+     "ok": true
+    },
+    {
+     "name": "m18_notes_audience_applied_and_read_back",
+     "ok": true
+    },
+    {
+     "name": "m18_notes_audience_worker_login_surface_unchanged",
+     "ok": true
+    },
+    {
+     "name": "m18_notes_audience_second_run_refused",
+     "ok": true
+    },
+    {
+     "name": "m18_notes_audience_previous_web_saved_work_readable",
+     "ok": true
+    },
+    {
+     "name": "m19_editorial_template_1_4_applied_and_read_back",
+     "ok": true
+    },
+    {
+     "name": "m19_editorial_template_1_4_worker_login_surface_unchanged",
+     "ok": true
+    },
+    {
+     "name": "m19_editorial_template_1_4_second_run_refused",
+     "ok": true
+    },
+    {
+     "name": "m19_editorial_template_1_4_previous_web_saved_work_readable",
+     "ok": true
+    },
+    {
+     "name": "m20_appearance_observations_applied_and_read_back",
+     "ok": true
+    },
+    {
+     "name": "m20_appearance_observations_worker_login_surface_unchanged",
+     "ok": true
+    },
+    {
+     "name": "m20_appearance_observations_second_run_refused",
+     "ok": true
+    },
+    {
+     "name": "m20_appearance_observations_previous_web_saved_work_readable",
+     "ok": true
+    },
+    {
+     "name": "m21_previous_client_compat_applied_and_read_back",
+     "ok": true
+    },
+    {
+     "name": "m21_previous_client_compat_worker_login_surface_unchanged",
+     "ok": true
+    },
+    {
+     "name": "m21_previous_client_compat_second_run_refused",
+     "ok": true
+    },
+    {
+     "name": "m21_previous_client_compat_previous_web_compatible",
+     "ok": true
+    },
+    {
+     "name": "previous_worker_runs_on_migrated_schema",
+     "ok": true
+    },
+    {
+     "name": "user_data_unchanged_by_migrations",
+     "ok": true
+    },
+    {
+     "name": "template_default_still_1_3",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "user_data_fingerprint_before": "7bc4dd1ab033bf84c3e517ae27e5314b",
+    "steps": [
+     {
+      "file": "20261116090000_m15_cycle7_shared_schema.sql",
+      "ms": 44503,
+      "history": 51,
+      "readback": true,
+      "second_run_refused": true,
+      "old_web": {
+       "list": 200,
+       "review": 200,
+       "version": 200,
+       "pdf": 200
+      },
+      "runtime_surface": "12"
+     },
+     {
+      "file": "20261116100000_m16_intake_membership_media.sql",
+      "ms": 43355,
+      "history": 52,
+      "readback": true,
+      "second_run_refused": true,
+      "old_web": {
+       "list": 503,
+       "review": 200,
+       "version": 200,
+       "pdf": 200
+      },
+      "runtime_surface": "12",
+      "cutover_window": true
+     },
+     {
+      "file": "20261116110000_m17_scene_operations.sql",
+      "ms": 43003,
+      "history": 53,
+      "readback": true,
+      "second_run_refused": true,
+      "old_web": {
+       "list": 503,
+       "review": 200,
+       "version": 200,
+       "pdf": 200
+      },
+      "runtime_surface": "12",
+      "cutover_window": true
+     },
+     {
+      "file": "20261116110500_m17_specs_extraction_v2.sql",
+      "ms": 42810,
+      "history": 54,
+      "readback": true,
+      "second_run_refused": true,
+      "old_web": {
+       "list": 503,
+       "review": 200,
+       "version": 200,
+       "pdf": 200
+      },
+      "runtime_surface": "12",
+      "cutover_window": true
+     },
+     {
+      "file": "20261116120000_m18_notes_audience.sql",
+      "ms": 42499,
+      "history": 55,
+      "readback": true,
+      "second_run_refused": true,
+      "old_web": {
+       "list": 503,
+       "review": 200,
+       "version": 200,
+       "pdf": 200
+      },
+      "runtime_surface": "12",
+      "cutover_window": true
+     },
+     {
+      "file": "20261116130000_m19_editorial_template_1_4.sql",
+      "ms": 42463,
+      "history": 56,
+      "readback": true,
+      "second_run_refused": true,
+      "old_web": {
+       "list": 503,
+       "review": 200,
+       "version": 200,
+       "pdf": 200
+      },
+      "runtime_surface": "12",
+      "cutover_window": true
+     },
+     {
+      "file": "20261116140000_m20_appearance_observations.sql",
+      "ms": 42273,
+      "history": 57,
+      "readback": true,
+      "second_run_refused": true,
+      "old_web": {
+       "list": 503,
+       "review": 200,
+       "version": 200,
+       "pdf": 200
+      },
+      "runtime_surface": "12",
+      "cutover_window": true
+     },
+     {
+      "file": "20261116150000_m21_previous_client_compat.sql",
+      "ms": 42018,
+      "history": 58,
+      "readback": true,
+      "second_run_refused": true,
+      "old_web": {
+       "list": 200,
+       "review": 200,
+       "version": 200,
+       "pdf": 200
+      },
+      "runtime_surface": "12"
+     }
+    ],
+    "old_review_fit_after_migrations": {
+     "status": "unmeasured",
+     "overflows": [],
+     "error_code": "FIT_MEASUREMENT_REQUIRED",
+     "measured_at": null,
+     "input_fingerprint": null
+    },
+    "old_fit_request": 202,
+    "old_worker_after_migrations": [
+     {
+      "event": "staging_worker_started",
+      "checkout": "D:\\Everyone\\Presentation\\EPS-c7-old",
+      "exports": true
+     },
+     {
+      "t": "2026-11-17T13:57:28.437Z",
+      "event": "stage_callback_committed",
+      "job_id": "2b481935-667f-4658-843f-344ae4c3c550",
+      "stage": "measure_review_fit"
+     },
+     {
+      "event": "staging_worker_stopped",
+      "traffic": {}
+     }
+    ]
+   },
+   "result": "passed"
+  },
+  {
+   "name": "1b-previous-release-on-migrated-schema",
+   "app": "http://127.0.0.1:3161",
+   "checks": [
+    {
+     "name": "previous_release_operations_work",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "probes": {
+     "capabilities": 200,
+     "settings": 200,
+     "presets": 200,
+     "workspace": 200,
+     "workspace_candidates": 200,
+     "search_candidates": 200,
+     "get_candidate": 200,
+     "candidate_photos": 200,
+     "roles": 200,
+     "slots": 200,
+     "assignments": 200,
+     "specs": 200,
+     "series": 200,
+     "get_series": 200,
+     "versions": 200,
+     "version": 200,
+     "review": 200,
+     "jobs": 200,
+     "feedback": 200,
+     "summary": 200,
+     "projects": 200,
+     "review_links": 200,
+     "update_workspace_candidate": 200,
+     "update_slot": 200,
+     "add_existing_member": 201
+    }
+   },
+   "result": "passed"
+  },
+  {
+   "name": "2-client-default-audience",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "existing_client_preset_found_once",
+     "ok": true
+    },
+    {
+     "name": "without_default_new_path_refuses_clearly",
+     "ok": true
+    },
+    {
+     "name": "client_default_set_by_reuse",
+     "ok": true
+    },
+    {
+     "name": "presets_unchanged",
+     "ok": true
+    },
+    {
+     "name": "pre_release_series_untouched",
+     "ok": true
+    }
+   ],
+   "notes": {},
+   "result": "passed"
+  },
+  {
+   "name": "3-pictures-repair-pins-crops",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "repairs_suggested_for_pre_release_rows",
+     "ok": true
+    },
+    {
+     "name": "frame_row_pinned_to_frame",
+     "ok": true
+    },
+    {
+     "name": "photo_row_pinned_to_cover_photo",
+     "ok": true
+    },
+    {
+     "name": "photo_only_add_pins_cover_photo",
+     "ok": true
+    },
+    {
+     "name": "no_media_person_stays_unset",
+     "ok": true
+    },
+    {
+     "name": "photo_crop_saved",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "suggestions": [
+     [
+      "f002",
+      "default_available",
+      "frame"
+     ],
+     [
+      "f001",
+      "default_available",
+      "photo"
+     ]
+    ],
+    "repair_result": "{\"applied\":[{\"id\":\"13b17ace-7fcf-4db8-96b9-97f7d71e38d0\",\"row_version\":3,\"availability\":\"Weekdays (previous release edit)\",\"candidate_id\":\"c7570000-0000-4000-8000-00000000f002\",\"workspace_id\":\"c7570000-0000-4000-8000-00000000d001\",\"portrait_crop\":null,\"internal_notes\":null,\"media_confirmed\":false,\"p",
+    "broken_row": [
+     "photo",
+     "c7570000-0000-4000-8000-00000000e007"
+    ]
+   },
+   "result": "passed"
+  },
+  {
+   "name": "4-review-1-4-explicit",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "series_on_1_4_with_client_default",
+     "ok": true
+    },
+    {
+     "name": "default_restored_to_1_3",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "issues": [
+     [
+      "UNREVIEWED_PROFILE",
+      null
+     ],
+     [
+      "FEWER_FRAMES",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "UNREVIEWED_PROFILE",
+      null
+     ],
+     [
+      "FEWER_FRAMES",
+      null
+     ],
+     [
+      "NO_INTRODUCTION",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "UNREVIEWED_PROFILE",
+      null
+     ],
+     [
+      "FEWER_FRAMES",
+      null
+     ],
+     [
+      "NO_INTRODUCTION",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "NO_MAIN",
+      null
+     ],
+     [
+      "UNREVIEWED_PROFILE",
+      null
+     ],
+     [
+      "FEWER_FRAMES",
+      null
+     ],
+     [
+      "NO_INTRODUCTION",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "NO_MAIN",
+      null
+     ],
+     [
+      "UNREVIEWED_PROFILE",
+      null
+     ],
+     [
+      "FEWER_FRAMES",
+      null
+     ],
+     [
+      "NO_INTRODUCTION",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "MISSING_FIELD",
+      null
+     ],
+     [
+      "NO_MAIN",
+      null
+     ],
+     [
+      "NO_PRESENTATION_PICTURE",
+      null
+     ],
+     [
+      "FIT_MEASUREMENT_REQUIRED",
+      null
+     ]
+    ],
+    "portraits": [
+     {
+      "focal": [
+       500,
+       300
+      ],
+      "width": 1280,
+      "height": 720,
+      "sha256": "71803b3eff0456dbdfa67a1dcd79d89d176ebb218c4f1cde9ba41665700d71b3",
+      "source": "frame",
+      "asset_id": "c7570000-0000-4000-8000-00000000a202"
+     },
+     {
+      "focal": [
+       500,
+       300
+      ],
+      "width": 800,
+      "height": 1000,
+      "sha256": "5faa84686279ef136cdabea5ca7a05ce23263d3e3710f5dc57e9a8cc9522f79e",
+      "source": "photo",
+      "asset_id": "c7570000-0000-4000-8000-00000000e001"
+     },
+     {
+      "focal": [
+       500,
+       400
+      ],
+      "width": 800,
+      "height": 1000,
+      "sha256": "94e416dd9cb29fd06dc510f45ae33b7536d1f5b3684edb2be8e1dec21904a363",
+      "source": "photo",
+      "asset_id": "c7570000-0000-4000-8000-00000000e005"
+     },
+     {
+      "focal": [
+       500,
+       400
+      ],
+      "width": 800,
+      "height": 1000,
+      "sha256": "5ce7a44bd33e14194bc8cfb394586df69f5cd2d83169db3503b6241e9e65d8b0",
+      "source": "photo",
+      "asset_id": "c7570000-0000-4000-8000-00000000e007"
+     },
+     null
+    ],
+    "fit": {
+     "status": "unmeasured",
+     "overflows": [],
+     "error_code": "FIT_MEASUREMENT_REQUIRED",
+     "measured_at": null,
+     "input_fingerprint": null
+    }
+   },
+   "result": "passed"
+  },
+  {
+   "name": "6-generate-1-4-outputs-saved",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "generation_accepted",
+     "ok": true
+    },
+    {
+     "name": "version_1_4_ready",
+     "ok": true
+    },
+    {
+     "name": "saved_version_keeps_photo_and_frame_portraits",
+     "ok": true
+    },
+    {
+     "name": "pdf_download",
+     "ok": true
+    },
+    {
+     "name": "pptx_download",
+     "ok": true
+    },
+    {
+     "name": "saved_version_serves_photo_portrait",
+     "ok": true
+    },
+    {
+     "name": "saved_version_serves_frame_portrait",
+     "ok": true
+    },
+    {
+     "name": "outsider_denied_version",
+     "ok": true
+    },
+    {
+     "name": "anonymous_denied_pdf",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "generate": 202,
+    "render_worker": [
+     {
+      "event": "staging_worker_started",
+      "checkout": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Cycle7",
+      "exports": true
+     },
+     {
+      "t": "2026-11-17T13:58:20.298Z",
+      "event": "stage_callback_committed",
+      "job_id": "9e8ca542-0233-45ba-8941-a531819d4cfd",
+      "stage": "prepare_presentation"
+     },
+     {
+      "t": "2026-11-17T13:58:24.869Z",
+      "event": "stage_callback_committed",
+      "job_id": "9e8ca542-0233-45ba-8941-a531819d4cfd",
+      "stage": "render_presentation"
+     },
+     {
+      "t": "2026-11-17T13:58:28.494Z",
+      "event": "stage_callback_committed",
+      "job_id": "9e8ca542-0233-45ba-8941-a531819d4cfd",
+      "stage": "validate_presentation"
+     },
+     {
+      "t": "2026-11-17T13:58:28.816Z",
+      "event": "stage_callback_committed",
+      "job_id": "9e8ca542-0233-45ba-8941-a531819d4cfd",
+      "stage": "publish_presentation"
+     },
+     {
+      "event": "staging_worker_stopped",
+      "traffic": {
+       "GET /storage/v1/object/authenticated": 16,
+       "POST /storage/v1/object/eps-presentation-outputs": 2
+      }
+     }
+    ],
+    "version_portraits": [
+     [
+      "frame",
+      "a202",
+      [
+       500,
+       300
+      ]
+     ],
+     [
+      "photo",
+      "e001",
+      [
+       500,
+       300
+      ]
+     ],
+     [
+      "photo",
+      "e005",
+      [
+       500,
+       400
+      ]
+     ],
+     null,
+     null
+    ],
+    "pdf": {
+     "bytes": 251037,
+     "sha256": "52c493af0ee1dbd4072db2f5f5ba2980bad62171a105b5bbaa1ca512ada5ec9e"
+    },
+    "pptx": {
+     "bytes": 543274,
+     "sha256": "40f9f83dcdd88592dcb30b1fdf08914964ac10ce98250a6828ecb3d1fb451137"
+    }
+   },
+   "result": "passed"
+  },
+  {
+   "name": "7-guest-access-and-privacy",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "guest_link_opens",
+     "ok": true
+    },
+    {
+     "name": "guest_sees_current_1_4_version",
+     "ok": true
+    },
+    {
+     "name": "guest_reads_private_photo_portrait",
+     "ok": true
+    },
+    {
+     "name": "guest_reads_private_frame_portrait",
+     "ok": true
+    },
+    {
+     "name": "guest_media_requires_session",
+     "ok": true
+    },
+    {
+     "name": "guest_cannot_fetch_assets_outside_version",
+     "ok": true
+    },
+    {
+     "name": "invalid_guest_token_denied",
+     "ok": true
+    },
+    {
+     "name": "pre_release_guest_link_still_opens",
+     "ok": true
+    },
+    {
+     "name": "internal_series_not_shareable",
+     "ok": true
+    },
+    {
+     "name": "guest_sees_external_comment",
+     "ok": true
+    },
+    {
+     "name": "guest_never_sees_internal_comment",
+     "ok": true
+    },
+    {
+     "name": "outsider_denied_feedback",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "guest_version_keys": [
+     "id",
+     "series_id",
+     "version_no",
+     "title",
+     "output_type",
+     "status",
+     "slides",
+     "created_at",
+     "download_enabled",
+     "cover",
+     "template_version",
+     "template_content_hash",
+     "presentation",
+     "presentation_role_keys"
+    ],
+    "slide_kinds": [
+     "cover",
+     "candidate",
+     "candidate",
+     "candidate",
+     "candidate",
+     "candidate"
+    ]
+   },
+   "result": "passed"
+  },
+  {
+   "name": "8-template-default-switch",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "new_series_after_switch_on_1_4_client",
+     "ok": true
+    },
+    {
+     "name": "earlier_series_keep_1_3",
+     "ok": true
+    },
+    {
+     "name": "pre_release_version_unchanged",
+     "ok": true
+    },
+    {
+     "name": "new_worker_measures_1_3",
+     "ok": true
+    },
+    {
+     "name": "new_worker_generates_1_3",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "fit13_worker": [
+     {
+      "event": "staging_worker_started",
+      "checkout": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Cycle7",
+      "exports": true
+     },
+     {
+      "t": "2026-11-17T13:58:44.645Z",
+      "event": "stage_callback_committed",
+      "job_id": "748af607-89fc-4f79-8923-4b25ff226264",
+      "stage": "measure_review_fit"
+     },
+     {
+      "event": "staging_worker_stopped",
+      "traffic": {}
+     }
+    ],
+    "fit13": {
+     "fit": {
+      "status": "measured",
+      "overflows": [],
+      "error_code": null,
+      "measured_at": "2026-11-17T13:58:44.506Z",
+      "input_fingerprint": "a983bc6c10a19e260f331acd29ae124535bd79ed57c1e1270a438ec517c36639"
+     },
+     "input_fingerprint": "a983bc6c10a19e260f331acd29ae124535bd79ed57c1e1270a438ec517c36639",
+     "measured_for": "a983bc6c10a19e260f331acd29ae124535bd79ed57c1e1270a438ec517c36639",
+     "issues": []
+    },
+    "generate13": [
+     202,
+     null
+    ],
+    "render13_worker": [
+     {
+      "event": "staging_worker_started",
+      "checkout": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Cycle7",
+      "exports": true
+     },
+     {
+      "t": "2026-11-17T13:58:53.966Z",
+      "event": "stage_callback_committed",
+      "job_id": "ae418fc3-8bfb-45d6-8909-0bb9b06c62f0",
+      "stage": "prepare_presentation"
+     },
+     {
+      "t": "2026-11-17T13:58:57.545Z",
+      "event": "stage_callback_committed",
+      "job_id": "ae418fc3-8bfb-45d6-8909-0bb9b06c62f0",
+      "stage": "render_presentation"
+     },
+     {
+      "t": "2026-11-17T13:59:00.392Z",
+      "event": "stage_callback_committed",
+      "job_id": "ae418fc3-8bfb-45d6-8909-0bb9b06c62f0",
+      "stage": "validate_presentation"
+     },
+     {
+      "t": "2026-11-17T13:59:00.659Z",
+      "event": "stage_callback_committed",
+      "job_id": "ae418fc3-8bfb-45d6-8909-0bb9b06c62f0",
+      "stage": "publish_presentation"
+     },
+     {
+      "event": "staging_worker_stopped",
+      "traffic": {
+       "GET /storage/v1/object/authenticated": 10,
+       "POST /storage/v1/object/eps-presentation-outputs": 2
+      }
+     }
+    ]
+   },
+   "result": "passed"
+  },
+  {
+   "name": "9-unreadable-picture-fails-visibly",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "render_fails_never_placeholder",
+     "ok": true
+    },
+    {
+     "name": "previous_ready_version_kept",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "issues_pinned_unreadable": [
+     "FIT_MEASUREMENT_REQUIRED"
+    ],
+    "fit": {
+     "status": "measured",
+     "overflows": [],
+     "error_code": null,
+     "measured_at": "2026-11-17T13:59:09.516Z",
+     "input_fingerprint": "f820e40bf622d192baca4674bd02a5442303ccaabf5f27962d2b6d613bd8e17b"
+    },
+    "generate": [
+     202,
+     null
+    ],
+    "job": {
+     "status": "failed",
+     "stage": "prepare_presentation",
+     "error": "DEPENDENCY_UNAVAILABLE"
+    },
+    "versions": [
+     [
+      null,
+      "failed",
+      "DEPENDENCY_UNAVAILABLE"
+     ],
+     [
+      null,
+      "ready",
+      null
+     ]
+    ]
+   },
+   "result": "passed"
+  },
+  {
+   "name": "10-scene-proposals-from-imports",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "pipeline_on_v2",
+     "ok": true
+    },
+    {
+     "name": "first_import_used_controlled_provider_once",
+     "ok": true
+    },
+    {
+     "name": "first_import_proposes_scenes",
+     "ok": true
+    },
+    {
+     "name": "repeat_import_proposes_new_scene",
+     "ok": true
+    },
+    {
+     "name": "reject_proposal",
+     "ok": true
+    },
+    {
+     "name": "rejected_link_not_reproposed",
+     "ok": true
+    },
+    {
+     "name": "confirm_proposal",
+     "ok": true
+    },
+    {
+     "name": "import_after_decisions_needs_attention",
+     "ok": true
+    },
+    {
+     "name": "confirmed_scenes_and_roles_unchanged",
+     "ok": true
+    },
+    {
+     "name": "casting_preserved",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "submit_a_290": [
+     202,
+     null
+    ],
+    "job_a_798": "succeeded:apply_specs:",
+    "first_import": {
+     "controlled_calls": 1,
+     "worker": [
+      "staging_worker_started",
+      "stage_callback_committed:prepare_document",
+      "stage_callback_committed:extract_specs",
+      "stage_callback_committed:apply_specs",
+      "staging_worker_stopped"
+     ]
+    },
+    "scenes_after_first": [
+     [
+      "1",
+      "Kitchen at night",
+      "proposed",
+      1
+     ],
+     [
+      "3A",
+      "Garden by day",
+      "proposed",
+      2
+     ]
+    ],
+    "submit_b_642": [
+     202,
+     null
+    ],
+    "job_b_364": "succeeded:apply_specs:",
+    "second_import": {
+     "controlled_calls": 1,
+     "worker": [
+      "staging_worker_started",
+      "stage_callback_committed:prepare_document",
+      "stage_callback_committed:extract_specs",
+      "stage_callback_committed:apply_specs",
+      "staging_worker_stopped"
+     ]
+    },
+    "scenes_after_second": [
+     [
+      "1",
+      "Kitchen at night",
+      "proposed"
+     ],
+     [
+      "3A",
+      "Garden (renamed in the new draft)",
+      "proposed"
+     ],
+     [
+      "5",
+      "Party",
+      "proposed"
+     ]
+    ],
+    "submit_b_817": [
+     202,
+     null
+    ],
+    "job_b_823": "succeeded:apply_specs:",
+    "third_import": {
+     "worker": [
+      "staging_worker_started",
+      "staging_worker_stopped"
+     ]
+    },
+    "scenes_after_third": [
+     [
+      "1",
+      "proposed",
+      "proposed"
+     ],
+     [
+      "3A",
+      "proposed",
+      "proposed,proposed"
+     ],
+     [
+      "5",
+      "proposed",
+      ""
+     ]
+    ],
+    "roles": [
+     "Father (young)",
+     "Father (old)",
+     "Waiter"
+    ],
+    "submit_a_315": [
+     202,
+     null
+    ],
+    "job_a_17": "waiting_for_input:apply_specs:INPUT_CHANGED",
+    "fourth_import": {
+     "worker": [
+      "staging_worker_started",
+      "stage_callback_committed:prepare_document",
+      "stage_callback_committed:extract_specs",
+      "stage_callback_committed:apply_specs",
+      "staging_worker_stopped"
+     ]
+    }
+   },
+   "result": "passed"
+  },
+  {
+   "name": "11-recovery-rehearsal",
+   "app": "http://127.0.0.1:3160",
+   "checks": [
+    {
+     "name": "previous_worker_does_not_publish_1_4",
+     "ok": true
+    },
+    {
+     "name": "roll_forward_worker_finishes_inflight_job",
+     "ok": true
+    },
+    {
+     "name": "default_reverted_to_1_3",
+     "ok": true
+    },
+    {
+     "name": "new_web_creates_series_after_revert",
+     "ok": true
+    },
+    {
+     "name": "previous_web_core_reads_work",
+     "ok": true
+    },
+    {
+     "name": "previous_web_can_create_series_after_revert",
+     "ok": true
+    },
+    {
+     "name": "documented_limit_previous_web_cannot_show_1_4",
+     "ok": true
+    },
+    {
+     "name": "new_web_reads_post_release_work_after_roll_forward",
+     "ok": true
+    },
+    {
+     "name": "roll_forward_restores_1_4_pdf",
+     "ok": true
+    },
+    {
+     "name": "pins_crops_scenes_unchanged_by_rollback",
+     "ok": true
+    },
+    {
+     "name": "earlier_versions_unchanged",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "user_work_fingerprint": "a6632b33a86e1385fe160e34357a5140",
+    "inflight_generate": [
+     202,
+     null
+    ],
+    "previous_worker_on_1_4_job": [
+     "stage_unconfirmed:prepare_presentation:WORKER_OPERATION_UNCONFIRMED",
+     "staging_worker_stopped"
+    ],
+    "job_after_previous_worker": "running:prepare_presentation::",
+    "job_after_new_worker": "succeeded:",
+    "series_after_revert": [
+     "1.3.0",
+     true
+    ],
+    "previous_web_on_post_release_data": {
+     "workspace_candidates": 200,
+     "series_list": 200,
+     "series_1_4": 200,
+     "versions_1_4": "503 CENTRAL_RESPONSE_INVALID",
+     "version_1_4": "503 CENTRAL_RESPONSE_INVALID",
+     "review_1_3": 200,
+     "review_1_4": "503 CENTRAL_RESPONSE_INVALID",
+     "version_1_3": 200,
+     "settings": 200,
+     "roles": 200,
+     "jobs": 200,
+     "pdf_1_4": 503,
+     "pdf_1_3": 200,
+     "guest_1_4_open": 200,
+     "guest_1_4_presentation": "503 DEPENDENCY_UNAVAILABLE",
+     "previous_web_creates_series": 201
+    },
+    "user_work_fingerprint_after": "99048f554adc1e6555c1855669bb3dff"
+   },
+   "result": "passed"
+  },
+  {
+   "name": "5-layout-measurement-states",
+   "app": "http://127.0.0.1:3000",
+   "checks": [
+    {
+     "name": "measurement_uses_stored_dimensions_render_catches_bytes",
+     "ok": true
+    },
+    {
+     "name": "intentional_empty_is_not_an_error",
+     "ok": true
+    },
+    {
+     "name": "private_photos_measured_by_worker",
+     "ok": true
+    },
+    {
+     "name": "can_generate",
+     "ok": true
+    }
+   ],
+   "notes": {
+    "fit_worker": [
+     {
+      "event": "staging_worker_started",
+      "checkout": "D:\\Everyone\\Presentation\\Everyone-Presentation-Studio-Cycle7",
+      "exports": true
+     },
+     {
+      "t": "2026-11-17T14:06:44.656Z",
+      "event": "stage_callback_committed",
+      "job_id": "a578e599-8a4e-490b-baa7-9207f54b1fe2",
+      "stage": "measure_review_fit"
+     },
+     {
+      "event": "staging_worker_stopped",
+      "traffic": {}
+     }
+    ],
+    "fit_with_broken": {
+     "status": "measured",
+     "overflows": [],
+     "error_code": null,
+     "measured_at": "2026-11-17T14:06:33.982Z",
+     "input_fingerprint": "f820e40bf622d192baca4674bd02a5442303ccaabf5f27962d2b6d613bd8e17b"
+    },
+    "issues_with_broken": [],
+    "issues_after_choice": [],
+    "fit_after_choice": {
+     "status": "measured",
+     "overflows": [],
+     "error_code": null,
+     "measured_at": "2026-11-17T14:06:44.511Z",
+     "input_fingerprint": "97f1523d85ba2660772396ab1d71766d6f7a06a118a247b1217e7759271aa02d"
+    }
+   },
+   "result": "passed"
+  }
+ ]
+}
