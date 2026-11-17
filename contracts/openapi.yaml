@@ -266,7 +266,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-      x-capability: workspaces.write
+      x-capability: projects.read AND projects.write
       x-mcp-exposed: true
       x-shared-service-operation: create_project
       security:
@@ -11176,7 +11176,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-      x-capability: projects.read
+      x-capability: projects.read AND projects.write
       x-mcp-exposed: true
       x-shared-service-operation: list_clients
       security:
@@ -11273,7 +11273,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-      x-capability: workspaces.read
+      x-capability: projects.read
       x-mcp-exposed: true
       x-shared-service-operation: list_presentation_types
       security:
