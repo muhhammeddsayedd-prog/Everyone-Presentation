@@ -18,7 +18,7 @@
 --    public.eps_start_enrichment_batch, public.eps_get_enrichment_batch.
 -- Vocabularies mirror contracts/appearance-taxonomy.json (checked by tests/contracts/appearance-taxonomy.test.ts).
 -- Nothing here infers race, ethnicity, nationality, religion or gender identity; there is no such column or value.
-set local search_path='';set local lock_timeout='5s';set local statement_timeout='120s';
+set local search_path='';set local lock_timeout='5s';set local statement_timeout='30min'; -- projection backfill over the whole Library (6,835 people live) exceeds 2 minutes
 
 do $m20$declare item record;begin
  if to_regclass('eps.candidate_observations') is not null or to_regclass('eps.enrichment_batches') is not null
