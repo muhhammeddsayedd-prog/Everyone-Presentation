@@ -1,0 +1,67 @@
+/* Latest design, phone pass (mockup folder 22-mobile). Screens layer, loaded last; every rule is phone-only.
+   Patterns: live stage first with the step panel as a bottom sheet, floating pill tab bar (frame.css), confirms as
+   bottom sheets, compact page headings, full-width cards, 44 px touch targets, nothing under the tab bar. */
+@layer screens {
+  @media (max-width: 767px) {
+    /* ---------- Compact headings (32–40 px instead of the 64 px display size) ---------- */
+    .page-heading { margin-bottom: var(--space-5); gap: var(--space-3); }
+    .page-heading h1, .system-state-404 h1 { font-size: clamp(var(--ui-text-title-lg), 9vw, var(--ui-text-stat)); line-height: 1.05; overflow-wrap: anywhere; }
+    .page-heading p { font-size: var(--ui-text-small); }
+    .workspace-title h1 { overflow-wrap: anywhere; }
+
+    /* ---------- Touch targets: 44 px minimum for controls ---------- */
+    .app-frame, .guest-shell { --ui-control-sm: 44px; }
+    .button, .button-small, .tray-list .menu-anchor .button { min-height: 44px; }
+    .tray-list .menu-anchor .button { min-width: 44px; justify-content: center; }
+    .role-chip { min-height: 44px; }
+    .frame-brand { align-items: center; min-height: 44px; }
+    .icon-button, .icon-button-small, .notched-go { min-width: 44px; min-height: 44px; }
+    .segmented > button, .segmented > a, .segmented > label, .tabs > [role="tab"], .tabs > a, .chip { min-height: 44px; }
+    .search-field, select, input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]) { min-height: 44px; }
+    .back-link { display: inline-flex; align-items: center; min-height: 44px; }
+
+    /* ---------- Workspace: live stage first, the step's paper panel as a bottom sheet ---------- */
+    /* The panel is sticky on desktop; as a relative sheet its desktop `top` offset must not push it down. */
+    .workspace-frame > .config-panel { top: 0; margin-top: -28px; max-height: calc(100dvh - var(--topbar-height) - var(--space-4)); padding-bottom: 0; border-radius: var(--ui-radius-28) var(--ui-radius-28) 0 0; box-shadow: var(--elevation-pop); }
+    .workspace-frame > .config-panel::before { width: 48px; height: 5px; margin: 10px auto 2px; border-radius: var(--radius-full); background: color-mix(in srgb, var(--bi-ink) 18%, var(--bi-paper)); }
+    .workspace-frame > .config-panel .config-panel-head { padding: 10px 20px 6px; }
+    .workspace-frame > .config-panel .config-panel-head h2 { font-size: var(--ui-text-title); }
+    .workspace-frame > .config-panel .config-panel-body { overflow-y: auto; overscroll-behavior: contain; padding: 6px 20px 0; }
+    .workspace-frame .config-panel .workspace-continue { bottom: 0; margin-inline: -20px; padding: 12px 20px 14px; }
+    .workspace-frame .config-panel .workspace-continue .button-primary { flex: 1; justify-content: center; }
+    .workspace-frame > .page-frame-main { padding-bottom: var(--space-8); }
+
+    /* Saved version and media viewers: the slide first, its paper panel below (as in the workspace). */
+    :is(.version-frame, .media-frame).page-frame { display: flex; flex-direction: column; }
+    :is(.version-frame, .media-frame) > .page-frame-main { order: -1; }
+
+    /* ---------- Cards full width ---------- */
+    :is(.panel, .card, .editor-section, .empty-state, .notice) { max-width: 100%; }
+    .page-toolbar { flex-wrap: wrap; }
+    .page-toolbar > .search-field { flex: 1 1 100%; width: 100%; }
+
+    /* ---------- Dialogs and confirms as bottom sheets with a grabber ---------- */
+    .modal { border-radius: var(--ui-radius-28) var(--ui-radius-28) 0 0; border-bottom: 0; padding-bottom: env(safe-area-inset-bottom); }
+    .modal::before { content: ""; flex: none; align-self: center; width: 48px; height: 5px; margin-top: 10px; border-radius: var(--radius-full); background: var(--color-border-strong); }
+    .modal-header { padding: 14px 22px 8px; }
+    .modal-body { padding: 4px 22px 16px; }
+    .modal-footer { flex-direction: column-reverse; align-items: stretch; gap: var(--space-2); padding: 12px 22px 22px; }
+    .modal-footer .button { justify-content: center; width: 100%; }
+    .drawer-header { padding: 20px 20px 14px; }
+    .drawer-body { padding: 16px 20px; }
+    .drawer-footer { padding: 14px 20px; }
+
+    /* ---------- Candidate profile: identity column may not size to the name or the button ---------- */
+    .candidate-profile .profile-hero-identity { min-width: 0; justify-items: stretch; }
+    .candidate-profile .profile-hero-identity h1 { overflow-wrap: anywhere; }
+    .candidate-profile .profile-hero-identity .button-row > .button { max-width: 100%; white-space: normal; text-align: center; }
+    .file-list > li { min-width: 0; }
+
+    /* ---------- Nothing under the floating tab bar ---------- */
+    .toast-region { bottom: calc(88px + var(--space-3)); }
+  }
+
+  @media (max-width: 379px) {
+    .candidate-profile .profile-hero { grid-template-columns: 84px minmax(0, 1fr); gap: var(--space-3); }
+  }
+}
