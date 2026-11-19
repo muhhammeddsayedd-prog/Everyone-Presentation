@@ -208,7 +208,7 @@ test.describe('Library re-add after a removal uses a new Idempotency-Key', () =>
     const state = await fixture(page, { dropFirstAdd: true });
     await page.goto(cast);
     await page.getByRole('button', { name: 'Choose from Library', exact: true }).first().click();
-    await page.getByRole('button', { name: `Add ${names[person.c]} to project`, exact: true }).click();
+    await page.getByRole('button', { name: `Add to project: ${names[person.c]}`, exact: true }).click();
     await expect(page.getByText(/Not added:/u)).toBeVisible();
     await page.getByRole('button', { name: 'Done · Back to project', exact: true }).click();
     await page.getByRole('button', { name: 'Reload saved candidates', exact: true }).click();
@@ -218,7 +218,7 @@ test.describe('Library re-add after a removal uses a new Idempotency-Key', () =>
     await card.getByRole('button', { name: 'Confirm remove from project', exact: true }).click();
     await expect(card).toHaveCount(0);
     await page.getByRole('button', { name: 'Choose from Library', exact: true }).first().click();
-    await page.getByRole('button', { name: `Add ${names[person.c]} to project`, exact: true }).click();
+    await page.getByRole('button', { name: `Add to project: ${names[person.c]}`, exact: true }).click();
     await expect(page.getByText('Added to project', { exact: true })).toBeVisible();
     expect(state.adds.map(entry => entry.status)).toEqual([503, 201]);
     expect(state.adds[1].key).not.toBe(state.adds[0].key);
@@ -228,7 +228,7 @@ test.describe('Library re-add after a removal uses a new Idempotency-Key', () =>
     const state = await fixture(page, { dropFirstAdd: true });
     await page.goto(cast);
     await page.getByRole('button', { name: 'Choose from Library', exact: true }).first().click();
-    await page.getByRole('button', { name: `Add ${names[person.c]} to project`, exact: true }).click();
+    await page.getByRole('button', { name: `Add to project: ${names[person.c]}`, exact: true }).click();
     await expect(page.getByText(/Not added:/u)).toBeVisible();
     // Another producer removes the person; the earlier key is now a removed membership on the server.
     const id = state.pool[0].id; state.pool = []; for (const [key, value] of state.keys) if (value === id) state.removedKeys.add(key);

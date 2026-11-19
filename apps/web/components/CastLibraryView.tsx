@@ -177,7 +177,7 @@ function MembershipControl({ state, member, name, onAdd, onAddAndReturn }: { sta
   if (state?.status === 'adding') return <span className="membership-chip is-busy" role="status" aria-live="polite"><Icon name="clock" />Adding…</span>;
   if (member) return <span className="membership-chip is-member" role="status"><Icon name="check" />{state?.status === 'added' && !state.already ? 'Added to project' : 'In this project'}</span>;
   if (state?.status === 'error') return <span className="membership-chip is-error"><span role="alert"><Icon name="alert" />Not added: {state.error}</span><button type="button" className="button button-small" onClick={onAdd} aria-label={`Retry adding ${name}`}>Retry</button></span>;
-  return <><button type="button" className="button button-small" onClick={onAdd} aria-label={`Add ${name} to project`}><Icon name="plus" />Add to project</button>
+  return <><button type="button" className="button button-small" onClick={onAdd} aria-label={`Add to project: ${name}`}><Icon name="plus" />Add to project</button>
     {onAddAndReturn && <button type="button" className="button button-small button-quiet" onClick={onAddAndReturn} aria-label={`Add ${name} and return`}>Add and return</button>}</>;
 }
 

@@ -165,13 +165,13 @@ test('repeat and concurrent Add converge on one membership; state survives navig
   const state = await fixture(page);
   await page.goto(cast);
   await page.getByRole('button', { name: 'Choose from Library', exact: true }).first().click();
-  const add = page.getByRole('button', { name: `Add ${names[people[2]]} to project`, exact: true });
+  const add = page.getByRole('button', { name: `Add to project: ${names[people[2]]}`, exact: true });
   await add.dblclick();
   await expect(page.getByText('Added to project', { exact: true })).toBeVisible();
   expect(new Set(state.adds.map(entry => entry.key)).size).toBe(1);
   expect(state.pool.filter(row => row.candidate_id === people[2])).toHaveLength(1);
   // Library stays open for more; the person is already in the project list.
-  await expect(page.getByRole('button', { name: `Add ${names[people[1]]} to project`, exact: true })).toBeEnabled();
+  await expect(page.getByRole('button', { name: `Add to project: ${names[people[1]]}`, exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Done · Back to project', exact: true }).click();
   await expect(projectList(page).getByRole('heading', { name: names[people[2]] })).toBeVisible();
   await page.goto('/projects'); await page.goto(cast);
@@ -180,7 +180,7 @@ test('repeat and concurrent Add converge on one membership; state survives navig
   state.pool.splice(0, state.pool.length); // removed on the server (e.g. by another producer)
   await page.reload();
   await page.getByRole('button', { name: 'Choose from Library', exact: true }).first().click();
-  await expect(page.getByRole('button', { name: `Add ${names[people[2]]} to project`, exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: `Add to project: ${names[people[2]]}`, exact: true })).toBeVisible();
 });
 
 test('library keeps the server newest-first order across Load more and sends filters with the project', async ({ page }) => {
