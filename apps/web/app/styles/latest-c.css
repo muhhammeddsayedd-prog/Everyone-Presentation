@@ -24,6 +24,14 @@
   /* Paper panel sections: quiet hairlines, medium section titles */
   .presentation-frame .config-panel .panel-eyebrow { color: var(--color-text-primary); font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
   .presentation-frame .config-panel select { border-radius: var(--ui-radius-18); }
+  /* Series choices carry long labels. The customizable (base-select) rendering lets a long label push the picker
+     icon out of the box, so these use the classic control: the label ellipsizes before a fixed chevron, and the
+     full label is the select's title. */
+  .presentation-frame .config-panel :is(#review-series-choice, #versions-series, .series-choice > select) {
+    appearance: none; display: block; width: 100%; padding-right: 42px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a9aa3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 16px center; background-size: 16px;
+  }
   .presentation-frame .config-panel .empty-state { border: 1px solid var(--bi-card-line); background: var(--bi-card-bg); }
 
   /* ---------- Step 5 Review ---------- */
@@ -121,6 +129,9 @@
 
   /* ---------- Step 7 Share & feedback ---------- */
   .share-panel > .small.muted { margin: 0; }
+  /* The series line belongs to the series choice above it; the links section follows without an empty band. */
+  .share-panel > .series-choice + .small.muted { margin-top: calc(var(--space-4) * -1); }
+  .share-panel > .series-choice + .small.muted + .review-links-panel { margin-top: calc(var(--space-2) * -1); }
   .share-info { padding: 16px 18px; border: 1px solid var(--bi-p-info-line); border-radius: var(--ui-radius-20); background: var(--color-info-soft); color: var(--color-text-primary); font-size: var(--ui-text-small); }
   .share-info svg { color: var(--color-info); }
   .share-review-context > summary { cursor: pointer; color: var(--color-text-secondary); font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
@@ -179,11 +190,15 @@
 
   /* Feedback panel (dark right panel) */
   .presentation-frame .right-panel .review-preference-counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; }
-  .presentation-frame .right-panel .review-preference-counts > div:nth-child(4) { grid-column: 1 / -1; flex-direction: row-reverse; justify-content: space-between; align-items: baseline; }
   .presentation-frame .right-panel .review-preference-counts > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 4px; min-width: 0; padding: 12px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-18); background: transparent; }
   .presentation-frame .right-panel .review-preference-counts dt { color: var(--color-text-muted); font-size: var(--ui-text-meta); line-height: 1.25; overflow-wrap: normal; word-break: normal; hyphens: none; }
   .presentation-frame .right-panel .review-preference-counts dd { margin: 0; color: var(--color-text-primary); font-size: var(--ui-text-title); font-weight: var(--weight-medium); letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .presentation-frame .right-panel .review-preference-counts dd .small { font-size: var(--ui-text-tag); font-weight: normal; letter-spacing: 0; }
+  /* Comments: the same tile as Preferred/Maybe (figure over label), full width; the unresolved count reads as a
+     quiet note beside the figure. */
+  .presentation-frame .right-panel .review-preference-counts > div:nth-child(4) { grid-column: 1 / -1; }
+  .presentation-frame .right-panel .review-preference-counts > div:nth-child(4) dd { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 2px; }
+  .presentation-frame .right-panel .review-preference-counts > div:nth-child(4) dd .small { color: var(--color-text-muted); }
   .presentation-frame .right-panel .review-feedback > .button-primary { background: transparent; border-color: var(--color-border-strong); color: var(--color-text-primary); }
   .presentation-frame .right-panel .review-feedback > .button-primary:hover:not(:disabled) { background: var(--color-surface-2); box-shadow: none; }
   .presentation-frame .right-panel .review-comments { gap: 10px; }
@@ -218,6 +233,14 @@
   .version-slide-count svg { width: 12px; height: 12px; }
   .panel-foot-actions { align-items: center; }
   .panel-foot-actions > .button-quiet { min-height: var(--ui-control-sm); padding: 0 14px; border-color: var(--color-border-strong); color: var(--color-text-primary); font-size: var(--ui-text-meta); }
+
+  /* ---------- Saved stage: the whole slide fits the stage (16:9 by height), the cover never runs under the pager ---------- */
+  @media (min-width: 1024px) {
+    .presentation-frame .saved-stage-body { container-type: size; align-content: safe center; }
+    .presentation-frame .saved-stage-body .ef-preview-frame { width: min(100%, calc((100cqh - 96px) * 16 / 9)); margin-inline: auto; }
+    .presentation-frame .saved-stage-body > .saved-casting-cover { min-height: min(32rem, calc(100cqh - 96px)); gap: var(--space-5); }
+    .presentation-frame .saved-stage-body > .saved-casting-cover h2 { font-size: clamp(var(--ui-text-title), 6.5cqw, 4rem); }
+  }
 
   /* ---------- Narrow screens ---------- */
   @media (max-width: 1023px) {
