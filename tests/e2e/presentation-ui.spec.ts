@@ -153,8 +153,8 @@ test('review and generation navigation keeps the chosen series instead of the wo
   await page.goto(`${base}/review`);
   await page.getByRole('combobox', { name: 'Saved review series', exact: true }).selectOption(shortlist.series_id);
   await expect(page.getByText(/^Server check · revision \d+ · Synthetic Shortlist$/u)).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Open Presentation', exact: true })).toHaveAttribute('href', `${base}/presentations?series_id=${shortlist.series_id}`);
-  await page.getByRole('link', { name: 'Open Presentation', exact: true }).click();
+  await expect(page.getByRole('link', { name: 'Continue to Presentation', exact: true })).toHaveAttribute('href', `${base}/presentations?series_id=${shortlist.series_id}`);
+  await page.getByRole('link', { name: 'Continue to Presentation', exact: true }).click();
   await expect(page.getByRole('combobox', { name: 'Presentation series', exact: true })).toHaveValue(shortlist.series_id);
   await expect(page.getByRole('button', { name: 'Generate saved version', exact: true })).toBeEnabled();
   await expect(page.getByRole('link', { name: 'Open Final Review', exact: true })).toHaveAttribute('href', `${base}/review?series_id=${shortlist.series_id}`);

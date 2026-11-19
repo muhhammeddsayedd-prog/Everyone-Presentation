@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Icon } from './Icon';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Role, Spec } from '@eps/domain';
 import { api } from './api';
@@ -98,8 +99,8 @@ export function SourceIntake({ spec, canWrite, uploadPurposes = [], storageOrigi
   return <section className="editor-section"><div className="section-heading"><div><h2>Source brief</h2><p>{canWrite ? 'Supply the brief to request requirements extraction. You can also enter requirements manually below.' : 'Read the original brief and saved requirements.'}</p></div></div>
     {spec.source_text !== null ? <details className="source-brief"><summary>Read the saved source</summary><pre dir="auto">{spec.source_text}</pre></details>
       : <p className="small muted">{spec.source_asset_id ? 'A source document is recorded.' : 'No source brief supplied.'}</p>}
-    {spec.processing_job_id && <Link className="small" href={processingHref({ job: spec.processing_job_id })}>View source processing</Link>}
-    {fileAllowed ? <div className="button-row" role="group" aria-label="Source input"><button className="button button-small button-quiet" type="button" aria-pressed={mode === 'text'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('text')}>Paste text</button><button className="button button-small button-quiet" type="button" aria-pressed={mode === 'file'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('file')}>Upload PDF, DOCX or text</button></div>
+    {spec.processing_job_id && <Link className="button button-small button-quiet source-processing-link" href={processingHref({ job: spec.processing_job_id })}><Icon name="processing" />View source processing</Link>}
+    {fileAllowed ? <div className="segmented source-mode" role="group" aria-label="Source input"><button type="button" aria-pressed={mode === 'text'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('text')}>Paste text</button><button type="button" aria-pressed={mode === 'file'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('file')}>Upload PDF, DOCX or text</button></div>
       : <div className="button-row"><button className="button button-small button-quiet" disabled>Upload PDF or Word</button><p className="small muted">File uploads are not available yet.{canWrite ? ' Paste the brief or edit requirements manually.' : ''}</p></div>}
     {mode === 'file' ? <FileSourceIntake spec={spec} canWrite={canWrite} uploadPurposes={uploadPurposes} storageOrigin={storageOrigin} manualEditsPending={manualEditsPending}
       onDirtyChange={fileDirtyChanged} onLockChange={fileLockChanged} onPersisted={(saved, roles, cursor) => { setText(saved.source_text ?? ''); onPersisted(saved, roles, cursor); }} /> : canWrite ? <form className="source-intake-form" onSubmit={event => { event.preventDefault(); void submit(); }}>

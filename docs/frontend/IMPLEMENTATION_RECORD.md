@@ -417,3 +417,52 @@ None in the supported scope. Remaining items are the blocked dependencies above 
 | b37aafd | Sharing drawer, generation checks, focus trap |
 | 1e1910f | Sectioned Settings, processing job drawer, batch strip |
 | a6d8cab | Labelled containers get valid roles (axe) |
+
+## Cycle 8 UI/UX quality pass (2026-11-19)
+
+Owner feedback from staging: "the full flow is now scattered and not clear", and every button, card and text should be audited, including the sidebar. Branch `cycle8/ui` (worktree `D:\Everyone\Presentation\EPS-c8-ui`) from `feature/cycle-intake-scenes-floward` @ `d42b88e9`. Behaviour, data, permissions and API calls are unchanged. Evidence: before/after screenshots of every screen at 1440, 1600, 1024 and 390 px wide, in `.local/cycle8/ui/before` and `.local/cycle8/ui/after` (git-ignored). They were captured with the synthetic in-browser API mock against the fixture server on port 3183. The capture harness is `.local/_capture/c8.capture.ts`, copied from the P4 catalogue harness.
+
+### New shared pieces
+- `components/workspace/StepFlow.tsx`:
+  - `StepBar` is the numbered workspace step bar. Its navigation is still named "Casting workspace steps", and each link name is still "`<n> <Step> <status>`".
+  - `StepFooter` is the one step ending: a note or secondary action, then Back, then "Continue to <next step>".
+- The workspace header becomes two rows (`--topbar-height: 104px` on workspace pages). Row one holds the title, output, Share, the shortcut and the session. Row two is the step bar. On phones the header is three rows and does not stick.
+
+### Audit (issue → fix)
+| # | Issue | Fix |
+|---|---|---|
+| 1 | The step sequence was invisible. Seven unlabeled step icons sat in the rail under the five destinations; the labels were only tooltips; and the Presentation step reused the Recent workspaces icon. | A visible step bar under the workspace title: 1 Project → 2 Specs → 3 Candidates → 4 Casting → 5 Review → 6 Presentation → 7 Share & feedback. The current step is filled and underlined, earlier steps are tinted, and the summary hints (to clarify, in project, open slots, vN ready) show inline. On narrow screens the bar scrolls and keeps the current step in view. The rail keeps the five destinations only. |
+| 2 | Each step ended differently. Project had no ending. Specs had a note and Continue but no Back. Candidates and Casting had a back icon and Continue. Review had "Open Presentation". Versions had "Share this series for review" plus "Open version page". Share had a lone "Open saved version". | One `StepFooter` on every step: an optional note or secondary action on its own row, then Back and "Continue to <next step>". Project gets "Continue to Specs", Specs gets "Back to Project", Review's "Open Presentation" becomes "Continue to Presentation", and Versions gets "Continue to Share & feedback". Share, the last step, has Back plus "Open saved version". |
+| 3 | Two primary buttons per screen. The top bar's "Review & generate" and "Generate version" were primary, as was the footer action, and both pointed to the same place. | The top-bar shortcuts are secondary; the step footer holds the single primary. Below 1280 px the shortcuts hide, because the step bar already offers Review and Presentation and the project name keeps its room. |
+| 4 | The Specs section tabs (Brief, General, Roles, Scenes) wrapped "Scenes" onto a second row: four items in a three-column grid. | One row of equal columns. |
+| 5 | The Specs "Paste text / Upload PDF, DOCX or text" toggle used quiet buttons with no pressed style, so the chosen input was invisible. | A segmented control. |
+| 6 | "View source processing" was a plain text link among buttons. | A small quiet button with the Processing icon; the link name is unchanged. |
+| 7 | Section titles mixed shouted uppercase eyebrows (SHARED PROJECT DETAILS, PRESENTATION SERIES, YOUR UPLOADS…, REVIEW LINKS, OTHER PRESENTATION MODULES) with sentence-case headings. | One sentence-case section-title style in step panels (15 px semibold). `.panel-eyebrow` labels become sentence-case 13 px secondary text. |
+| 8 | Workspace pages scrolled into empty black space: Casting to about 2,500 px and the Candidates → Cast Library tab to about 5,400 px. Absolutely positioned helpers inside the panel (visually hidden labels, file inputs) escaped the panel's scroller and stretched the document. | `.config-panel-body { position: relative }`. The document is now exactly the viewport height. |
+| 9 | The Candidates heading buttons wrapped unevenly ("Upload new candidates" / "Choose from Library" / "Reload saved candidates" / "Open Processing"). | CSS only, because the component is being changed by another agent: the two ways to add people share a row as equal-width actions, and the two utilities sit on their own row. |
+| 10 | The Casting toolbar's "Reload saved board" wrapped to its own line, and the role strip cut a role in half with no cue that it scrolls. | Reload is an icon button with a tooltip, pinned to the "Casting choices" heading; its accessible name is unchanged. The switches wrap cleanly in a 360 px panel. The role strip fades at its edge. |
+| 11 | Versions duplicated sharing: the share drawer appeared next to a dedicated Share & feedback step. | The drawer button is removed from the Versions footer. Link management stays in the Share & feedback step, the version viewer's "Share for review" and the Presentations index. |
+| 12 | Two- to three-line helper text sat under every stage. | Shortened: "Draft preview in <template>, including unsaved edits. Review checks layout fit and makes the saved PDF." / "Checked draft, revision n, in <template>. Unsaved edits show only while previewed." / "The working draft Generate will save, in <template>. Guests never see the draft." |
+| 13 | Rail problems: the active state relied on a tint alone; tooltips had no pointer; the focus ring sat outside the tile; and the footer controls ran straight on from the navigation. | The current destination gets an edge marker (on the top edge on the phone tab bar), tooltips get an arrow, the focus ring is inset, and a divider separates the rail footer (Recent workspaces). |
+| 14 | The Projects details panel used underlined text links ("Open", "Shared project overview") among buttons. | Small buttons. |
+| 15 | Processing job titles were underlined links. | Semibold primary text, underlined on hover. |
+| 16 | The Presentations index gave every card a primary green button. | "Open latest ready" is secondary and "Open workspace history" is quiet. |
+| 17 | The candidate profile's "Visible appearance" filter used the primary green button for the selected toggle. | A segmented control. |
+| 18 | Phone workspace header: the title was truncated by the badge, the header (over 180 px) stuck to the top, and the step footer slid under the fixed bottom tab bar. | The title wraps above the badge, the header no longer sticks on phones, and the step footer sits above the tab bar. |
+
+### Not changed here (markup needed in components another agent is editing)
+- `WorkspaceCandidatesView.tsx`:
+  - Replace the footer with `<StepFooter back={{ href: …/specs, label: 'Specs' }} next={{ href: …/organize, label: 'Casting' }} />`. It renders the same markup as today.
+  - Shorten the heading description, for example "Newest first. Shared facts stay in the Cast Library.".
+  - Optionally make "Reload saved candidates" and "Open Processing" icon buttons with `data-tip`; the aria-label keeps the names.
+  - The candidate row's "No presentation picture" badge is cramped under the 44 px portrait.
+- Uploads tab and search inputs: owned by the other agent's change.
+
+### Checks
+- `npm run typecheck` and `npm run lint` pass. `npm test` passes: 1,170 passed and 3 skipped (worker, by design), across 540 + 13 + 19 + 91 + 291 + 219 tests.
+- Impeccable detector on the changed styles and `StepFlow.tsx`: no findings.
+- Capture run over every screen and all four widths: 68 of 68 captured, with no horizontal overflow and no page errors.
+- Playwright (`EPS_E2E_PORT=3183 npx playwright test`): 211 passed, 0 failed (8.6 min, fixture server on port 3183). Two spec changes:
+  - `presentation-ui.spec.ts`: the selector "Open Presentation" becomes "Continue to Presentation".
+  - `live-stage-ui.spec.ts`: the resize test uses a 1440×1000 viewport instead of 1440×900. The step-bar row takes 48 px of stage height, so at 900 px the slide is limited by height and no longer widens when the panel narrows. The test still checks that the slides follow the panel.
+  - A first full run also found that hiding the rail avatar put Recent workspaces under the Next.js dev indicator. The avatar is kept.

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import type { AudiencePreset, PresentationSeries, PresentationVersion } from '@eps/domain';
 import { api, mutation, type Actor, type Envelope } from '../api';
@@ -16,6 +17,7 @@ import { FramePortal } from '../shell/Frame';
 import { PageFrame, RightPanel } from '../shell/PageFrame';
 import { useConfirm } from '../ui/Confirm';
 import { SavedStage, slideName, useSavedVersion } from '../presentation/saved-version';
+import { StepFooter } from '../workspace/StepFlow';
 
 interface Props {
   actor: Actor; onDirtyChange: (value: boolean) => void;
@@ -41,6 +43,7 @@ async function readAll<T>(path: string, signal: AbortSignal, check: (rows: T[]) 
  * are managed by the existing review-link service; nothing here widens who can see a version. */
 export function ShareWorkspace(props: Props) { return <ShareScope key={`${props.actor.id}:${props.seriesId ?? props.workspaceId}`} {...props} />; }
 function ShareScope({ actor, onDirtyChange, seriesId: fixedSeries, workspaceId, requestedSeriesId, onSeriesChanged }: Props) {
+  const pathname = usePathname();
   const confirm = useConfirm();
   const [choices, setChoices] = useState<PresentationSeries[]>([]); const [chosen, setChosen] = useState(fixedSeries ?? '');
   const [series, setSeries] = useState<PresentationSeries | null>(null); const [versions, setVersions] = useState<PresentationVersion[]>([]);
@@ -139,7 +142,7 @@ function ShareScope({ actor, onDirtyChange, seriesId: fixedSeries, workspaceId, 
       <nav className="workspace-breadcrumb" aria-label="Breadcrumb"><Link href="/presentations">Presentations</Link><Icon name="chevron-right" /><span aria-current="page">Share &amp; feedback</span></nav></div></FramePortal>}
     <PageFrame inline className={`${fixedSeries ? '' : 'workspace-frame '}presentation-frame share-frame`}
       panel={{ title: 'Share & feedback', subtitle: series ? `${series.audience_snapshot.label} · ${series.output_type === 'selection' ? 'Selection' : 'Shortlist'}` : 'Review links and guest feedback', label: 'Share and feedback panel', wide: true, body: panelBody,
-        footer: fixedSeries ? <div className="panel-foot-actions"><Link className="button button-quiet" href="/presentations">All presentations</Link>{version && <><span className="grow" /><Link className="button button-quiet" href={`/presentations/versions/${version.id}`}>Open saved version {version.version_no}</Link></>}</div> : version ? <div className="panel-foot-actions"><span className="grow" /><Link className="button button-quiet" href={`/presentations/versions/${version.id}`}>Open saved version {version.version_no}</Link></div> : undefined }}
+        footer: fixedSeries ? <div className="panel-foot-actions"><Link className="button button-quiet" href="/presentations">All presentations</Link>{version && <><span className="grow" /><Link className="button button-quiet" href={`/presentations/versions/${version.id}`}>Open saved version {version.version_no}</Link></>}</div> : <StepFooter placement="panel" back={{ href: `${pathname.replace(/\/share$/u, '/presentations')}${series ? `?series_id=${series.id}` : ''}`, label: 'Presentation' }}>{version && <Link className="button button-quiet button-small step-footer-aside" href={`/presentations/versions/${version.id}`}>Open saved version {version.version_no}</Link>}</StepFooter> }}
       right={version ? <SharedFeedback key={version.id} version={version} slideId={slideId} onSlide={showSlide} actor={actor} open={feedbackOpen} onOpen={setFeedbackOpen} counts={counts} onStateChange={feedbackChanged} feedbackDirty={feedback.dirty || feedback.locked} /> : undefined}>
       {version ? <ShareStage key={version.id} versionId={version.id} slideId={slideId} onSlide={showSlide} seriesId={series!.id} latest={version.id === series!.latest_ready_version_id} external={external} counts={counts} feedbackDirty={feedback.dirty} feedbackLocked={feedback.locked} feedbackOpen={feedbackOpen} onOpenFeedback={() => setFeedbackOpen(true)} />
         : <section className="live-stage live-stage-empty" aria-label="Shared version">{loading ? <Loading /> : <div className="empty-state"><Icon name="slides" /><h2>No ready version to share yet</h2><p>Generate a version in this series. Guests always see its newest ready version.</p></div>}</section>}

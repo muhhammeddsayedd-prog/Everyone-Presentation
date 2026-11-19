@@ -19,6 +19,7 @@ import { SegmentIndicator } from './motion/SegmentIndicator';
 import { AnimatedNumber } from './motion/AnimatedNumber';
 import { useDraftValue } from './workspace/WorkspaceDraftProvider';
 import { draftKey } from './workspace/draft-review';
+import { StepFooter } from './workspace/StepFlow';
 
 interface Props {
   workspaceId: string; projectId: string; actor: Actor; initialOutput?: CastingOutput;
@@ -230,7 +231,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
     <header className="section-heading casting-heading"><div><h2>Casting choices</h2><p>Selection includes every active assignment. Shortlist is your explicit choice; positions stay independent.</p></div>
       <div className="button-row"><div className="segmented" role="group" aria-label="Casting output view"><SegmentIndicator /><button type="button" aria-pressed={output === 'selection'} disabled={locked || editing !== null} onClick={() => changeOutput('selection')}>Selection</button><button type="button" aria-pressed={output === 'shortlist'} disabled={locked || editing !== null} onClick={() => changeOutput('shortlist')}>Shortlist</button></div>
         <div className="segmented" role="group" aria-label="Casting layout"><SegmentIndicator /><button type="button" aria-pressed={view === 'all'} onClick={() => setView('all')}>All roles</button><button type="button" aria-pressed={view === 'one'} onClick={() => setView('one')}>One role</button></div>
-        <button type="button" className="button button-small button-quiet" disabled={busy || uncertain} onClick={() => void reload()}><Icon name="refresh" />Reload saved board</button></div></header>
+        <button type="button" className="icon-button casting-reload" aria-label="Reload saved board" data-tip="Reload saved board" data-tip-side="end" disabled={busy || uncertain} onClick={() => void reload()}><Icon name="refresh" /></button></div></header>
     {error && <ErrorNotice message={error} />}{uncertain && <div className="notice notice-warning" role="status"><p>The outcome is unconfirmed. Other changes are locked until this request is resolved.</p><button className="button" disabled={busy} onClick={() => { if (write.current) void run(write.current, true); }}>Retry same change</button></div>}
     <div className="casting-summary"><p aria-live="polite">{visible.length} assigned {visible.length === 1 ? 'entry' : 'entries'} · {pending} Pending {pending === 1 ? 'slot' : 'slots'}</p><p className="save-state" role="status" aria-live="polite">{busy ? 'Saving casting choices…' : status}</p></div>
     {profileWarning && <p className="small muted">Some profile labels could not be refreshed. Candidate record IDs remain visible; reusable facts have not been changed.</p>}
@@ -293,7 +294,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
     {editingItem && <Drawer inline title="Assignment notes" description={`${name(profiles[data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? ''], data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? editingItem.workspace_candidate_id)} · ${data.slots.find(slot => slot.id === editingItem.slot_id)?.label ?? 'Slot'}`} onClose={() => void closeNotes()} busy={busy}>
       <div data-draft-focus={`assignment:${editingItem.id}`}><AssignmentNotes key={`${editingItem.id}:${editingItem.row_version}`} item={editingItem} disabled={loading || busy || uncertain} canSave={fresh} onDirty={setNotesDirty} onDiscard={() => { setEditing(null); setNotesDirty(false); }} onSave={(presentation_notes, internal_notes) => patch(editingItem, { presentation_notes, internal_notes }, 'Assignment notes')} /></div>
     </Drawer>}
-    <footer className="sticky-bar workspace-continue"><Link className="icon-button workspace-back" href={`${base}/cast`} aria-label="Back to Candidates" data-tip="Back to Candidates" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className="button button-primary" href={`${base}/review`}>Continue to Review<Icon name="arrow" /></Link></footer>
+    <StepFooter back={{ href: `${base}/cast`, label: 'Candidates' }} next={{ href: `${base}/review`, label: 'Review' }} />
   </section>;
 }
 function MoveButtons({ label, disabled, first, last, move }: { label: string; disabled: boolean; first: boolean; last: boolean; move: (direction: -1 | 1) => void }) {

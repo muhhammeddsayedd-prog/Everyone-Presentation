@@ -22,6 +22,7 @@ import { WorkspacePresentationView } from './WorkspacePresentationView';
 import { ShareWorkspace } from './share/ShareWorkspace';
 import { rememberWorkspace } from './recent-workspaces';
 import { SegmentIndicator } from './motion/SegmentIndicator';
+import { StepBar, StepFooter } from './workspace/StepFlow';
 import { plural, stepStatus, useWorkspaceSummary, type WorkspaceSummary } from './workspace-summary';
 
 // Steps edited beside the live draft stage. Review, Versions and Share & feedback lay out their own panel and stage.
@@ -121,6 +122,7 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
       <ProjectDetails key={project.id} project={project} onSaved={projectSaved} onDirtyChange={detailsChanged} />
       <LogoPanel key={workspace.id} actorId={actor.id} workspace={workspace} clientLogoAssetId={project.client_logo_asset_id} canWrite={canWrite} canUpload={canUpload} onSaved={next => { setWorkspace(next); draftRefresh.current?.(); }} onDirtyChange={logoChanged} projectName={project.name} clientName={project.client_name} />
       <NextSteps base={base} summary={summary} output={workspace.active_output} unpublished={workspace.has_unpublished_changes} />
+      {central && <StepFooter next={{ href: `${base}/specs`, label: 'Specs' }} />}
     </div>
     : step === 'specs' && central ? <SpecsView workspaceId={workspaceId} projectId={projectId} canWrite={canWrite} uploadPurposes={actor.upload_purposes ?? []} storageOrigin={storageOrigin} onDirtyChange={specsChanged} onWorkspaceChanged={specsWorkspaceChanged} />
     : step === 'cast' && central ? <WorkspaceCandidatesView workspaceId={workspaceId} projectId={projectId} actor={actor} storageOrigin={storageOrigin} onDirtyChange={castChanged} onWorkspaceChanged={specsWorkspaceChanged} />
@@ -139,10 +141,10 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     <div className="workspace-actions">
       {!ownsOutput && <div className="segmented" role="group" aria-label="Working output"><SegmentIndicator />{(['selection', 'shortlist'] as const).map(value => <button key={value} type="button" aria-pressed={workspace.active_output === value} disabled={!canChangeOutput} onClick={() => { if (workspace.active_output !== value) void changeOutput(value); }}>{value === 'selection' ? 'Cast Selection' : 'Cast Shortlist'}{summary && <span className="segment-count"><span className="sr-only">, </span>{summary.assignment_count[value]}<span className="sr-only"> {summary.assignment_count[value] === 1 ? 'assignment' : 'assignments'}</span></span>}</button>)}</div>}
       {central && step !== 'share' && <Link className="button" href={`${base}/share${seriesQuery('share')}`}><Icon name="share" />Share</Link>}
-      {step === 'review' ? <Link className="button button-primary" href={`${base}/presentations${seriesQuery('presentations')}`}><Icon name="sparkle" />Generate version</Link>
-        : !['presentations', 'share'].includes(step) && <Link className="button button-primary" href={`${base}/review${seriesQuery('review')}`}>Review &amp; generate<Icon name="arrow" /></Link>}
-    </div></FramePortal>
-    <FramePortal slot="rail"><nav className="rail-group rail-steps" aria-label="Casting workspace steps"><SegmentIndicator />{steps.map((item, index) => <Link className="rail-link" href={`${base}/${item.path}${seriesQuery(item.path)}`} key={item.path} aria-current={step === item.path ? 'step' : undefined}><Icon name={item.icon} /><span className="rail-label"><span className="step-number">{index + 1}</span>{item.label}{(() => { const status = stepStatus(summary, item.path, workspace.active_output); return status && <span className={`step-status step-status-${status.tone}`}>{status.text}</span>; })()}</span></Link>)}</nav></FramePortal>
+      {step === 'review' ? <Link className="button workspace-shortcut" href={`${base}/presentations${seriesQuery('presentations')}`}><Icon name="sparkle" />Generate version</Link>
+        : !['presentations', 'share'].includes(step) && <Link className="button workspace-shortcut" href={`${base}/review${seriesQuery('review')}`}>Review &amp; generate<Icon name="arrow" /></Link>}
+    </div>
+    <StepBar current={step} steps={steps.map(item => ({ path: item.path, label: item.label, href: `${base}/${item.path}${seriesQuery(item.path)}`, status: stepStatus(summary, item.path, workspace.active_output) }))} /></FramePortal>
     {meta ? <WorkspaceDraftProvider enabled={central} workspaceId={workspaceId} projectId={projectId} canReadProfiles={actor.capabilities?.includes('cast.read') === true} project={draftProject} workspace={workspace} refreshRef={draftRefresh}>
       <PageFrame inline className="workspace-frame" panel={{ title: meta.title, subtitle: meta.subtitle, label: `${meta.title} panel`, wide: true, body: <>{error && <ErrorNotice message={error} retry={reloadData} />}{stepBody}</> }}>
         <LiveStage />

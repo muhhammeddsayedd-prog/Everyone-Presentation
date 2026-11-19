@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Role, Spec, Workspace, ReorderWorkspace } from '@eps/domain';
 import { api, ApiError, errorMessage, mutation } from './api';
@@ -14,6 +13,7 @@ import { SourceIntake } from './SourceIntake';
 import { SpecsProcessing } from './SpecsProcessing';
 import { RetirementUndo } from './RetirementUndo';
 import { useConfirm } from './ui/Confirm';
+import { StepFooter } from './workspace/StepFlow';
 
 function Instructions({ spec, canWrite, onSaved, onDirtyChange }: { spec: Spec; canWrite: boolean; onSaved: (spec: Spec) => void; onDirtyChange: (id: string, dirty: boolean) => void }) {
   const [text, setText] = useState(spec.normalized_instructions ?? '');
@@ -231,7 +231,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
         {canWrite && !reordering && !orderPending && !sourceLocked && <AddRole workspaceId={workspaceId} onCreated={role => { roleSaved(role); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />}
       </div>
     </div>
-    <footer className="sticky-bar workspace-continue"><p className="small muted">Missing requirements do not block preparation.</p><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/cast`}>Continue to Candidates<Icon name="arrow" /></Link></footer>
+    <StepFooter back={{ href: `/projects/${projectId}/casting/${workspaceId}/project`, label: 'Project' }} next={{ href: `/projects/${projectId}/casting/${workspaceId}/cast`, label: 'Candidates' }}><p className="small muted">Missing requirements do not block preparation.</p></StepFooter>
     </fieldset></div>;
 }
 
