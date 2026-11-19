@@ -1,5 +1,14 @@
 # Everyone Presentation Studio - current English-output rollout
 
+## Cycle 9 — latest everyone. design across the whole app (2026-11-19, branch cycle9/latest-design)
+
+Status: **implemented and verified locally; deployed to staging only.** Production is unchanged.
+- **What changed:** frontend only. Tokens, the bi layer and the new shell (black top bar, white nav pill, 7-step pill bar, paper panels), every screen restyled, phone pass, and the `motion@14.9.1` motion layer.
+- **Evidence:** e2e 218/218, unit 551/551, typecheck and lint clean. Local replica: REST parity 25/25, MCP 112 tools.
+- **Staging:** preview `dpl_2s8AapuKSc8qgUVDPtEa4M9afqRz`, aliased to https://everyone-presentation-staging.vercel.app.
+- **Next:** the owner tests staging signed in; production promotion needs separate approval.
+- **Details:** [tracking/handoffs/2026-11-19-cycle9-latest-design.md](tracking/handoffs/2026-11-19-cycle9-latest-design.md).
+
 ## Cycle 7 — intake, presentation pictures, scenes, Everyone Film Editorial 1.4.0 (2026-11-16, branch feature/cycle-intake-scenes-floward)
 
 Status: **implemented and locally verified; release candidate awaiting owner approval. Nothing applied to a hosted environment.** Base `main` 081e2dee; migrations m15–m20 (`supabase/migrations/20261116*`); template `everyone-casting` 1.4.0 (registry b4fbd16f…). Details, coverage table and release procedure: [docs/release/cycle7-release-candidate.md](docs/release/cycle7-release-candidate.md); resumable notes: [tracking/handoffs/2026-11-16-cycle7.md](tracking/handoffs/2026-11-16-cycle7.md).

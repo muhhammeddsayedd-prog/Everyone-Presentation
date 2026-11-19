@@ -466,3 +466,18 @@ Owner feedback from staging: "the full flow is now scattered and not clear", and
   - `presentation-ui.spec.ts`: the selector "Open Presentation" becomes "Continue to Presentation".
   - `live-stage-ui.spec.ts`: the resize test uses a 1440×1000 viewport instead of 1440×900. The step-bar row takes 48 px of stage height, so at 900 px the slide is limited by height and no longer widens when the panel narrows. The test still checks that the slides follow the panel.
   - A first full run also found that hiding the rail avatar put Recent workspaces under the Next.js dev indicator. The avatar is kept.
+
+## Cycle 9 latest everyone. design (2026-11-19)
+
+The whole app now follows `Latest design elements` (bi layer) and the mockups in `Latest Screen Generation/`. Handoff with evidence: `tracking/handoffs/2026-11-19-cycle9-latest-design.md`.
+- **Status:** Restyled + Verified (mock) on every route in the Screen coverage table. Staging preview deployed; a connected check signed in is pending the owner.
+- **Design system:**
+  - `app/styles/bi/*` is verbatim, imported as `@layer bi`.
+  - `app/styles/latest.css` holds the shared primitives.
+  - `latest-a..e.css` and `latest-mobile.css` hold the screen work.
+  - On paper surfaces the colour tokens are remapped to ink; `--color-accent-text` is for green text.
+- **Motion (supersedes the "no new dependency" note above):** the owner approved pinned `motion@14.9.1` plus React Bits (Motion/CSS variants only). Rules are in `components/motion/README.md`.
+  - Vendored: `bits/BlurText.tsx` (MIT + Commons Clause), with a scoped ESLint exception.
+  - CountUp was replaced by the CSS-counter `KpiNumber`.
+- **Shell:** the Studio is mounted from `app/(studio)/layout.tsx`, so it persists across navigations.
+- **Accessible names changed:** only Cast Library "Add to project: <name>" (WCAG 2.5.3).

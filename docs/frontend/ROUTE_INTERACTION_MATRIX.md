@@ -1,5 +1,7 @@
 # Frontend route and interaction matrix
 
+> Cycle 9 (2026-11-19): visual restyle only. No route, operation or capability changed. One accessible name changed: the Cast Library add button is now "Add to project: <name>".
+
 This matrix maps every studio and guest view to its interactions and to the backend operation each one calls. API paths are relative to `/api/v1`. The capability column is the server's requirement; the UI uses it only to hide or disable controls. Every write sends `row_version` (or the contract's `expected_*` field) and an `Idempotency-Key`.
 
 The statuses are defined in [IMPLEMENTATION_RECORD.md](IMPLEMENTATION_RECORD.md#status-vocabulary):
