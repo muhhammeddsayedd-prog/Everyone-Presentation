@@ -18,9 +18,24 @@
   .cast-card-type { text-transform: uppercase; letter-spacing: .04em; font-size: 11px; }
   .cast-card-select { font-size: 12px; }
   .batch-bar { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface-2, transparent); }
-  .upload-status { margin-block: 12px; }
-  .upload-status-list { list-style: none; margin: 0; padding: 0 16px 12px; display: grid; gap: 8px; }
-  .upload-status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  /* Cycle 8: uploads live in the project list. Status rows sit directly above the candidates as list rows. */
+  .upload-status { margin: 0 0 12px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-1); overflow: hidden; }
+  .upload-status-head { display: grid; gap: 2px; padding: 10px var(--space-4) 8px; }
+  .upload-status-head h3 { margin: 0; font-size: var(--text-micro); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-text-muted); }
+  .upload-status-head p { margin: 0; }
+  .upload-status-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .upload-status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 10px var(--space-4); border-top: 1px solid var(--color-border); background: var(--color-bg); }
+  .upload-status-row[aria-busy="true"] .upload-status-name::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-inline-end: 8px; border-radius: 50%; background: var(--color-info); vertical-align: middle; animation: upload-pulse 1.4s ease-in-out infinite; }
+  @keyframes upload-pulse { 50% { opacity: .35; } }
+  .upload-status-progress { display: inline-flex; align-items: center; gap: 8px; flex: 1 1 140px; }
+  .upload-status-progress progress { flex: 1; min-width: 80px; height: 6px; }
+  .project-upload-panel .candidate-upload-inline { max-width: none; margin: 0 0 12px; padding: var(--space-4); }
+  .candidate-upload-inline .section-heading { gap: 8px; flex-wrap: wrap; }
+  .candidate-upload-inline h3 { margin: 0; }
+  .candidate-upload-inline .upload-queue:empty { display: none; }
+  /* Live search: the box says when a search is in flight without hiding the current results. */
+  .search-field[data-busy] svg { animation: upload-pulse 1s ease-in-out infinite; color: var(--color-accent); }
+  .search-field-block { width: 100%; }
   .upload-status-name { font-weight: 600; overflow-wrap: anywhere; }
   .upload-status-row .badge svg { width: 12px; height: 12px; }
   .intake-actions { flex-wrap: wrap; }

@@ -1,4 +1,5 @@
 import { expect, test, type Page, type Route } from '@playwright/test';
+import { writeFile } from 'node:fs/promises';
 
 // Cycle 7 A1 intake: controlled HTTP/DOM proof with an in-memory central fixture (no real identity, SQL,
 // storage, worker or provider). Server ordering, idempotency and apply semantics are proven by the
@@ -17,7 +18,7 @@ const poolRow = (id: string, candidate: string, patch: Record<string, unknown> =
   portrait_crop: null, media_selection_state: 'unset', row_version: 1, ...patch });
 
 type Upload = { upload_id: string; state: string; job: { id: string; status: string; retryable?: boolean; error_code?: string } | null; candidate_id: string | null; workspace_candidate_id: string | null;
-  candidate_outcome?: string | null; membership_outcome?: string | null };
+  candidate_outcome?: string | null; membership_outcome?: string | null; upload_status?: string };
 interface State {
   pool: ReturnType<typeof poolRow>[]; adds: { key: string; candidate: string }[]; patches: Record<string, unknown>[]; failPatch: boolean;
   uploads: Upload[]; jobPolls: Record<string, string[]>; retries: number; searches: URLSearchParams[]; repairsApplied: unknown[];
@@ -273,4 +274,63 @@ test.describe('Save your changes?', () => {
     await dialog(page).getByRole('button', { name: 'Discard changes', exact: true }).click();
     await expect(page.getByRole('tab', { name: /In this project/ })).toHaveAttribute('aria-selected', 'true');
   });
+});
+
+// Cycle 8: uploading happens in place on the project list. A synthetic TUS endpoint (no real storage) accepts the
+// bytes; the server-recorded row then follows the job until the person joins the list without a reload.
+test('Upload new candidates uploads in place: the file is a row at the top of the list until the person joins it', async ({ page }, testInfo) => {
+  const state = await fixture(page, { pool: [poolRow('pool-old', people[0], { media_selection_state: 'pinned' })], jobPolls: { 'job-new': ['running', 'running', 'succeeded'] } });
+  const session = 'c8100000-0000-4000-8000-000000000001'; const asset = 'c8100000-0000-4000-8000-000000000002';
+  const objectName = `assets/${asset}/original.mp4`; const storage = 'http://127.0.0.1:54321';
+  const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Expose-Headers': 'Location, Upload-Offset, Tus-Resumable' };
+  const reservations: string[] = []; const completions: unknown[] = []; let patched = 0;
+  await page.route(`${storage}/**`, route => {
+    const request = route.request();
+    if (request.method() === 'OPTIONS') return route.fulfill({ status: 204, headers: { ...cors, 'Access-Control-Allow-Methods': 'POST, PATCH, HEAD', 'Access-Control-Allow-Headers': '*' } });
+    if (request.method() === 'POST') {
+      const resource = Buffer.from(`eps-candidate-assets/${objectName}/c8100000-0000-4000-8000-000000000003`).toString('base64url');
+      return route.fulfill({ status: 201, headers: { ...cors, Location: `${storage}/storage/v1/upload/resumable/sign/${resource}`, 'Tus-Resumable': '1.0.0' } });
+    }
+    patched += 1; const size = request.postDataBuffer()?.length ?? 0;
+    return route.fulfill({ status: 204, headers: { ...cors, 'Upload-Offset': String(size), 'Tus-Resumable': '1.0.0' } });
+  });
+  await page.route('**/api/v1/uploads**', async route => {
+    const request = route.request(); const path = new URL(request.url()).pathname;
+    const ok = (data: unknown, status = 200) => route.fulfill({ status, json: { request_id: 'synthetic-c8', data } });
+    if (path === '/api/v1/uploads' && request.method() === 'POST') {
+      reservations.push(request.headers()['idempotency-key']);
+      state.uploads.unshift({ upload_id: session, state: 'uploading', job: null, candidate_id: null, workspace_candidate_id: null, upload_status: 'open' });
+      return ok({ id: session, asset_id: asset, protocol: 'tus', upload_url: `${storage}/storage/v1/upload/resumable/sign`, upload_headers: { 'x-signature': 'synthetic-scoped-signature', 'x-upsert': 'false' },
+        expires_at: '2099-01-01T00:00:00Z', status: 'open', maximum_bytes: 268435456, chunk_size: 6291456,
+        upload_metadata: { bucketName: 'eps-candidate-assets', objectName, contentType: 'video/mp4', cacheControl: '3600' } }, 201);
+    }
+    if (path === `/api/v1/uploads/${session}/complete`) {
+      completions.push(request.postDataJSON());
+      Object.assign(state.uploads[0], { state: 'processing', upload_status: 'completed', job: { id: 'job-new', status: 'running' } });
+      return ok({ asset: { id: asset }, processing_job_id: 'job-new', status: 'queued' });
+    }
+    return route.fulfill({ status: 404, json: { error: { code: 'NOT_FOUND', message: 'Synthetic route unavailable.' } } });
+  });
+  await page.goto(cast);
+  await expect(page.getByRole('tab')).toHaveText([/In this project/, 'Cast Library']);
+  await expect(projectList(page).getByRole('heading', { name: names[people[0]] })).toBeVisible();
+  const chooser = page.waitForEvent('filechooser');
+  await page.getByRole('button', { name: 'Upload new candidates', exact: true }).first().click();
+  const file = testInfo.outputPath('synthetic-new-introduction.mp4'); await writeFile(file, 'synthetic bytes, not live media');
+  await (await chooser).setFiles(file);
+  // No second click: the transfer starts, the server-recorded row appears above the candidates and follows the job.
+  const status = page.getByRole('region', { name: 'Your uploads in this project' });
+  await expect(status.getByText(`${session}.mp4`)).toBeVisible();
+  await expect(status.getByText('New person saved in Library · Added to this project')).toBeVisible({ timeout: 20_000 });
+  await expect(projectList(page).getByRole('heading', { name: 'Synthetic Uploaded Person' })).toBeVisible();
+  await expect(projectList(page).getByRole('heading', { level: 3 }).first()).toHaveText('Synthetic Uploaded Person');
+  expect(reservations).toHaveLength(1); expect(patched).toBe(1);
+  expect(completions).toEqual([expect.objectContaining({ start_processing: true, actual_size_bytes: 31 })]);
+  // The finished file leaves the transfer queue; its status row stays with the recorded outcome, and the panel can close.
+  await expect(page.locator('#project-upload-panel .upload-queue li')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Close upload panel', exact: true }).click();
+  await expect(page.locator('#project-upload-panel')).toBeHidden();
+  await page.reload();
+  await expect(page.getByRole('region', { name: 'Your uploads in this project' }).getByText('New person saved in Library · Added to this project')).toBeVisible();
+  await expect(projectList(page).getByRole('heading', { name: 'Synthetic Uploaded Person' })).toHaveCount(1);
 });

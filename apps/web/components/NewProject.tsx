@@ -7,14 +7,20 @@ import type { PresentationType } from './project-presentation';
 import { Drawer } from './ui/Overlay';
 import { useConfirm } from './ui/Confirm';
 import { clearProjectCreateIntent, persistProjectCreateIntent, type ProjectCreateIntent } from '../lib/project-create-intent';
+import { SearchField, useLiveResults, useLiveSearch } from './ui/useLiveSearch';
 
 type Client = { id: string; name: string; row_version: number };
 export function NewProject({ actorId, pendingIntent, onClose, onCreated, onDirtyChange }: { actorId: string; pendingIntent: ProjectCreateIntent | null; onClose: () => void; onCreated: (project: Project) => void; onDirtyChange: (dirty: boolean) => void }) {
   const id = useId(); const confirm = useConfirm();
   const [name, setName] = useState(pendingIntent?.body.name ?? ''), [type, setType] = useState<string>(pendingIntent?.body.presentation_type ?? 'casting'), [clientId, setClientId] = useState(pendingIntent?.body.client_id ?? '');
   const [types, setTypes] = useState<PresentationType[] | null>(null), [typesError, setTypesError] = useState(''), [refresh, setRefresh] = useState(0);
-  const [clients, setClients] = useState<Client[]>([]), [clientQuery, setClientQuery] = useState(''), [clientCursor, setClientCursor] = useState<string | null>(null);
-  const [clientsError, setClientsError] = useState(''), [clientsBusy, setClientsBusy] = useState(false);
+  const [clientQuery, setClientQuery] = useState(''), [chosenClient, setChosenClient] = useState<Client | null>(null);
+  // Live client search: follows the box as you type, and clearing it lists every permitted client again at once.
+  const { term: clientTerm } = useLiveSearch(clientQuery);
+  const clientList = useLiveResults<Client>(`q=${clientTerm}`, (cursor, signal) => api<Client[]>(`/api/v1/clients?q=${encodeURIComponent(clientTerm)}&limit=25${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`, { signal }));
+  const clientsBusy = clientList.loading || clientList.loadingMore, clientsError = clientList.error, clientCursor = clientList.next;
+  // The chosen client stays selectable while a search shows other names.
+  const clients = chosenClient && chosenClient.id === clientId && !clientList.items.some(item => item.id === chosenClient.id) ? [chosenClient, ...clientList.items] : clientList.items;
   const [busy, setBusy] = useState(false), [uncertain, setUncertain] = useState(Boolean(pendingIntent)), [error, setError] = useState('');
   const intent = useRef<ProjectCreateIntent | null>(pendingIntent), active = useRef(false), mounted = useRef(true);
   const chosen = types?.find(item => item.key === type); const dirty = Boolean(name || clientId || type !== 'casting' || busy || uncertain);
@@ -28,22 +34,6 @@ export function NewProject({ actorId, pendingIntent, onClose, onCreated, onDirty
     }).catch(reason => { if (current) setTypesError(errorMessage(reason)); });
     return () => { current = false; };
   }, [refresh]);
-  useEffect(() => {
-    let current = true; const controller = new AbortController();
-    const timer = setTimeout(() => {
-      setClientsBusy(true);
-      api<Client[]>(`/api/v1/clients?q=${encodeURIComponent(clientQuery)}&limit=25`, { signal: controller.signal }).then(result => {
-        if (current) { setClients(previous => { const selected = previous.find(item => item.id === clientId); return selected && !result.data.some(item => item.id === selected.id) ? [selected, ...result.data] : result.data; }); setClientCursor(result.page?.next_cursor ?? null); setClientsError(''); }
-      }).catch(reason => { if (current) setClientsError(errorMessage(reason)); }).finally(() => { if (current) setClientsBusy(false); });
-    }, 180);
-    return () => { current = false; controller.abort(); clearTimeout(timer); };
-  }, [clientQuery, clientId, refresh]);
-  async function moreClients() {
-    if (!clientCursor || clientsBusy) return; setClientsBusy(true);
-    try { const result = await api<Client[]>(`/api/v1/clients?q=${encodeURIComponent(clientQuery)}&limit=25&cursor=${encodeURIComponent(clientCursor)}`); if (mounted.current) { setClients(previous => [...new Map([...previous, ...result.data].map(item => [item.id, item])).values()]); setClientCursor(result.page?.next_cursor ?? null); setClientsError(''); } }
-    catch (reason) { if (mounted.current) setClientsError(errorMessage(reason)); }
-    finally { if (mounted.current) setClientsBusy(false); }
-  }
   async function close() {
     if (active.current || uncertain) return;
     if (dirty && !await confirm({ title: 'Discard this new project?', description: 'The details you entered have not been saved.', confirmLabel: 'Discard details', cancelLabel: 'Keep editing', danger: true })) return;
@@ -79,10 +69,10 @@ export function NewProject({ actorId, pendingIntent, onClose, onCreated, onDirty
         {chosen?.status === 'planned' && <p className="field-hint">The project can be created now. {chosen.label} preparation and generation are Planned.</p>}</div>
       {typesError && <ErrorNotice message={typesError} retry={() => setRefresh(value => value + 1)} />}
       <fieldset className="stack" disabled={busy || uncertain}><legend>Client (optional)</legend>
-        <div className="field"><label htmlFor={`${id}-search`}>Find an existing client</label><input id={`${id}-search`} type="search" value={clientQuery} onChange={event => setClientQuery(event.target.value)} /></div>
-        <div className="field"><label htmlFor={`${id}-client`}>Shared client</label><select id={`${id}-client`} value={clientId} onChange={event => setClientId(event.target.value)}><option value="">No client</option>{clientId && !clients.some(item => item.id === clientId) && <option value={clientId}>Previously selected client</option>}{clients.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></div>
-        {clientsBusy && <p className="small muted" role="status">Finding permitted clients…</p>}{clientCursor && <button type="button" className="button button-small" disabled={clientsBusy} onClick={() => void moreClients()}>Load more clients</button>}
-        {clientsError && <ErrorNotice message={clientsError} retry={() => setRefresh(value => value + 1)} />}<p className="small muted">Choose an existing client your account may use, or leave this project without one.</p>
+        <SearchField id={`${id}-search`} label="Find an existing client" visibleLabel value={clientQuery} onValueChange={setClientQuery} busy={clientList.loading} />
+        <div className="field"><label htmlFor={`${id}-client`}>Shared client</label><select id={`${id}-client`} value={clientId} onChange={event => { setClientId(event.target.value); setChosenClient(clients.find(item => item.id === event.target.value) ?? null); }}><option value="">No client</option>{clientId && !clients.some(item => item.id === clientId) && <option value={clientId}>Previously selected client</option>}{clients.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></div>
+        {clientsBusy && <p className="small muted" role="status">Finding permitted clients…</p>}{clientCursor && <button type="button" className="button button-small" disabled={clientsBusy} onClick={() => void clientList.loadMore()}>Load more clients</button>}
+        {clientsError && <ErrorNotice message={clientsError} retry={clientList.reload} />}<p className="small muted">Choose an existing client your account may use, or leave this project without one.</p>
       </fieldset>
       {error && <ErrorNotice message={error} />}
       <div className="button-row"><button className="button button-primary" disabled={busy || !uncertain && (!name.trim() || !chosen)}>{busy ? 'Confirming project…' : uncertain ? 'Confirm create request' : 'Create project'}</button><button type="button" className="button button-quiet" disabled={busy || uncertain} onClick={() => void close()}>Cancel</button></div>

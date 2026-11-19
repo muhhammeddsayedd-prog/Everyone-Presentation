@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Candidate, CandidateFacts, LibraryCandidate, WorkspaceCandidateAdded } from '@eps/domain';
 import { api, ApiError, errorMessage, mutation, type Actor } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { CandidateFactsEditor, emptyCandidateFacts } from './CandidateFactsEditor';
-import { createCastLibraryRequests } from '../lib/cast-library-requests';
+import { liveFilterDelay, liveFilterValues } from '../lib/live-search';
+import { SearchField, useLiveResults, useLiveSearch, useSettledValue } from './ui/useLiveSearch';
 import { RoleFilterSuggestions } from './RoleFilterSuggestions';
 import { Icon } from './Icon';
 import { cardCastingId, cardLines } from './candidate-card';
@@ -28,13 +29,13 @@ type AddState = { status: 'adding' | 'added' | 'error'; already?: boolean; error
 const TALENT_TYPE: Record<string, string> = { talent: 'Talent', real_family: 'Real family', group: 'Group' };
 const filterFields = [{key:'age_or_range',label:'Age / range'},{key:'stated_gender',label:'Stated gender'}, {key:'height_measurements',label:'Height / measurements'},
   {key:'language',label:'Language'},{key:'accent',label:'Accent'},{key:'skill',label:'Skill / experience'},{key:'city',label:'City'}, {key:'previous_project_role',label:'Previous project / role'},{key:'classification',label:'Classification'}];
+const TYPED_FILTERS = filterFields.map(field => field.key);
 
 export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, membershipOverrides = {}, context, onAddAndReturn, onDone, renderFacets }: Props) {
   const [extraParams, setExtraParams] = useState<Record<string, string>>({});
   const setParam = useCallback((key: string, value: string) => setExtraParams(current => current[key] === value ? current : { ...current, [key]: value }), []);
   const [selected, setSelected] = useState<Set<string>>(new Set()); const [batchBusy, setBatchBusy] = useState(false);
   const { confirmLeave } = useUnsavedChanges();
-  const [items, setItems] = useState<LibraryCandidate[]>([]); const [next, setNext] = useState<string | null>(null);
   const [adds, setAdds] = useState<Record<string, AddState>>({});
   // One stable Idempotency-Key per (project, person) until the add is confirmed: retries and repeat clicks converge.
   // The key is dropped once the add is confirmed or the membership is removed, so a later re-add is a new request.
@@ -49,20 +50,21 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
       ? Object.fromEntries(Object.entries(current).filter(([id, state]) => !removed.includes(id) || state.status === 'adding')) : current);
   }, [membershipOverrides]);
   const [filters, setFilters] = useState<Record<string,string>>({include_unknown:'true'}); const [query,setQuery] = useState('');
-  const [loading,setLoading] = useState(true); const [error,setError] = useState(''); const [busy,setBusy] = useState(false);
+  const [manualError,setManualError] = useState(''); const [busy,setBusy] = useState(false);
   const [layout,setLayout] = useState<'grid'|'list'>('grid'); const [creating,setCreating] = useState(false);
-  const [facts,setFacts] = useState<CandidateFacts>(emptyCandidateFacts); const [revision,setRevision] = useState(0);
-  const [requests] = useState(createCastLibraryRequests); const [resultsQuery,setResultsQuery] = useState<string|null>(null);
+  const [facts,setFacts] = useState<CandidateFacts>(emptyCandidateFacts);
   const intent = useRef<{body:string; init:RequestInit}|null>(null);
   const canWrite = actor.capabilities?.includes('cast.write'); const canAdd = workspaceId && actor.capabilities?.includes('workspaces.write');
-  const filterQuery = new URLSearchParams(Object.entries({...extraParams,...filters,q:query,...(workspaceId ? { workspace_id: workspaceId } : {})}).filter(([,value]) => value !== '')).toString();
-  const load = useCallback(async (cursor?: string) => {
-    const request = requests.start(); setLoading(true);
-    try { const result = await api<LibraryCandidate[]>(`/api/v1/candidates?${filterQuery}${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`, {signal:request.signal});
-      if (request.isCurrent()) { setItems(current => cursor ? [...current, ...result.data] : result.data); setNext(result.page?.next_cursor ?? null); setResultsQuery(filterQuery); setError(''); } }
-    catch (reason) { if (request.isCurrent()) setError(errorMessage(reason)); } finally { if (request.isCurrent()) setLoading(false); }
-  },[filterQuery,requests]);
-  useEffect(() => { const timer=setTimeout(() => { void load(); },250); return () => { clearTimeout(timer); requests.cancel(); }; },[load,revision,requests]);
+  // Live search: the box and the typed fact filters search ~250 ms after typing stops; clearing either, choosing a
+  // radio/toggle or removing a chip applies at once. The previous results stay visible until the new ones arrive.
+  const { term } = useLiveSearch(query);
+  const typedFilters = useSettledValue(filters, (next, settled) => liveFilterDelay(next, settled, TYPED_FILTERS));
+  const settledFilters = useMemo(() => liveFilterValues(typedFilters, TYPED_FILTERS), [typedFilters]);
+  const filterQuery = new URLSearchParams(Object.entries({...extraParams,...settledFilters,q:term,...(workspaceId ? { workspace_id: workspaceId } : {})}).filter(([,value]) => value !== '')).toString();
+  const search = useLiveResults<LibraryCandidate>(filterQuery, (cursor, signal) => api<LibraryCandidate[]>(`/api/v1/candidates?${filterQuery}${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`, { signal }));
+  const { items, next, loading, initial, reload } = search;
+  const error = manualError || search.error;
+  const facetSearch = useMemo(() => ({ ...settledFilters, q: term }), [settledFilters, term]);
   const manualDirty = creating && JSON.stringify(facts) !== JSON.stringify(emptyCandidateFacts());
   useEffect(() => { onDirtyChange(manualDirty || busy); return () => onDirtyChange(false); },[manualDirty,busy,onDirtyChange]);
   /** Adds one person; other cards stay usable. An existing membership comes back as already_member, never an error. */
@@ -79,7 +81,7 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
     } catch (reason) {
       // An earlier add with this key was later removed from the project: refresh membership and allow a fresh add.
       if (reason instanceof ApiError && reason.status === 409 && reason.code === 'MEMBERSHIP_REMOVED') {
-        addKeys.current.delete(candidate.id); setRevision(value => value + 1);
+        addKeys.current.delete(candidate.id); reload();
         setAdds(current => ({ ...current, [candidate.id]: { status: 'error', error: 'This person was removed from the project after an earlier add. Add them again to rejoin.' } }));
       } else setAdds(current => ({ ...current, [candidate.id]: { status: 'error', error: errorMessage(reason) } }));
     }
@@ -87,11 +89,11 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
   }
   /** Resolves only after the person is saved; on failure the entry stays open with its input. */
   async function persistManual() {
-    setBusy(true); setError('');
+    setBusy(true); setManualError('');
     const body=JSON.stringify({facts}); if(intent.current?.body!==body) intent.current={body,init:mutation('POST',{facts})};
     try { const result=await api<Candidate>('/api/v1/candidates',intent.current.init); intent.current=null;
-      setCreating(false); setFacts(emptyCandidateFacts()); setRevision(value=>value+1); if(workspaceId) void add(result.data); }
-    catch(reason){setError(errorMessage(reason)); throw reason;}finally{setBusy(false);}
+      setCreating(false); setFacts(emptyCandidateFacts()); reload(); if(workspaceId) void add(result.data); }
+    catch(reason){setManualError(errorMessage(reason)); throw reason;}finally{setBusy(false);}
   }
   function create(event: React.FormEvent) { event.preventDefault(); void persistManual().catch(() => undefined); }
   function discardManual() { setCreating(false); setFacts(emptyCandidateFacts()); intent.current = null; }
@@ -117,10 +119,10 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
     {filterFields.map(field => <div className="field facet-field" key={field.key}><label htmlFor={`cast-${field.key}`}>{field.label}</label><input id={`cast-${field.key}`} value={filters[field.key] ?? ''} maxLength={500} placeholder="Any" dir="auto" onChange={event => setFilter(field.key, event.target.value)} /></div>)}
     <label className="toggle facet-toggle"><input type="checkbox" checked={filters.include_unknown !== 'false'} onChange={event => setFilter('include_unknown', String(event.target.checked))} />Include candidates with missing filter values</label>
     <p className="small muted">Unknown facts never exclude someone silently.</p>
-    {renderFacets?.({ params: extraParams, setParam, search: { ...filters, q: query } })}
+    {renderFacets?.({ params: extraParams, setParam, search: facetSearch })}
   </>;
   const results = <div className="stack-lg facet-results">
-    <div className="cast-toolbar"><label className="search-field"><Icon name="search" /><span className="sr-only">Search cast</span><input id="cast-search" type="search" value={query} maxLength={500} onChange={event => setQuery(event.target.value)} placeholder="Name, casting ID or supplied facts" /></label>
+    <div className="cast-toolbar"><SearchField id="cast-search" label="Search cast" value={query} maxLength={500} onValueChange={setQuery} busy={loading} placeholder="Name, casting ID or supplied facts" />
       {filterToggle}
       <div className="cluster applied-filters" role="group" aria-label="Applied filters">{filters.review_status && <span className="chip on">{filters.review_status === 'reviewed' ? 'Reviewed' : 'Unreviewed'}<button type="button" aria-label="Remove Fact review filter" onClick={() => setFilter('review_status', '')}><Icon name="close" /></button></span>}{applied.map(field => <span key={field.key} className="chip on" dir="auto">{field.label}: {filters[field.key]}<button type="button" aria-label={`Remove ${field.label} filter`} onClick={() => setFilter(field.key, '')}><Icon name="close" /></button></span>)}</div>
       <div className="segmented" role="group" aria-label="Cast layout"><SegmentIndicator /><button type="button" aria-pressed={layout === 'grid'} onClick={() => setLayout('grid')}>Grid</button><button type="button" aria-pressed={layout === 'list'} onClick={() => setLayout('list')}>List</button></div></div>
@@ -128,7 +130,7 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
       <button type="button" className="button button-small button-primary" disabled={batchBusy} onClick={() => void addSelected()}><Icon name="plus" />{batchBusy ? 'Adding…' : `Add ${selected.size} selected to project`}</button>
       <button type="button" className="button button-small button-quiet" disabled={batchBusy} onClick={() => setSelected(new Set())}>Clear selection</button></div>}
     <p className="small muted" role="status" aria-live="polite">{loading ? 'Searching…' : `${items.length}${next ? '+' : ''} ${items.length === 1 ? 'profile' : 'profiles'} shown`}</p>
-    {loading && items.length === 0 ? <Loading label="Opening Cast Library…" /> : !items.length && !error ? <div className="empty-state"><Icon name="people" /><h2>No matching candidates</h2><p>Upload an introduction in a project, add a manual candidate, or adjust the filters.</p></div>
+    {initial || (loading && items.length === 0) ? <Loading label="Opening Cast Library…" /> : !items.length && !error ? <div className="empty-state"><Icon name="people" /><h2>No matching candidates</h2><p>Upload an introduction in a project, add a manual candidate, or adjust the filters.</p></div>
       : <ul ref={stagger} className={`cast-results cast-results-${layout}`} aria-label="Cast Library results">{items.map(candidate => <li key={candidate.id} className="cast-card">
         <Link className="cast-card-portrait" href={`/library/cast/${candidate.id}`} tabIndex={-1} aria-hidden="true"><CandidatePortrait candidateId={candidate.id} name={candidate.facts.name} hint={'portrait_photo' in candidate ? { photo: candidate.portrait_photo, frameAssetId: candidate.portrait_frame_asset_id } : undefined} />{candidate.possible_duplicate && <span className="badge badge-warn cast-card-flag">Possible duplicate</span>}{candidate.review_status === 'reviewed' && <span className="cast-card-reviewed"><Icon name="check" />Reviewed</span>}</Link>
         <div className="cast-result-details">{candidate.talent_type && <span className="cast-card-type small muted">{TALENT_TYPE[candidate.talent_type] ?? candidate.talent_type}</span>}<h3 dir="auto"><Link href={`/library/cast/${candidate.id}`}>{candidate.facts.name ?? 'Name not provided'}</Link>{candidate.review_status === 'reviewed' && <span className="reviewed-mark" title="Reviewed facts"><Icon name="check" /></span>}</h3>
@@ -144,10 +146,10 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
           <Link className="button button-small button-quiet" href={`/library/cast/${candidate.id}`}>Open profile</Link>{canAdd && <MembershipControl state={adds[candidate.id]}
           member={Object.hasOwn(membershipOverrides, candidate.id) ? membershipOverrides[candidate.id] : candidate.membership?.workspace_candidate_id ?? null}
           name={candidate.facts.name ?? 'this person'} onAdd={() => void add(candidate)} onAddAndReturn={context && onAddAndReturn ? () => void add(candidate, onAddAndReturn) : undefined} />}</div></li>)}</ul>}
-    {next && resultsQuery === filterQuery && <div className="load-more"><button className="button" disabled={loading} onClick={() => void load(next)}>{loading ? 'Loading…' : 'Load more'}</button></div>}
+    {next && <div className="load-more"><button className="button" disabled={search.loadingMore} onClick={() => void search.loadMore()}>{search.loadingMore ? 'Loading…' : 'Load more'}</button></div>}
   </div>;
   if (workspaceId) return <section className="cast-library cast-library-embedded">{heading}
-    {error && <ErrorNotice message={error} retry={() => void load()} />}
+    {error && <ErrorNotice message={error} retry={() => { setManualError(''); reload(); }} />}
     <RoleFilterSuggestions workspaceId={workspaceId} onApply={(field, value) => setFilter(field, value)} />
     {manual}
     <div className="facet-layout">
@@ -157,7 +159,7 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
   </section>;
   return <PageFrame className="cast-library cast-library-page" panel={{ title: 'Filters', subtitle: activeCount ? `${activeCount} applied` : 'Supplied facts', label: 'Filters', actions: clear || undefined, body: facets, filters: { count: activeCount } }}>
     {heading}
-    {error && <ErrorNotice message={error} retry={() => void load()} />}
+    {error && <ErrorNotice message={error} retry={() => { setManualError(''); reload(); }} />}
     {manual}
     {results}
   </PageFrame>;
