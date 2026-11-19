@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { StepFooter } from './workspace/StepFlow';
 import { isGenerationTemplate, templateName } from './workspace/template-names';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PresentationSeries, PresentationVersion, ReviewJobAccepted, WorkspaceReview } from '@eps/domain';
@@ -8,7 +9,6 @@ import { summarizePresentationChanges } from '../../../packages/domain/src/prese
 import { api, ApiError, errorMessage, mutation, type Actor, type Envelope, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { Icon } from './Icon';
-import { ShareDrawer } from './ShareDrawer';
 import { StudioDateTime } from './StudioTimeZone';
 import { PageFrame } from './shell/PageFrame';
 import { DeckStage } from './workspace/DeckStage';
@@ -23,7 +23,7 @@ interface Draft { workspace: Workspace; review: WorkspaceReview; series: Present
  * server-checked working draft (exactly what Generate captures) or the selected saved version's own snapshot. */
 export function WorkspacePresentationView(props: Props) { return <PresentationScope key={`${props.actor.id}:${props.workspaceId}`} {...props} />; }
 function PresentationScope({ projectId, workspaceId, actor, initialOutput, requestedSeriesId, onSeriesChanged, onDirtyChange }: Props) {
-  const [series, setSeries] = useState<PresentationSeries[]>([]); const [seriesId, setSeriesId] = useState(''); const [sharing, setSharing] = useState(false);
+  const [series, setSeries] = useState<PresentationSeries[]>([]); const [seriesId, setSeriesId] = useState('');
   const [draft, setDraft] = useState<Draft | null>(null); const [versions, setVersions] = useState<PresentationVersion[]>([]);
   const [selectedVersion, setSelectedVersion] = useState(''); const [cursor, setCursor] = useState<string | null>(null);
   const [loading, setLoading] = useState(true); const [busy, setBusy] = useState(false); const [uncertain, setUncertain] = useState(false);
@@ -169,10 +169,9 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
   return <PageFrame inline className="workspace-frame presentation-frame versions-frame"
     panel={{ title: 'Versions', subtitle: 'Generate, view and share', label: 'Versions panel', wide: true, body: panelBody,
       actions: <button type="button" className="icon-button icon-button-small" aria-label="Refresh working draft" title="Refresh working draft" disabled={locked || loading || choicesLoading} onClick={refreshAll}><Icon name="refresh" /></button>,
-      footer: seriesId ? <div className="panel-foot-actions">{selectedVersion && <Link className="button button-quiet" href={`/presentations/versions/${selectedVersion}`}><Icon name="external" />Open version page</Link>}<span className="grow" /><button type="button" className="button" aria-haspopup="dialog" onClick={() => setSharing(true)}><Icon name="share" />Share this series for review</button></div> : undefined }}>
+      footer: <StepFooter placement="panel" back={{ href: reviewHref, label: 'Review' }} next={{ href: `${base}/share${seriesId ? `?series_id=${seriesId}` : ''}`, label: 'Share & feedback' }}>{selectedVersion && <Link className="button button-quiet button-small step-footer-aside" href={`/presentations/versions/${selectedVersion}`}><Icon name="external" />Open version page</Link>}</StepFooter> }}>
     {selectedVersion ? <VersionStage key={selectedVersion} versionId={selectedVersion} seriesId={seriesId} onSettled={settled} latest={selectedVersion === draft?.series.latest_ready_version_id} />
       : <DraftStage review={draft?.review ?? null} loading={loading} empty={!series.length && !choicesLoading} />}
-    {sharing && seriesId && <ShareDrawer seriesId={seriesId} actor={actor} onClose={() => setSharing(false)} />}
   </PageFrame>;
 }
 
@@ -188,7 +187,7 @@ function DraftStage({ review, loading, empty }: { review: WorkspaceReview | null
   return <DeckStage deck={stage.deck} rendered={stage.rendered} index={bounded} onIndex={setIndex} busy={loading}
     chip={{ tone: 'ok', text: `Working draft · revision ${review.draft_revision}` }} meta={<>Slide {bounded + 1} of {stage.deck.pages.length}</>}
     notices={stage.failed.length > 0 ? <p className="stage-note small"><Icon name="info" />{stage.failed.length} image{stage.failed.length === 1 ? '' : 's'} could not be opened for the preview.</p> : undefined}
-    disclaimer={<>The server-checked working draft in {templateName(review.template.version)} — what Generate captures. The version number and date are added when it is saved; guests never see the draft.</>} />;
+    disclaimer={<>The working draft Generate will save, in {templateName(review.template.version)}. Guests never see the draft.</>} />;
 }
 
 /** A saved version on the stage, from its own captured content; generation status is followed until it settles. */

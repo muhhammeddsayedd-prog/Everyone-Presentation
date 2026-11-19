@@ -17,6 +17,7 @@ import { SegmentIndicator } from '../motion/SegmentIndicator';
 import { PageFrame, RightPanel } from '../shell/PageFrame';
 import { DeckStage, type StageChip, type StageHighlight } from '../workspace/DeckStage';
 import { useStageDeck } from '../workspace/useStageDeck';
+import { StepFooter } from '../workspace/StepFlow';
 import { CHECK_GROUPS, checkGroup, pageForSlide, previewReview, slideForIssue, type CheckGroupKey, type ReviewPreviewEdit } from './review-preview';
 
 interface Props { workspaceId: string; projectId: string; actor: Actor; initialOutput: 'selection' | 'shortlist'; requestedSeriesId?: string | null; onSeriesChanged?: (value: string) => void; onDirtyChange: (value: boolean) => void; onWorkspaceChanged: () => void }
@@ -338,8 +339,8 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
       </section>
     </>}
   </div>;
-  const panelFooter = review ? <div className="review-foot"><p className="small"><strong>{plural(notes, 'note')} · {plural(blocking, 'blocker')}</strong><span className="muted"> · {review.can_generate ? 'ready for generation' : 'generation is not available yet'}</span></p>
-    <div className="button-row"><Link className="icon-button workspace-back" href={`${base}/organize`} aria-label="Back to Casting" data-tip="Back to Casting" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className={`button${review.can_generate ? ' button-primary' : ''}`} href={`${base}/presentations?series_id=${review.series_id}`}>Open Presentation</Link></div></div> : undefined;
+  const panelFooter = review ? <StepFooter placement="panel" back={{ href: `${base}/organize`, label: 'Casting' }} next={{ href: `${base}/presentations?series_id=${review.series_id}`, label: 'Presentation', quiet: !review.can_generate }}>
+    <p className="small"><strong>{plural(notes, 'note')} · {plural(blocking, 'blocker')}</strong><span className="muted"> · {review.can_generate ? 'ready for generation' : 'generation is not available yet'}</span></p></StepFooter> : undefined;
 
   const highlight: StageHighlight | null = previewEdit && current?.assignment_id === previewEdit.assignmentId ? { field: previewEdit.field ?? 'availability', tone: 'edit' }
     : mark && pages[index]?.key === mark.key ? { field: mark.field, tone: mark.tone } : null;
@@ -351,7 +352,7 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
       meta={<>Slide {index + 1} of {pages.length}</>}
       tools={current?.kind === 'candidate' && current.assignment_id !== selectedId ? <button type="button" className="button button-small" disabled={locked || edited} onClick={() => inspect(current, 'facts')}>Review {current.slot_label}</button> : undefined}
       notices={stage.failed.length > 0 ? <p className="stage-note small"><Icon name="info" />{plural(stage.failed.length, 'image')} could not be opened for the preview.</p> : undefined}
-      disclaimer={<>The content the server checked for revision {review.draft_revision}, in {templateName(review.template.version)}. Unsaved edits show only while previewed; layout fit is measured by the server.</>} />;
+      disclaimer={<>Checked draft, revision {review.draft_revision}, in {templateName(review.template.version)}. Unsaved edits show only while previewed.</>} />;
 
   const inspector = selected && <RightPanel title={<span id="assignment-review-heading" tabIndex={-1}>{selected.fields.name_or_id}</span>} subtitle={`${selected.role_name} · ${selected.slot_label} · ${selected.position ? selected.position[0].toUpperCase() + selected.position.slice(1) : 'Pending'}`} label="Assignment review"
     closeLabel="Close assignment" onClose={locked || edited ? undefined : () => { setSelectedId(null); setSuggestionId(null); setProposal(null); }}>

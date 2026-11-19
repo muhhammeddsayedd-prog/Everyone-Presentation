@@ -154,7 +154,8 @@
 .processing-destination > span { overflow-wrap: anywhere; }
 .processing-jobs { padding: 0; margin: 0; list-style: none; }
 .processing-jobs > li { display: grid; grid-template-columns: minmax(0,1fr) minmax(180px,.8fr); align-items: start; gap: var(--space-6); padding: var(--space-5) 0; border-bottom: 1px solid var(--color-border); }
-.processing-job-link { font-weight: var(--weight-semibold); text-decoration: underline; }
+.processing-job-link { font-weight: var(--weight-semibold); color: var(--color-text-primary); text-decoration: none; }
+.processing-job-link:hover { text-decoration: underline; }
 .processing-jobs p { margin: var(--space-2) 0; }
 .processing-job-state { display: flex; align-items: flex-start; flex-direction: column; gap: var(--space-2); }
 .processing-progress { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-3); color: var(--color-text-secondary); font-size: var(--text-small); }

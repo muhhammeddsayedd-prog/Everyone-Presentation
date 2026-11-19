@@ -43,10 +43,41 @@
   .rail-link svg, .rail-button svg { width: 20px; height: 20px; }
   .rail-label { position: absolute; left: calc(100% + 12px); top: 50%; z-index: var(--z-popover); display: flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 6px; background: var(--color-text-primary); color: var(--color-text-on-accent); font-size: 12px; font-weight: var(--weight-semibold); white-space: nowrap; transform: translateY(-50%); opacity: 0; pointer-events: none; transition: opacity var(--duration-fast) var(--ease-standard); }
   .rail-link:hover .rail-label, .rail-link:focus-visible .rail-label { opacity: 1; }
-  .rail-label .step-number { color: #555; font-variant-numeric: tabular-nums; }
-  .rail-label .step-status { color: #444; font-weight: var(--weight-medium); }
-  .rail-link:has(.step-status-warn)::after { content: ""; position: absolute; top: 8px; right: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--color-warning); box-shadow: 0 0 0 2px var(--color-bg); }
+  /* The current destination also carries an edge marker, so it reads without relying on the tint alone */
+  .rail-group > .rail-link[aria-current]::before { content: ""; position: absolute; top: 12px; bottom: 12px; left: -10px; width: 3px; border-radius: 0 3px 3px 0; background: var(--color-accent); }
+  .rail-link:focus-visible, .rail-button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+  .rail-label::before { content: ""; position: absolute; left: -4px; top: 50%; width: 8px; height: 8px; background: inherit; transform: translateY(-50%) rotate(45deg); border-radius: 1px; }
   .rail-foot { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+  .rail-foot:has(> *:not(.rail-avatar))::before { content: ""; width: 28px; height: 1px; margin-bottom: 4px; background: var(--color-border); }
+
+  /* Workspace header: title and actions on the first row, the step bar across the second */
+  .app-frame[data-layout="workspace"] { --topbar-height: 104px; }
+  .app-frame[data-layout="workspace"] .frame-top { display: grid; grid-template-columns: var(--rail-width) minmax(0, 1fr) auto auto auto; grid-template-rows: 56px 48px; gap: 0; padding-right: 0; }
+  .app-frame[data-layout="workspace"] .frame-brand { grid-row: 1 / span 2; grid-column: 1; align-items: start; }
+  .app-frame[data-layout="workspace"] .brand-mark { line-height: 56px; }
+  .app-frame[data-layout="workspace"] .frame-top-slot { display: contents; }
+  .app-frame[data-layout="workspace"] .workspace-top { grid-area: 1 / 2; padding-left: var(--space-5); }
+  .app-frame[data-layout="workspace"] .workspace-actions { grid-area: 1 / 3; margin-left: var(--space-4); }
+  .app-frame[data-layout="workspace"] .topbar-env { grid-area: 1 / 4; margin-left: var(--space-5); }
+  .app-frame[data-layout="workspace"] .session-control { grid-area: 1 / 5; margin: 0 var(--space-4) 0 var(--space-5); }
+  .workspace-steps { grid-area: 2 / 2 / 3 / -1; min-width: 0; border-top: 1px solid var(--color-border); }
+  .workspace-steps ol { display: flex; align-items: center; height: 100%; margin: 0; padding: 0 var(--space-4) 0 var(--space-3); list-style: none; overflow-x: auto; scrollbar-width: none; }
+  .workspace-steps ol::-webkit-scrollbar { display: none; }
+  .workspace-steps li { display: flex; align-items: center; flex: none; height: 100%; }
+  .workspace-steps li + li::before { content: ""; flex: none; width: 18px; height: 1px; margin: 0 2px; background: var(--color-border-strong); }
+  .workspace-steps li:is([data-state="before"], [data-state="current"]) + li::before { background: color-mix(in srgb, var(--color-accent) 55%, var(--color-border-strong)); }
+  .workspace-steps li[data-state="current"] + li::before { background: var(--color-border-strong); }
+  .step-link { position: relative; display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 10px 0 6px; border-radius: var(--radius-sm); color: var(--color-text-muted); font-size: var(--text-small); font-weight: var(--weight-medium); white-space: nowrap; }
+  .step-link:hover { color: var(--color-text-primary); background: var(--color-surface-2); text-decoration: none; }
+  .step-link:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+  .step-number { display: grid; place-items: center; width: 22px; height: 22px; flex: none; border-radius: 50%; border: 1px solid var(--color-border-strong); color: var(--color-text-secondary); font-size: 11px; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+  li[data-state="before"] .step-number { border-color: color-mix(in srgb, var(--color-accent) 55%, transparent); color: var(--color-accent); }
+  .step-link[aria-current] { color: var(--color-text-primary); font-weight: var(--weight-semibold); }
+  .step-link[aria-current] .step-number { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-text-on-accent); }
+  .step-link[aria-current]::after { content: ""; position: absolute; left: 6px; right: 10px; bottom: -7px; height: 2px; border-radius: 2px 2px 0 0; background: var(--color-accent); }
+  .step-status { display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border-radius: var(--radius-full); background: var(--color-surface-3); color: var(--color-text-secondary); font-size: 11px; font-weight: var(--weight-medium); }
+  .step-status-warn { background: var(--color-warning-soft); color: var(--color-warning); }
+  .step-status-ok { background: var(--color-success-soft); color: var(--color-success); }
 
   .main-content { min-width: 0; width: 100%; max-width: calc(var(--content-max) + 2 * var(--gutter-lg)); margin: 0 auto; padding: var(--space-6) var(--gutter-lg) var(--space-12); outline: none; }
 
@@ -71,7 +102,9 @@
   .config-panel-head > div { flex: 1; min-width: 0; }
   .config-panel-head h2 { font-size: 17px; letter-spacing: -.01em; overflow-wrap: anywhere; }
   .config-panel-head p { margin-top: 2px; color: var(--color-text-muted); font-size: var(--text-small); }
-  .config-panel-body { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-4); padding: 16px 18px; }
+  /* position: relative keeps absolutely placed helpers (visually hidden labels, file inputs) inside the scroller,
+     so they never stretch the page below the sticky panel */
+  .config-panel-body { position: relative; flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: var(--space-4); padding: 16px 18px; }
   .config-panel-foot { display: flex; align-items: center; gap: var(--space-2); padding: 12px 18px; border-top: 1px solid var(--color-border); }
   .page-frame-main { min-width: 0; padding: var(--space-6) var(--gutter-lg) var(--space-12); display: flex; flex-direction: column; gap: var(--space-5); }
   .panel-toggle { align-self: flex-start; }
@@ -83,6 +116,8 @@
     .right-panel { position: static; height: auto; border-left: 0; border-top: 1px solid var(--color-border); }
   }
   @media (max-width: 1439px) { .app-frame[data-layout="workspace"] .topbar-env { display: none; } }
+  /* Below 1280 the step bar already offers Review and Presentation; the header keeps room for the project name */
+  @media (max-width: 1279px) { .workspace-actions .workspace-shortcut { display: none; } }
   @media (max-width: 1023px) { .topbar-env, .user-name { display: none; } .workspace-breadcrumb { display: none; } }
   @media (max-width: 767px) {
     :root { --gutter-lg: 16px; }
@@ -100,7 +135,19 @@
     .rail-slot:not(:empty)::before { width: 1px; height: 28px; margin: 0 6px; }
     .rail-label { width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); }
     .rail-foot { margin: 0 0 0 auto; flex-direction: row; }
-    .rail-avatar { display: none; }
+    .rail-group > .rail-link[aria-current]::before { top: -10px; bottom: auto; left: 12px; right: 12px; width: auto; height: 3px; border-radius: 3px 3px 0 0; }
+    .rail-foot::before { display: none; }
+    /* Workspace header on phones: brand, title and session; then the actions; then the scrolling step bar. Not sticky. */
+    .app-frame[data-layout="workspace"] { --topbar-height: 56px; }
+    .app-frame[data-layout="workspace"] .frame-top { position: relative; grid-template-columns: 56px minmax(0, 1fr) auto; grid-template-rows: minmax(56px, auto) auto 48px; }
+    .app-frame[data-layout="workspace"] .workspace-title { flex-wrap: wrap; row-gap: 2px; padding-block: 8px; }
+    .app-frame[data-layout="workspace"] .workspace-title h1 { flex: 1 1 100%; }
+    .app-frame[data-layout="workspace"] .frame-brand { grid-row: 1; height: 56px; }
+    .app-frame[data-layout="workspace"] .workspace-top { grid-area: 1 / 2; padding-left: 0; }
+    .app-frame[data-layout="workspace"] .workspace-actions { grid-area: 2 / 1 / 3 / -1; margin: 0; padding: 0 var(--gutter) var(--space-3); }
+    .app-frame[data-layout="workspace"] .session-control { grid-area: 1 / 3; margin: 0 var(--gutter) 0 var(--space-2); }
+    .workspace-steps { grid-area: 3 / 1 / 4 / -1; }
+    .workspace-steps ol { padding-inline: var(--space-2); }
     .main-content { padding: var(--space-5) var(--gutter) calc(64px + var(--space-10)); }
     .page-frame-main { padding: var(--space-5) var(--gutter) calc(64px + var(--space-10)); }
     .config-panel[data-overlay] { top: auto; left: 0; right: 0; bottom: 0; width: auto; max-height: 78vh; border-right: 0; border-top: 1px solid var(--color-border-strong); border-radius: 18px 18px 0 0; }

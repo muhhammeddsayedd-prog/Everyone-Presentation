@@ -228,7 +228,8 @@ test('with an earlier Studio default and no editorial series the stage draws 1.4
 });
 
 test('the config panel can be resized by keyboard and pointer; the stage and slides follow and the width is remembered', async ({ page }) => {
-  const model = await workspace(page); await page.setViewportSize({ width: 1440, height: 900 }); await page.goto(`${base}/organize`);
+  // Tall enough that the slide is limited by the stage width (the workspace header has a step-bar row), so it follows the panel.
+  const model = await workspace(page); await page.setViewportSize({ width: 1440, height: 1000 }); await page.goto(`${base}/organize`);
   const panel = page.getByRole('complementary', { name: 'Casting panel' });
   const handle = page.getByRole('separator', { name: 'Resize Casting panel' });
   const width = async (locator: ReturnType<Page['locator']>) => Math.round((await locator.boundingBox())!.width);

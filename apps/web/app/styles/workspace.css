@@ -66,16 +66,26 @@
   .workspace-frame .config-panel .panel { border: 0; background: none; box-shadow: none; border-radius: 0; }
   .workspace-frame .config-panel .panel + .panel { padding-top: var(--space-5); border-top: 1px solid var(--color-border); }
   .workspace-frame .config-panel .panel-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px var(--space-2); padding: 0 0 var(--space-3); border: 0; background: none; }
-  .workspace-frame .config-panel .panel-header h2, .workspace-frame .config-panel .panel-header h3 { color: var(--color-text-muted); font-size: 12px; font-weight: var(--weight-semibold); letter-spacing: .08em; text-transform: uppercase; }
+  /* One section-title style in every step panel: sentence case, a step below the panel title */
+  .workspace-frame .config-panel .panel-header h2, .workspace-frame .config-panel .panel-header h3 { color: var(--color-text-primary); font-size: 15px; font-weight: var(--weight-semibold); letter-spacing: 0; text-transform: none; }
+  .workspace-frame .config-panel .panel-header > .small, .workspace-frame .config-panel .panel-header > span { color: var(--color-text-muted); font-size: var(--text-micro); }
   .workspace-frame .config-panel .panel-body { padding: 0; }
   .workspace-frame .config-panel .project-step { display: flex; flex-direction: column; gap: var(--space-5); }
   .workspace-frame .config-panel .section-heading { flex-wrap: wrap; gap: var(--space-2); }
-  .workspace-frame .config-panel .section-heading h2 { font-size: 17px; }
+  .workspace-frame .config-panel .section-heading h2 { font-size: 15px; }
+  .workspace-frame .config-panel .section-heading p { line-height: 1.45; }
   .workspace-frame .config-panel .button-row { flex-wrap: wrap; }
-  .workspace-frame .config-panel-body > :is(.casting-board, .specs-view, .workspace-candidates), .workspace-frame .config-panel-body > :is(.casting-board, .specs-view, .workspace-candidates) > .presentation-read-lock { flex: 1 0 auto; display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+  .workspace-frame .config-panel-body > :is(.casting-board, .specs-view, .workspace-candidates, .project-step, .casting-views), .workspace-frame .config-panel-body > :is(.casting-board, .specs-view, .workspace-candidates) > .presentation-read-lock { flex: 1 0 auto; display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
   .workspace-frame .config-panel .workspace-continue { position: sticky; bottom: 0; z-index: 2; margin: auto -18px 0; padding: 12px 18px; border: 0; border-top: 1px solid var(--color-border); border-radius: 0; background: var(--color-surface-1); box-shadow: none; display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
-  .workspace-frame .config-panel .workspace-continue > p { flex: 1 1 100%; margin: 0; }
-  .workspace-frame .config-panel .workspace-continue .button-primary { margin-left: auto; }
+  /* Step footer (StepFooter): an optional note or secondary action on its own row, then Back · Continue to … */
+  .step-footer { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+  .config-panel-foot > .step-footer { flex: 1; min-width: 0; }
+  .step-footer-extra { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); min-width: 0; }
+  .step-footer-extra > p { margin: 0; color: var(--color-text-muted); font-size: var(--text-small); }
+  .step-footer-extra > p strong { color: var(--color-text-primary); }
+  .step-footer .step-next { margin-left: auto; }
+  /* The last step has nothing to continue to: Back on the left, its secondary action on the right */
+  .step-footer:not(:has(> .step-next)) > .step-footer-extra { order: 2; flex: 0 1 auto; margin-left: auto; }
 
   /* Project: next-up tiles */
   .workspace-frame .config-panel .next-steps { display: grid; gap: var(--space-2); }
@@ -122,7 +132,7 @@
   /* Specs in one column, with sticky jump links */
   .workspace-frame .config-panel .specs-source { position: static; max-height: none; overflow: visible; }
   .section-jump { position: sticky; top: -16px; z-index: 3; margin: -16px -18px 0; padding: 12px 18px; background: var(--color-surface-1); border-bottom: 1px solid var(--color-border); }
-  .section-jump .segmented { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+  .section-jump .segmented { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); width: 100%; }
   .section-jump a { display: grid; place-items: center; min-height: 32px; border-radius: 8px; color: var(--color-text-muted); font-size: var(--text-small); font-weight: var(--weight-semibold); }
   .section-jump a:hover { color: var(--color-text-primary); text-decoration: none; }
   .section-jump a[aria-current] { background: var(--color-surface-3); color: var(--color-text-primary); }
@@ -151,6 +161,26 @@
   .workspace-frame .config-panel .assignment-add { padding: 8px; }
   .workspace-frame .config-panel .candidate-tray { padding: 0; }
   .workspace-frame .config-panel .candidate-tray .tray-list { max-height: none; padding: 0; }
+
+  /* Candidates: the two ways to add people side by side, the quieter utilities on their own row */
+  .workspace-frame .config-panel .candidates-heading { flex-direction: column; align-items: stretch; gap: var(--space-3); }
+  .workspace-frame .config-panel .candidates-heading > .button-row { gap: var(--space-2) var(--space-1); }
+  .workspace-frame .config-panel .candidates-heading .intake-actions { flex: 1 1 100%; flex-wrap: wrap; }
+  .workspace-frame .config-panel .candidates-heading .intake-actions > .button { flex: 1 1 auto; }
+  .workspace-frame .config-panel .workspace-candidates > fieldset > .tabs { margin-bottom: var(--space-2); }
+
+  /* Casting: view switch, then the output and layout switches on one line with a compact reload */
+  .workspace-frame .config-panel .casting-heading { position: relative; flex-direction: column; align-items: stretch; gap: var(--space-3); margin-bottom: var(--space-2); }
+  .workspace-frame .config-panel .casting-heading > .button-row { gap: var(--space-2); }
+  .workspace-frame .config-panel .casting-heading .casting-reload { position: absolute; top: -8px; right: 0; }
+  .workspace-frame .config-panel .casting-view-switch .segmented { flex: none; }
+  .workspace-frame .config-panel .casting-summary { margin-bottom: var(--space-2); }
+  /* The role strip scrolls sideways: fade its edge so a cut-off role reads as "more" */
+  .workspace-frame .config-panel .role-strip ul { mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); padding-right: 28px; }
+
+  /* Specs: the source input switch and the processing link sit with the brief */
+  .source-mode { margin-top: var(--space-1); }
+  .source-processing-link { justify-self: start; width: fit-content; }
 
   /* Tablet: panel and stage stay side by side, the panel a little narrower */
   @media (min-width: 1024px) and (max-width: 1279px) {
@@ -183,5 +213,7 @@
     .workspace-frame > .page-frame-main { order: -1; padding: 0; }
     .workspace-frame > .config-panel { position: relative; margin-top: -12px; border: 0; border-top: 1px solid var(--color-border-strong); border-radius: 20px 20px 0 0; padding-bottom: 64px; box-shadow: 0 -12px 32px rgba(0, 0, 0, .45); z-index: 1; }
     .workspace-frame > .config-panel::before { content: ""; display: block; width: 44px; height: 4px; margin: 10px auto 0; border-radius: 2px; background: var(--color-border-strong); }
+    /* The step footer stays above the fixed bottom tab bar instead of sliding under it */
+    .workspace-frame .config-panel .workspace-continue { bottom: 64px; }
   }
 }

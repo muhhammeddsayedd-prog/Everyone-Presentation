@@ -51,9 +51,9 @@ export function AppearanceObservations({ candidateId, canReview }: { candidateId
     {data && <SuppliedInformation supplied={data.supplied} />}
     {data && <div style={styles.toolbar}>
       <p className="small" aria-live="polite"><span className="badge badge-pending">{pending} awaiting review</span> <span className="badge badge-ok">{searchable} searchable</span></p>
-      <div role="group" aria-label="Show observations" className="cluster">
-        <button type="button" className={`button button-small${view === 'pending' ? ' button-primary' : ''}`} aria-pressed={view === 'pending'} onClick={() => setView('pending')}>Awaiting review</button>
-        <button type="button" className={`button button-small${view === 'all' ? ' button-primary' : ''}`} aria-pressed={view === 'all'} onClick={() => setView('all')}>All</button>
+      <div role="group" aria-label="Show observations" className="segmented">
+        <button type="button" aria-pressed={view === 'pending'} onClick={() => setView('pending')}>Awaiting review</button>
+        <button type="button" aria-pressed={view === 'all'} onClick={() => setView('all')}>All</button>
       </div></div>}
     {data && !data.media.length && <p className="muted">No appearance suggestions yet. They appear after an enrichment batch analyses this person's photos or video frames.</p>}
     {data?.media.map(media => <MediaGroup key={media.id} media={media} view={view} canReview={canReview} busy={busy} onReview={review} />)}

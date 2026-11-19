@@ -2,7 +2,8 @@
 @layer screens {
   /* Panel content */
   .panel-section { display: grid; gap: var(--space-2); }
-  .panel-eyebrow { font-size: var(--text-micro); font-weight: var(--weight-semibold); letter-spacing: .07em; text-transform: uppercase; color: var(--color-text-muted); }
+  /* Section labels inside panels: sentence case, quieter than headings, never a shouted eyebrow */
+  .panel-eyebrow { font-size: var(--text-small); font-weight: var(--weight-semibold); letter-spacing: 0; color: var(--color-text-secondary); }
   .config-panel .search-field, .config-panel .search-field input { width: 100%; }
   .segmented.segmented-vertical { display: grid; width: 100%; padding: 3px; gap: 2px; }
   .segmented.segmented-vertical > button { display: flex; align-items: center; gap: 10px; justify-content: flex-start; min-height: 36px; padding: 0 10px; text-align: left; }
@@ -55,6 +56,7 @@
   .project-card-body .badge { flex: none; }
   .project-card-action { justify-self: start; }
   .project-panel-cover { box-shadow: 0 0 0 1px var(--color-border); border-radius: var(--radius-md); }
+  .project-overview-link { justify-self: start; width: fit-content; }
   .right-panel .kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; font-size: var(--text-small); }
   .right-panel .kv dt { color: var(--color-text-muted); }
   .right-panel .kv dd { text-align: right; }
