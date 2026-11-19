@@ -6,6 +6,7 @@ import { GuestShell } from './GuestReviewView';
 import { ErrorNotice, Loading } from './Feedback';
 import { reviewRequest, reviewError, sameOriginReviewUrl } from './review-client';
 import { SourceTranscript } from './SourceTranscript';
+import { Icon } from './Icon';
 
 export function GrantMediaView({ grant, versionId, assetId }: { grant?: string; versionId: string; assetId: string }) {
   const [url, setUrl] = useState(''), [error, setError] = useState(''), [busy, setBusy] = useState(true), [refresh, setRefresh] = useState(0);
@@ -25,10 +26,10 @@ export function GrantMediaView({ grant, versionId, assetId }: { grant?: string; 
       finally { if (current) setBusy(false); }
     }; void open(); return () => { current = false; controller.abort(); };
   }, [grant, versionId, assetId, refresh]);
-  return <GuestShell><section className="guest-media-destination guest-media-page">
-    <header className="guest-media-head"><h1>Original introduction</h1><p className="small muted">This video belongs to the saved PDF’s original presentation version. Opened from the PDF · private link.</p></header>
-    {busy ? <Loading label="Checking video access…" /> : error ? <div className="guest-media-unavailable"><h2>This original video is no longer available.</h2><ErrorNotice message={error} /><p>Please ask the producer to check the review link.</p><button className="button" onClick={() => { setBusy(true); setRefresh(value => value + 1); }}>Retry video access</button></div>
+  return <GuestShell tags={<span className="guest-tag guest-tag-private"><span className="status-dot status-dot-ok" aria-hidden="true" /><Icon name="lock" />Private link from a PDF</span>}><section className="guest-media-destination guest-media-page">
+    <header className="guest-media-head"><p className="guest-hero-tags" aria-hidden="true"><span className="guest-pill guest-pill-version"><span className="status-dot status-dot-ok" />Saved presentation version</span></p><h1>Original introduction</h1><p className="small muted">This video belongs to the saved PDF’s original presentation version. Opened from the PDF · private link.</p></header>
+    {busy ? <div className="guest-media-checking"><Loading label="Checking video access…" /></div> : error ? <div className="guest-media-unavailable paper-surface"><span className="guest-state-icon" aria-hidden="true"><Icon name="film" /></span><h2>This original video is no longer available.</h2><ErrorNotice message={error} /><p>Please ask the producer to check the review link.</p><button className="button" onClick={() => { setBusy(true); setRefresh(value => value + 1); }}>Retry video access</button></div>
       : <div className="guest-media-layout"><div className="media-stage-body"><div className="media-player"><video src={url} className="candidate-video" controls preload="metadata" onError={() => { setUrl(''); setError('Video access is no longer available. Retry to check the review link.'); }} /></div></div>
-        <aside className="guest-media-side" aria-label="Transcript"><h2>Transcript</h2><p className="small muted">Machine transcript · may contain errors. It is not part of the slide or the PDF.</p><SourceTranscript versionId={versionId} assetId={assetId} transcript={transcript} /></aside></div>}
+        <aside className="guest-media-side paper-surface" aria-label="Transcript"><h2>Transcript</h2><p className="small muted">Machine transcript · may contain errors. It is not part of the slide or the PDF.</p><SourceTranscript versionId={versionId} assetId={assetId} transcript={transcript} /></aside></div>}
   </section></GuestShell>;
 }

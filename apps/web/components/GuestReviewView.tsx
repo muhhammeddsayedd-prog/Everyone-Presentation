@@ -1,6 +1,8 @@
 'use client';
 import { ConfirmProvider, useConfirm } from './ui/Confirm';
 import { TextReveal } from './motion/TextReveal';
+import { MotionRoot } from './motion/MotionRoot';
+import { Reveal } from './motion/Reveal';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ExternalPresentationVersion, GuestBrowserAccess } from '../../../packages/domain/src/guest-types';
@@ -91,22 +93,29 @@ function GuestReview({ entryToken }: { entryToken: string }) {
   async function canNavigate() { return !navigationLocked && (!feedbackState.dirty || await confirm({ title: 'Discard your unsent comment?', description: 'Changing the viewed slide or version discards the comment you have not posted. Posted feedback stays on its version.', confirmLabel: 'Discard comment', cancelLabel: 'Keep writing', danger: true })); }
   async function go(index: number) { if (version && index >= 0 && index < version.slides.length && await canNavigate()) setSlideIndex(index); }
   const retry = () => { opening.current = null; setLoading(true); setRefresh(value => value + 1); };
-  if (unavailable) return <GuestShell><section className="guest-unavailable guest-state"><Icon name="lock" /><h1>This review link is no longer available.</h1><p>Please ask the producer for a new review link.</p></section></GuestShell>;
-  if (loading) return <GuestShell><div className="guest-state"><Loading label="Opening shared presentation…" /></div></GuestShell>;
-  if (!access) return <GuestShell><section className="guest-state"><h1>Review presentation</h1><ErrorNotice message={error || 'The presentation could not be opened.'} retry={retry} /></section></GuestShell>;
-  if (!version) return <GuestShell><section className="guest-preparing guest-state"><span className="stage-loading-slide" aria-hidden="true" /><h1>Your presentation is being prepared</h1><p>This link will show its first ready version here.</p>{error && <ErrorNotice message={error} />}<button className="button" onClick={() => void checkUpdates()}>Check for updates</button></section></GuestShell>;
+  if (unavailable) return <GuestShell><GuestStateCard icon={<Icon name="lock" />} className="guest-unavailable"><h1>This review link is no longer available.</h1><p>Please ask the producer for a new review link.</p><p className="small muted">Links last 30 days unless the producer sets another date.</p></GuestStateCard></GuestShell>;
+  if (loading) return <GuestShell><div className="guest-state guest-state-loading"><Loading label="Opening shared presentation…" /></div></GuestShell>;
+  if (!access) return <GuestShell><GuestStateCard icon={<Icon name="alert" />} className="guest-error"><h1>Review presentation</h1><ErrorNotice message={error || 'The presentation could not be opened.'} retry={retry} /></GuestStateCard></GuestShell>;
+  if (!version) return <GuestShell><GuestStateCard icon={<Icon name="slides" />} className="guest-preparing"><span className="stage-loading-slide" aria-hidden="true" /><h1>Your presentation is being prepared</h1><p>This link will show its first ready version here.</p>{error && <ErrorNotice message={error} />}<button className="button" onClick={() => void checkUpdates()}><Icon name="refresh" />Check for updates</button></GuestStateCard></GuestShell>;
   const slide = version.slides[slideIndex];
   const output = version.output_type === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
   const place = (item: VersionSlide) => item.kind === 'cover' ? 'Cover' : `${item.role_label ?? 'Pending'} / ${item.slot_label ?? 'Pending'}`;
   const who = (item: VersionSlide) => item.kind === 'cover' ? 'Project, client and title' : item.kind === 'pending' ? 'Pending' : `${item.fields?.name_or_id || 'Not provided'}${item.position ? ` · ${item.position[0].toUpperCase()}${item.position.slice(1)}` : ''}`;
-  return <GuestShell top={<>
-      <div className="guest-top-title"><h1 dir="auto"><span>{version.cover.project_name}</span><span className="guest-top-output"> · {output}</span></h1>
+  const initial = (value: string) => value.trim().charAt(0).toUpperCase() || '·';
+  return <GuestShell tags={<>
+      {version.cover.client_name ? <span className="guest-tag guest-tag-client" dir="auto"><span className="guest-tag-initial" aria-hidden="true">{initial(version.cover.client_name)}</span><span className="guest-tag-text">{version.cover.client_name}</span></span> : null}
+      {access.display_name ? <span className="guest-tag guest-tag-reviewer" dir="auto"><span className="guest-tag-initial" aria-hidden="true">{initial(access.display_name)}</span><span className="guest-tag-text">{access.display_name} · self-declared</span></span> : null}</>}
+    top={<>
+      {nextVersion && <div className="notice guest-version-banner" role="status"><span className="guest-banner-icon" aria-hidden="true"><Icon name="sparkle" /></span><p className="guest-banner-title">A new version is available.</p><button className="button guest-banner-open" disabled={navigationLocked} onClick={async () => { if (await canNavigate()) { updateSequence.current++; currentVersion.current = nextVersion; setVersion(nextVersion); setSlideIndex(0); setNextVersion(null); setFeedbackState({ locked: false, dirty: false }); } }}>Open version {nextVersion.version_no}<Icon name="arrow" /></button><p className="small guest-banner-note">Your feedback stays on the version you viewed.</p></div>}
+      <div className="guest-top-title">
+        <p className="guest-hero-tags" aria-hidden="true"><span className="guest-pill"><span className="status-dot" />{output}</span><span className="guest-pill guest-pill-version"><span className="status-dot status-dot-ok" />Version {version.version_no}</span></p>
+        <h1 dir="auto"><span className="guest-title-text"><TextReveal key={version.cover.project_name} text={version.cover.project_name} /></span><span className="guest-top-output sr-only"> · {output}</span></h1>
         <p className="small"><span>Viewing version {version.version_no}</span>{version.cover.client_name ? <span dir="auto"> · {version.cover.client_name}</span> : null}</p></div>
-      <div className="guest-top-actions"><button className="button button-small" onClick={() => void checkUpdates()}><Icon name="refresh" />Check for updates</button>
+      <div className="guest-top-actions"><button className="button button-quiet" onClick={() => void checkUpdates()}><Icon name="refresh" />Check for updates</button>
         <GuestPdfDownload key={`${version.id}:${access.guest_session_id}`} version={version} access={access} onStateChange={onPdfState} /></div></>}>
-    <h2 className="sr-only"><TextReveal text="Review presentation" /></h2>
+    <h2 className="sr-only">Review presentation</h2>
     <div className="guest-frame">
-      <aside className="config-panel guest-slides" aria-labelledby="guest-slides-heading">
+      <aside className="guest-panel guest-slides" aria-labelledby="guest-slides-heading">
         <header className="config-panel-head"><div><h2 id="guest-slides-heading">Slides</h2><p>{version.slides.length} slides · use ← → to move</p></div></header>
         <nav className="config-panel-body saved-slide-navigation" aria-label="Shared presentation slides"><ol className="version-slide-list">{version.slides.map((item, index) => <li key={item.id} className="version-slide-row">
           <button className="version-slide-item" aria-current={index === slideIndex ? 'step' : undefined} disabled={navigationLocked} aria-label={`Slide ${index + 1}: ${place(item)}`} aria-describedby={`guest-slide-${item.id}`} onClick={() => go(index)}>
@@ -115,25 +124,29 @@ function GuestReview({ entryToken }: { entryToken: string }) {
         </li>)}</ol></nav>
       </aside>
       <section className="guest-stage" aria-label="Shared slide" tabIndex={0} onKeyDown={event => { if (event.target !== event.currentTarget) return; if (event.key === 'ArrowLeft') { event.preventDefault(); go(slideIndex - 1); } if (event.key === 'ArrowRight') { event.preventDefault(); go(slideIndex + 1); } }}>
-        <header className="stage-bar"><div className="stage-state"><p className="guest-slide-count" role="status">Slide {slideIndex + 1} of {version.slides.length}</p></div></header>
+        <header className="stage-bar"><div className="stage-state"><span className="guest-pill guest-saved-pill" aria-hidden="true"><Icon name="lock" />Version {version.version_no} · saved</span><p className="guest-slide-count" role="status">Slide {slideIndex + 1} of {version.slides.length}</p></div></header>
         {error && <ErrorNotice message={error} />}
-        {nextVersion && <div className="notice" role="status"><p>A new version is available.</p><button className="button button-primary" disabled={navigationLocked} onClick={async () => { if (await canNavigate()) { updateSequence.current++; currentVersion.current = nextVersion; setVersion(nextVersion); setSlideIndex(0); setNextVersion(null); setFeedbackState({ locked: false, dirty: false }); } }}>Open version {nextVersion.version_no}</button><p className="small">Your feedback stays on the version you viewed.</p></div>}
-        <div className="guest-stage-body"><GuestSlide key={`${version.id}:${slide.id}`} slide={slide} version={version} context={access.guest_session_id} /></div>
+        <Reveal replay={`${version.id}:${slide.id}`} className="guest-stage-body"><GuestSlide key={`${version.id}:${slide.id}`} slide={slide} version={version} context={access.guest_session_id} /></Reveal>
         <div className="stage-pager"><button type="button" className="icon-button" aria-label="Previous slide" disabled={slideIndex === 0 || navigationLocked} onClick={() => go(slideIndex - 1)}><Icon name="chevron-left" /></button>
           <span className="stage-count" aria-hidden="true">{slideIndex + 1} / {version.slides.length}</span>
           <button type="button" className="icon-button" aria-label="Next slide" disabled={slideIndex === version.slides.length - 1 || navigationLocked} onClick={() => go(slideIndex + 1)}><Icon name="chevron-right" /></button></div>
       </section>
-      <aside className="right-panel guest-feedback" aria-label="Feedback">
+      <aside className="right-panel paper-surface guest-feedback" aria-label="Feedback">
         <div className="config-panel-body"><ReviewFeedbackPanel versionId={version.id} versionNo={version.version_no} slides={version.slides} slideId={slide.id} access={access} onIdentified={setAccess} onStateChange={onFeedbackState} /></div>
         <footer className="config-panel-foot guest-feedback-note"><Icon name="lock" /><p className="small">Your comments are shared with the Everyone team and other reviewers on this link.</p></footer>
       </aside>
     </div></GuestShell>;
 }
 
-export function GuestShell({ children, top }: { children: React.ReactNode; top?: React.ReactNode }) {
-  return <div className="guest-shell"><a className="skip-link" href="#guest-content">Skip to presentation</a>
-    <header className="guest-top"><div className="guest-brand"><img src="/brand/everyone-logotype-white.svg" alt="everyone." /><span className="guest-brand-label">Presentation review</span></div>{top}</header>
-    <main id="guest-content" tabIndex={-1}>{children}</main></div>;
+/** Guest chrome: brand bar (with optional context tags on the right), then an optional hero above the content. */
+export function GuestShell({ children, top, tags }: { children: React.ReactNode; top?: React.ReactNode; tags?: React.ReactNode }) {
+  return <MotionRoot><div className="guest-shell"><a className="skip-link" href="#guest-content">Skip to presentation</a>
+    <header className="guest-top"><div className="guest-brand"><img src="/brand/everyone-logotype-white.svg" alt="everyone." /><span className="guest-brand-label"><span className="status-dot status-dot-ok" aria-hidden="true" />Presentation review</span></div>{tags && <div className="guest-top-tags">{tags}</div>}</header>
+    <main id="guest-content" tabIndex={-1}>{top && <header className="guest-hero">{top}</header>}{children}</main></div></MotionRoot>;
+}
+/** A calm centred state card with a large icon (link unavailable, preparing, errors). */
+function GuestStateCard({ icon, className, children }: { icon?: React.ReactNode; className?: string; children: React.ReactNode }) {
+  return <Reveal as="section" className={`guest-state guest-state-card paper-surface${className ? ` ${className}` : ''}`}>{icon && <span className="guest-state-icon" aria-hidden="true">{icon}</span>}{children}</Reveal>;
 }
 
 function GuestSlide({ slide, version, context }: { slide: VersionSlide; version: ExternalPresentationVersion; context: string }) {
