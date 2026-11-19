@@ -79,6 +79,7 @@ export function WorkspaceDraftProvider({ enabled, workspaceId, projectId, canRea
   const request = useRef<AbortController | null>(null); const pending = useRef(false); const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const deferred = useRef(new Set<string>()); const profiles = useRef(new Map<string, Candidate>()); const media = useRef(new Map<string, CandidateMedia[]>());
   const sceneRows = useRef<ListedScene[] | null>(null); const settingsRead = useRef(false); const loadedRevision = useRef<number | null>(null); const mounted = useRef(true);
+  const knownRevision = useRef<number | null>(workspace.draft_revision);
   const seq = useRef(0);
 
   const load = useCallback(async (full: boolean) => {
@@ -88,39 +89,52 @@ export function WorkspaceDraftProvider({ enabled, workspaceId, projectId, canRea
     try {
       const base = `/api/v1/workspaces/${encode(workspaceId)}`;
       let snapshot: { roles: Role[]; slots: Slot[]; pool: WorkspaceCandidate[]; assignments: Assignment[]; scenes: ListedScene[] | null | undefined; revision: number } | null = null;
+      // The studio defaults do not depend on the draft: read them beside it instead of after it.
+      const settingsReading = settingsRead.current ? null : api<{ template_version: string }>('/api/v1/settings', { signal }).catch(() => null);
       for (let attempt = 0; attempt < 3 && !snapshot; attempt++) {
-        const before = await api<Workspace>(base, { signal });
-        if (before.data.id !== workspaceId || before.data.project_id !== projectId) throw new Error('This workspace does not belong to the requested project.');
-        const [roles, pool, assignments, seriesRows, scenes] = await Promise.all([pages<Role>(`${base}/roles`, signal), pages<WorkspaceCandidate>(`${base}/candidates`, signal),
+        // The first read can start from the workspace revision the page read just before mounting this provider (that
+        // read finished before any list below starts, so it brackets them like a fresh read); later reads ask again.
+        const known = knownRevision.current; knownRevision.current = null;
+        let beforeRevision: number;
+        if (known !== null) beforeRevision = known;
+        else {
+          const before = await api<Workspace>(base, { signal });
+          if (before.data.id !== workspaceId || before.data.project_id !== projectId) throw new Error('This workspace does not belong to the requested project.');
+          beforeRevision = before.data.draft_revision;
+        }
+        const rolesReading = pages<Role>(`${base}/roles`, signal);
+        // Slots are read per role as soon as the roles arrive, alongside the other lists (four roles at a time, as before).
+        const slotsReading = rolesReading.then(async roles => {
+          const slots: Slot[] = [];
+          for (let index = 0; index < roles.length; index += 4) slots.push(...(await Promise.all(roles.slice(index, index + 4).map(role => pages<Slot>(`/api/v1/roles/${encode(role.id)}/slots`, signal)))).flat());
+          return slots;
+        });
+        const [roles, slots, pool, assignments, seriesRows, scenes] = await Promise.all([rolesReading, slotsReading, pages<WorkspaceCandidate>(`${base}/candidates`, signal),
           pages<Assignment>(`${base}/assignments?output_type=selection`, signal), pages<PresentationSeries>(`/api/v1/presentation-series?workspace_id=${encode(workspaceId)}`, signal).catch(() => null),
           readScenes(base, signal)]);
-        const slots: Slot[] = [];
-        for (let index = 0; index < roles.length; index += 4) slots.push(...(await Promise.all(roles.slice(index, index + 4).map(role => pages<Slot>(`/api/v1/roles/${encode(role.id)}/slots`, signal)))).flat());
         const after = await api<Workspace>(base, { signal });
-        if (after.data.draft_revision !== before.data.draft_revision) continue;
+        if (after.data.id !== workspaceId || after.data.project_id !== projectId) throw new Error('This workspace does not belong to the requested project.');
+        if (after.data.draft_revision !== beforeRevision) continue;
         if (seriesRows && current()) setSeries(seriesRows.filter(row => row.workspace_id === workspaceId && !row.archived));
         snapshot = { roles: roles.filter(row => !row.archived), slots: slots.filter(row => !row.archived), pool, assignments: assignments.filter(row => !row.archived), scenes, revision: after.data.draft_revision };
       }
       if (!snapshot) throw new Error('The workspace kept changing while the preview was loading.');
-      if (!settingsRead.current) {
-        settingsRead.current = true;
-        const settings = await api<{ template_version: string }>('/api/v1/settings', { signal }).catch(() => null);
+      if (settingsReading) {
+        const settings = await settingsReading; if (current()) settingsRead.current = true;
         if (current() && settings && typeof settings.data?.template_version === 'string') setDefaultTemplate(settings.data.template_version);
       }
       // Only people on the draft need profiles and material; both are cached and re-read on a full refresh.
       const onDraft = new Set(snapshot.assignments.map(row => row.workspace_candidate_id));
       const people = snapshot.pool.filter(row => onDraft.has(row.id));
       const profileIds = [...new Set(people.map(row => row.candidate_id))].filter(id => full || !profiles.current.has(id));
-      let missing = 0;
-      if (canReadProfiles && profileIds.length) {
-        const result = await batched(profileIds, 8, async id => { const value = (await api<Candidate>(`/api/v1/candidates/${encode(id)}`, { signal })).data; if (value.id !== id) throw new Error('mismatch'); return value; });
-        for (const [id, value] of Object.entries(result.found)) profiles.current.set(id, value); missing += result.missing;
-      }
       const mediaIds = [...new Set(people.filter(row => row.selected_candidate_media_id).map(row => row.candidate_id))].filter(id => full || !media.current.has(id));
-      if (mediaIds.length) {
-        const result = await batched(mediaIds, 8, async id => (await readCandidateMedia(id, { signal })).data);
-        for (const [id, value] of Object.entries(result.found)) media.current.set(id, value); missing += result.missing;
-      }
+      // Profiles and introductions are independent: read both sets together (each still eight at a time).
+      const [profileResult, mediaResult] = await Promise.all([
+        canReadProfiles && profileIds.length ? batched(profileIds, 8, async id => { const value = (await api<Candidate>(`/api/v1/candidates/${encode(id)}`, { signal })).data; if (value.id !== id) throw new Error('mismatch'); return value; }) : null,
+        mediaIds.length ? batched(mediaIds, 8, async id => (await readCandidateMedia(id, { signal })).data) : null]);
+      let missing = 0;
+      if (profileResult) { for (const [id, value] of Object.entries(profileResult.found)) profiles.current.set(id, value); missing += profileResult.missing; }
+      if (mediaResult) { for (const [id, value] of Object.entries(mediaResult.found)) media.current.set(id, value); missing += mediaResult.missing; }
       if (!current()) return;
       // Scenes are read inside the same draft revision as the casting (scene edits move it too) and mapped with the
       // snapshot's rules. Unavailable scenes leave the deck without dividers; a failed read keeps the last scenes read.
@@ -152,8 +166,9 @@ export function WorkspaceDraftProvider({ enabled, workspaceId, projectId, canRea
   }, [enabled, load]);
   useEffect(() => { if (!refreshRef) return; refreshRef.current = () => refresh(); return () => { refreshRef.current = null; }; }, [refreshRef, refresh]);
   useEffect(() => {
-    mounted.current = true; if (enabled) void Promise.resolve().then(() => load(true));
-    return () => { mounted.current = false; request.current?.abort(); if (timer.current) clearTimeout(timer.current); };
+    // A start that is cleaned up before it runs (an immediate remount) sends nothing; the remount's own start reads.
+    let started = true; mounted.current = true; if (enabled) void Promise.resolve().then(() => { if (started) void load(true); });
+    return () => { started = false; mounted.current = false; request.current?.abort(); if (timer.current) clearTimeout(timer.current); };
   }, [enabled, load]);
   // Someone else (a colleague or Claude) moved the draft: read it again so their edits appear.
   useEffect(() => { if (enabled && loadedRevision.current !== null && workspace.draft_revision !== loadedRevision.current && !pending.current) refresh(); }, [enabled, workspace.draft_revision, refresh]);

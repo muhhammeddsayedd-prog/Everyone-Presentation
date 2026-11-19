@@ -9,10 +9,50 @@ export class ApiError extends Error {
   constructor(public status: number, public code: string, message: string, public requestId?: string) { super(message); }
 }
 
+/** Person reads that several panels ask for at once (a project card, the live slide, a portrait): one network read
+ * serves every caller that asks while it is in flight or within a moment after it. Any change sent through `api`
+ * drops them, so a read made after a save always goes to the server. */
+const SHARED_READ = /^\/api\/v1\/candidates\/[0-9a-f-]{36}(?:\/(?:media|photos)(?:\?[^#]*)?)?$/u;
+const SHARED_READ_MS = 2000;
+type Read = { status: number; ok: boolean; body: unknown };
+const sharedReads = new Map<string, { settledAt: number | null; read: Promise<Read> }>();
+
+function waitFor<T>(promise: Promise<T>, signal?: AbortSignal | null): Promise<T> {
+  if (!signal) return promise;
+  if (signal.aborted) return Promise.reject(signal.reason);
+  return new Promise<T>((resolve, reject) => {
+    const abort = () => reject(signal.reason);
+    signal.addEventListener('abort', abort, { once: true });
+    promise.then(resolve, reject).finally(() => signal.removeEventListener('abort', abort));
+  });
+}
+
+function sharedRead(path: string, init: RequestInit): Promise<Read> {
+  const now = Date.now(); const existing = sharedReads.get(path);
+  if (existing && (existing.settledAt === null || now - existing.settledAt < SHARED_READ_MS)) return waitFor(existing.read, init.signal);
+  const entry: { settledAt: number | null; read: Promise<Read> } = { settledAt: null, read: Promise.resolve(null as unknown as Read) };
+  // The shared read is not tied to one caller's signal: a caller that gives up stops waiting, the others still get it.
+  entry.read = fetch(path, { headers: init.headers, cache: 'no-store', signal: AbortSignal.timeout(30000) })
+    .then(async response => ({ status: response.status, ok: response.ok, body: await response.json() }))
+    .then(read => { entry.settledAt = Date.now(); if (!read.ok && sharedReads.get(path) === entry) sharedReads.delete(path); return read; },
+      error => { if (sharedReads.get(path) === entry) sharedReads.delete(path); throw error; });
+  sharedReads.set(path, entry);
+  return waitFor(entry.read, init.signal);
+}
+
 export async function api<T>(path: string, init: RequestInit = {}): Promise<Envelope<T>> {
-  const response = await fetch(path, { ...init, cache: 'no-store', headers: { ...(init.body ? { 'Content-Type': 'application/json' } : {}), ...init.headers } });
-  const result = await response.json();
-  if (!response.ok) throw new ApiError(response.status, result.error?.code ?? 'request_failed', result.error?.message ?? 'The request could not be completed. Please try again.', result.request_id);
+  const reading = (init.method ?? 'GET').toUpperCase() === 'GET' && init.body == null;
+  if (!reading) sharedReads.clear();
+  let result: { error?: { code?: string; message?: string }; request_id?: string }; let status: number; let ok: boolean;
+  if (reading && SHARED_READ.test(path)) {
+    const read = await sharedRead(path, init); status = read.status; ok = read.ok; result = structuredClone(read.body) as typeof result;
+  } else {
+    try {
+      const response = await fetch(path, { ...init, cache: 'no-store', headers: { ...(init.body ? { 'Content-Type': 'application/json' } : {}), ...init.headers } });
+      status = response.status; ok = response.ok; result = await response.json();
+    } finally { if (!reading) sharedReads.clear(); }
+  }
+  if (!ok) throw new ApiError(status, result.error?.code ?? 'request_failed', result.error?.message ?? 'The request could not be completed. Please try again.', result.request_id);
   return result as Envelope<T>;
 }
 

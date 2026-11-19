@@ -54,9 +54,14 @@ function StudioShell() {
   const dirtyChanged = useCallback((value: boolean) => setDirty(value), []);
   // Screens that only report a dirty/busy flag. Editors registered with a save step answer for themselves.
   useUnsavedEditor('route', { label: 'changes on this page', dirty: dirty && !hasUnsavedChanges('editor') });
+  // The signed-in session is read on load, on Retry and after sign-out. Moving between screens re-reads it only once it
+  // is a minute old (every API call still authenticates on the server), so navigation does not wait on it.
+  const sessionRead = useRef<{ at: number; refresh: number } | null>(null);
   useEffect(() => {
+    const last = sessionRead.current;
+    if (last && last.refresh === refresh && Date.now() - last.at < 60_000) return;
     let current = true;
-    api<Session>('/api/session').then(result => { if (current) { setSession(result.data); setError(''); } }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) { setLoading(false); setSigningOut(false); } });
+    api<Session>('/api/session').then(result => { if (current) { setSession(result.data); setError(''); sessionRead.current = result.data.actor ? { at: Date.now(), refresh } : null; } }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) { setLoading(false); setSigningOut(false); } });
     return () => { current = false; };
   }, [refresh, pathname]);
   useEffect(() => { leaving.current = false; }, [pathname]);
@@ -82,7 +87,7 @@ function StudioShell() {
     if (!await confirmLeave()) return;
     setSigningOut(true);
     try {
-      await api('/api/session', mutation('DELETE')); setDirty(false);
+      await api('/api/session', mutation('DELETE')); setDirty(false); sessionRead.current = null;
       if (pathname === '/projects') { setSession(previous => previous ? { ...previous, actor: null } : previous); setSigningOut(false); }
       else router.push('/projects');
     }
