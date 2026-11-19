@@ -17,6 +17,7 @@ set local search_path='';set local lock_timeout='5s';set local statement_timeout
 do $m22b_guard$declare item record;begin
  if to_regprocedure('eps.appearance_failed_facets(text[],text[],jsonb)') is not null then raise exception 'M22B_ALREADY_APPLIED';end if;
  if to_regprocedure('eps.previous_client()') is null then raise exception 'M22B_REQUIRES_M21';end if;
+ if has_schema_privilege('eps_appearance_owner','eps','create') then raise exception 'M22B_UNEXPECTED_SCHEMA_PRIVILEGE';end if;
  for item in select * from(values
   ('public.eps_candidate_facets(jsonb)','7ce3825cbc2330fbcb878123ab5c004ddb9c7c12cc52c4b02f48a5d46a5ee5e8'),
   ('eps.appearance_filter_ok(text[],text[],jsonb,text)','192672c154c9466f7b640bce03f72beb3b32ddfbe6b581f7b0455bd418b24545'))v(signature,expected) loop
@@ -32,7 +33,10 @@ create function eps.appearance_failed_facets(p_keys text[],p_names text[],p_filt
   where not(p_keys && array(select f.key||':'||v from jsonb_array_elements_text(f.value) v)
    or not(f.key=any(p_names)) and ((p_filters->>'include_unknown')::boolean or f.value ? 'unknown'))$$;
 -- Same owner and executors as eps.appearance_filter_ok (never PUBLIC).
+-- The owner needs CREATE on the schema only for the ownership change (same as m20 section 10).
+grant create on schema eps to eps_appearance_owner;
 alter function eps.appearance_failed_facets(text[],text[],jsonb) owner to eps_appearance_owner;
+revoke create on schema eps from eps_appearance_owner;
 revoke all on function eps.appearance_failed_facets(text[],text[],jsonb) from public,anon,authenticated,service_role;
 grant execute on function eps.appearance_failed_facets(text[],text[],jsonb) to eps_appearance_owner,eps_cast_owner;
 
@@ -73,7 +77,7 @@ end$$;
 do $m22b_check$declare filters jsonb;begin
  if (select to_jsonb(p)-'prosrc' from pg_proc p where oid='public.eps_candidate_facets(jsonb)'::regprocedure) is distinct from (select attributes from m22b_before)
  then raise exception 'M22B_AUTHORITY_CHANGED';end if;
- if has_function_privilege('anon','public.eps_candidate_facets(jsonb)','execute') or not has_function_privilege('authenticated','public.eps_candidate_facets(jsonb)','execute')
+ if has_schema_privilege('eps_appearance_owner','eps','create') or has_function_privilege('anon','public.eps_candidate_facets(jsonb)','execute') or not has_function_privilege('authenticated','public.eps_candidate_facets(jsonb)','execute')
   or has_function_privilege('authenticated','eps.appearance_failed_facets(text[],text[],jsonb)','execute')
   or has_function_privilege('anon','eps.appearance_failed_facets(text[],text[],jsonb)','execute') then raise exception 'M22B_PRIVILEGES_CHANGED';end if;
  for filters in select eps.appearance_filters(x) from(values('{}'::jsonb),('{"include_unknown":true,"facets":{"city":["unknown"]}}'::jsonb),
