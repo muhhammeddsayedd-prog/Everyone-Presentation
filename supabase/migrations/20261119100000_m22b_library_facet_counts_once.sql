@@ -1,4 +1,4 @@
--- m22: Cast Library facet counts read each person once. Performance only: same inputs, same response, same authority.
+-- m22b: Cast Library facet counts read each person once. Performance only: same inputs, same response, same authority.
 --
 -- public.eps_candidate_facets (m20) evaluated the shared Library row predicate (eps.cast_library_row_ok: a SECURITY
 -- DEFINER call per person) and the facet filter test once for the total and three times for each of the 13 facets:
@@ -14,16 +14,16 @@
 -- live projection before the migration commits.
 set local search_path='';set local lock_timeout='5s';set local statement_timeout='10min';
 
-do $m22_guard$declare item record;begin
- if to_regprocedure('eps.appearance_failed_facets(text[],text[],jsonb)') is not null then raise exception 'M22_ALREADY_APPLIED';end if;
- if to_regprocedure('eps.previous_client()') is null then raise exception 'M22_REQUIRES_M21';end if;
+do $m22b_guard$declare item record;begin
+ if to_regprocedure('eps.appearance_failed_facets(text[],text[],jsonb)') is not null then raise exception 'M22B_ALREADY_APPLIED';end if;
+ if to_regprocedure('eps.previous_client()') is null then raise exception 'M22B_REQUIRES_M21';end if;
  for item in select * from(values
   ('public.eps_candidate_facets(jsonb)','7ce3825cbc2330fbcb878123ab5c004ddb9c7c12cc52c4b02f48a5d46a5ee5e8'),
   ('eps.appearance_filter_ok(text[],text[],jsonb,text)','192672c154c9466f7b640bce03f72beb3b32ddfbe6b581f7b0455bd418b24545'))v(signature,expected) loop
   if to_regprocedure(item.signature) is null or (select encode(sha256(convert_to(replace(prosrc,E'\r\n',E'\n'),'UTF8')),'hex') from pg_proc where oid=item.signature::regprocedure)<>item.expected
-  then raise exception 'M22_EXACT_PRECEDING_SOURCE_REQUIRED:%',item.signature;end if;
+  then raise exception 'M22B_EXACT_PRECEDING_SOURCE_REQUIRED:%',item.signature;end if;
  end loop;
-end$m22_guard$;
+end$m22b_guard$;
 
 -- 1. The facet filters (normalised by eps.appearance_filters) that a projection row fails, all facets at once.
 --    The test inside is appearance_filter_ok's, verbatim.
@@ -37,13 +37,13 @@ revoke all on function eps.appearance_failed_facets(text[],text[],jsonb) from pu
 grant execute on function eps.appearance_failed_facets(text[],text[],jsonb) to eps_appearance_owner,eps_cast_owner;
 
 -- 2. Facet counts from one pass. Owner, privileges and settings are read back below.
-create temp table m22_before on commit drop as select to_jsonb(p)-'prosrc' attributes from pg_proc p where oid='public.eps_candidate_facets(jsonb)'::regprocedure;
+create temp table m22b_before on commit drop as select to_jsonb(p)-'prosrc' attributes from pg_proc p where oid='public.eps_candidate_facets(jsonb)'::regprocedure;
 create or replace function public.eps_candidate_facets(p_filters jsonb) returns jsonb language plpgsql stable security definer set search_path='' as $$
 declare filters jsonb;search jsonb;facets jsonb;total bigint;begin
  perform eps.require_capability('cast.read');filters:=eps.appearance_filters(p_filters);
  -- Same supplied-fact/text/Reviewed predicate as search; facet filters are applied per facet below.
  search:=filters->'search'||case when filters->>'q' is not null then jsonb_build_object('q',filters->>'q') else '{}'::jsonb end;
- -- m22: the row predicate runs once per person and each person's failed facet filters are worked out once;
+ -- m22b: the row predicate runs once per person and each person's failed facet filters are worked out once;
  -- "passes every facet filter except f" (appearance_filter_ok with p_skip f) is then a test on that array.
  with base as materialized (
   select p.candidate_id,p.facet_keys,p.facet_names,eps.appearance_failed_facets(p.facet_keys,p.facet_names,filters) failed
@@ -70,12 +70,12 @@ end$$;
 
 -- 3. Readback: authority unchanged, and the new helper agrees with appearance_filter_ok on every live projection row,
 --    for every facet skip and for representative filters (selected values, unknown, include_unknown).
-do $m22_check$declare filters jsonb;begin
- if (select to_jsonb(p)-'prosrc' from pg_proc p where oid='public.eps_candidate_facets(jsonb)'::regprocedure) is distinct from (select attributes from m22_before)
- then raise exception 'M22_AUTHORITY_CHANGED';end if;
+do $m22b_check$declare filters jsonb;begin
+ if (select to_jsonb(p)-'prosrc' from pg_proc p where oid='public.eps_candidate_facets(jsonb)'::regprocedure) is distinct from (select attributes from m22b_before)
+ then raise exception 'M22B_AUTHORITY_CHANGED';end if;
  if has_function_privilege('anon','public.eps_candidate_facets(jsonb)','execute') or not has_function_privilege('authenticated','public.eps_candidate_facets(jsonb)','execute')
   or has_function_privilege('authenticated','eps.appearance_failed_facets(text[],text[],jsonb)','execute')
-  or has_function_privilege('anon','eps.appearance_failed_facets(text[],text[],jsonb)','execute') then raise exception 'M22_PRIVILEGES_CHANGED';end if;
+  or has_function_privilege('anon','eps.appearance_failed_facets(text[],text[],jsonb)','execute') then raise exception 'M22B_PRIVILEGES_CHANGED';end if;
  for filters in select eps.appearance_filters(x) from(values('{}'::jsonb),('{"include_unknown":true,"facets":{"city":["unknown"]}}'::jsonb),
    (jsonb_build_object('include_unknown',false,'facets',coalesce((select jsonb_object_agg(f,jsonb_build_array(v,'unknown')) from(
      select distinct on (split_part(k,':',1)) split_part(k,':',1) f,substr(k,length(split_part(k,':',1))+2) v
@@ -86,6 +86,6 @@ do $m22_check$declare filters jsonb;begin
   if exists(select 1 from eps.candidate_search_projection p cross join (select unnest(eps.appearance_facet_keys_allowed()) union all select null) s(skip)
    where eps.appearance_filter_ok(p.facet_keys,p.facet_names,filters,s.skip)
     is distinct from not exists(select 1 from unnest(eps.appearance_failed_facets(p.facet_keys,p.facet_names,filters)) x where x is distinct from s.skip))
-  then raise exception 'M22_FACET_TEST_DIFFERS';end if;
+  then raise exception 'M22B_FACET_TEST_DIFFERS';end if;
  end loop;
-end$m22_check$;
+end$m22b_check$;
