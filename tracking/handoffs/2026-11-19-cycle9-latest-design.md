@@ -90,3 +90,22 @@ Plan approved by the owner: `C:\Users\iway\.claude\plans\steady-sparking-bear.md
 - Uncommitted gallery work from another session in the main checkout (`CandidateMediaGallery.tsx`, `profile.css`, and others) was not merged. Reconcile it against the restyled profile.
 - `polish.css` customizable select: a long label pushes the chevron out. The series selects use a classic-select override instead.
 - Worktrees `EPS-c9-{a..e,verify}` hold only screenshots and branches now; their `node_modules` were removed because drive D: was nearly full.
+
+## Round 2 (2026-11-19, owner requests): Review step removed, Presentation fixed, Specs and Scenes redesigned
+
+Commit 48e59308 (pushed on `cycle9/latest-design`).
+
+- **Presentation fix:** generation was blocked by `FIT_MEASUREMENT_REQUIRED` ("This exact template snapshot has not been measured") and only the Review step could measure. Generate now posts `/review/fit`, follows the job, re-reads the checked draft and generates. A measured overflow stops before generation and names the field, with a profile link.
+- **Review step removed** (owner: "we don't need it at all"):
+  - The steps are now Project, Specs, Candidates, Casting, Presentation, Share & feedback.
+  - The Presentation step creates the series (default-audience recovery kept) and saves the cover note.
+  - `/review` links redirect to `/presentations` with the same `series_id`.
+  - Removed UI-only features: per-assignment slide wording overrides, AI shortening, the inline Reviewed confirmation (still on the Cast Library profile) and the source-video inspector.
+  - API and MCP review endpoints are unchanged.
+- **Specs side panel and Scene breakdown:** redesigned by two parallel subagents; CSS is in `specs-panel.css` and `scenes-latest.css`. The Presentation step CSS is in `presentation-step.css`.
+- **Gates:** typecheck and lint clean; unit 551/551; e2e full suite 216 passed plus the 1 updated foundation spec re-run green (217/217). Specs changed: `review-ui` removed, 2 review tests removed from p3, and a new spec `presentation-generate-ui`.
+- **Staging:**
+  - Sealed source receipt `tracking/evidence/m07/controlled-pilot/2026-11-19T10-17-15-665Z-7c7c62d2-web-source.json` (0 private hits).
+  - **Deploy blocked:** the Vercel CLI is now signed in as another account (no access to project `everyone-presentation-pilot`, "Not authorized").
+  - Next action: the owner signs the CLI back into the owning account, then `vercel deploy --yes --env APP_BASE_URL=https://everyone-presentation-staging.vercel.app` from `.local/m07-pilot/web-source-2026-11-19T10-17-15-665Z-7c7c62d2`, then `vercel alias set <deployment> everyone-presentation-staging.vercel.app`.
+  - Staging still serves `dpl_2s8AapuKSc8qgUVDPtEa4M9afqRz` (round 1).
