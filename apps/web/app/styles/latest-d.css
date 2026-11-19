@@ -78,7 +78,7 @@
 
   /* ---------- Candidate profile ---------- */
   .candidate-profile .profile-hero { grid-template-columns: 240px minmax(0, 1fr); gap: var(--space-6); align-items: stretch; padding: 22px; border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
-  .candidate-profile .profile-hero-portrait { border: 0; border-radius: var(--ui-radius-24); box-shadow: none; }
+  .candidate-profile .profile-hero-portrait { align-self: start; width: 100%; border: 0; border-radius: var(--ui-radius-24); box-shadow: none; }
   .candidate-profile .profile-hero-identity { align-content: center; gap: 10px; }
   .candidate-profile .profile-hero-identity h1 { font-size: var(--ui-text-title-lg); font-weight: var(--weight-medium); letter-spacing: var(--ui-tracking-display); line-height: 1.05; }
   .candidate-profile .profile-hero-identity > p:not(.small) { color: var(--color-text-secondary); }
