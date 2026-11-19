@@ -35,6 +35,13 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 type Context = { params: Promise<{ segments: string[] }> };
 
+/** Frame and logo images are immutable per asset id (a new picture is a new asset), so the signed-in browser may keep
+ * them for an hour instead of re-reading each one through Auth, two RPCs and Storage on every screen. `private` keeps
+ * them out of shared caches; every other media type (documents, transcripts) stays no-store. Same policy as
+ * /candidate-photos/:id/content, with a shorter lifetime. */
+const MEDIA_IMAGE_CACHE = { 'Cache-Control': 'private, max-age=3600', Vary: 'Cookie', 'X-Content-Type-Options': 'nosniff' };
+function mediaContentHeaders(mimeType: string) { return /^image\/(?:jpeg|png|webp)$/u.test(mimeType) ? MEDIA_IMAGE_CACHE : NO_STORE; }
+
 function foundationListQuery(url: URL): ListOptions {
   const result: ListOptions = {};
   const invalid = (): never => { throw new DomainError('INVALID_REQUEST', 'Provide supported list filters and a bounded decimal page size.', 400); };
@@ -112,7 +119,7 @@ async function handle(request: Request, context: Context) {
       if (isMediaPlaybackRoute(s) && 'playMedia' in studio) return await handleMediaPlaybackRequest(request, s, actor, studio, requestId);
       if (s.length === 3 && s[2] === 'content' && method === 'GET') {
         const media = await studio.getMediaContent(actor, s[1]);
-        return new Response(new Uint8Array(media.bytes), { headers: { ...NO_STORE, 'Content-Type': media.mimeType } });
+        return new Response(new Uint8Array(media.bytes), { headers: { ...mediaContentHeaders(media.mimeType), 'Content-Type': media.mimeType } });
       }
     }
     if (s[0] === 'audience-presets') {
