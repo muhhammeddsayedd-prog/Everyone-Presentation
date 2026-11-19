@@ -61,8 +61,9 @@ export function NewProject({ actorId, pendingIntent, onClose, onCreated, onDirty
       } else if (mounted.current) { setUncertain(true); setError('The create request could not be confirmed. Confirm the same request to find its saved result before creating another project.'); }
     } finally { active.current = false; if (mounted.current) setBusy(false); }
   }
-  return <Drawer title="New project" description="Create a shared Everyone project, then prepare its presentation." onClose={() => void close()} busy={busy || uncertain}>
-    <form className="stack-lg" onSubmit={event => { event.preventDefault(); void create(); }}>
+  return <Drawer title="New project" description="Create a shared Everyone project, then prepare its presentation." onClose={() => void close()} busy={busy || uncertain}
+    footer={<><button type="button" className="button button-quiet" disabled={busy || uncertain} onClick={() => void close()}>Cancel</button><button type="submit" form={`${id}-form`} className="button button-primary" disabled={busy || !uncertain && (!name.trim() || !chosen)}>{busy ? 'Confirming project…' : uncertain ? 'Confirm create request' : 'Create project'}</button></>}>
+    <form id={`${id}-form`} className="stack-lg new-project-form" onSubmit={event => { event.preventDefault(); void create(); }}>
       {uncertain && <p className="notice" role="status">An earlier create request needs confirmation. Its details are retained; confirm the same request to check its saved result.</p>}
       <div className="field"><label htmlFor={`${id}-name`}>Project name</label><input id={`${id}-name`} data-autofocus value={name} maxLength={500} required disabled={busy || uncertain} onChange={event => setName(event.target.value)} /></div>
       <div className="field"><label htmlFor={`${id}-type`}>Presentation type</label>{types ? <select id={`${id}-type`} value={type} disabled={busy || uncertain} onChange={event => setType(event.target.value)}>{types.map(item => <option key={item.key} value={item.key}>{item.label}{item.status === 'planned' ? ' · Planned' : ''}</option>)}</select> : !typesError && <Loading label="Loading presentation types…" />}
@@ -75,7 +76,6 @@ export function NewProject({ actorId, pendingIntent, onClose, onCreated, onDirty
         {clientsError && <ErrorNotice message={clientsError} retry={clientList.reload} />}<p className="small muted">Choose an existing client your account may use, or leave this project without one.</p>
       </fieldset>
       {error && <ErrorNotice message={error} />}
-      <div className="button-row"><button className="button button-primary" disabled={busy || !uncertain && (!name.trim() || !chosen)}>{busy ? 'Confirming project…' : uncertain ? 'Confirm create request' : 'Create project'}</button><button type="button" className="button button-quiet" disabled={busy || uncertain} onClick={() => void close()}>Cancel</button></div>
     </form>
   </Drawer>;
 }
