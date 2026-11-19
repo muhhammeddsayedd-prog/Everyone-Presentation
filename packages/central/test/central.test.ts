@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 import { DomainError, type MediaAsset, type UploadCompletion, type Workspace } from '@eps/domain';
-import { createBearerUserClient, createRequestServerClient, createCentralStudio, readCentralConfig, centralRpcError, signLogoReceipt, verifyLogoReceipt, type CentralStudioOptions } from '../src/index.ts';
+import { createBearerUserClient, createRequestServerClient, createCentralStudio, createCentralCasting, createCentralSettings, readCentralConfig, centralRpcError, signLogoReceipt, verifyLogoReceipt, verifyCentralUser, type CentralStudioOptions } from '../src/index.ts';
 import type { LogoReservation } from '../src/logo-storage.ts';
 
 const principal = '10000000-0000-4000-8000-000000000001';
@@ -96,6 +96,27 @@ test('fresh auth verification binds the actor and every curated RPC to the same 
   assert.equal(service.calls.length, count);
   // User-editable metadata claiming admin did not become authority or can_edit.
   assert.equal((await studio.getProject(actor, projectId)).can_edit, false);
+});
+
+test('one request client asks Auth once however many services it composes; a new client asks again', async () => {
+  const service = fakeService();
+  const client = createBearerUserClient({ ...config, accessToken: token }, { fetch: service.fetcher });
+  const [first, second] = await Promise.all([verifyCentralUser(client), verifyCentralUser(client)]);
+  assert.equal(first, second);
+  await createCentralStudio(client, { logoRead: { storageOrigin: config.url, brandBucket: 'eps-brand-assets' }, specsRead: { storageOrigin: config.url }, candidateRead: { storageOrigin: config.url }, supportRead: { storageOrigin: config.url } });
+  await createCentralCasting(client); await createCentralSettings(client);
+  assert.equal(service.calls.filter(call => call.path === '/auth/v1/user').length, 1);
+  await verifyCentralUser(createBearerUserClient({ ...config, accessToken: token }, { fetch: service.fetcher }));
+  assert.equal(service.calls.filter(call => call.path === '/auth/v1/user').length, 2);
+  // A rejected session stays rejected for the rest of that request: no later service on the same client is verified.
+  const rejected = fakeService({ authStatus: 401 });
+  const rejectedClient = createBearerUserClient({ ...config, accessToken: token }, { fetch: rejected.fetcher });
+  await assert.rejects(verifyCentralUser(rejectedClient), isCode('AUTH_REQUIRED', 401));
+  await assert.rejects(createCentralStudio(rejectedClient), isCode('AUTH_REQUIRED', 401));
+  await assert.rejects(createCentralCasting(rejectedClient), isCode('AUTH_REQUIRED', 401));
+  assert.equal(rejected.calls.length, 1);
+  // Clients not made by this package are refused without contacting Auth.
+  await assert.rejects(verifyCentralUser({} as never), isCode('USER_SCOPED_CLIENT_REQUIRED', 503));
 });
 
 test('auth rejection and anonymous users cannot produce a central operation client', async () => {

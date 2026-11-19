@@ -67,9 +67,19 @@ export function createBearerUserClient(input: CentralConfig & { accessToken: str
 }
 
 export interface VerifiedCentralIdentity { principal_id: string; email: string | null }
-export async function verifyCentralUser(client: SupabaseClient): Promise<VerifiedCentralIdentity> {
+const verifications = new WeakMap<SupabaseClient, Promise<VerifiedCentralIdentity>>();
+/** Asks Auth (GoTrue `/user`) whether this request's session is still valid: signature, expiry, a signed-out or
+ * revoked session and a deleted user are all rejected there. A client lives for one incoming request, so its answer
+ * is shared by every service that request composes (one Auth round trip per request instead of one per service).
+ * A failed check is shared too, so one request never mixes verified and unverified service calls. */
+export function verifyCentralUser(client: SupabaseClient): Promise<VerifiedCentralIdentity> {
   const context = requestClients.get(client);
-  if (!context) throw new DomainError('USER_SCOPED_CLIENT_REQUIRED', 'Create a fresh user-scoped central client for this request.', 503);
+  if (!context) return Promise.reject(new DomainError('USER_SCOPED_CLIENT_REQUIRED', 'Create a fresh user-scoped central client for this request.', 503));
+  let verification = verifications.get(client);
+  if (!verification) { verification = verifyWithAuth(client, context); verifications.set(client, verification); }
+  return verification;
+}
+async function verifyWithAuth(client: SupabaseClient, context: { accessToken?: string }): Promise<VerifiedCentralIdentity> {
   try {
     const { data, error } = await client.auth.getUser(context.accessToken);
     if (error) {
