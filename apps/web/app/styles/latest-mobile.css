@@ -31,6 +31,10 @@
     .workspace-frame .config-panel .workspace-continue .button-primary { flex: 1; justify-content: center; }
     .workspace-frame > .page-frame-main { padding-bottom: var(--space-8); }
 
+    /* Saved version and media viewers: the slide first, its paper panel below (as in the workspace). */
+    :is(.version-frame, .media-frame).page-frame { display: flex; flex-direction: column; }
+    :is(.version-frame, .media-frame) > .page-frame-main { order: -1; }
+
     /* ---------- Cards full width ---------- */
     :is(.panel, .card, .editor-section, .empty-state, .notice) { max-width: 100%; }
     .page-toolbar { flex-wrap: wrap; }
