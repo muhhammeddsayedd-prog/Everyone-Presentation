@@ -19,6 +19,17 @@
     .segmented > button, .segmented > a, .segmented > label, .tabs > [role="tab"], .tabs > a, .chip { min-height: 44px; }
     .search-field, select, input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]) { min-height: 44px; }
     .back-link { display: inline-flex; align-items: center; min-height: 44px; }
+    /* Small targets found at 390 (Wave 2 review). Visuals stay put: the extra height is padding or an invisible hit area. */
+    .app-frame .shortlist-toggle { position: relative; min-width: 44px; min-height: 44px; justify-content: center; }
+    .app-frame .shortlist-toggle input { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .app-frame .workspace-frame .config-panel button.role-chip, .app-frame button.role-chip { min-height: 44px; }
+    .app-frame details > summary { display: flex; align-items: center; min-height: 44px; }
+    .app-frame a.processing-job-link { display: inline-flex; align-items: center; min-height: 44px; }
+    .app-frame .candidate-frame label, .app-frame .review-link-checkbox, .app-frame .radio-line, .app-frame .check-line { min-height: 44px; align-items: center; }
+    .app-frame .candidate-frame label { display: flex; gap: 8px; }
+    .app-frame .file-list-name a, .app-frame .cast-card h3 > a { display: inline-flex; align-items: center; min-height: 44px; }
+    .app-frame .stepper > button, .app-frame .stepper > .icon-button { min-width: 44px; min-height: 44px; }
+    .app-frame .config-panel input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]), .app-frame .config-panel select { min-height: 44px; }
 
     /* ---------- Workspace: live stage first, the step's paper panel as a bottom sheet ---------- */
     /* The panel is sticky on desktop; as a relative sheet its desktop `top` offset must not push it down. */
@@ -30,6 +41,28 @@
     .workspace-frame .config-panel .workspace-continue { bottom: 0; margin-inline: -20px; padding: 12px 20px 14px; }
     .workspace-frame .config-panel .workspace-continue .button-primary { flex: 1; justify-content: center; }
     .workspace-frame > .page-frame-main { padding-bottom: var(--space-8); }
+    .workspace-frame .config-panel .role-strip { margin-right: -20px; }
+    .workspace-frame .config-panel .candidate-row-summary > .button:has(> .candidate-row-edit-label) { width: 44px; min-width: 44px; align-self: start; }
+    /* Phone: frames sit under the name (inside the text column) at full touch size, so the name keeps its line */
+    .workspace-frame .config-panel .candidate-row-summary { grid-template-areas: "pic text edit" "pic frames frames" "pic avail avail" "pic attn attn"; grid-template-columns: 56px minmax(0, 1fr) auto; grid-template-rows: auto auto auto 1fr; }
+    .workspace-frame .config-panel .candidate-row-summary > .frame-strip { justify-self: start; margin-top: 6px; gap: 6px; }
+    .workspace-frame .config-panel .candidate-row .frame-thumb { width: 34px; height: 44px; }
+    .workspace-frame .config-panel .candidate-row-summary > .frame-strip > .frame-thumb + .frame-thumb { margin-left: 0; outline: 0; }
+
+    /* Workspace header, compact (mockup 22/06–09): one-line environment note, no breadcrumb, a smaller title,
+       the output switch and Share on one row. The stage keeps the slide and its pager only, so the step's paper
+       sheet starts high; the thumbnail strip, template notice and draft disclaimer stay on larger screens. */
+    .app-frame:has(.workspace-frame) .development-banner { padding-block: 6px; }
+    .app-frame:has(.workspace-frame) .development-banner > span:last-child { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .app-frame:has(.workspace-frame) .workspace-breadcrumb { display: none; }
+    .app-frame:has(.workspace-frame) .workspace-top { gap: var(--space-2); padding-top: 4px; }
+    .app-frame:has(.workspace-frame) .workspace-title h1 { font-size: var(--ui-text-title); line-height: 1.15; letter-spacing: -0.02em; }
+    .app-frame:has(.workspace-frame) .workspace-actions { flex-wrap: nowrap; gap: var(--space-2); }
+    .app-frame:has(.workspace-frame) .workspace-actions > .segmented { flex: 1 1 auto; min-width: 0; }
+    .app-frame:has(.workspace-frame) .workspace-actions > .segmented > button { flex: 1 1 0; min-width: 0; padding-inline: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .app-frame:has(.workspace-frame) .workspace-actions > :is(.button, a.button) { flex: none; }
+    .workspace-frame .live-stage :is(.stage-note, .stage-disclaimer, .slide-strip-nav),
+    .workspace-frame .saved-stage :is(.saved-stage-note, .saved-stage-strip) { display: none; }
 
     /* Saved version and media viewers: the slide first, its paper panel below (as in the workspace). */
     :is(.version-frame, .media-frame).page-frame { display: flex; flex-direction: column; }
