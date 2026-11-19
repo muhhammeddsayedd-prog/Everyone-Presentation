@@ -135,7 +135,7 @@ begin
     'prepared_source_sha256',eps.specs_document_prepared_hash(null,pasted),'prompt_version','spec_extract_v2.0.0',
     'prompt_sha256','65575b1c5b9e509f73b64dd44ae94c9151502e081b0a4b0cfdfb73693374d745','schema_version','2.0',
     'schema_sha256','a50665e17b53d11c2eb741483cae4e0081d4461e3711b3d06a5b4358dca51fc1',
-    'provider_schema_sha256','cd80820db66ad4e22d3cce7dc9dbfb07f2da6aee4e74697d2f81fe9c5b5123fc','usage',null);
+    'provider_schema_sha256','a57c08f1e016f2187e91faa8a5d42f97b3f6861ac15608ea4267a82332d729d1','usage',null);
   perform eps.specs_stage_metadata(metadata, job, pasted); checks:=checks+1;
   perform pg_temp.a2_expect(format('select eps.specs_stage_metadata(%L::jsonb,%L::eps.jobs,%L::jsonb)',
     metadata||'{"schema_sha256":"e8ffee51eee20f687abbfc12c2476248ccb5a59c1122fde418bc89db3ff58085"}', job, pasted), 'RESULT_INVALID'); checks:=checks+1;

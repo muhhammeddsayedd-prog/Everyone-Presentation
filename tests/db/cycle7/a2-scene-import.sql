@@ -82,7 +82,7 @@ declare job eps.jobs; input jsonb; paragraphs jsonb:=eps.specs_stage_paragraphs(
         'correlation_id',correlation,'input_sha256',job.input_hash,'prepared_source_sha256',eps.specs_document_prepared_hash(null,paragraphs),
         'prompt_version','spec_extract_v2.0.0','prompt_sha256','65575b1c5b9e509f73b64dd44ae94c9151502e081b0a4b0cfdfb73693374d745',
         'schema_version','2.0','schema_sha256','a50665e17b53d11c2eb741483cae4e0081d4461e3711b3d06a5b4358dca51fc1',
-        'provider_schema_sha256','cd80820db66ad4e22d3cce7dc9dbfb07f2da6aee4e74697d2f81fe9c5b5123fc','usage',null)),null,null);
+        'provider_schema_sha256','a57c08f1e016f2187e91faa8a5d42f97b3f6861ac15608ea4267a82332d729d1','usage',null)),null,null);
   return job;
 end $$;
 create function pg_temp.scenes(p_status text default null) returns bigint language sql as $$

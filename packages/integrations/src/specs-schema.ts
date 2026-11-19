@@ -17,12 +17,15 @@ const validate = new Ajv2020({ strict: true, allErrors: false }).compile<SpecsEx
  * Source: https://developers.openai.com/api/docs/guides/structured-outputs#supported-schemas
  */
 function providerSchema(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(providerSchema);
+  if (Array.isArray(value)) return value.map(item => providerSchema(item));
   if (value === null || typeof value !== 'object') return value;
   const adapted: Record<string, unknown> = {};
   for (const [key, item] of Object.entries(value)) {
     if (['$schema', '$id', 'title', 'minLength', 'maxLength', 'minimum', 'maximum'].includes(key)) continue;
     if (key === 'const') adapted.enum = [item];
+    // Keys inside `properties` / `$defs` are names (a scene has a property called "title"), never annotations.
+    else if ((key === 'properties' || key === '$defs') && item !== null && typeof item === 'object' && !Array.isArray(item))
+      adapted[key] = Object.fromEntries(Object.entries(item).map(([name, schema]) => [name, providerSchema(schema)]));
     else adapted[key] = providerSchema(item);
   }
   return adapted;

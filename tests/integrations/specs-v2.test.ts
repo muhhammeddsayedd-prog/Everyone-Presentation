@@ -68,8 +68,10 @@ test('v1 prompt, schema and provider-schema hashes stay byte-identical to the m0
   assert.equal(SPECS_PROVIDER_SCHEMA_SHA256, 'd73a11450f2714c5649ab9a663f0a3483f68feefd1f482bc62575a9a608a1216');
 });
 
-test('v2 hashes equal the literals pinned by the m17 extraction migration', async () => {
-  const sql = await readFile(new URL('../../supabase/migrations/20261116110500_m17_specs_extraction_v2.sql', import.meta.url), 'utf8');
+test('v2 hashes equal the literals pinned by the m17/m22 extraction migrations', async () => {
+  // m22 re-pins the v2 provider schema hash; the other pins stay in m17.
+  const sql = await readFile(new URL('../../supabase/migrations/20261116110500_m17_specs_extraction_v2.sql', import.meta.url), 'utf8')
+    + await readFile(new URL('../../supabase/migrations/20261119090000_m22_specs_v2_provider_schema.sql', import.meta.url), 'utf8');
   const pinned = (name: string) => [...sql.matchAll(new RegExp(`p_value->>'${name}'='([a-f0-9]{64})'`, 'gu'))].map(match => match[1]);
   assert.ok(sql.includes(`p_value->>'prompt_version'='${SPECS_V2_PROMPT_VERSION}'`));
   assert.ok(pinned('prompt_sha256').includes(sha256(SPECS_V2_PROMPT)));
@@ -203,4 +205,24 @@ test('document v2 evidence binds to the source asset and page', async () => {
   await assert.rejects(extractSpecs(documentInput, config, async () => response(wrongPage)), errorCode('AI_EVIDENCE_INVALID'));
   const wrongAsset = structuredClone(payload); wrongAsset.roles[0].occurrences[0].evidence[0].asset_id = null;
   await assert.rejects(extractSpecs(documentInput, config, async () => response(wrongAsset)), errorCode('AI_EVIDENCE_INVALID'));
+});
+
+// OpenAI strict Structured Outputs: every object lists exactly its properties in `required` and forbids extras.
+// Regression: the adapter once dropped a property named "title" (Scene) while keeping it in `required` (HTTP 400).
+test('v1 and v2 provider schemas satisfy strict structured-output rules', async () => {
+  const { SPECS_PROVIDER_SCHEMA, SPECS_V2_PROVIDER_SCHEMA } = await import('../../packages/integrations/src/specs-schema.ts');
+  const problems: string[] = [];
+  const walk = (node: unknown, path: string) => {
+    if (Array.isArray(node)) { node.forEach((item, index) => walk(item, `${path}/${index}`)); return; }
+    if (!node || typeof node !== 'object') return;
+    const schema = node as Record<string, unknown>;
+    if (schema.type === 'object' || schema.properties) {
+      const props = Object.keys((schema.properties as Record<string, unknown>) ?? {}); const required = (schema.required as string[]) ?? [];
+      if (schema.additionalProperties !== false || props.length !== required.length || props.some(key => !required.includes(key))) problems.push(path || '(root)');
+    }
+    for (const [key, value] of Object.entries(schema)) walk(value, `${path}/${key}`);
+  };
+  walk(SPECS_PROVIDER_SCHEMA, 'v1'); walk(SPECS_V2_PROVIDER_SCHEMA, 'v2');
+  assert.deepEqual(problems, []);
+  assert.deepEqual(((SPECS_V2_PROVIDER_SCHEMA.$defs as Record<string, { properties: Record<string, unknown> }>).Scene.properties.title), { type: 'string' });
 });
