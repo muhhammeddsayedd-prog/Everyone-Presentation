@@ -4,6 +4,7 @@ import { composeCastingDeck } from '../../../../packages/templates/versions/1.2.
 import { composeCastingDeck as composeSlotDeck } from '../../../../packages/templates/versions/1.3.0/compose-casting.ts';
 import type { Deck as SlotDeck } from '../../../../packages/templates/versions/1.3.0/deck.ts';
 import { composeCastingDeck as composeReferenceDeck } from '../../../../packages/templates/versions/1.4.0/compose-casting.ts';
+import { composeCastingDeck as composeCaptionedDeck } from '../../../../packages/templates/versions/1.4.1/compose-casting.ts';
 import { focusMatches, type DraftFocus, type DraftResult } from './draft-review.ts';
 
 /** One printed page of the draft, in print order, with the workspace record it shows (if any). */
@@ -16,7 +17,7 @@ export interface StagePage {
 }
 export type StageDeck =
   | { template: '1.2.0'; review: DraftResult['review']; deck: Deck; pages: StagePage[] }
-  | { template: '1.3.0' | '1.4.0'; review: DraftResult['review']; deck: SlotDeck; pages: StagePage[] }
+  | { template: '1.3.0' | '1.4.0' | '1.4.1'; review: DraftResult['review']; deck: SlotDeck; pages: StagePage[] }
   | { template: '1.0.0' | '1.1.0'; review: DraftResult['review']; pages: StagePage[] };
 
 const slideLabel = (slide: ReviewSlide) => slide.kind === 'pending' ? `${slide.slot_id ? slide.slot_label : slide.role_name} · Pending` : slide.fields.name_or_id;
@@ -24,7 +25,7 @@ const slideKey = (slide: ReviewSlide) => slide.assignment_id ? `a:${slide.assign
 
 /** 1.2.0 composes extra pages (category dividers, slot overviews, closing); 1.0/1.1 print a cover plus one page per slide. */
 export function stageDeck(review: DraftResult['review']): StageDeck {
-  if (review.template.version === '1.3.0' || review.template.version === '1.4.0') return slotStageDeck(review);
+  if (review.template.version === '1.3.0' || review.template.version === '1.4.0' || review.template.version === '1.4.1') return slotStageDeck(review);
   if (review.template.version !== '1.2.0') {
     const pages: StagePage[] = [{ index: 0, key: 'cover', label: 'Cover', kind: 'cover', slide: null },
       ...review.slides.map((slide, n) => ({ index: n + 1, key: slideKey(slide), label: slideLabel(slide), kind: slide.kind === 'pending' ? 'pending' as const : 'detail' as const, slide }))];
@@ -46,11 +47,11 @@ export function stageDeck(review: DraftResult['review']): StageDeck {
   return { template: '1.2.0', review, deck, pages };
 }
 
-/** 1.3.0: one page per slot, its people side by side; 1.4.0: portrait pages of one to three people. A page lists every
+/** 1.3.0: one page per slot, its people side by side; 1.4.0/1.4.1: portrait pages of one to three people. A page lists every
  * person it shows; a person a scene repeats keeps one key per page. */
 function slotStageDeck(review: DraftResult['review']): StageDeck {
-  const reference = review.template.version === '1.4.0';
-  const deck = (reference ? composeReferenceDeck(review as WorkspaceReview) : composeSlotDeck(review as WorkspaceReview)) as SlotDeck; const used = new Set<string>();
+  const version = review.template.version as '1.3.0' | '1.4.0' | '1.4.1'; const reference = version !== '1.3.0';
+  const deck = (version === '1.4.1' ? composeCaptionedDeck(review as WorkspaceReview) : reference ? composeReferenceDeck(review as WorkspaceReview) : composeSlotDeck(review as WorkspaceReview)) as SlotDeck; const used = new Set<string>();
   const pages = deck.pages.map((page): StagePage => {
     if (page.layout === 'cover_floward') return { index: page.index, key: 'cover', label: 'Cover', kind: 'cover', slide: null };
     if (page.layout === 'closing_thank_you') return { index: page.index, key: 'closing', label: 'Thank you', kind: 'closing', slide: null };
@@ -64,7 +65,7 @@ function slotStageDeck(review: DraftResult['review']): StageDeck {
     let key = slides.length ? slides.map(slideKey).join('+') : `x:${page.index}`; if (used.has(key)) key = `${key}#${page.index}`; used.add(key);
     return { index: page.index, key, label, kind: slide?.kind === 'pending' ? 'pending' : 'detail', slide, slides };
   });
-  return { template: reference ? '1.4.0' : '1.3.0', review, deck, pages };
+  return { template: version, review, deck, pages };
 }
 
 /** The page to show for a panel selection: the person's own page first, then the slot, then the first page of the role. */
@@ -79,19 +80,20 @@ export function pageForFocus(pages: StagePage[], focus: DraftFocus): number | nu
 
 const cleanText = (value: string | null | undefined) => typeof value === 'string' && value.trim() !== '' ? value.trim() : null;
 /** The first page of a scene, for the Scene breakdown's focus. A view hint only: it reads the composed deck and never
- * changes it. In 1.4.0 the scene flow is re-walked exactly as `composeCastingDeck` walks it (same divider groups, same
+ * changes it. In 1.4.0/1.4.1 the scene flow is re-walked exactly as `composeCastingDeck` walks it (same divider groups, same
  * once-per-group `auto` rule, `repeat`, `hidden`): the first scene of a divider group opens on its divider, a later
  * scene of a group on the first cast page it prints (else the shared divider). Without that structure (1.3.0, a
  * deck with no scenes) it is the first page that shows a role the scene prints. `null` when the scene prints nothing
  * (a proposed scene, or every role printed earlier with no divider), so the stage stays where it is. */
 export function pageForScene(deck: StageDeck, sceneId: string, draftScenes: readonly PresentationScene[] = []): number | null {
-  // 1.4.0 prints the scenes it captured; earlier templates have none, so the draft's scenes say which roles to look for.
-  const scenes = deck.template === '1.4.0' ? deck.review.presentation?.scenes ?? [] : draftScenes;
+  // 1.4.0/1.4.1 print the scenes they captured; earlier templates have none, so the draft's scenes say which roles to look for.
+  const reference = deck.template === '1.4.0' || deck.template === '1.4.1';
+  const scenes = reference ? deck.review.presentation?.scenes ?? [] : draftScenes;
   const scene = scenes.find(item => item.scene_id === sceneId); if (!scene) return null;
   const roleOf = (page: StagePage) => page.slide?.role_id ?? null;
   const shown = new Set(scene.occurrences.filter(item => item.deck_placement !== 'hidden').map(item => item.role_id));
   const fallback = () => deck.pages.find(page => (page.kind === 'detail' || page.kind === 'pending') && (page.slides ?? [page.slide]).some(slide => slide?.role_id && shown.has(slide.role_id)))?.index ?? null;
-  if (deck.template !== '1.4.0') return fallback();
+  if (!reference) return fallback();
   const printedRoles = new Set(deck.review.slides.map(slide => slide.role_id).filter((id): id is string => id !== null));
   const groups: { sequence: string | null; scenes: PresentationScene[] }[] = [];
   for (const item of scenes) { const sequence = cleanText(item.sequence_label); const last = groups.at(-1); if (sequence && last?.sequence === sequence) last.scenes.push(item); else groups.push({ sequence, scenes: [item] }); }

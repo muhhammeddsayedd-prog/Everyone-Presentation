@@ -2,7 +2,7 @@ import type { PresentationContext } from './review-types.ts';
 
 /** Template versions whose review, snapshot, render context and manifest carry a `presentation` context.
  * Earlier versions never accept it, so their validation is unchanged. */
-export const PRESENTATION_CONTEXT_VERSIONS: readonly string[] = ['1.4.0'];
+export const PRESENTATION_CONTEXT_VERSIONS: readonly string[] = ['1.4.0', '1.4.1'];
 export const hasPresentationContext = (version: unknown) => typeof version === 'string' && PRESENTATION_CONTEXT_VERSIONS.includes(version);
 
 const plain = (value: unknown): value is Record<string, unknown> => Boolean(value) && typeof value === 'object' && !Array.isArray(value) && [Object.prototype, null].includes(Object.getPrototypeOf(value));

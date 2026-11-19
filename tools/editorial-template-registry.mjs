@@ -1,5 +1,5 @@
 // Pins every byte an Everyone Film editorial template version renders with (default 1.2.0;
-// `--version=1.3.0` for the slot-page template, `--version=1.4.0` for the Floward reference template). `node tools/editorial-template-registry.mjs` rewrites the registry;
+// `--version=1.3.0` for the slot-page template, `--version=1.4.0` for the Floward reference template, `--version=1.4.1` for it with name, age and height captions). `node tools/editorial-template-registry.mjs` rewrites the registry;
 // `--check` exits non-zero when any pinned file changed without re-registration.
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const VERSION = process.argv.find(arg => arg.startsWith('--version='))?.slice('--version='.length) ?? '1.2.0';
-if (!['1.2.0', '1.3.0', '1.4.0'].includes(VERSION)) throw new Error(`Unknown editorial template version ${VERSION}`);
+if (!['1.2.0', '1.3.0', '1.4.0', '1.4.1'].includes(VERSION)) throw new Error(`Unknown editorial template version ${VERSION}`);
 const REGISTRY = `packages/templates/versions/${VERSION}/registry.json`;
 const RENDERER_FILES = ['tokens.ts', 'deck.ts', 'layouts.ts', 'compose-casting.ts', 'html.ts', 'render.ts', 'pptx.ts', 'static-images.ts'].map(file => `packages/templates/versions/${VERSION}/${file}`);
 const STATIC_IMAGES = { everyone_wordmark: 'apps/web/public/brand/everyone-logotype.svg', casting_placeholder: 'apps/web/public/templates/everyone-film/casting-placeholder.png', everyone_wordmark_raster: 'apps/web/public/templates/everyone-film/everyone-wordmark.png' };
