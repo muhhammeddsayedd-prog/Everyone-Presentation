@@ -1,4 +1,4 @@
-/* Presentation-first global pages (P1): panel content, cover grids, library cards, profile, series, processing, settings. */
+/* Global pages (Agent A scope): panel content, page heading, quick actions, covers, project grid, overview, portraits, presentations index, system states. */
 @layer screens {
   /* Panel content */
   .panel-section { display: grid; gap: var(--space-2); }
@@ -8,7 +8,7 @@
   .segmented.segmented-vertical { display: grid; width: 100%; padding: 3px; gap: 2px; }
   .segmented.segmented-vertical > button { display: flex; align-items: center; gap: 10px; justify-content: flex-start; min-height: 36px; padding: 0 10px; text-align: left; }
   .segmented.segmented-vertical > button svg { width: 16px; height: 16px; flex: none; color: var(--color-text-muted); }
-  .segmented.segmented-vertical > button[aria-pressed="true"] svg { color: var(--color-accent); }
+  .segmented.segmented-vertical > button[aria-pressed="true"] svg { color: var(--color-accent-text); }
   .segmented.segmented-vertical .segment-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .segmented.segmented-vertical .segment-count { margin-left: auto; }
   .panel-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
@@ -27,7 +27,7 @@
   .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-3); }
   .quick-action { display: flex; align-items: center; gap: var(--space-3); min-height: 68px; padding: 12px 14px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-1); color: var(--color-text-primary); text-align: left; }
   .quick-action:hover { border-color: var(--color-border-strong); background: var(--color-surface-2); text-decoration: none; }
-  .quick-action-icon { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 10px; background: var(--color-accent-soft); color: var(--color-accent); }
+  .quick-action-icon { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 10px; background: var(--color-accent-soft); color: var(--color-accent-text); }
   .quick-action-icon svg { width: 20px; height: 20px; }
   .quick-action strong { display: block; font-size: 14px; font-weight: var(--weight-semibold); }
   .quick-action strong + span { display: block; color: var(--color-text-muted); font-size: var(--text-small); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -87,38 +87,6 @@
   .library-portrait-initial { font-size: 44px; font-weight: var(--weight-semibold); color: var(--color-text-muted); }
   .library-portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-  /* Cast Library page */
-  .cast-library-page .cast-results-grid { grid-template-columns: repeat(auto-fill, minmax(208px, 1fr)); gap: var(--space-5); }
-  .cast-library-page .cast-results-grid .cast-card { gap: 0; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-1); transition: border-color var(--duration-fast) var(--ease-standard); }
-  .cast-library-page .cast-results-grid .cast-card:hover { border-color: var(--color-border-strong); }
-  .cast-library-page .cast-results-grid .cast-card-portrait { border: 0; border-radius: 0; aspect-ratio: 4 / 5; }
-  .cast-library-page .cast-results-grid .cast-card-portrait::after { content: ""; position: absolute; inset: auto 0 0 0; height: 40%; background: linear-gradient(to top, rgba(0, 0, 0, .55), transparent); pointer-events: none; }
-  .cast-card-reviewed { position: absolute; top: 8px; right: 8px; z-index: 1; display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: var(--radius-full); background: rgba(245, 245, 245, .82); color: #000; font-size: 11px; font-weight: var(--weight-semibold); backdrop-filter: blur(8px); }
-  .cast-card-reviewed svg { width: 12px; height: 12px; }
-  .cast-card-portrait .cast-card-flag { z-index: 1; background: rgba(0, 0, 0, .78); color: var(--color-warning); border-color: transparent; }
-  .cast-library-page .cast-results-grid .cast-result-details { padding: 12px 14px 4px; }
-  .cast-library-page .cast-results-grid .cast-result-details h3 { font-size: 15px; }
-  .cast-library-page .cast-results-grid .cast-card-actions { padding: 8px 14px 14px; }
-  .cast-library-page .cast-results-list .cast-card-portrait { width: 48px; height: 60px; aspect-ratio: auto; }
-  .cast-library-page .cast-results-list .library-portrait-initial { font-size: 18px; }
-  .cast-library-page .cast-results-list .cast-card-reviewed, .cast-library-page .cast-results-list .cast-card-flag { display: none; }
-  .config-panel .facet-group { margin: 0; }
-  .config-panel .form-grid { grid-template-columns: minmax(0, 1fr); }
-  .config-panel .facet-field input { width: 100%; }
-
-  /* Candidate profile */
-  .candidate-detail > .presentation-read-lock { margin: 0; padding: 0; border: 0; min-width: 0; }
-  .profile-breadcrumb { margin-bottom: 0; }
-  .profile-hero { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: var(--space-8); align-items: end; }
-  .profile-hero-portrait { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--color-border); box-shadow: 0 24px 60px rgba(0, 0, 0, .45); }
-  .profile-hero-portrait .library-portrait-initial { font-size: 72px; }
-  .profile-hero-identity { display: grid; gap: var(--space-3); justify-items: start; }
-  .profile-hero-identity h1 { font-size: 32px; overflow-wrap: anywhere; }
-  .profile-hero-identity > p:not(.small) { color: var(--color-text-muted); }
-  .candidate-profile .editor-section { margin: 0; }
-  .config-panel .fact-list, .config-panel dl { margin: 0; }
-  @media (max-width: 767px) { .profile-hero { grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-4); align-items: start; } .profile-hero-identity h1 { font-size: 24px; } }
-
   /* Presentations index */
   .series-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-6) var(--space-5); }
   .series-card { display: grid; gap: var(--space-3); align-content: start; min-width: 0; }
@@ -129,24 +97,6 @@
   .series-card .series-identity h2 { font-size: 15px; line-height: 1.3; overflow-wrap: anywhere; }
   .series-card .series-actions { flex-wrap: wrap; justify-content: flex-start; }
   .series-card .series-error { grid-column: 1 / -1; }
-
-  /* Processing */
-  .panel-links a[aria-current] { background: var(--color-surface-3); color: var(--color-text-primary); }
-  .status-swatch { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--color-text-muted); }
-  .status-swatch-all { background: transparent; box-shadow: inset 0 0 0 1.5px var(--color-text-muted); }
-  .status-swatch-queued { background: var(--color-text-secondary); }
-  .status-swatch-running { background: var(--color-info); }
-  .status-swatch-succeeded { background: var(--color-success); }
-  .status-swatch-failed { background: var(--color-danger); }
-  .status-swatch-cancelled { background: var(--color-border-strong); }
-  .status-swatch-waiting_for_input { background: var(--color-warning); }
-  .processing-page .processing-groups { display: grid; gap: var(--space-5); }
-
-  /* Settings */
-  .settings-section { display: grid; gap: var(--space-4); scroll-margin-top: calc(var(--topbar-height) + var(--space-4)); }
-  .settings-section.editor-section { margin: 0; }
-  .settings-scope-list { margin: 0; padding: 12px 14px 12px 32px; border-radius: var(--radius-sm); background: var(--color-surface-2); color: var(--color-text-secondary); font-size: var(--text-small); display: grid; gap: 4px; }
-  .settings-page .page-frame-main { max-width: 1040px; }
 
   /* System states */
   .system-state { min-height: calc(100vh - var(--topbar-height) - 2 * var(--space-12)); display: grid; align-content: center; justify-items: start; gap: var(--space-3); max-width: 520px; margin: 0 auto; }

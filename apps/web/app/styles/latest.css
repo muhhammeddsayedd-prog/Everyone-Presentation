@@ -1,0 +1,155 @@
+/* Latest everyone. design ("bi" layer, Latest design elements, 12 Nov 2026) applied to the Studio's shared
+   primitives. Loaded last inside the components layer, so it restyles every existing primitive while feature and
+   screen layers can still refine them. Tokens only: --ui-* (scale), --bi-* (paper, ink, card), --color-*.
+   Rules: pill controls; containers 14–32 px; one green per group; a selected secondary control is white with
+   black text; large type is Medium with negative tracking; no card shadows (overlays only). */
+
+@layer components {
+  /* ---------- Page heading: 64 px Medium title ---------- */
+  .page-heading { align-items: flex-end; margin-bottom: var(--space-8); }
+  .page-heading h1 { font-size: var(--text-display); line-height: var(--ui-leading-display); letter-spacing: var(--ui-tracking-display); font-weight: var(--weight-medium); }
+  .page-heading p { color: var(--color-text-secondary); font-size: var(--ui-text-lede); margin-top: var(--space-3); max-width: 64ch; }
+  .section-heading h2 { font-size: var(--ui-text-section); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .eyebrow, .micro { text-transform: none; letter-spacing: 0; }
+
+  /* ---------- Buttons: pills ---------- */
+  .button { min-height: var(--ui-control); padding: 0 20px; border-radius: var(--radius-full); border-color: var(--color-border-strong); background: transparent; color: var(--color-text-primary); font-size: var(--ui-text-small); font-weight: var(--weight-medium); transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); }
+  .button:hover:not(:disabled) { background: var(--color-surface-2); border-color: var(--color-text-muted); }
+  .button:active:not(:disabled) { transform: scale(.97); }
+  .button-primary { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-text-on-accent); font-weight: var(--weight-semibold); }
+  .button-primary:hover:not(:disabled) { background: var(--ui-accent-hover); border-color: var(--ui-accent-hover); color: var(--color-text-on-accent); box-shadow: var(--ui-hover-glow); }
+  .button-quiet { border-color: transparent; color: var(--color-text-secondary); }
+  .button-danger { border-color: var(--color-danger); background: var(--color-danger); color: var(--color-text-on-accent); }
+  .button-danger:hover:not(:disabled) { background: color-mix(in srgb, var(--color-danger) 85%, var(--brand-white)); border-color: transparent; }
+  .button-small { min-height: var(--ui-control-sm); padding: 0 14px; font-size: var(--ui-text-meta); }
+  .button-block { width: 100%; }
+  .icon-button { border-radius: var(--radius-full); }
+  .icon-button:active:not(:disabled) { transform: scale(.94); }
+  .icon-button[aria-pressed="true"] { color: var(--color-text-on-accent); background: var(--brand-white); }
+  .text-button:hover:not(:disabled) { color: var(--color-accent-text); }
+
+  /* ---------- Segmented, tabs, chips, badges: pills; white = selected ---------- */
+  .segmented { padding: 4px; gap: 2px; border-radius: var(--radius-full); background: var(--color-surface-1); border-color: var(--color-border); }
+  .segmented > button, .segmented > a, .segmented > label { min-height: 36px; padding: 0 16px; border-radius: var(--radius-full); font-size: var(--ui-text-small); }
+  .segmented > [aria-pressed="true"], .segmented > [aria-selected="true"], .segmented > [aria-current], .segmented > label:has(input:checked) { background: var(--brand-white); color: var(--bi-ink); box-shadow: none; }
+  .segmented > .segment-indicator { border-radius: var(--radius-full); background: var(--brand-white); box-shadow: none; }
+  .segmented:has(> .segment-indicator[data-active]) > :is([aria-pressed="true"], [aria-selected="true"], [aria-current], label:has(input:checked)) { background: transparent; color: var(--bi-ink); }
+  .segmented > [aria-pressed="true"] .count, .segmented > [aria-pressed="true"] > .segment-count { color: var(--bi-ink-3); }
+  .tabs { gap: var(--space-2); border-bottom: 0; }
+  .tabs > [role="tab"], .tabs > a { min-height: 40px; padding: 0 16px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-full); color: var(--color-text-secondary); }
+  .tabs > [aria-selected="true"], .tabs > [aria-current] { background: var(--brand-white); border-color: var(--brand-white); color: var(--bi-ink); }
+  .tabs > [aria-selected="true"] .count, .tabs > [aria-current] .count { color: var(--bi-ink-3); }
+  .badge { min-height: var(--ui-chip); padding: 0 10px; font-size: var(--ui-text-tag); font-weight: var(--weight-medium); }
+  .chip { min-height: 32px; padding: 0 14px; font-size: var(--ui-text-meta); transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); }
+  .chip:active { transform: scale(.96); }
+  .chip[aria-pressed="true"], .chip.on { background: var(--brand-white); border-color: var(--brand-white); color: var(--bi-ink); }
+
+  /* ---------- Fields ---------- */
+  .search-field { min-height: var(--ui-control); padding-left: 16px; border-radius: var(--radius-full); width: min(100%, 440px); }
+  .search-field:focus-within { box-shadow: var(--ui-focus-glow); }
+  .search-field input { border-radius: var(--radius-full); }
+  select { border-radius: var(--ui-radius-16); }
+  .toggle input { width: 44px; height: 26px; min-height: 26px; }
+  .toggle input::after { top: 3px; left: 3px; width: 18px; height: 18px; transition: transform var(--duration-base) cubic-bezier(.3, 1.4, .5, 1); }
+  .toggle input:checked::after { transform: translateX(18px); background: var(--color-text-on-accent); }
+
+  /* ---------- Surfaces: dark cards (gradient, hairline, no shadow) ---------- */
+  .panel { border-color: var(--bi-card-line); border-radius: var(--ui-radius-26); background: var(--bi-card-bg); }
+  .panel-header { padding: 20px 24px; border-bottom-color: var(--bi-line); }
+  .panel-header h2, .panel-header h3 { font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .panel-body { padding: 22px 24px; }
+  .panel-footer { padding: 16px 24px; border-top-color: var(--bi-line); }
+  .card { border-color: var(--bi-card-line); border-radius: var(--ui-radius-26); background: var(--bi-card-bg); padding: 20px; }
+  .card-interactive { transition: border-color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
+  .card-interactive:hover { border-color: var(--color-border-strong); background: var(--bi-card-bg); }
+  .metric dd, .metric .metric-value { font-size: var(--ui-text-stat); line-height: var(--ui-leading-stat); letter-spacing: var(--ui-tracking-stat); font-weight: var(--weight-medium); }
+  .notice { border-radius: var(--ui-radius-18); padding: 14px 18px; }
+  .empty-state { border-radius: var(--ui-radius-32); border-style: solid; border-color: var(--bi-card-line); background: var(--bi-card-bg); }
+  .empty-state h1, .empty-state h2 { font-size: var(--ui-text-title); font-weight: var(--weight-medium); letter-spacing: -0.02em; }
+  .empty-state > svg { width: 36px; height: 36px; padding: 0; color: var(--color-accent-text); }
+  .skeleton { border-radius: var(--radius-sm); }
+  .well { border-radius: var(--ui-radius-20); }
+
+  /* ---------- Overlays (the only shadows) ---------- */
+  .drawer { border-radius: var(--ui-radius-32) 0 0 var(--ui-radius-32); border-color: var(--color-border-strong); }
+  .drawer-header { padding: 26px 28px 18px; border-bottom-color: var(--bi-line); }
+  .drawer-header h2 { font-size: var(--ui-text-title); font-weight: var(--weight-medium); letter-spacing: -0.02em; }
+  .drawer-body { padding: 20px 28px; }
+  .drawer-footer { padding: 16px 28px; border-top-color: var(--bi-line); }
+  .modal { border-radius: var(--ui-radius-30); }
+  .modal-header { padding: 28px 30px 12px; }
+  .modal-header h2 { font-size: var(--ui-text-title); font-weight: var(--weight-medium); letter-spacing: -0.02em; }
+  .modal-body { padding: 4px 30px 22px; }
+  .modal-footer { padding: 16px 30px 22px; border-top: 0; }
+  .menu { padding: 8px; border-radius: var(--ui-radius-20); background: var(--color-surface-2); }
+  .menu [role="menuitem"], .menu [role="menuitemradio"], .menu [role="menuitemcheckbox"] { min-height: 38px; padding: 0 12px; border-radius: var(--radius-sm); }
+  .toast { border-radius: var(--ui-radius-20); padding: 12px 12px 12px 18px; }
+  .scrim, .modal-layer { background: color-mix(in srgb, var(--brand-black) 70%, transparent); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+
+  /* ---------- Paper surface: the light work panel ----------
+     Inside paper the colour tokens are remapped to ink and paper tones, so every existing control renders
+     ink-on-paper without per-component rules. Green stays a fill (buttons, current, focus), never text. */
+  .config-panel, .paper-surface {
+    color-scheme: light;
+    --color-bg: var(--bi-paper);
+    --color-surface-1: var(--bi-paper);
+    --color-surface-2: var(--brand-white);
+    --color-surface-3: var(--bi-paper-2);
+    --color-border: var(--bi-paper-line);
+    --color-border-strong: color-mix(in srgb, var(--bi-ink) 20%, var(--bi-paper));
+    --color-text-primary: var(--bi-ink);
+    --color-text-secondary: var(--bi-ink-2);
+    --color-text-muted: var(--bi-ink-3);
+    --color-text-label: var(--bi-ink-3);
+    --color-success: var(--bi-p-green); --color-success-soft: var(--bi-p-green-bg);
+    --color-warning: var(--bi-p-warn); --color-warning-soft: var(--bi-p-warn-bg);
+    --color-danger: var(--bi-p-danger); --color-danger-soft: var(--bi-p-danger-bg);
+    --color-info: var(--bi-p-info); --color-info-soft: var(--bi-p-info-bg);
+    --color-accent-soft: var(--bi-p-green-bg);
+    --color-accent-text: var(--bi-p-green);
+    --bi-card-bg: var(--brand-white); --bi-card-line: var(--bi-paper-line); --bi-line: var(--bi-paper-line);
+    background: var(--bi-paper);
+    color: var(--bi-ink);
+  }
+  :is(.config-panel, .paper-surface) .segmented { background: var(--bi-paper-2); border-color: transparent; }
+  :is(.config-panel, .paper-surface) :is(.segmented > [aria-pressed="true"], .segmented > [aria-selected="true"], .segmented > [aria-current], .segmented > label:has(input:checked), .chip[aria-pressed="true"], .chip.on, .tabs > [aria-selected="true"]) { background: var(--bi-ink); border-color: var(--bi-ink); color: var(--brand-white); }
+  :is(.config-panel, .paper-surface) .segmented > .segment-indicator { background: var(--bi-ink); }
+  :is(.config-panel, .paper-surface) .segmented:has(> .segment-indicator[data-active]) > :is([aria-pressed="true"], [aria-selected="true"], [aria-current], label:has(input:checked)) { background: transparent; color: var(--brand-white); }
+  :is(.config-panel, .paper-surface) .text-button:hover:not(:disabled) { color: var(--bi-p-green); }
+  :is(.config-panel, .paper-surface) :focus-visible { outline-color: var(--bi-ink); }
+  :is(.config-panel, .paper-surface) input:focus-visible, :is(.config-panel, .paper-surface) select:focus-visible, :is(.config-panel, .paper-surface) textarea:focus-visible { border-color: var(--bi-ink); box-shadow: 0 0 0 4px color-mix(in srgb, var(--bi-ink) 10%, transparent); }
+  :is(.config-panel, .paper-surface) .button-primary:hover:not(:disabled) { box-shadow: none; }
+  .config-panel > .config-panel-head h2 { color: var(--bi-ink); }
+
+  .text-reveal { display: inline-flex; flex-wrap: wrap; }
+  /* Main marker: white on dark, ink on paper (the old rule used the text colour as a fill). */
+  .position-main { background: var(--brand-white); color: var(--bi-ink); }
+  :is(.config-panel, .paper-surface) .position-main { background: var(--bi-ink); color: var(--brand-white); }
+}
+
+@layer screens {
+  /* Notched card (bi): the black notch in the top-right corner holds the round ↗ action. */
+  .notched { position: relative; border-radius: var(--ui-radius-26); }
+  .notched-corner { position: absolute; top: 0; right: 0; display: grid; place-items: center; width: 70px; height: 70px; border-bottom-left-radius: var(--ui-radius-24); background: var(--notch-bg, var(--color-bg)); }
+  .notched-corner::before, .notched-corner::after { content: ""; position: absolute; width: var(--ui-radius-24); height: var(--ui-radius-24); background: radial-gradient(circle at 0 100%, transparent var(--ui-radius-24), var(--notch-bg, var(--color-bg)) calc(var(--ui-radius-24) + .5px)); }
+  .notched-corner::before { top: 0; left: calc(-1 * var(--ui-radius-24)); }
+  .notched-corner::after { bottom: calc(-1 * var(--ui-radius-24)); right: 0; }
+  .notched-go { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--color-border-strong); color: var(--color-text-primary); transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
+  .notched:hover .notched-go, .notched-go:hover { background: var(--brand-white); color: var(--bi-ink); transform: rotate(-8deg); }
+  /* The newest item in a set: the single green card. */
+  .card-newest { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-text-on-accent); --color-text-muted: var(--bi-on-accent-muted); --color-text-secondary: var(--bi-on-accent-muted); }
+}
+
+/* Entrances for overlays (exits are played by useExitMotion). */
+@media (prefers-reduced-motion: no-preference) {
+  @layer components {
+    .drawer { animation: latest-drawer-in var(--duration-slow) var(--ease-enter); }
+    .modal { animation: latest-pop-in var(--duration-base) var(--ease-enter); }
+    .menu { animation: latest-menu-in var(--duration-base) var(--ease-enter); transform-origin: top right; }
+    .toast { animation: latest-toast-in var(--duration-slow) cubic-bezier(.2, 1.2, .4, 1); }
+  }
+}
+@keyframes latest-drawer-in { from { transform: translateX(32px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes latest-pop-in { from { transform: translateY(8px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes latest-menu-in { from { transform: translateY(-4px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes latest-toast-in { from { transform: translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }

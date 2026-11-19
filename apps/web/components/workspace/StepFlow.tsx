@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { Icon } from '../Icon';
+import { motion } from 'motion/react';
+import { glide } from '../motion/presets';
 
 /* The casting workspace flow: one visible, numbered step bar under the workspace header, and the same
    "Back / Continue to …" footer at the end of every step's panel. Link names stay "<n> <Step> <status>". */
@@ -22,6 +24,7 @@ export function StepBar({ steps, current }: { steps: FlowStep[]; current: string
   return <nav className="workspace-steps" aria-label="Casting workspace steps">
     <ol ref={list}>{steps.map((step, position) => <li key={step.path} data-state={position < index ? 'before' : position === index ? 'current' : 'after'}>
       <Link className="step-link" href={step.href} aria-current={position === index ? 'step' : undefined}>
+        {position === index && <motion.span layoutId="workspace-step-current" className="step-current" transition={glide} aria-hidden="true" />}
         <span className="step-number">{position + 1}</span>{' '}<span className="step-name">{step.label}</span>
         {step.status && <>{' '}<span className={`step-status step-status-${step.status.tone}`}>{step.status.text}</span></>}
       </Link>

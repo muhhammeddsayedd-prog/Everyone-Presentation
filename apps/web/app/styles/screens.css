@@ -170,7 +170,7 @@
   .shortlist-toggle { position: relative; display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: var(--radius-sm); color: var(--color-text-muted); cursor: pointer; margin: 0; }
   .shortlist-toggle:hover { background: var(--color-surface-3); }
   .shortlist-toggle input { position: absolute; inset: 0; width: 100%; height: 100%; min-height: 0; margin: 0; opacity: 0; cursor: pointer; }
-  .shortlist-toggle:has(input:checked) { color: var(--color-accent); }
+  .shortlist-toggle:has(input:checked) { color: var(--color-accent-text); }
   .shortlist-toggle:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 1px; }
   .shortlist-toggle:has(input:disabled) { opacity: .5; cursor: not-allowed; }
   .shortlist-toggle svg { width: 18px; height: 18px; }
@@ -262,7 +262,7 @@
   .facet-panel { position: sticky; top: calc(var(--topbar-height) + var(--space-4)); display: grid; gap: var(--space-4); padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-1); max-height: calc(100vh - var(--topbar-height) - var(--space-8)); overflow-y: auto; }
   .facet-head { display: flex; align-items: center; justify-content: space-between; }
   .facet-head h2 { font-size: 15px; }
-  .facet-head .text-button { color: var(--color-accent); text-decoration: none; }
+  .facet-head .text-button { color: var(--color-accent-text); text-decoration: none; }
   .facet-group { margin: 0; display: grid; gap: 2px; }
   .facet-group legend { color: var(--color-text-primary); font-weight: var(--weight-semibold); margin-bottom: 6px; }
   .facet-group .radio-line { margin: 0; min-height: 28px; }
@@ -315,7 +315,7 @@
   .preference-group legend { color: var(--color-text-primary); font-weight: var(--weight-semibold); margin-bottom: var(--space-2); }
   .preference-options { width: 100%; }
   .preference-options > label { flex: 1; justify-content: center; min-height: 40px; font-size: var(--text-body); }
-  .preference-options > label.preference-preferred:has(input:checked) { background: var(--color-accent-soft); color: var(--color-accent); box-shadow: 0 0 0 1px var(--color-accent); }
+  .preference-options > label.preference-preferred:has(input:checked) { background: var(--color-accent-soft); color: var(--color-accent-text); box-shadow: 0 0 0 1px var(--color-accent); }
   .preference-options > label.preference-not_preferred:has(input:checked) { background: var(--color-surface-3); color: var(--color-text-primary); box-shadow: 0 0 0 1px var(--color-border-strong); }
   .preference-group:disabled .preference-options { opacity: .6; }
   .preference-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }

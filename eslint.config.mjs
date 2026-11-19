@@ -19,5 +19,8 @@ export default defineConfig([
       '@next/next/no-img-element': 'off'
     }
   },
+  // Vendored React Bits sources (MIT + Commons Clause) are kept byte-close to upstream so updates stay diffable.
+  // Two React Compiler rules flag their ref-mirroring pattern; app code keeps the full rule set.
+  { files: ['apps/web/components/motion/bits/**'], rules: { 'react-hooks/refs': 'off', 'react-hooks/set-state-in-effect': 'off' } },
   globalIgnores(['**/.next/**', '**/.next-e2e/**', '.agents/**', '.claude/**', 'Design Elements/**', '.venv-skills/**', 'apps/web/next-env.d.ts'])
 ]);

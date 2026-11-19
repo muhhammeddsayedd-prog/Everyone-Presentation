@@ -1,4 +1,5 @@
-/* Adapted from Design Elements/assets/brand/tokens.css. Fonts intentionally use system fallback until licensed binaries are supplied. */
+/* Adapted from Design Elements/assets/brand/tokens.css. The latest everyone. scale (--ui-*, --bi-*) is loaded next from
+   styles/bi/latest.tokens.css; the older names below alias onto it so existing rules pick up the new radii and type. */
 :root {
   color-scheme: dark;
 
@@ -33,6 +34,7 @@
   --color-accent-deep: #176e45;     /* fills only, with white text (6.3:1); never as text on dark */
   --color-accent-soft: rgba(0, 205, 109, 0.12);  /* selected chips, row highlight */
   --color-accent-ring: rgba(0, 205, 109, 0.55);
+  --color-accent-text: var(--color-accent);   /* green used as text; remapped to the paper green on paper */
 
   --color-success: #00cd6d;
   --color-warning: #f5b544;
@@ -89,17 +91,17 @@
   --weight-bold: 700;     /* General Sans Bold Italic: wordmark-style labels only */
 
   /* size / line-height pairs */
-  --text-display: clamp(40px, 4.2vw + 12px, 68px);  --leading-display: 1.1;  --tracking-display: -0.01em;
+  --text-display: clamp(40px, 3.4vw + 16px, 64px);  --leading-display: 1;  --tracking-display: -0.035em;
   --text-wordmark: clamp(32px, 2.4vw + 12px, 49px); --leading-wordmark: 1.15; --tracking-wordmark: -1.5px;
-  --text-h1: 32px;  --leading-h1: 1.15;  --tracking-h1: -0.01em;
-  --text-h2: 24px;  --leading-h2: 1.1;
+  --text-h1: 30px;  --leading-h1: 1.1;  --tracking-h1: -0.02em;
+  --text-h2: 22px;  --leading-h2: 1.1;
   --text-h3: 18px;  --leading-h3: 1.25;
   --text-title-card: 22px; --leading-title-card: 1.1; /* site project titles */
   --text-body-lg: 16px; --leading-body-lg: 1.5;
-  --text-body: 14px; --leading-body: 1.3;            /* site 14/18.2 */
-  --text-small: 13px; --leading-small: 1.35;
-  --text-micro: 12px; --leading-micro: 1.2; --tracking-micro: 0.01em; /* uppercase labels (site: 14px/0.14px; app: 12px for density) */
-  --text-kpi: 36px; --leading-kpi: 1;
+  --text-body: 14px; --leading-body: 1.4;            /* site 14/18.2 */
+  --text-small: 13.5px; --leading-small: 1.35;
+  --text-micro: 12.5px; --leading-micro: 1.25; --tracking-micro: 0; /* labels and meta, sentence case (latest design: no uppercase labels) */
+  --text-kpi: 52px; --leading-kpi: 0.9;
 
   /* ---------- Spacing (4px base) ---------- */
   --space-0: 0;
@@ -116,9 +118,12 @@
   --space-20: 80px;
 
   /* ---------- Radii ---------- */
-  --radius-sm: 8px;    /* site radius: chips, buttons, inputs, thumbnails */
-  --radius-md: 12px;   /* cards, popovers, dialogs */
-  --radius-full: 999px;/* pills, toggles, avatars */
+  --radius-xs: 12px;   /* file icons, page images (--ui-radius-12) */
+  --radius-sm: 14px;   /* small inputs, evidence rows, skeletons (--ui-radius-14) */
+  --radius-md: 20px;   /* tiles, disclosures, popovers, list boxes (--ui-radius-20) */
+  --radius-lg: 26px;   /* list cards, decision bar (--ui-radius-26) */
+  --radius-xl: 32px;   /* page cards, panels, paper (--ui-radius-32) */
+  --radius-full: 999px;/* pills: buttons, chips, nav, search, segmented, tabs */
 
   /* ---------- Elevation: borders, not shadows ---------- */
   --elevation-0: none;
@@ -130,9 +135,9 @@
   /* ---------- Layout ---------- */
   --sidebar-width: 248px;
   --sidebar-width-collapsed: 72px;
-  --topbar-height: 64px;
+  --topbar-height: 80px;
   --bottomnav-height: 64px;
-  --content-max: 1440px;
+  --content-max: 1600px;
   --gutter: 16px;          /* mobile side gutter */
   --gutter-lg: 32px;       /* ≥ 1024 */
 

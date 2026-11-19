@@ -12,7 +12,7 @@
   /* Filter toggle: an icon button that shows how many filters are applied */
   .filter-toggle { position: relative; flex: none; border-color: var(--color-border-strong); background: var(--color-surface-2); color: var(--color-text-secondary); }
   .filter-toggle:hover:not(:disabled) { border-color: var(--color-text-muted); }
-  .filter-toggle[aria-expanded="true"], .filter-toggle[aria-expanded="true"]:hover:not(:disabled) { color: var(--color-accent); border-color: var(--color-accent); background: var(--color-accent-soft); }
+  .filter-toggle[aria-expanded="true"], .filter-toggle[aria-expanded="true"]:hover:not(:disabled) { color: var(--color-accent-text); border-color: var(--color-accent); background: var(--color-accent-soft); }
   .filter-toggle svg { transition: transform var(--duration-base) var(--ease-standard); }
   .filter-toggle[aria-expanded="true"] svg { transform: scale(.92); }
   .filter-toggle-count { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--radius-full); background: var(--color-accent); color: var(--color-text-on-accent); font-size: 11px; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px var(--color-bg); animation: badge-pop var(--duration-base) var(--ease-enter); }

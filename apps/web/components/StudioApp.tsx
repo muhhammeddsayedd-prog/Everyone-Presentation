@@ -27,13 +27,14 @@ import { UnsavedChangesProvider, useUnsavedChanges, useUnsavedEditor } from './u
 import { ToastProvider } from './ui/Toast';
 import { useRecentWorkspaces } from './recent-workspaces';
 import { useRouteFade } from './motion/motion';
+import { MotionRoot } from './motion/MotionRoot';
 
 const globalEmpty: Record<string, { title: string; body: string; icon: IconName }> = {
   '/presentations': { title: 'No presentations generated', body: 'Presentation versions and real PDF generation are pending M05. Open a project to prepare its casting workspace.', icon: 'slides' },
 };
 
 export function StudioApp() {
-  return <ConfirmProvider><ToastProvider><UnsavedChangesProvider><StudioShell /></UnsavedChangesProvider></ToastProvider></ConfirmProvider>;
+  return <MotionRoot><ConfirmProvider><ToastProvider><UnsavedChangesProvider><StudioShell /></UnsavedChangesProvider></ToastProvider></ConfirmProvider></MotionRoot>;
 }
 
 function StudioShell() {
@@ -104,11 +105,10 @@ function StudioShell() {
   const environment = central ? 'Central Everyone workspace. Development and release verification are in progress.' : confirmedFixture ? 'Development workspace — synthetic records. Central business integration is unverified.' : 'Opening your workspace…';
   return <StudioTimeZoneProvider timeZone={session?.timezone}><RuntimeMode.Provider value={central ? 'supabase' : 'local_fixture'}><FrameSlotProvider value={slots}>
     <a className="skip-link" href="#main-content">Skip to content</a>
-    <AppFrame layout={isWorkspace && actor ? 'workspace' : 'page'} environment={environment}
-      top={<TopBar setSlot={setTopSlot} product={isWorkspace && actor ? null : scopeLabel} environment={environment} status={central ? 'Release verification in progress' : confirmedFixture ? 'Development · synthetic records' : 'Opening workspace'}
-        session={actor ? { name: actor.name, initials: initials(actor.name), signOutLabel: central ? 'Sign out' : 'Sign out of development session', onSignOut: signOut } : null} />}
-      rail={<IconRail pathname={pathname} recent={actor ? recent : []} setStepSlot={setStepSlot} initials={actor ? initials(actor.name) : null} />}>
-      <main ref={mainRef} id="main-content" className="main-content" tabIndex={-1}>{loading || signingOut ? <Loading label="Opening Presentation Studio…" /> : error ? <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} /> : !actor ? (central ? <BusinessSignIn /> : <SessionGate actors={session?.actors ?? []} onSignedIn={setSession} />) : <Route pathname={pathname} segments={segments} isWorkspace={isWorkspace} central={central} actor={actor} storageOrigin={session?.storage_origin} onDirtyChange={dirtyChanged} />}</main>
+    <AppFrame layout={isWorkspace && actor ? 'workspace' : 'page'} environment={environment} setSlot={setTopSlot} setStepSlot={setStepSlot}
+      top={<TopBar nav={actor ? <IconRail pathname={pathname} /> : null} recent={actor ? recent : []} environment={environment} status={central ? 'Release verification in progress' : confirmedFixture ? 'Development · synthetic records' : 'Opening workspace'}
+        session={actor ? { name: actor.name, initials: initials(actor.name), signOutLabel: central ? 'Sign out' : 'Sign out of development session', onSignOut: signOut } : null} />}>
+      <main ref={mainRef} id="main-content" className="main-content" data-scope={scopeLabel} tabIndex={-1}>{loading || signingOut ? <Loading label="Opening Presentation Studio…" /> : error ? <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} /> : !actor ? (central ? <BusinessSignIn /> : <SessionGate actors={session?.actors ?? []} onSignedIn={setSession} />) : <Route pathname={pathname} segments={segments} isWorkspace={isWorkspace} central={central} actor={actor} storageOrigin={session?.storage_origin} onDirtyChange={dirtyChanged} />}</main>
     </AppFrame>
   </FrameSlotProvider></RuntimeMode.Provider></StudioTimeZoneProvider>;
 }

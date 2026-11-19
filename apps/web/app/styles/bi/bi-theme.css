@@ -1,0 +1,397 @@
+/* The app shell and design primitives of every released module (the improved UI, "Screenshots Improved/").
+   everyone. brand: true black, one green, General Sans, grayscale everything else.
+   Layout language: pill navigation, oversized titles and numbers, 20–32px radii, notched cards and a light
+   work panel that holds a dark detail card. The shell renders .bi-app; its main element is .bi-main (not
+   .bidding-main), so the generic workspace rules in styles/workspace.css do not reach these pages.
+   Shared layer: the --bi-* values below are global tokens (the light work panel's values come from the brand's light
+   theme), so sheets and dialogs that portal outside :is(.bi-app, .bi-portal) use them too. The primitives apply inside :is(.bi-app, .bi-portal) and inside
+   any portaled surface marked .bi-portal (side sheets, dialogs). Inherited milestone pages keep the workspace shell. */
+
+:root {
+  --bi-r-xl: 32px; --bi-r-lg: 26px; --bi-r-md: 20px; --bi-r-sm: 14px;
+  --bi-line: #222226;
+  --bi-paper: #f2f2ef; --bi-paper-2: #e8e8e4; --bi-paper-line: #d6d6d1;
+  --bi-ink: #0b0b0c; --bi-ink-2: #3d3f42; --bi-ink-3: #626468;
+  --bi-p-green-bg: #dff6ea; --bi-p-green-line: #bfe9d3; --bi-p-green: #0d5c37;
+  --bi-p-warn-bg: #fbefd7; --bi-p-warn-line: #f0d9a8; --bi-p-warn: #7a4d00;
+  --bi-p-danger-bg: #fde3e3; --bi-p-danger-line: #f6c2c2; --bi-p-danger: #a32020;
+  --bi-p-info-bg: #e3eefc; --bi-p-info-line: #c4daf6; --bi-p-info: #1f5aa6;
+  --bi-on-accent-muted: #04452a;
+  /* Raised dark surface: cards, the board and library panels. */
+  --bi-card-bg: linear-gradient(180deg, #151517 0%, #0e0e10 100%); --bi-card-line: #1d1d21;
+}
+.bi-app, .bi-portal {
+  color: var(--color-text-primary);
+  font: var(--weight-medium) 14px/1.4 var(--font-sans); font-variant-numeric: tabular-nums; overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+:is(.bi-app, .bi-portal) { min-height: 100dvh; background: var(--color-bg); }
+:is(.bi-app, .bi-portal) *, :is(.bi-app, .bi-portal) *::before, :is(.bi-app, .bi-portal) *::after { box-sizing: border-box; }
+:is(.bi-app, .bi-portal) :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+:is(.bi-app, .bi-portal) ::selection { color: var(--color-text-on-accent); background: var(--color-accent); }
+:is(.bi-app, .bi-portal) :lang(ar) { font-family: var(--font-arabic); }
+:is(.bi-app, .bi-portal) svg { flex: none; }
+/* Zero-specificity resets, so any single class can set its own spacing. */
+:where(.bi-app, .bi-portal) :where(h1, h2, h3, h4, p, ol, ul, dl, dd, figure, blockquote) { margin: 0; }
+:where(.bi-app, .bi-portal) :where(ol, ul) { padding: 0; }
+:is(.bi-app, .bi-portal) a { color: inherit; }
+:is(.bi-app, .bi-portal) .bidding-text-link { color: var(--color-accent); text-decoration: underline; text-underline-offset: .2em; }
+:is(.bi-app, .bi-portal) code { font: 12.5px/1.5 var(--font-mono); color: var(--color-text-secondary); overflow-wrap: anywhere; }
+:is(.bi-app, .bi-portal) .sr-only, :is(.bi-app, .bi-portal) .m01-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.bi-ico { width: 18px; height: 18px; stroke-width: 1.6; }
+.bi-ico-s { width: 15px; height: 15px; stroke-width: 1.7; }
+
+/* ---------- Top bar ---------- */
+.bi-topbar { position: sticky; top: 0; z-index: var(--z-topbar); display: flex; align-items: center; gap: 14px; min-height: 80px; padding: 18px 32px; background: var(--color-bg); }
+.bi-brand { display: inline-flex; flex: none; align-items: center; gap: 10px; margin-inline-end: 10px; color: var(--color-text-muted); font-size: 15px; text-decoration: none; }
+/* The bilingual lockup (white wordmark, green calligraphy) is drawn for dark grounds: no recolouring. */
+.bi-brand img { display: block; width: auto; height: 60px; }
+.bi-navpill { display: inline-flex; flex: none; align-items: center; gap: 2px; padding: 5px; border-radius: 999px; background: #fff; }
+.bi-navpill ul { display: contents; list-style: none; }
+.bi-navpill .bi-navlead { display: grid; place-items: center; width: 38px; height: 38px; margin-inline-end: 6px; border-radius: 999px; background: var(--bi-ink); color: #fff; }
+.bi-navpill a { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 18px; border-radius: 999px; color: var(--bi-ink); font-size: 14px; white-space: nowrap; text-decoration: none; transition: background var(--duration-fast) var(--ease-standard); }
+.bi-navpill a:hover { background: var(--bi-paper-2); }
+.bi-navpill a[aria-current="page"] { background: var(--color-accent); color: #000; font-weight: var(--weight-semibold); }
+.bi-navpill a[aria-current="page"]::before { content: ""; width: 6px; height: 6px; border-radius: 9px; background: #000; }
+.bi-navpill a:focus-visible { outline-color: var(--bi-ink); outline-offset: 1px; }
+.bi-topbar-end { display: flex; align-items: center; gap: 10px; margin-inline-start: auto; min-width: 0; }
+.bi-ibtn { display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; border: 1px solid var(--color-border-strong); border-radius: 999px; background: var(--color-surface-1); color: var(--color-text-primary); cursor: pointer; text-decoration: none; }
+.bi-ibtn:hover { background: var(--color-surface-3); }
+.bi-ibtn-sm { width: 36px; height: 36px; } .bi-ibtn-lg { width: 52px; height: 52px; }
+.bi-ibtn-light { background: #fff; border-color: #fff; color: #000; }
+.bi-ibtn-light:hover { background: var(--bi-paper-2); }
+.bi-menu { display: none; }
+
+/* Account control (components/m01/session-panel.tsx), restyled as a pill. */
+.bi-app .shell-account { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 4px 4px 4px 4px; border: 1px solid var(--color-border-strong); border-radius: 999px; background: var(--color-surface-1); color: var(--color-text-secondary); font-size: 13px; }
+.bi-app .shell-account-muted { padding: 0 16px; min-height: 44px; color: var(--color-text-muted); }
+.bi-app .shell-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; background: #fff; color: #000; font-size: 14px; font-weight: var(--weight-semibold); }
+.bi-app .shell-account-email { max-width: 22rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-text-primary); }
+.bi-app .shell-account-provider { color: var(--color-text-muted); }
+.bi-app .shell-account .shell-signout { height: 36px; min-height: 36px; padding: 0 14px; border-radius: 999px; font-size: 13px; }
+.bi-app .shell-account-error { max-width: 18rem; color: var(--color-danger); font-size: 12px; }
+
+/* Navigation sheet (tablet and phone). */
+.bi-sheet-scrim { position: fixed; inset: 0; z-index: calc(var(--z-drawer) - 1); padding: 0; border: 0; background: var(--color-overlay); }
+.bi-sheet { position: fixed; z-index: var(--z-drawer); top: 76px; inset-inline-end: 16px; width: min(360px, calc(100vw - 24px)); padding: 12px; border: 1px solid var(--color-border-strong); border-radius: 24px; background: var(--color-surface-1); box-shadow: var(--elevation-pop); }
+.bi-sheet ul { display: grid; gap: 4px; list-style: none; }
+.bi-sheet a { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; border-radius: 16px; color: var(--color-text-secondary); font-size: 17px; text-decoration: none; }
+.bi-sheet a:hover { background: var(--color-surface-2); color: var(--color-text-primary); }
+.bi-sheet a[aria-current="page"] { background: var(--color-accent); color: #000; font-weight: var(--weight-semibold); }
+.bi-sheet a .bi-sheet-go { margin-inline-start: auto; }
+.bi-sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 4px 4px 10px 12px; color: var(--color-text-muted); font-size: 13px; }
+
+/* ---------- Main and page head ---------- */
+.bi-main { display: block; width: 100%; max-width: 1600px; margin: 0 auto; padding: 6px 32px 56px; }
+.bi-main:focus { outline: none; }
+.bi-phead { display: flex; align-items: center; gap: 18px; margin: 10px 0 6px; flex-wrap: wrap; }
+.bi-phead h1 { font-size: 64px; line-height: 1; font-weight: var(--weight-medium); letter-spacing: -.035em; }
+.bi-phead-end { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; }
+/* One left edge with the title (no back button sits beside these titles). */
+.bi-lede { max-width: 760px; margin: 12px 0 0; color: var(--color-text-muted); font-size: 16px; line-height: 1.45; }
+.bi-kpis { display: flex; align-items: flex-end; gap: 34px; }
+.bi-kpi { display: flex; align-items: flex-end; gap: 8px; }
+.bi-kpi-n { font-size: 52px; line-height: .9; font-weight: var(--weight-medium); letter-spacing: -.03em; }
+.bi-kpi-l { display: flex; flex-direction: column; gap: 4px; padding-bottom: 3px; color: var(--color-text-secondary); font-size: 13px; line-height: 1.1; }
+.bi-badge { display: inline-flex; align-items: center; width: max-content; height: 19px; padding: 0 7px; border-radius: 999px; background: var(--color-surface-3); color: var(--color-text-secondary); font-size: 11px; font-weight: var(--weight-semibold); }
+.bi-badge-accent { background: var(--color-accent); color: #000; } .bi-badge-warning { background: var(--color-warning); color: #000; } .bi-badge-light { background: #fff; color: #000; }
+
+/* ---------- Surfaces ---------- */
+:is(.bi-app, .bi-portal) .bi-card > * { min-width: 0; }
+:is(.bi-app, .bi-portal) .bi-card { position: relative; min-width: 0; padding: 26px 28px; border: 1px solid var(--bi-card-line); border-radius: var(--bi-r-xl); background: var(--bi-card-bg); }
+.bi-card-head { display: flex; align-items: flex-start; gap: 14px; }
+.bi-card-head > div { flex: 1; min-width: 0; }
+.bi-card-head h2 { font-size: 22px; font-weight: var(--weight-medium); letter-spacing: -.01em; }
+.bi-card-head p { max-width: 760px; margin-top: 6px; color: var(--color-text-muted); font-size: 14px; }
+.bi-hero { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 16px; margin-top: 26px; }
+.bi-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.bi-grid2-single { grid-template-columns: minmax(0, 1fr); }
+.bi-stack { display: grid; gap: 16px; }
+.bi-stat-k { color: var(--color-text-secondary); font-size: 14px; }
+.bi-stat-v { margin-top: 10px; font-size: 44px; line-height: 1.05; font-weight: var(--weight-medium); letter-spacing: -.03em; overflow-wrap: anywhere; }
+.bi-stat-v small { margin-inline-start: 4px; color: var(--color-text-muted); font-size: 20px; letter-spacing: 0; }
+.bi-stat-v.bi-md { font-size: 22px; letter-spacing: -.01em; line-height: 1.2; margin-top: 14px; }
+.bi-stat-v.bi-on { color: var(--color-accent); }
+.bi-stats { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 22px 30px; margin-top: 22px; }
+.bi-bar { position: relative; height: 10px; overflow: hidden; border-radius: 999px; background: var(--color-border); }
+.bi-bar > i { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: repeating-linear-gradient(90deg, var(--color-accent) 0 14px, var(--color-accent-strong) 14px 16px); }
+.bi-bar[data-tone="warning"] > i { background: var(--color-warning); } .bi-bar[data-tone="danger"] > i { background: var(--color-danger); } .bi-bar[data-tone="neutral"] > i { background: var(--color-text-label); }
+.bi-tabs3 { display: flex; align-items: flex-end; gap: 8px; min-width: 0; margin-top: 22px; list-style: none; }
+.bi-tab3 { display: flex; flex: 1; flex-direction: column; justify-content: space-between; min-width: 0; height: 92px; padding: 14px 14px 0; border-radius: 20px 20px 0 0; background: var(--color-surface-3); }
+.bi-tab3[data-on="true"] { height: 112px; background: var(--color-accent); color: #000; }
+.bi-tab3 b { overflow: hidden; font-size: 13px; font-weight: var(--weight-semibold); text-overflow: ellipsis; white-space: nowrap; }
+.bi-tab3 small { padding-bottom: 14px; color: var(--color-text-muted); font-size: 12px; }
+.bi-tab3[data-on="true"] small { color: var(--bi-on-accent-muted); }
+
+/* ---------- Buttons (components/ui/button.tsx, restyled in scope) ---------- */
+:is(.bi-app, .bi-portal) [data-slot="button"] {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; height: 44px; min-height: 44px; padding: 0 20px;
+  border: 1px solid var(--color-border-strong); border-radius: 999px; background: var(--color-surface-2); color: var(--color-text-primary);
+  font: var(--weight-semibold) 14px/1 var(--font-sans); white-space: nowrap; box-shadow: none; cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+}
+:is(.bi-app, .bi-portal) [data-slot="button"]:hover:not(:disabled) { background: var(--color-surface-3); border-color: var(--color-text-muted); }
+:is(.bi-app, .bi-portal) [data-slot="button"][data-variant="default"] { border-color: var(--color-accent); background: var(--color-accent); color: #000; }
+:is(.bi-app, .bi-portal) [data-slot="button"][data-variant="default"]:hover:not(:disabled) { background: #2fe08a; border-color: #2fe08a; box-shadow: 0 0 0 5px var(--color-accent-soft); }
+:is(.bi-app, .bi-portal) [data-slot="button"][data-variant="ghost"] { border-color: transparent; background: transparent; }
+:is(.bi-app, .bi-portal) [data-slot="button"][data-variant="ghost"]:hover:not(:disabled) { background: var(--color-surface-2); border-color: transparent; }
+:is(.bi-app, .bi-portal) [data-slot="button"][data-variant="outline"] { background: transparent; }
+:is(.bi-app, .bi-portal) [data-slot="button"].bi-btn-light { border-color: #fff; background: #fff; color: #000; }
+:is(.bi-app, .bi-portal) [data-slot="button"].bi-btn-light:hover:not(:disabled) { background: var(--bi-paper-2); border-color: var(--bi-paper-2); }
+:is(.bi-app, .bi-portal) [data-slot="button"][aria-pressed="true"]:not([data-variant="default"]) { border-color: #fff; background: #fff; color: #000; }
+:is(.bi-app, .bi-portal) [data-slot="button"][aria-pressed="true"][data-variant="default"] { box-shadow: 0 0 0 5px var(--color-accent-soft); }
+:is(.bi-app, .bi-portal) [data-slot="button"].bi-btn-danger { background: transparent; color: var(--color-danger); border-color: color-mix(in oklab, var(--color-danger) 40%, transparent); }
+:is(.bi-app, .bi-portal) [data-slot="button"].bi-btn-sm, :is(.bi-app, .bi-portal) [data-slot="button"][data-size="sm"] { height: 36px; min-height: 36px; padding: 0 15px; font-size: 13px; }
+:is(.bi-app, .bi-portal) [data-slot="button"].bi-btn-lg { height: 52px; min-height: 52px; padding: 0 26px; font-size: 15px; }
+:is(.bi-app, .bi-portal) [data-slot="button"]:disabled, :is(.bi-app, .bi-portal) [data-slot="button"][aria-disabled="true"] { opacity: .4; cursor: not-allowed; }
+:is(.bi-app, .bi-portal) [data-slot="button"] svg { width: 15px; height: 15px; }
+:is(.bi-app, .bi-portal) .ui-action-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; }
+
+/* ---------- Status chips (components/ui/bidding.tsx StatePill, restyled in scope) ---------- */
+:is(.bi-app, .bi-portal) .ui-pill, .bi-chip {
+  display: inline-flex; align-items: center; gap: 6px; flex: none; max-width: 100%; height: 26px; min-height: 26px; padding: 0 11px; overflow: hidden;
+  border: 1px solid transparent; border-radius: 999px; background: var(--color-surface-3); color: var(--color-text-secondary);
+  font-size: 12.5px; font-weight: var(--weight-medium); line-height: 1; white-space: nowrap; text-overflow: ellipsis;
+}
+:is(.bi-app, .bi-portal) .ui-pill::before { content: ""; width: 6px; height: 6px; flex: none; border-radius: 9px; background: currentColor; }
+:is(.bi-app, .bi-portal) .ui-pill[data-tone="positive"] { background: var(--color-accent-soft); color: var(--color-accent); }
+:is(.bi-app, .bi-portal) .ui-pill[data-tone="warning"] { background: var(--color-warning-soft); color: var(--color-warning); }
+:is(.bi-app, .bi-portal) .ui-pill[data-tone="danger"] { background: var(--color-danger-soft); color: var(--color-danger); }
+:is(.bi-app, .bi-portal) .ui-pill[data-tone="info"] { background: var(--color-info-soft); color: var(--color-info); }
+:is(.bi-app, .bi-portal) .ui-pill[data-tone="neutral"] { background: var(--color-surface-3); color: var(--color-text-secondary); }
+:is(.bi-app, .bi-portal) .ui-pill[data-tone="outline"], .bi-chip-outline { background: transparent; border-color: var(--color-border-strong); }
+.bi-chip > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- Fields ---------- */
+:is(.bi-app, .bi-portal) :where(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select, textarea) {
+  width: 100%; min-width: 0; height: 50px; padding: 0 16px; border: 1px solid var(--color-border-strong); border-radius: 16px;
+  background: var(--color-surface-1); color: var(--color-text-primary); font: var(--weight-medium) 15px/1.4 var(--font-sans); caret-color: var(--color-accent);
+  box-shadow: none; transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
+}
+:is(.bi-app, .bi-portal) select { appearance: none; padding-inline-end: 44px; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-text-muted) 50%), linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 22px) 22px, calc(100% - 17px) 22px; background-size: 5px 5px; background-repeat: no-repeat; }
+:is(.bi-app, .bi-portal) select option { background: var(--color-surface-1); color: var(--color-text-primary); }
+:is(.bi-app, .bi-portal) textarea { height: auto; min-height: 96px; padding: 14px 16px; line-height: 1.55; resize: vertical; }
+:is(.bi-app, .bi-portal) :is(input, textarea)::placeholder { color: var(--color-text-muted); }
+:is(.bi-app, .bi-portal) :is(input, select, textarea):hover:not(:disabled) { border-color: var(--color-text-muted); }
+:is(.bi-app, .bi-portal) :is(input, select, textarea):focus-visible { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 4px var(--color-accent-soft); }
+:is(.bi-app, .bi-portal) :is(input, select, textarea)[aria-invalid="true"] { border-color: var(--color-danger); box-shadow: 0 0 0 4px var(--color-danger-soft); }
+:is(.bi-app, .bi-portal) :is(input, select, textarea):disabled { opacity: .55; }
+:is(.bi-app, .bi-portal) fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+:is(.bi-app, .bi-portal) fieldset:disabled { opacity: .6; }
+.bi-field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.bi-field > label, .bi-label { color: var(--color-text-muted); font-size: 12.5px; }
+.bi-help { color: var(--color-text-muted); font-size: 12.5px; line-height: 1.45; }
+.bi-ferr { display: flex; align-items: center; gap: 6px; color: var(--color-danger); font-size: 12.5px; }
+.bi-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+
+/* Segmented control made of real radio inputs. */
+.bi-seg { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 4px; border: 1px solid var(--bi-line); border-radius: 999px; background: var(--color-surface-1); }
+.bi-seg label { position: relative; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 18px; border-radius: 999px; color: var(--color-text-secondary); font-size: 13.5px; cursor: pointer; }
+:is(.bi-app, .bi-portal) .bi-seg input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0 !important; cursor: pointer; }
+.bi-seg label:has(input:checked) { background: #fff; color: #000; font-weight: var(--weight-semibold); }
+.bi-seg label:has(input:disabled) { opacity: .45; cursor: not-allowed; }
+.bi-seg label:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* ---------- Notices, status, skeletons ---------- */
+:is(.bi-app, .bi-portal) .bi-notice { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 1px solid color-mix(in oklab, var(--color-warning) 35%, transparent); border-radius: 18px; background: var(--color-warning-soft); color: var(--color-text-primary); font-size: 14px; line-height: 1.45; }
+:is(.bi-app, .bi-portal) .bi-notice > .bi-notice-ic { display: grid; place-items: center; flex: none; width: 30px; height: 30px; margin-top: -3px; border-radius: 99px; background: var(--color-warning); color: #000; }
+:is(.bi-app, .bi-portal) .bi-notice > .bi-notice-tx { flex: 1; min-width: 0; display: grid; gap: 6px; }
+:is(.bi-app, .bi-portal) .bi-notice p { margin: 0; }
+:is(.bi-app, .bi-portal) .bi-notice-positive { border-color: color-mix(in oklab, var(--color-accent) 35%, transparent); background: var(--color-accent-soft); }
+:is(.bi-app, .bi-portal) .bi-notice-positive > .bi-notice-ic { background: var(--color-accent); }
+:is(.bi-app, .bi-portal) .bi-notice-danger { border-color: color-mix(in oklab, var(--color-danger) 35%, transparent); background: var(--color-danger-soft); }
+:is(.bi-app, .bi-portal) .bi-notice-danger > .bi-notice-ic { background: var(--color-danger); }
+:is(.bi-app, .bi-portal) .bi-notice-info { border-color: color-mix(in oklab, var(--color-info) 35%, transparent); background: var(--color-info-soft); }
+:is(.bi-app, .bi-portal) .bi-notice-info > .bi-notice-ic { background: var(--color-info); }
+:is(.bi-app, .bi-portal) .bi-notice-neutral { border-color: var(--color-border-strong); background: var(--color-surface-2); }
+:is(.bi-app, .bi-portal) .bi-notice-neutral > .bi-notice-ic { background: var(--color-border); color: var(--color-text-primary); }
+.bi-meta { color: var(--color-text-muted); font-size: 12.5px; line-height: 1.45; }
+.bi-status { display: flex; align-items: center; gap: 10px; color: var(--color-text-secondary); font-size: 14px; }
+.bi-spin { display: inline-block; flex: none; width: 15px; height: 15px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 99px; animation: bi-spin .8s linear infinite; }
+@keyframes bi-spin { to { transform: rotate(360deg); } }
+.bi-sk { display: block; border-radius: 14px; background: linear-gradient(90deg, var(--color-surface-2), var(--color-surface-3) 50%, var(--color-surface-2)); background-size: 200% 100%; animation: bi-shimmer 1.4s ease-in-out infinite; }
+@keyframes bi-shimmer { to { background-position: -200% 0; } }
+.bi-bigic { display: grid; place-items: center; flex: none; width: 72px; height: 72px; border-radius: 24px; background: var(--color-surface-3); color: var(--color-text-primary); }
+.bi-bigic svg { width: 30px; height: 30px; }
+.bi-bigic[data-tone="warning"] { background: var(--color-warning); color: #000; } .bi-bigic[data-tone="danger"] { background: var(--color-danger); color: #000; } .bi-bigic[data-tone="positive"] { background: var(--color-accent); color: #000; }
+:is(.bi-app, .bi-portal) .m01-loading { display: grid; gap: 14px; padding: 26px 28px; border: 1px solid #1d1d21; border-radius: var(--bi-r-xl); background: var(--color-surface-1); color: var(--color-text-secondary); }
+:is(.bi-app, .bi-portal) .m01-loading p { margin: 0; }
+:is(.bi-app, .bi-portal) .m01-skeleton { height: 22px; max-width: 62%; border-radius: 14px; background: linear-gradient(90deg, var(--color-surface-2), var(--color-surface-3) 50%, var(--color-surface-2)); background-size: 200% 100%; animation: bi-shimmer 1.4s ease-in-out infinite; }
+:is(.bi-app, .bi-portal) .m01-skeleton-short { max-width: 38%; }
+:is(.bi-app, .bi-portal) .m01-error { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; padding: 26px 28px; border: 1px solid color-mix(in oklab, var(--color-danger) 35%, transparent); border-radius: var(--bi-r-xl); background: var(--color-danger-soft); }
+:is(.bi-app, .bi-portal) .m01-error p { flex: 1; min-width: 14rem; margin: 0; color: var(--color-text-primary); font-size: 15px; }
+:is(.bi-app, .bi-portal) .m01-error [data-slot="button"] { border-color: #fff; background: #fff; color: #000; }
+:is(.bi-app, .bi-portal) .m01-error-text { color: var(--color-danger); }
+:is(.bi-app, .bi-portal) .m01-muted { color: var(--color-text-muted); }
+
+/* ---------- Disclosures (details) ---------- */
+:is(.bi-app, .bi-portal) details.bi-disc, :is(.bi-app, .bi-portal) details.ui-record-details { min-width: 0; margin: 10px 0 0; border: 1px solid var(--bi-line); border-radius: 20px; background: var(--color-surface-2); }
+:is(.bi-app, .bi-portal) details.bi-disc > summary, :is(.bi-app, .bi-portal) details.ui-record-details > summary { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 14px 10px 18px; border-radius: 20px; color: var(--color-text-primary); font-size: 14.5px; list-style: none; cursor: pointer; }
+:is(.bi-app, .bi-portal) details > summary::-webkit-details-marker { display: none; }
+:is(.bi-app, .bi-portal) details.bi-disc > summary::after, :is(.bi-app, .bi-portal) details.ui-record-details > summary::after { content: ""; width: 8px; height: 8px; margin-inline: auto 10px; border: solid var(--color-text-secondary); border-width: 0 1.6px 1.6px 0; transform: rotate(45deg) translateY(-2px); transition: transform var(--duration-base) var(--ease-standard); }
+:is(.bi-app, .bi-portal) details[open].bi-disc > summary::after, :is(.bi-app, .bi-portal) details[open].ui-record-details > summary::after { transform: rotate(-135deg) translateY(-2px); }
+:is(.bi-app, .bi-portal) details[open].bi-disc > summary, :is(.bi-app, .bi-portal) details[open].ui-record-details > summary { border-bottom: 1px solid var(--bi-line); border-end-start-radius: 0; border-end-end-radius: 0; }
+:is(.bi-app, .bi-portal) details.bi-disc > summary .bi-meta { margin-inline-start: 2px; }
+:is(.bi-app, .bi-portal) details.bi-disc > :not(summary) { margin: 14px 18px 18px; }
+:is(.bi-app, .bi-portal) details.ui-record-details > dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1px; margin: 14px 18px 18px; overflow: hidden; border: 1px solid var(--bi-line); border-radius: 16px; background: var(--bi-line); }
+:is(.bi-app, .bi-portal) .ui-record-details dl > div { display: block; padding: 12px 14px; background: var(--color-surface-1); }
+:is(.bi-app, .bi-portal) .ui-record-details dt { margin-bottom: 4px; color: var(--color-text-muted); font-size: 12px; }
+:is(.bi-app, .bi-portal) .ui-record-details dd { margin: 0; color: var(--color-text-secondary); font: 12.5px/1.5 var(--font-mono); overflow-wrap: anywhere; }
+
+/* Key–value grid */
+.bi-kv { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: 0; overflow: hidden; border: 1px solid var(--bi-line); border-radius: 18px; background: var(--color-surface-1); }
+.bi-kv > div { min-width: 0; padding: 14px 16px; box-shadow: 1px 0 0 var(--bi-line), 0 1px 0 var(--bi-line); }
+.bi-kv dt { margin-bottom: 5px; color: var(--color-text-muted); font-size: 12px; }
+.bi-kv dd { margin: 0; color: var(--color-text-primary); font-size: 14.5px; overflow-wrap: anywhere; }
+
+/* ---------- Confirmation dialog ---------- */
+.bi-dialog { width: min(520px, calc(100vw - 32px)); max-width: none; margin: auto; padding: 30px; border: 1px solid var(--color-border-strong); border-radius: 30px; background: var(--color-surface-1); color: var(--color-text-primary); box-shadow: var(--elevation-pop); }
+.bi-dialog::backdrop { background: rgba(0, 0, 0, .72); }
+.bi-dialog form { display: grid; gap: 18px; }
+.bi-dialog p { font-size: 19px; line-height: 1.4; }
+.bi-dialog .bi-bigic { width: 64px; height: 64px; border-radius: 22px; }
+
+/* ---------- Sign-in and access states (SessionPanel layout="split") ---------- */
+.bi-auth { display: grid; grid-template-columns: minmax(0, 540px) minmax(0, 1fr); gap: 16px; min-height: calc(100dvh - 96px); margin: 0 -16px; }
+.bi-auth-l { display: flex; flex-direction: column; padding: 38px 40px; border: 1px solid #1a1a1d; border-radius: var(--bi-r-xl); background: var(--color-surface-1); }
+.bi-auth-l h2 { font-size: 44px; line-height: 1; font-weight: var(--weight-medium); letter-spacing: -.035em; }
+.bi-auth-for { margin-top: 12px !important; color: var(--color-text-muted); font-size: 14px; }
+.bi-auth-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 34px; }
+.bi-auth .m01-google { display: flex; align-items: center; justify-content: center; gap: 12px; height: 56px; margin-top: 30px; border-radius: 999px; background: #fff; color: #000; font-size: 15px; font-weight: var(--weight-semibold); text-decoration: none; transition: box-shadow var(--duration-fast) var(--ease-standard), background var(--duration-fast) var(--ease-standard); }
+.bi-auth .m01-google:hover { background: var(--bi-paper); box-shadow: 0 0 0 5px rgba(255, 255, 255, .16); }
+.bi-auth .m01-google[aria-disabled="true"] { pointer-events: none; opacity: .5; }
+.bi-auth .m01-divider { display: flex; align-items: center; gap: 14px; margin: 24px 0 16px; color: var(--color-text-muted); font-size: 13px; }
+.bi-auth .m01-divider::before, .bi-auth .m01-divider::after { content: ""; flex: 1; height: 1px; background: var(--color-border-strong); }
+.bi-auth form { display: grid; gap: 14px; }
+.bi-auth form fieldset { display: grid; gap: 14px; }
+.bi-auth form label { color: var(--color-text-muted); font-size: 12.5px; margin-bottom: -6px; }
+.bi-auth form [data-slot="button"] { width: 100%; height: 52px; min-height: 52px; margin-top: 8px; font-size: 15px; }
+.bi-auth-foot { margin-top: auto !important; padding-top: 24px; }
+.bi-auth-state { display: grid; gap: 16px; margin-top: 12px; }
+.bi-auth-state p { color: var(--color-text-secondary); font-size: 16px; line-height: 1.5; }
+.bi-auth-state .bi-meta { font-size: 13px; }
+.bi-auth-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 26px; }
+.bi-auth-r { position: relative; display: flex; flex-direction: column; overflow: hidden; padding: 34px 36px; border-radius: var(--bi-r-xl); color: var(--bi-ink);
+  background: radial-gradient(120% 90% at 0% 0%, var(--color-accent) 0%, #5fe0a0 22%, #bdf0d6 45%, #e9f5ee 66%, var(--bi-paper) 100%); }
+.bi-auth-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.bi-auth-chips span { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: 999px; background: rgba(255, 255, 255, .6); font-size: 12.5px; }
+.bi-auth-chips span:first-child { background: #fff; }
+.bi-auth-chips span:first-child::before { content: ""; width: 7px; height: 7px; border-radius: 9px; background: #000; }
+.bi-auth-hl { max-width: 760px; margin-top: 26px !important; font-size: 56px; line-height: 1.02; letter-spacing: -.04em; font-weight: var(--weight-medium); }
+.bi-auth-hl em { font-style: italic; font-weight: 700; }
+.bi-auth-sub { max-width: 560px; margin-top: 14px !important; color: var(--bi-ink-2); font-size: 16px; }
+.bi-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: auto; padding: 16px; border-radius: 26px; background: #fff; box-shadow: 0 30px 60px -30px rgba(0, 60, 30, .35); list-style: none; }
+.bi-board > li > p { display: flex; justify-content: space-between; padding: 4px 6px 6px; color: var(--bi-ink-3); font-size: 13px; }
+.bi-board > li > p b { color: var(--bi-ink); font-weight: var(--weight-semibold); }
+.bi-blk { margin-bottom: 8px; padding: 12px 13px; border-radius: 16px; color: var(--bi-ink); font-size: 13px; }
+.bi-blk small { display: block; margin-top: 4px; color: var(--bi-ink-3); font-size: 11.5px; }
+.bi-blk-a { background: #d9f7e8; } .bi-blk-b { background: #b8f2d3; } .bi-blk-c { background: #ededea; }
+.bi-blk-d { background: var(--bi-ink); color: #fff; } .bi-blk-d small { color: var(--color-text-muted); }
+.bi-blk-e { background: #f6f6f3; border: 1px dashed var(--bi-paper-line); }
+/* Beside the 540px form column the canvas is too narrow for four lanes until wide screens. */
+@media (min-width: 1024px) and (max-width: 1279px) { .bi-board { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- Modal surfaces ---------- */
+/* Side sheets and dialogs portal to <body> at the template's z-50, under the sticky top bar (--z-topbar). The released
+   modules' sheets and dialogs (.bi-portal) and their own overlay sit at the dialog layer, so they cover the shell. */
+.bi-portal { z-index: var(--z-dialog); }
+:is([data-slot="sheet-overlay"], [data-slot="dialog-overlay"]):has(+ .bi-portal) { z-index: calc(var(--z-dialog) - 1); }
+
+/* ---------- Environment label (where the app runs; fixed per build) ---------- */
+.bi-env { display: inline-flex; align-items: center; gap: 7px; flex: none; margin: 0; color: var(--color-text-muted); font-size: 12.5px; line-height: 1.2; white-space: nowrap; }
+.bi-env::before { content: ""; width: 6px; height: 6px; flex: none; border-radius: 9px; background: var(--color-warning); }
+.bi-env[data-tone="staging"]::before { background: var(--color-info); }
+.bi-env[data-tone="production"]::before { background: var(--color-accent); }
+.bi-topbar > .bi-env { margin-inline-end: 4px; }
+
+/* ---------- Project frame: back to Projects, the project's key and title, its released areas ---------- */
+.bi-project { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 28px; margin: 10px 0 30px; }
+.bi-project-head { display: flex; align-items: center; gap: 18px; flex: 1 1 28rem; min-width: 0; }
+.bi-project-back { flex: none; color: var(--color-text-primary); }
+.bi-project-id { display: grid; gap: 8px; min-width: 0; }
+.bi-project-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.bi-project-code { display: inline-flex; align-items: center; height: 26px; padding: 0 11px; border-radius: 999px; background: #fff; color: #000; font-size: 12.5px; font-weight: var(--weight-semibold); letter-spacing: .01em; }
+.bi-project-title { max-width: 40ch; font-size: 44px; line-height: 1.04; font-weight: var(--weight-medium); letter-spacing: -.03em; overflow-wrap: anywhere; text-wrap: balance; }
+.bi-project-title-muted { color: var(--color-text-muted); font-size: 28px; letter-spacing: -.02em; }
+.bi-project-sk-meta { width: 150px; height: 26px; }
+.bi-ptabnav { min-width: 0; max-width: 100%; }
+.bi-ptabnav ul { display: flex; gap: 8px; margin: -3px; padding: 3px; overflow-x: auto; list-style: none; scrollbar-width: none; }
+.bi-ptabnav ul::-webkit-scrollbar { display: none; }
+.bi-ptabnav li { flex: none; }
+.bi-ptabnav a { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border: 1px solid var(--bi-line); border-radius: 999px; background: var(--color-surface-2); color: var(--color-text-secondary); font-size: 14px; white-space: nowrap; text-decoration: none; transition: border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.bi-ptabnav a:hover { border-color: var(--color-border-strong); color: var(--color-text-primary); }
+.bi-ptabnav a[aria-current="page"] { border-color: var(--color-accent); background: var(--color-accent); color: #000; font-weight: var(--weight-semibold); }
+.bi-ptabnav a[aria-current="page"]::before { content: ""; width: 6px; height: 6px; border-radius: 9px; background: #000; }
+.bi-ptabnav a.bi-ptab-more { border-style: dashed; background: transparent; color: var(--color-text-muted); }
+
+/* ---------- Tablet and phone ---------- */
+@media (max-width: 1023px) {
+  .bi-topbar { min-height: 68px; padding: 14px 20px; }
+  .bi-topbar .bi-navpill { display: none; }
+  .bi-menu { display: inline-grid; }
+  .bi-app .shell-account .shell-account-email { display: none; }
+  .bi-main { padding: 4px 20px 40px; }
+  .bi-hero, .bi-grid2 { grid-template-columns: minmax(0, 1fr); }
+  .bi-lede { margin-inline-start: 0; }
+  .bi-kpis { gap: 22px; } .bi-kpi-n { font-size: 38px; }
+  .bi-auth { grid-template-columns: minmax(0, 1fr); margin: 0; min-height: 0; }
+  .bi-auth-r { min-height: 420px; }
+}
+@media (max-width: 639px) {
+  .bi-topbar { padding: 12px 16px; gap: 10px; }
+  .bi-brand span { display: none; }
+  /* Icon-only sign out; the button keeps its accessible name "Sign out". */
+  .bi-app .shell-account .shell-signout { width: 36px; padding: 0; font-size: 0; gap: 0; }
+  .bi-app .shell-account .shell-signout svg { width: 16px; height: 16px; }
+  .bi-brand img { height: 48px; }
+  .bi-app .shell-account .shell-avatar { width: 32px; height: 32px; }
+  .bi-app .shell-account .shell-signout { padding: 0 10px; }
+  .bi-main { padding: 4px 16px 40px; }
+  .bi-phead h1 { font-size: 44px; }
+  .bi-phead .bi-ibtn-lg { width: 44px; height: 44px; }
+  :is(.bi-app, .bi-portal) .bi-card { padding: 22px 20px; border-radius: 28px; }
+  .bi-stats { --cols: 2 !important; }
+  .bi-stat-v { font-size: 34px; }
+  .bi-two { grid-template-columns: minmax(0, 1fr); }
+  .bi-kv { grid-template-columns: minmax(0, 1fr); }
+  .bi-auth-l { padding: 26px 22px; }
+  .bi-auth-l h2 { font-size: 36px; }
+  .bi-auth-hl { font-size: 38px; }
+  .bi-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bi-tab3 { height: 84px; padding: 12px 10px 0; } .bi-tab3[data-on="true"] { height: 100px; }
+  .bi-tab3 b { display: block; min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.bi-app, .bi-portal) *, :is(.bi-app, .bi-portal) *::before, :is(.bi-app, .bi-portal) *::after { animation: none !important; transition: none !important; }
+}
+.bi-auth-error { margin-top: 22px !important; }
+.bi-auth-pending { margin-top: 12px !important; }
+.bi-kpi { flex-direction: row-reverse; }
+.bi-kpis { margin: 0; }
+.bi-kpi dd { margin: 0; }
+
+/* Laptop widths: the pill navigation, the environment and the account share one row. */
+@media (min-width: 1024px) and (max-width: 1365px) {
+  .bi-topbar { gap: 10px; padding-inline: 24px; }
+  .bi-navpill .bi-navlead { display: none; }
+  .bi-navpill a { padding: 0 14px; }
+  .bi-env-more { display: none; }
+  /* Still read by assistive technology; only the avatar and Sign out show. */
+  .bi-app .shell-account .shell-account-email { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .bi-main { padding-inline: 24px; }
+}
+@media (max-width: 1023px) {
+  .bi-topbar > .bi-env { display: none; }
+  .bi-sheet-head .bi-env { white-space: normal; }
+  .bi-project { margin-bottom: 24px; }
+  .bi-project-title { font-size: 34px; }
+}
+@media (max-width: 639px) {
+  .bi-project-head { gap: 12px; flex-basis: 100%; }
+  .bi-project-back.bi-ibtn-lg { width: 44px; height: 44px; }
+  .bi-project-title { font-size: 28px; }
+  .bi-ptabnav { width: 100%; }
+  .bi-ptabnav a { height: 40px; padding: 0 15px; font-size: 13.5px; }
+}

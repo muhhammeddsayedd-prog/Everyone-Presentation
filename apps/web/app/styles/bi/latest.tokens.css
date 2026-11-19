@@ -1,0 +1,190 @@
+/* ==========================================================================
+   everyone. — LATEST design tokens (one file to drop into a new app)
+   Extracted from the Everyone Bidding staging app, 12 Nov 2026 (commit 2b26973, release d69affb).
+
+   Three layers, in this order:
+     1. Brand + semantic tokens ............ verbatim from styles/everyone.tokens.css
+     2. The "bi" layer (paper, ink, tints) . verbatim from components/brief-intake/bi-theme.css :root
+     3. Scale tokens (--ui-*) .............. NEW NAMES for literal values that bi-theme.css repeats
+                                             (radii, type sizes, control heights). The values are exact;
+                                             only the names are added here so new apps stop hard-coding them.
+
+   Dark is the default. Light theme: <html data-theme="light"> (used in Bidding only for client-facing previews).
+   Font URLs are relative to this file (../assets/fonts/). In a Next.js app, copy the fonts to public/fonts/
+   and change the URLs to /fonts/… (or use next/font/local with the same files).
+   ========================================================================== */
+
+/* ---------- Fonts ---------- */
+@font-face { font-family: "General Sans"; src: url("/fonts/GeneralSans-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "General Sans"; src: url("/fonts/GeneralSans-Semibold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "General Sans"; src: url("/fonts/GeneralSans-BoldItalic.woff2") format("woff2"); font-weight: 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans Arabic"; src: url("/fonts/IBMPlexSansArabic-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: "IBM Plex Sans Arabic"; src: url("/fonts/IBMPlexSansArabic-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: "IBM Plex Sans Arabic"; src: url("/fonts/IBMPlexSansArabic-SemiBold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF; }
+
+:root {
+  color-scheme: dark;
+
+  /* ======================= 1. Brand primitives (everyone.film) ======================= */
+  --brand-black: #000000;
+  --brand-white: #ffffff;
+  --brand-gray: #7d7f82;
+  --brand-medium-gray: #c4c4c4;
+  --brand-light-gray: rgba(245, 245, 245, 0.5);
+  --brand-light-green: #00cd6d;
+  --brand-medium-green: #00b460;
+  --brand-green: #176e45;
+
+  /* ---------- Semantic colour (dark) ---------- */
+  --color-bg: #000000;              /* the stage: true black */
+  --color-surface-1: #0b0b0c;       /* cards, inputs in bi, sheets, dialogs */
+  --color-surface-2: #141416;       /* list cards, tiles, secondary buttons */
+  --color-surface-3: #1c1c1f;       /* decision bar, neutral chips, hover */
+  --color-border: #26262a;
+  --color-border-strong: #3a3a40;   /* inputs, outlines at rest */
+  --color-overlay: rgba(0, 0, 0, 0.72);
+  --color-scrim: linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.32) 45%, rgba(0, 0, 0, 0) 75%);
+
+  --color-text-primary: #ffffff;    /* 21:1 on bg */
+  --color-text-secondary: #c4c4c4;  /* 12:1 */
+  --color-text-muted: #8e9094;      /* 6.6:1 — meta text */
+  --color-text-label: #7d7f82;      /* 5.2:1 on bg ONLY — never on surface-3 or light panels */
+  --color-text-on-accent: #000000;  /* 9.95:1 on accent */
+
+  --color-accent: #00cd6d;          /* the ONE accent */
+  --color-accent-strong: #00b460;
+  --color-accent-deep: #176e45;     /* fill with white text only; never text on dark */
+  --color-accent-soft: rgba(0, 205, 109, 0.12);
+  --color-accent-ring: rgba(0, 205, 109, 0.55);
+
+  --color-success: #00cd6d;
+  --color-warning: #f5b544;
+  --color-danger: #ff6b6b;
+  --color-info: #5aa9ff;
+  --color-success-soft: rgba(0, 205, 109, 0.14);
+  --color-warning-soft: rgba(245, 181, 68, 0.14);
+  --color-danger-soft: rgba(255, 107, 107, 0.14);
+  --color-info-soft: rgba(90, 169, 255, 0.14);
+
+  --glass-bg: rgba(245, 245, 245, 0.72);
+  --glass-bg-hover: rgba(245, 245, 245, 0.86);
+  --glass-text: #000000;
+  --glass-blur: 12px;
+
+  /* Charts — categorical (all ≥ 6.5:1 on #000) */
+  --chart-1: #00cd6d; --chart-2: #5aa9ff; --chart-3: #f5b544; --chart-4: #ff7a90;
+  --chart-5: #b48cff; --chart-6: #4fd1c5; --chart-7: #ff9f43; --chart-8: #c4c4c4;
+  /* Charts — sequential green (low → high) */
+  --chart-seq-1: #0b2a1c; --chart-seq-2: #0f4a2f; --chart-seq-3: #176e45; --chart-seq-4: #00964f;
+  --chart-seq-5: #00b460; --chart-seq-6: #00cd6d; --chart-seq-7: #6be3a6; --chart-seq-8: #b8f2d3;
+  --chart-grid: #1c1c1f; --chart-axis: #3a3a40; --chart-label: #8e9094;
+
+  /* ---------- Typography ---------- */
+  --font-sans: "General Sans", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", "General Sans", "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+  --weight-medium: 500;    /* body AND display titles */
+  --weight-semibold: 600;  /* active states, buttons, emphasis */
+  --weight-bold: 700;      /* Bold Italic: one emphasised word in a hero line only */
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-0: 0; --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px;
+  --space-6: 24px; --space-8: 32px; --space-10: 40px; --space-12: 48px; --space-16: 64px; --space-20: 80px;
+
+  /* ---------- Elevation: borders, not shadows ---------- */
+  --elevation-pop: 0 0 0 1px var(--color-border-strong), 0 16px 40px rgba(0, 0, 0, 0.6); /* overlays only */
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+
+  /* ---------- Z-index ---------- */
+  --z-base: 0; --z-sticky: 100; --z-sidebar: 200; --z-topbar: 300; --z-drawer: 400; --z-dialog: 500; --z-popover: 600; --z-toast: 700;
+
+  /* ---------- Motion ---------- */
+  --duration-fast: 120ms; --duration-base: 200ms; --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+
+  /* ======================= 2. The bi layer (verbatim) ======================= */
+  --bi-r-xl: 32px; --bi-r-lg: 26px; --bi-r-md: 20px; --bi-r-sm: 14px;
+  --bi-line: #222226;                                       /* hairline inside dark cards */
+  --bi-paper: #f2f2ef; --bi-paper-2: #e8e8e4; --bi-paper-line: #d6d6d1;   /* the light work panel */
+  --bi-ink: #0b0b0c; --bi-ink-2: #3d3f42; --bi-ink-3: #626468;             /* text on paper */
+  --bi-p-green-bg: #dff6ea; --bi-p-green-line: #bfe9d3; --bi-p-green: #0d5c37;   /* tones on paper */
+  --bi-p-warn-bg: #fbefd7;  --bi-p-warn-line: #f0d9a8;  --bi-p-warn: #7a4d00;
+  --bi-p-danger-bg: #fde3e3; --bi-p-danger-line: #f6c2c2; --bi-p-danger: #a32020;
+  --bi-p-info-bg: #e3eefc;  --bi-p-info-line: #c4daf6;  --bi-p-info: #1f5aa6;
+  --bi-on-accent-muted: #04452a;                            /* secondary text on a green fill */
+  --bi-card-bg: linear-gradient(180deg, #151517 0%, #0e0e10 100%); --bi-card-line: #1d1d21;
+
+  /* ======================= 3. Scale tokens (new names, exact shipped values) ======================= */
+  /* Radius ladder — every radius bi-theme uses */
+  --ui-radius-pill: 999px;   /* buttons, chips, nav, search, segmented, tabs */
+  --ui-radius-32: 32px;      /* = --bi-r-xl: page cards, panels, paper, empty state */
+  --ui-radius-30: 30px;      /* dialog; tab notch bottom */
+  --ui-radius-28: 28px;      /* dark detail card; cards ≤639px */
+  --ui-radius-26: 26px;      /* = --bi-r-lg: list cards (notched), decision bar */
+  --ui-radius-24: 24px;      /* nav sheet, notch corner, consent block */
+  --ui-radius-20: 20px;      /* = --bi-r-md: tiles, disclosures, list boxes, steps */
+  --ui-radius-18: 18px;      /* notices, key–value grids */
+  --ui-radius-16: 16px;      /* inputs, section-title pill, file rows */
+  --ui-radius-14: 14px;      /* = --bi-r-sm: skeleton, evidence rows, small inputs */
+  --ui-radius-12: 12px;      /* file icons, page images */
+
+  /* Type scale (size / line-height / tracking). Display sizes are Medium (500), not bold. */
+  --ui-text-display: 64px;   --ui-leading-display: 1;    --ui-tracking-display: -0.035em;  /* page title (h1) */
+  --ui-text-hero: 56px;      --ui-leading-hero: 1.02;    --ui-tracking-hero: -0.04em;      /* sign-in hero line */
+  --ui-text-kpi: 52px;       --ui-leading-kpi: 0.9;      --ui-tracking-kpi: -0.03em;       /* header KPI numbers */
+  --ui-text-stat: 44px;      --ui-leading-stat: 1.05;    --ui-tracking-stat: -0.03em;      /* card stat, project title */
+  --ui-text-title-lg: 30px;  /* detail key, sheet title */
+  --ui-text-title: 26px;     /* detail title */
+  --ui-text-card-title: 22px; /* card head h2, panel h2 */
+  --ui-text-row-title: 21px; /* list-card title */
+  --ui-text-section: 20px;   /* section title pill, section h3 */
+  --ui-text-sub: 18px;       /* sub-panel h3 */
+  --ui-text-lede: 16px;      /* page lede, body-large */
+  --ui-text-input: 15px;
+  --ui-text-body: 14px;      --ui-leading-body: 1.4;
+  --ui-text-small: 13.5px;   /* list text, segmented, view buttons */
+  --ui-text-meta: 12.5px;    /* labels, meta, help, chips */
+  --ui-text-tag: 12px;
+  --ui-text-badge: 11px;
+
+  /* Control heights */
+  --ui-control-lg: 52px;     /* sign-in submit, large button */
+  --ui-input: 50px;          /* text input / select */
+  --ui-control: 44px;        /* default button, icon button, view buttons, project tabs */
+  --ui-control-sm: 36px;     /* small button, link button, avatar */
+  --ui-chip: 26px;           /* status chip */
+  --ui-tag: 24px;
+  --ui-badge: 19px;
+
+  /* Layout */
+  --ui-content-max: 1600px;  /* .bi-main max width */
+  --ui-gutter: 32px;         /* ≥1366; 24px 1024–1365; 20px tablet; 16px phone */
+  --ui-gap: 16px;            /* default grid gap between cards */
+  --ui-card-pad: 26px 28px;  /* 22px 20px on phones */
+  --ui-topbar: 80px;         /* 68px below 1024px */
+
+  /* Interaction values that bi-theme writes literally */
+  --ui-accent-hover: #2fe08a;                       /* primary button / green card hover */
+  --ui-hover-glow: 0 0 0 5px var(--color-accent-soft); /* primary hover halo */
+  --ui-focus-glow: 0 0 0 4px var(--color-accent-soft); /* input focus halo */
+}
+
+/* ---------- Light theme (client-facing previews; optional) ---------- */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #ffffff; --color-surface-1: #f7f7f7; --color-surface-2: #efefef; --color-surface-3: #e6e6e6;
+  --color-border: #dadada; --color-border-strong: #b5b5b5; --color-overlay: rgba(0, 0, 0, 0.48);
+  --color-text-primary: #000000; --color-text-secondary: #3d3f42; --color-text-muted: #626468; --color-text-label: #626468;
+  --color-text-on-accent: #000000;
+  --color-accent: #176e45; --color-accent-strong: #0f4a2f; --color-accent-deep: #00b460;
+  --color-accent-soft: rgba(23, 110, 69, 0.10); --color-accent-ring: rgba(23, 110, 69, 0.5);
+  --color-success: #176e45; --color-warning: #9a6100; --color-danger: #c62828; --color-info: #1f66c9;
+  --chart-grid: #efefef; --chart-axis: #b5b5b5; --chart-label: #626468;
+  --elevation-pop: 0 0 0 1px var(--color-border), 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-fast: 0ms; --duration-base: 0ms; --duration-slow: 0ms; }
+}
