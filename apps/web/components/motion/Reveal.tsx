@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion, type HTMLMotionProps } from 'motion/react';
 import type { ReactNode } from 'react';
 import { list, listItem, rise } from './presets';
 
@@ -12,11 +12,13 @@ export function Reveal({ children, replay, className, as = 'div' }: { children: 
 }
 
 /** A staggered list (concept from React Bits AnimatedList, rebuilt on Motion). Rows keep their own roles. */
-export function RevealList({ children, className, as = 'ul', label }: { children: ReactNode; className?: string; as?: 'ul' | 'ol' | 'div'; label?: string }) {
-  const Tag = as === 'ol' ? motion.ol : as === 'div' ? motion.div : motion.ul;
-  return <Tag className={className} aria-label={label} variants={list} initial="hidden" animate="shown">{children}</Tag>;
+type Passthrough = Omit<HTMLMotionProps<'li'>, 'variants' | 'initial' | 'animate' | 'children' | 'className' | 'layout'>;
+export function RevealList({ children, className, as = 'ul', label, ...rest }: { children: ReactNode; className?: string; as?: 'ul' | 'ol' | 'div'; label?: string } & Passthrough) {
+  const Tag = (as === 'ol' ? motion.ol : as === 'div' ? motion.div : motion.ul) as typeof motion.ul;
+  return <Tag {...(rest as HTMLMotionProps<'ul'>)} className={className} aria-label={label} variants={list} initial="hidden" animate="shown">{children}</Tag>;
 }
-export function RevealItem({ children, className, as = 'li', layout }: { children: ReactNode; className?: string; as?: 'li' | 'div'; layout?: boolean }) {
-  const Tag = as === 'div' ? motion.div : motion.li;
-  return <Tag className={className} variants={listItem} layout={layout}>{children}</Tag>;
+/** A list row. Extra props (aria-busy, data-*, id, handlers) pass through to the element. */
+export function RevealItem({ children, className, as = 'li', layout, ...rest }: { children: ReactNode; className?: string; as?: 'li' | 'div'; layout?: boolean | 'position' } & Passthrough) {
+  const Tag = (as === 'div' ? motion.div : motion.li) as typeof motion.li;
+  return <Tag {...rest} className={className} variants={listItem} layout={layout}>{children}</Tag>;
 }

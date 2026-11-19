@@ -71,7 +71,8 @@ export function StageSlide({ deck, rendered, index, highlight, tone = 'edit', la
     return () => observer.disconnect();
   }, [width]);
   const markup = eager ? rendered.page(index) : '';
-  const mark = highlight ? `[data-fit-field="${escapeAttribute(highlight)}"],[data-fit-field^="${escapeAttribute(highlight)}."]{outline:6px solid ${TONES[tone][0]};outline-offset:8px;border-radius:6px;background:${TONES[tone][1]}}` : '';
+  const target = highlight ? `[data-fit-field="${escapeAttribute(highlight)}"],[data-fit-field^="${escapeAttribute(highlight)}."]` : '';
+  const mark = highlight ? `${target}{outline:6px solid ${TONES[tone][0]};outline-offset:8px;border-radius:6px;background:${TONES[tone][1]}}@media (prefers-reduced-motion:no-preference){:is(${target}){animation:eps-mark-in .2s cubic-bezier(0,0,0,1)}}@keyframes eps-mark-in{from{outline-color:transparent;outline-offset:20px}}` : '';
   useEffect(() => {
     const element = host.current; if (!element || !eager) return;
     const root = element.shadowRoot ?? element.attachShadow({ mode: 'open' });
