@@ -1,18 +1,21 @@
 import referenceRegistry from '../../packages/templates/versions/1.4.0/registry.json';
+import captionedRegistry from '../../packages/templates/versions/1.4.1/registry.json';
 import type { PictureState, PresentationContext, PresentationScene, ReviewSlide, WorkspaceReview } from '../../packages/domain/src/review-types.ts';
 import { slideWordingFields } from '../../packages/domain/src/casting-types.ts';
 
 /** Synthetic template 1.4.0 reviews (no real people): roles with slots of Main/Backup/Option people,
  * optional scenes, notes and presentation portraits. Every identifier is deterministic. */
 export const refId = (n: number) => `60000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
-export interface RefPerson { position: 'main' | 'backup' | 'option'; name?: string; frame?: boolean; portrait?: 'frame' | 'photo' | null; state?: PictureState; focal?: [number, number] /* thousandths */ }
+export interface RefPerson { position: 'main' | 'backup' | 'option'; name?: string; age?: string; height?: string; frame?: boolean; portrait?: 'frame' | 'photo' | null; state?: PictureState; focal?: [number, number] /* thousandths */ }
 export interface RefRole { name: string; slots: RefPerson[][]; note?: string | null; slotNotes?: (string | null)[] }
 export interface RefScene { title: string; sequence?: string | null; setting?: string | null; occurrences: { role: number; display?: string | null; setting?: string | null; note?: string | null; placement?: 'auto' | 'repeat' | 'hidden' }[] }
-export interface RefOptions { scenes?: RefScene[]; output?: 'shortlist' | 'selection'; coverNote?: string | null; logo?: boolean; projectName?: string }
+export interface RefOptions { scenes?: RefScene[]; output?: 'shortlist' | 'selection'; coverNote?: string | null; logo?: boolean; projectName?: string; template?: typeof referenceTemplate }
 
 const requirements = () => ({ age_range: null, gender_requirement: null, appearance_performance: null, languages: [], accents: [], skills: [], scene_references: [], shoot_dates: [], location: null, availability_requirements: null, other_instructions: null });
 const blank = () => Object.fromEntries(slideWordingFields.map(key => [key, 'Not provided'])) as ReviewSlide['fields'];
 export const referenceTemplate = { key: referenceRegistry.key, version: referenceRegistry.version, content_sha256: referenceRegistry.content_sha256, font_key: referenceRegistry.font_key };
+/** Template 1.4.1: the same pages with name, age and height under each portrait. */
+export const captionedTemplate = { key: captionedRegistry.key, version: captionedRegistry.version, content_sha256: captionedRegistry.content_sha256, font_key: captionedRegistry.font_key };
 
 /** Asset identities: frame of person p = refId(5000 + p), its video refId(6000 + p), photo refId(7000 + p), logo refId(9000). */
 export function referenceReview(roles: RefRole[], options: RefOptions = {}): WorkspaceReview {
@@ -29,7 +32,7 @@ export function referenceReview(roles: RefRole[], options: RefOptions = {}): Wor
         return;
       }
       for (const item of slot) {
-        const p = ++person; const fields = { ...blank(), name_or_id: item.name ?? `Synthetic Person ${p}` };
+        const p = ++person; const fields = { ...blank(), name_or_id: item.name ?? `Synthetic Person ${p}`, ...item.age !== undefined ? { age_or_range: item.age } : {}, ...item.height !== undefined ? { height_measurements: item.height } : {} };
         const frame = item.frame === false ? [] : [{ asset_id: refId(5000 + p), source_asset_id: refId(6000 + p), timestamp_ms: 1000, width: 1080, height: 1920, sha256: 'a'.repeat(63) + (p % 10) }];
         slides.push({ ...base, kind: 'candidate', assignment_id: refId(2000 + p), workspace_candidate_id: refId(3000 + p), candidate_id: refId(4000 + p), candidate_media_id: frame.length ? refId(8000 + p) : null,
           position: item.position, review_status: 'reviewed', assignment_row_version: 1, workspace_candidate_row_version: 1, candidate_row_version: 1,
@@ -45,7 +48,7 @@ export function referenceReview(roles: RefRole[], options: RefOptions = {}): Wor
   const output = options.output ?? 'shortlist'; const candidates = slides.filter(slide => slide.kind === 'candidate');
   return { workspace_id: refId(1), series_id: refId(2), input_fingerprint: 'c'.repeat(64), draft_revision: 1, output_type: output,
     candidate_slide_count: candidates.length, pending_slide_count: slides.length - candidates.length, issues: [], can_generate: false, unreviewed_candidate_ids: [],
-    template: referenceTemplate, cover: { project_name: options.projectName ?? 'Synthetic Launch', client_name: 'Synthetic Client', title: 'Cast Shortlist', output_type: output, logo_asset_id: options.logo ? refId(9000) : null, logo_placement: 'cover' },
+    template: options.template ?? referenceTemplate, cover: { project_name: options.projectName ?? 'Synthetic Launch', client_name: 'Synthetic Client', title: 'Cast Shortlist', output_type: output, logo_asset_id: options.logo ? refId(9000) : null, logo_placement: 'cover' },
     slides, fit: { status: 'unmeasured', input_fingerprint: null, measured_at: null, overflows: [], error_code: 'FIT_MEASUREMENT_REQUIRED' },
     presentation: { cover_note: options.coverNote ?? null, scenes, slides: contexts } };
 }

@@ -7,18 +7,20 @@ import { EDITORIAL_CSS, fontFaceCss, PUBLIC_FONT_FACES, renderPageMarkup } from 
 import { EDITORIAL_CSS as SLOT_CSS, renderPageMarkup as renderSlotPage } from '../../../../packages/templates/versions/1.3.0/html';
 import { EDITORIAL_CSS as REFERENCE_CSS, renderPageMarkup as renderReferencePage } from '../../../../packages/templates/versions/1.4.0/html';
 import type { Deck as ReferenceDeck } from '../../../../packages/templates/versions/1.4.0/deck';
+import { EDITORIAL_CSS as CAPTIONED_CSS, renderPageMarkup as renderCaptionedPage } from '../../../../packages/templates/versions/1.4.1/html';
+import type { Deck as CaptionedDeck } from '../../../../packages/templates/versions/1.4.1/deck';
 import type { LoadedAsset } from '../EditorialSlide';
 import type { StageDeck } from './stage-pages';
 
 /** Public copies of the pinned print fonts. Older templates name their faces Latin/Arabic. */
 const LEGACY_FONTS = ([['Latin', 'IBMPlexSans'], ['Arabic', 'IBMPlexSansArabic']] as const).flatMap(([family, file]) =>
   ([[400, 'Regular'], [500, 'Medium'], [600, 'SemiBold']] as const).map(([weight, name]) => ({ family, weight, source: `/fonts/${file}-${name}.woff2` })));
-const CANVAS = { '1.0.0': [1600, 900], '1.1.0': [1600, 900], '1.2.0': [1920, 1080], '1.3.0': [1920, 1080], '1.4.0': [1920, 1080] } as const;
+const CANVAS = { '1.0.0': [1600, 900], '1.1.0': [1600, 900], '1.2.0': [1920, 1080], '1.3.0': [1920, 1080], '1.4.0': [1920, 1080], '1.4.1': [1920, 1080] } as const;
 export const canvasOf = (deck: StageDeck) => CANVAS[deck.template];
 
 function ensureFonts(template: StageDeck['template']) {
   // @font-face must live in the document: browsers ignore font rules inside a shadow root.
-  const editorial = template === '1.2.0' || template === '1.3.0' || template === '1.4.0';
+  const editorial = template === '1.2.0' || template === '1.3.0' || template === '1.4.0' || template === '1.4.1';
   const id = editorial ? 'ef-editorial-fonts' : 'eps-legacy-template-fonts';
   if (document.getElementById(id)) return;
   const style = document.createElement('style'); style.id = id;
@@ -37,11 +39,12 @@ export function useRenderedDeck(deck: StageDeck, assets: Record<string, LoadedAs
   return useMemo(() => renderDeck(deck, assets), [deck, assets]);
 }
 export function renderDeck(deck: StageDeck, assets: Record<string, LoadedAsset>, options: RenderOptions = {}): RenderedDeck {
-  if (deck.template === '1.2.0' || deck.template === '1.3.0' || deck.template === '1.4.0') {
+  if (deck.template === '1.2.0' || deck.template === '1.3.0' || deck.template === '1.4.0' || deck.template === '1.4.1') {
     const imageSources = Object.fromEntries(Object.entries(assets).map(([id, asset]) => [id, asset.url])); const cache = new Map<number, string>();
-    const markup = (index: number) => deck.template === '1.4.0' ? renderReferencePage(deck.deck as unknown as ReferenceDeck, index, { imageSources, videoHrefs: options.videoHrefs })
+    const markup = (index: number) => deck.template === '1.4.1' ? renderCaptionedPage(deck.deck as unknown as CaptionedDeck, index, { imageSources, videoHrefs: options.videoHrefs })
+      : deck.template === '1.4.0' ? renderReferencePage(deck.deck as unknown as ReferenceDeck, index, { imageSources, videoHrefs: options.videoHrefs })
       : deck.template === '1.3.0' ? renderSlotPage(deck.deck, index, { imageSources, videoHrefs: options.videoHrefs }) : renderPageMarkup(deck.deck as Parameters<typeof renderPageMarkup>[0], index, { imageSources, videoHrefs: options.videoHrefs });
-    return { css: deck.template === '1.4.0' ? REFERENCE_CSS : deck.template === '1.3.0' ? SLOT_CSS : EDITORIAL_CSS, count: deck.deck.pages.length, page: index => {
+    return { css: deck.template === '1.4.1' ? CAPTIONED_CSS : deck.template === '1.4.0' ? REFERENCE_CSS : deck.template === '1.3.0' ? SLOT_CSS : EDITORIAL_CSS, count: deck.deck.pages.length, page: index => {
       if (!cache.has(index)) cache.set(index, index < deck.deck.pages.length ? `<div class="ef-deck">${markup(index)}</div>` : '');
       return cache.get(index)!;
     } };

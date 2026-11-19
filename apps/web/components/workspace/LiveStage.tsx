@@ -14,7 +14,7 @@ import { useWorkspaceDraft } from './WorkspaceDraftProvider';
 
 const NO_ASSETS: Record<string, LoadedAsset> = {};
 /** Templates the live stage draws: the current one and the earlier slot-page template. */
-const STAGE_TEMPLATES: readonly string[] = ['1.4.0', '1.3.0'];
+const STAGE_TEMPLATES: readonly string[] = ['1.4.1', '1.4.0', '1.3.0'];
 const outputTitle = (output: 'selection' | 'shortlist') => output === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
 const fetchMedia: AssetFetch = (id, signal) => fetch(`/api/v1/media/${encodeURIComponent(id)}/content`, { cache: 'no-store', signal, headers: { Accept: 'image/*' } });
 
@@ -24,7 +24,7 @@ export function LiveStage() {
   const draft = useWorkspaceDraft();
   const [choice, setChoice] = useState<string>('auto');
   const output = draft?.output ?? 'selection';
-  // The draft is drawn in the selected series' own template (1.3.0 or 1.4.0); without a series, in the Studio default
+  // The draft is drawn in the selected series' own template (1.3.0, 1.4.0 or 1.4.1); without a series, in the Studio default
   // when it is one of those, else in the current template. The Standard/Scene view never changes the composition.
   const series = useMemo(() => (draft?.series ?? []).filter(row => row.output_type === output && STAGE_TEMPLATES.includes(row.template_version) && supportedTemplate(row.template_version)), [draft?.series, output]);
   const chosen = choice === 'default' ? null : series.find(row => row.id === choice) ?? (choice === 'auto' ? series.find(row => isCurrentTemplate(row.template_version)) ?? series[0] ?? null : null);
@@ -107,5 +107,5 @@ function StageView({ deck, paused, notes, previewOnly, choice, onChoice, seriesO
       {draft.stale && <div className="notice stage-notice"><p>{draft.stale}</p><button className="button button-small" type="button" disabled={draft.refreshing} onClick={() => draft.refresh(true)}>Retry</button></div>}
       {(failed.length > 0 || notes.includes('frames')) && <p className="stage-note small"><Icon name="info" />{failed.length > 0 ? `${failed.length} image${failed.length === 1 ? '' : 's'} could not be opened for the preview. ` : ''}{notes.includes('frames') ? 'Frames that are not part of the selected introduction are left out, as generation would.' : ''}</p>}
     </>}
-    disclaimer={<>Draft preview in {deck.template === '1.3.0' || deck.template === '1.4.0' ? `Everyone Film Editorial ${deck.template}` : templateName(deck.template)}, recomputed from saved records and your unsaved edits. Checks, layout fit and the saved PDF come from Review.</>} />;
+    disclaimer={<>Draft preview in {deck.template === '1.3.0' || deck.template === '1.4.0' || deck.template === '1.4.1' ? `Everyone Film Editorial ${deck.template}` : templateName(deck.template)}, recomputed from saved records and your unsaved edits. Checks, layout fit and the saved PDF come from Review.</>} />;
 }

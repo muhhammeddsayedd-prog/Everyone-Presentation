@@ -9,6 +9,7 @@ import completeRegistry from '../../../../packages/templates/versions/1.1.0/regi
 import editorialRegistry from '../../../../packages/templates/versions/1.2.0/registry.json';
 import slotRegistry from '../../../../packages/templates/versions/1.3.0/registry.json';
 import referenceRegistry from '../../../../packages/templates/versions/1.4.0/registry.json';
+import captionedRegistry from '../../../../packages/templates/versions/1.4.1/registry.json';
 
 /** Saved workspace records the live preview is projected from. Every value comes from the API; nothing is invented. */
 export interface DraftSource {
@@ -19,7 +20,7 @@ export interface DraftSource {
   candidates: Record<string, Candidate>;
   /** Introductions by candidate id. Only people whose selected material is needed are loaded. */
   media: Record<string, CandidateMedia[]>;
-  /** Confirmed scenes in order (template 1.4.0), when the scene API provides them. */
+  /** Confirmed scenes in order (templates 1.4.0 and 1.4.1), when the scene API provides them. */
   scenes?: PresentationScene[];
 }
 /** A scene as the scenes API lists it. `status` may also read 'rejected' (always archived) on newer databases. */
@@ -59,7 +60,7 @@ export const draftKey = {
 };
 export interface DraftMaterial { mediaId: string | null; frames: string[] }
 
-export const TEMPLATE_REGISTRY: Record<string, TemplateIdentity> = Object.fromEntries([legacyRegistry, completeRegistry, editorialRegistry, slotRegistry, referenceRegistry]
+export const TEMPLATE_REGISTRY: Record<string, TemplateIdentity> = Object.fromEntries([legacyRegistry, completeRegistry, editorialRegistry, slotRegistry, referenceRegistry, captionedRegistry]
   .map(row => [row.version, { key: row.key, version: row.version, content_sha256: row.content_sha256, font_key: row.font_key }]));
 export const supportedTemplate = (version: string) => Object.hasOwn(TEMPLATE_REGISTRY, version);
 
@@ -131,7 +132,7 @@ export function buildDraftReview(source: DraftSource, overlay: DraftOverlay, con
     slide.fields = fields;
   }
   const output = context.output;
-  const presentation = template.version === '1.4.0' ? { presentation: draftPresentation(source, context, slides) } : {};
+  const presentation = template.version === '1.4.0' || template.version === '1.4.1' ? { presentation: draftPresentation(source, context, slides) } : {};
   return { notes: [...new Set(notes)], review: { ...presentation, output_type: output, template, slides, candidate_slide_count: slides.filter(slide => slide.kind === 'candidate').length, pending_slide_count: slides.filter(slide => slide.kind === 'pending').length,
     cover: { project_name: textOr(overlay, draftKey.projectName, source.project.name) ?? source.project.name, client_name: textOr(overlay, draftKey.clientName, source.project.client_name), title: context.title, output_type: output,
       logo_asset_id: source.workspace.logo_asset_id, logo_placement: (has(overlay, draftKey.logoPlacement) ? overlay[draftKey.logoPlacement] : source.workspace.logo_placement) as 'cover' | 'every_slide' } } };

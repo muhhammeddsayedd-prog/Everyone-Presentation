@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { CURRENT_TEMPLATE, isCurrentTemplate, isGenerationTemplate, templateName } from '../workspace/template-names';
+import { CURRENT_TEMPLATE, isCurrentTemplate, isGenerationTemplate, isPortraitTemplate, templateName } from '../workspace/template-names';
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import type { AiSuggestion, AudiencePreset, CandidateMedia, PresentationSeries, ReviewJobAccepted, ReviewSlide, WorkspaceReview } from '@eps/domain';
 import { slideWordingFields, type SlideWordingField } from '../../../../packages/domain/src/casting-types.ts';
@@ -25,7 +25,8 @@ type Issue = WorkspaceReview['issues'][number];
 type InspectorTab = 'facts' | 'video' | 'wording';
 
 const editorialLabels: Record<string, string> = { role_name: 'Role / slot title', project_name: 'Cover title', client_name: 'Client name', title: 'Presentation title', layout: 'Page layout',
-  'presentation.subtitle': 'Page subtitle (scene | setting | role)', 'presentation.note': 'Highlighted note', cover_note: 'Cover note', scene_title: 'Scene divider' };
+  'presentation.subtitle': 'Page subtitle (scene | setting | role)', 'presentation.note': 'Highlighted note', cover_note: 'Cover note', scene_title: 'Scene divider',
+  'presentation.caption_name': 'Name under the portrait', 'presentation.caption_details': 'Age | height under the portrait' };
 export function fitFieldLabel(field: string) {
   const key = field.replace(/^requirements\./, '');
   return REVIEW_FIELD_LABELS[field as SlideWordingField] ?? PENDING_REQUIREMENT_LABELS[key as keyof typeof PENDING_REQUIREMENT_LABELS] ?? editorialLabels[field] ?? field;
@@ -267,9 +268,9 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
           <option value="">Choose or create a series</option>{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} · {templateName(row.template_version)}</option>)}</select>
         {earlierSeries > 0 && <p className="small muted">{earlierSeries === 1 ? '1 series uses' : `${earlierSeries} series use`} an earlier template; {earlierSeries === 1 ? 'its' : 'their'} saved versions stay in <Link href="/presentations">Presentations</Link>.</p>}
         {selectedSeries && !isGenerationTemplate(selectedSeries.template_version) && <p className="small" role="status">This linked series uses an earlier template. Create a series to present with {templateName(CURRENT_TEMPLATE)}.</p>}
-        {selectedSeries && isGenerationTemplate(selectedSeries.template_version) && !isCurrentTemplate(selectedSeries.template_version) && <p className="small muted" role="status">This series keeps {templateName(selectedSeries.template_version)}. Archive photos and the reference layout need a series with {templateName(CURRENT_TEMPLATE)}.</p>}
+        {selectedSeries && isGenerationTemplate(selectedSeries.template_version) && !isCurrentTemplate(selectedSeries.template_version) && <p className="small muted" role="status">This series keeps {templateName(selectedSeries.template_version)}. {isPortraitTemplate(selectedSeries.template_version) ? 'Names, ages and heights under the portraits need' : 'Archive photos and the reference layout need'} a series with {templateName(CURRENT_TEMPLATE)}.</p>}
         {selectedSeries && <p className="small muted">{outputName(selectedSeries.output_type)} · Audience: {selectedSeries.audience_snapshot.label} ({selectedSeries.audience_snapshot.scope === 'external' ? 'guests see shared feedback only' : 'internal only'}) · {templateName(selectedSeries.template_version)}</p>}
-        {selectedSeries && selectedSeries.template_version === '1.4.0' && <form className="review-cover-note" onSubmit={event => { event.preventDefault(); saveCoverNote(shownCoverNote.trim() || null); }}>
+        {selectedSeries && isPortraitTemplate(selectedSeries.template_version) && <form className="review-cover-note" onSubmit={event => { event.preventDefault(); saveCoverNote(shownCoverNote.trim() || null); }}>
           <label>Cover note<input type="text" maxLength={500} value={shownCoverNote} placeholder="e.g. Pending Availability." disabled={!canCreate || locked} onChange={event => { setCoverNote(event.target.value); setCoverNoteDirty(true); }} /></label>
           <p className="small muted">Printed highlighted on the cover of this series&apos; next version. Leave empty for no note.</p>
           <span className="button-row"><button className="button button-small" type="submit" disabled={!canCreate || locked || !coverNoteDirty}>Save cover note</button>
@@ -280,8 +281,9 @@ function ReviewScope({ workspaceId, projectId, actor, initialOutput, requestedSe
           <p className="small muted">New series use the Studio&apos;s default review audience{defaultPreset ? <> ({defaultPreset.label})</> : null} and {templateName(CURRENT_TEMPLATE)}; an existing matching series is reused. A different review context (for example Agency) is chosen in Share and keeps its own series.</p>
           {noDefault && <div className="notice notice-warning" role="status" data-testid="audience-default-recovery"><p>{defaultAudience && !defaultPreset && !audienceMissing ? 'The default review audience in Settings is no longer available.' : 'No default review audience is set yet.'} Choose the Client audience as the default in Settings, then create the series here. To review with a different audience, choose a review context in Share.</p>
             <span className="button-row"><Link className="button button-small" href="/settings#studio-defaults">Choose default audience in Settings</Link><Link className="button button-small button-quiet" href={`${base}/share`}>Open Share</Link></span></div>}
-          {defaultTemplate !== null && !isCurrentTemplate(defaultTemplate) && <div className="notice notice-warning" role="status"><p>The Studio default is still {templateName(defaultTemplate)}, so a new series would not use {templateName(CURRENT_TEMPLATE)}. A Studio manager selects it in Settings.</p><Link className="button button-small" href="/settings#studio-defaults">Open Settings</Link></div>}
-          <button className="button" type="button" disabled={!canCreate || loading || (defaultTemplate !== null && !isCurrentTemplate(defaultTemplate))} onClick={() => void createSeries()}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}
+          {defaultTemplate !== null && !isCurrentTemplate(defaultTemplate) && <div className="notice notice-warning" role="status">{isPortraitTemplate(defaultTemplate) ? <p>The Studio default is still {templateName(defaultTemplate)}, so a new series uses it, not {templateName(CURRENT_TEMPLATE)}. A Studio manager selects {templateName(CURRENT_TEMPLATE)} in Settings.</p>
+            : <p>The Studio default is still {templateName(defaultTemplate)}, so a new series would not use {templateName(CURRENT_TEMPLATE)}. A Studio manager selects it in Settings.</p>}<Link className="button button-small" href="/settings#studio-defaults">Open Settings</Link></div>}
+          <button className="button" type="button" disabled={!canCreate || loading || (defaultTemplate !== null && !isPortraitTemplate(defaultTemplate))} onClick={() => void createSeries()}>Create / reuse review series</button>{!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}
         </details>
       </fieldset>
     </section>

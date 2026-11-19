@@ -6,7 +6,7 @@ import { expect, test, type Page } from '@playwright/test';
 const workspace = '9a000000-0000-4000-8000-000000000001', project = '9a000000-0000-4000-8000-000000000002';
 const client = { id: '9a000000-0000-4000-8000-000000000011', key: 'client', label: 'Client', scope: 'external', settings: {}, archived: false, row_version: 1 };
 const agency = { id: '9a000000-0000-4000-8000-000000000012', key: 'agency', label: 'Agency', scope: 'internal', settings: {}, archived: false, row_version: 1 };
-const template = { key: 'everyone-casting', version: '1.4.0', content_sha256: 'c'.repeat(64), font_key: 'everyone-film-fonts-v1' };
+const template = { key: 'everyone-casting', version: '1.4.1', content_sha256: 'c'.repeat(64), font_key: 'everyone-film-fonts-v1' };
 const seriesDto = (id: string, audience: typeof client, title = 'Cast Shortlist') => ({ id, workspace_id: workspace, output_type: 'shortlist', audience_preset_id: audience.id, audience_snapshot: audience, title,
   latest_ready_version_id: null, latest_ready_version_no: null, row_version: 1, archived: false, template_key: template.key, template_version: template.version, template_content_sha256: template.content_sha256, font_key: template.font_key, cover_note: null });
 
@@ -20,7 +20,7 @@ async function mock(page: Page, options: Options) {
     if (path === `/api/v1/projects/${project}`) return ok({ id: project, name: 'Synthetic launch', client_name: null, client_id: null, row_version: 1, can_edit: false });
     if (path === `/api/v1/workspaces/${workspace}`) return ok({ id: workspace, project_id: project, module: 'casting', title: 'Synthetic launch', active_output: 'shortlist', row_version: 1, draft_revision: 1, has_unpublished_changes: false });
     if (path === '/api/v1/audience-presets') return ok([client, agency]);
-    if (path === '/api/v1/settings') return ok({ template_version: '1.4.0', default_timezone: 'Africa/Cairo', default_review_expiry_days: 30, models: {}, row_version: 1, default_audience_preset_id: options.defaultAudience });
+    if (path === '/api/v1/settings') return ok({ template_version: '1.4.1', default_timezone: 'Africa/Cairo', default_review_expiry_days: 30, models: {}, row_version: 1, default_audience_preset_id: options.defaultAudience });
     if (path === '/api/v1/presentation-series' && request.method() === 'GET') return ok(series);
     if (path === '/api/v1/presentation-series' && request.method() === 'POST') {
       const body = request.postDataJSON(); posts.push(body);
@@ -80,7 +80,7 @@ test('Share review context creates a separate series for another audience withou
   expect(h.posts).toHaveLength(1);
 });
 
-test('Settings saves the default review audience and offers template 1.4.0', async ({ page }) => {
+test('Settings saves the default review audience and offers template 1.4.1', async ({ page }) => {
   const patches: Record<string, unknown>[] = []; let saved: Record<string, unknown> = { template_version: '1.3.0', default_timezone: 'Africa/Cairo', default_review_expiry_days: 30, models: {}, row_version: 1, default_audience_preset_id: null };
   await page.route('**/api/**', async route => {
     const request = route.request(), path = new URL(request.url()).pathname;
@@ -93,11 +93,35 @@ test('Settings saves the default review audience and offers template 1.4.0', asy
   });
   await page.goto('/settings');
   await expect(page.getByLabel('Default review audience')).toHaveValue('');
-  await expect(page.getByText('The saved default is an earlier template. Choose Everyone Film Editorial 1.4.0 and save.')).toBeVisible();
-  await page.getByLabel('Default presentation template').selectOption('1.4.0');
+  await expect(page.getByText('The saved default is an earlier template. Choose Everyone Film Editorial 1.4.1 and save.')).toBeVisible();
+  await page.getByLabel('Default presentation template').selectOption('1.4.1');
   await page.getByLabel('Default review audience').selectOption(client.id);
   await page.getByRole('button', { name: 'Save defaults', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Studio defaults saved.' })).toBeVisible();
-  expect(patches).toEqual([{ row_version: 1, default_timezone: 'Africa/Cairo', template_version: '1.4.0', default_audience_preset_id: client.id }]);
+  expect(patches).toEqual([{ row_version: 1, default_timezone: 'Africa/Cairo', template_version: '1.4.1', default_audience_preset_id: client.id }]);
   await expect(page.getByLabel('Default review audience')).toHaveValue(client.id);
+});
+
+test('a saved 1.4.0 default stays selectable; Settings offers 1.4.1 (name, age and height under portraits) as the new template', async ({ page }) => {
+  const patches: Record<string, unknown>[] = []; let saved: Record<string, unknown> = { template_version: '1.4.0', default_timezone: 'Africa/Cairo', default_review_expiry_days: 30, models: {}, row_version: 1, default_audience_preset_id: client.id };
+  await page.route('**/api/**', async route => {
+    const request = route.request(), path = new URL(request.url()).pathname;
+    const ok = (data: unknown) => route.fulfill({ json: { request_id: 'synthetic-settings', data, page: { next_cursor: null } } });
+    if (path === '/api/session') return ok({ mode: 'supabase', actor: { id: 'synthetic-producer', name: 'Synthetic operator', capabilities: ['settings.manage', 'workspaces.read'] }, actors: [] });
+    if (path === '/api/v1/audience-presets') return ok([client, agency]);
+    if (path === '/api/v1/settings' && request.method() === 'GET') return ok(saved);
+    if (path === '/api/v1/settings' && request.method() === 'PATCH') { const body = request.postDataJSON(); patches.push(body); saved = { ...saved, ...body, row_version: 2 }; return ok(saved); }
+    return route.fulfill({ status: 404, json: { error: { code: 'RESOURCE_NOT_FOUND', message: 'Unexpected synthetic operation.' } } });
+  });
+  await page.goto('/settings');
+  const select = page.getByLabel('Default presentation template');
+  await expect(select).toHaveValue('1.4.0');
+  await expect(select.locator('option')).toHaveText(['Everyone Film Editorial 1.4.0 (no captions)', 'Everyone Film Editorial 1.4.1']);
+  await expect(page.getByText(/each person's name, age and height under their portrait/u)).toBeVisible();
+  await select.selectOption('1.4.1');
+  await page.getByRole('button', { name: 'Save defaults', exact: true }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Studio defaults saved.' })).toBeVisible();
+  // Only the template changes; the saved default audience is kept.
+  expect(patches).toEqual([{ row_version: 1, default_timezone: 'Africa/Cairo', template_version: '1.4.1' }]);
+  await expect(page.getByText('The saved default is an earlier template.', { exact: false })).toHaveCount(0);
 });

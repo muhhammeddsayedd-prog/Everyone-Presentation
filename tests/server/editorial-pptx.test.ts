@@ -127,3 +127,24 @@ test('editable PowerPoint for template 1.4.0: the 35 Floward-structured pages, p
   assert.deepEqual(new Set(reads), new Set(deck.pages.flatMap(page => page.elements.flatMap(element => element.kind === 'image' && element.source.type === 'asset' ? [element.source.asset_id] : []))));
   mkdirSync('.local/cycle7/visual/out', { recursive: true }); writeFileSync('.local/cycle7/visual/out/deck.pptx', built.bytes);
 });
+
+test('editable PowerPoint for template 1.4.1: 1.4.0 pages plus each person\'s name, age and height as centred native text', async () => {
+  const { mkdirSync, writeFileSync } = await import('node:fs');
+  const { composeCastingDeck: composeCaptioned } = await import('../../packages/templates/versions/1.4.1/compose-casting.ts');
+  const { captionedShowcase, LONG_NAME } = await import('../fixtures/captioned-review.ts'); const { referenceSnapshot } = await import('../fixtures/reference-snapshot.ts');
+  const { snapshot, images } = referenceSnapshot(captionedShowcase(), 3); const version = { ...presentationVersionFixture(snapshot), status: 'ready' as const };
+  const mimes = new Map(snapshot.asset_inventory.map(asset => [asset.asset_id, asset.mime_type])); const reads: string[] = [];
+  const built = await versionPptx(actor, version.id, service(version, images, mimes, reads), 'https://studio.example.invalid');
+  assert.equal(built.template_version, '1.4.1'); assert.equal(built.slide_count, 19);
+  const deck = composeCaptioned(reviewFromRenderSnapshot(snapshot), { versionNumber: 3 });
+  const files = unzipSync(built.bytes); const slides = Object.keys(files).filter(name => /^ppt\/slides\/slide\d+\.xml$/u.test(name)).sort((a, b) => Number(a.match(/\d+/u)) - Number(b.match(/\d+/u)));
+  assert.equal(slides.length, deck.pages.length);
+  const xml = slides.map(name => strFromU8(files[name]));
+  // Name and "age | height" are two centred paragraphs of one text box under the portrait.
+  assert.match(xml[2], /<a:pPr[^>]*algn="ctr"[^>]*>.*?Omar Haddad<\/a:t>.*?<a:pPr[^>]*algn="ctr"[^>]*>.*?34 \| 173<\/a:t>/su);
+  assert.match(xml[3], /Khalid Al-Mansour/u); assert.match(xml[3], /45 \| 182 cm/u); assert.match(xml[3], /41 \| 180</u);
+  assert.match(xml[6], new RegExp(LONG_NAME, 'u')); assert.match(xml[9], /40-50 \| 5&apos;11&quot;|40-50 \| 5'11"/u);
+  const leaked = xml.join('').match(/.{0,80}(?:Not provided|weight|kg<|Units not stated|hlinkClick).{0,20}/u); assert.equal(leaked?.[0] ?? null, null);
+  assert.equal(xml.reduce((sum, page) => sum + (page.match(/<p:pic>/gu)?.length ?? 0), 0), deck.pages.flatMap(page => page.elements).filter(element => element.kind === 'image').length);
+  if (process.env.EPS_TEMPLATE_EVIDENCE_DIR) { mkdirSync(process.env.EPS_TEMPLATE_EVIDENCE_DIR, { recursive: true }); writeFileSync(`${process.env.EPS_TEMPLATE_EVIDENCE_DIR}/deck-1.4.1.pptx`, built.bytes); }
+});

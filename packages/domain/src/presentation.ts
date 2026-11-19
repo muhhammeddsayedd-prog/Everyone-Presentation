@@ -91,8 +91,8 @@ function templateIdentity(value: unknown, fonts = false) {
   if (fonts) {
     const hashes = row.font_hashes;
     if (!hashes || typeof hashes !== 'object' || Array.isArray(hashes) || ![Object.prototype, null].includes(Object.getPrototypeOf(hashes))) invalid();
-    // 1.0/1.1 pin six IBM Plex faces; editorial 1.2.0/1.3.0/1.4.0 pin six General Sans plus three Plex Arabic faces.
-    const editorial = row.version === '1.2.0' || row.version === '1.3.0' || row.version === '1.4.0'; const count = editorial ? 9 : 6;
+    // 1.0/1.1 pin six IBM Plex faces; editorial 1.2.0/1.3.0/1.4.0/1.4.1 pin six General Sans plus three Plex Arabic faces.
+    const editorial = row.version === '1.2.0' || row.version === '1.3.0' || row.version === '1.4.0' || row.version === '1.4.1'; const count = editorial ? 9 : 6;
     const allowed = editorial ? /^apps\/web\/public\/fonts\/(?:GeneralSans-(?:Extralight|Light|Regular|Medium|Semibold|Bold)\.ttf|IBMPlexSansArabic-(?:Regular|Medium|SemiBold)\.woff2)$/u : /^apps\/web\/public\/fonts\/IBMPlexSans(?:Arabic)?-(?:Regular|Medium|SemiBold)\.woff2$/u;
     const entries = Object.entries(hashes); if (entries.length !== count || new Set(entries.map(([key]) => key)).size !== count) invalid();
     for (const [key, hash] of entries) { if (!allowed.test(key)) invalid(); digest(hash); }
@@ -163,7 +163,7 @@ function frozenAsset(value: unknown): FrozenAsset {
   } else if (row.asset_kind === 'client_logo') {
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(row.mime_type as string) || row.duration_ms !== null || row.source_asset_id !== null || row.timestamp_ms !== null || (row.byte_size as number) > 20971520) invalid();
   } else if (row.asset_kind === 'candidate_photo') {
-    // Archive/portfolio portrait (template 1.4.0 only; the snapshot checks the template).
+    // Archive/portfolio portrait (templates 1.4.0 and 1.4.1 only; the snapshot checks the template).
     if (!['image/jpeg', 'image/png', 'image/webp'].includes(row.mime_type as string) || row.bucket !== 'eps-candidate-photos' || row.duration_ms !== null || row.source_asset_id !== null || row.timestamp_ms !== null || (row.byte_size as number) > 20971520) invalid();
   } else invalid();
   return structuredClone(row) as unknown as FrozenAsset;

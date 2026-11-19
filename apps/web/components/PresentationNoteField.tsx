@@ -3,7 +3,7 @@
 import { useId, useState } from 'react';
 import { api, errorMessage, mutation } from './api';
 
-/** A template 1.4.0 presentation note on a role or slot: the highlighted "Note:" printed on that role's last page
+/** A template 1.4.0/1.4.1 presentation note on a role or slot: the highlighted "Note:" printed on that role's last page
  * (or the page with the slot's last person). Saved on its own with the record's row_version; empty clears it. */
 export function PresentationNoteField<T extends { id: string; row_version: number; presentation_note?: string | null }>({ record, path, label, canWrite, onSaved }: {
   record: T; path: string; label: string; canWrite: boolean; onSaved: (value: T) => void;
@@ -23,7 +23,7 @@ export function PresentationNoteField<T extends { id: string; row_version: numbe
   return <form className="field presentation-note-field" onSubmit={event => { event.preventDefault(); void save(shown.trim() || null); }}>
     <label htmlFor={id}>{label}</label>
     <input id={id} type="text" maxLength={500} value={shown} readOnly={!canWrite || busy} placeholder="No note" dir="auto" onChange={event => setValue(event.target.value)} />
-    <span className="small muted">Printed highlighted on the presentation page (template 1.4.0). Leave empty for no note.</span>
+    <span className="small muted">Printed highlighted on the presentation page (templates 1.4.0 and 1.4.1). Leave empty for no note.</span>
     {canWrite && <span className="button-row"><button className="button button-small" type="submit" disabled={busy || !dirty}>{busy ? 'Saving…' : 'Save note'}</button>
       {saved && <button className="button button-small button-quiet" type="button" disabled={busy} onClick={() => { setValue(''); void save(null); }}>Remove note</button>}</span>}
     {error && <span className="small" role="alert">{error}</span>}

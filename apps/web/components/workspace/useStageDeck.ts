@@ -8,7 +8,7 @@ import { renderDeck, type RenderedDeck } from './StageSlide';
 
 const NO_ASSETS: Record<string, LoadedAsset> = {};
 export const fetchWorkspaceMedia: AssetFetch = (id, signal) => fetch(`/api/v1/media/${encodeURIComponent(id)}/content`, { cache: 'no-store', signal, headers: { Accept: 'image/*' } });
-/** 1.4.0 portraits may be archive photos, which are served by the candidate-photo route (cast.read), not the media route. */
+/** 1.4.0/1.4.1 portraits may be archive photos, which are served by the candidate-photo route (cast.read), not the media route. */
 export function photoPortraitIds(deck: unknown): ReadonlySet<string> {
   const slides = (deck as { review?: { presentation?: { slides?: ({ portrait?: { source?: string; asset_id?: string } | null } | null)[] } } } | null)?.review?.presentation?.slides ?? [];
   return new Set(slides.flatMap(slide => slide?.portrait?.source === 'photo' && slide.portrait.asset_id ? [slide.portrait.asset_id] : []));

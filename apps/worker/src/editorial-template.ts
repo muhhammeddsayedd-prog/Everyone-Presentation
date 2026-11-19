@@ -8,13 +8,15 @@ import { composeCastingDeck as composeEditorial, deckCounts as countsEditorial, 
 import { composeCastingDeck as composeSlots, deckCounts as countsSlots } from '../../../packages/templates/versions/1.3.0/compose-casting.ts';
 import { composeCastingDeck as composeReference, deckCounts as countsReference } from '../../../packages/templates/versions/1.4.0/compose-casting.ts';
 import type { Deck as ReferenceDeck } from '../../../packages/templates/versions/1.4.0/deck.ts';
+import { composeCastingDeck as composeCaptioned, deckCounts as countsCaptioned } from '../../../packages/templates/versions/1.4.1/compose-casting.ts';
+import type { Deck as CaptionedDeck } from '../../../packages/templates/versions/1.4.1/deck.ts';
 import type { Deck as EditorialDeck } from '../../../packages/templates/versions/1.2.0/deck.ts';
 import type { Deck as SlotDeck } from '../../../packages/templates/versions/1.3.0/deck.ts';
 import type { TemplateAssets as EditorialAssets } from '../../../packages/templates/versions/1.2.0/render.ts';
 import { slideWordingFields } from '../../../packages/domain/src/casting-types.ts';
 
 /** Everyone Film editorial templates (1.2.0, 1.3.0 with one page per slot, 1.4.0 reproducing the
- * Floward cast shortlist) for the worker. All template-specific expectations come from each version's own composer,
+ * Floward cast shortlist, 1.4.1 adding name, age and height under each portrait) for the worker. All template-specific expectations come from each version's own composer,
  * never from constants repeated here, so fit, render, validation and the stage
  * checks cannot drift. Both versions share the canvas and the nine pinned fonts. */
 const ROOT = path.resolve(import.meta.dirname, '../../..');
@@ -26,21 +28,22 @@ function canonical(value: unknown): string {
   if (object(value)) return '{' + Object.keys(value).sort().map(key => JSON.stringify(key) + ':' + canonical(value[key])).join(',') + '}';
   return JSON.stringify(value);
 }
-/** 1.3.0's deck model is a superset of 1.2.0's (same elements, two more layouts and styles); 1.4.0 adds optional
- * owner/fit attributes only. */
+/** 1.3.0's deck model is a superset of 1.2.0's (same elements, two more layouts and styles); 1.4.0 and 1.4.1 add
+ * optional owner/fit attributes only. */
 export type Deck = SlotDeck;
 type DeckReview = Pick<WorkspaceReview, 'cover' | 'slides' | 'output_type' | 'presentation'> & { template: Pick<TemplateIdentity, 'version'> };
 type DeckOptions = Parameters<typeof composeEditorial>[1];
-export const EDITORIAL_VERSIONS = ['1.2.0', '1.3.0', '1.4.0'] as const;
+export const EDITORIAL_VERSIONS = ['1.2.0', '1.3.0', '1.4.0', '1.4.1'] as const;
 export type EditorialVersion = typeof EDITORIAL_VERSIONS[number];
 const COMPOSERS: Record<EditorialVersion, { compose: (review: Omit<DeckReview, 'template'>, options?: DeckOptions) => Deck; counts: (deck: Deck) => ReturnType<typeof countsEditorial> }> = {
   '1.2.0': { compose: (review, options) => composeEditorial(review, options) as unknown as Deck, counts: deck => countsEditorial(deck as unknown as EditorialDeck) },
   '1.3.0': { compose: composeSlots, counts: countsSlots },
   '1.4.0': { compose: (review, options) => composeReference(review, options) as unknown as Deck, counts: deck => countsReference(deck as unknown as ReferenceDeck) },
+  '1.4.1': { compose: (review, options) => composeCaptioned(review, options) as unknown as Deck, counts: deck => countsCaptioned(deck as unknown as CaptionedDeck) },
 };
-/** 1.4.0 (like the reference) draws no original-video links in the PDF; the videos stay linked in the app and guest view.
- * Earlier editorial versions draw one link per captured slide with a video. */
-export const editorialPdfLinksFollowSlides = (template: Pick<TemplateIdentity, 'version'>) => template.version !== '1.4.0';
+/** 1.4.0 and 1.4.1 (like the reference) draw no original-video links in the PDF; the videos stay linked in the app and
+ * guest view. Earlier editorial versions draw one link per captured slide with a video. */
+export const editorialPdfLinksFollowSlides = (template: Pick<TemplateIdentity, 'version'>) => template.version !== '1.4.0' && template.version !== '1.4.1';
 const rendererFiles = (version: EditorialVersion) => ['tokens.ts', 'deck.ts', 'layouts.ts', 'compose-casting.ts', 'html.ts', 'render.ts', 'pptx.ts', 'static-images.ts'].map(file => `packages/templates/versions/${version}/${file}`);
 // Bound to the module bytes loaded by this process; a changed layout needs a fresh worker.
 const LOADED_RENDERER = Object.fromEntries(EDITORIAL_VERSIONS.flatMap(version => rendererFiles(version)).map(file => [file, sha(readFileSync(path.join(ROOT, file)))]));
@@ -93,9 +96,9 @@ export function editorialSnapshotOptions(snapshot: RenderSnapshot) {
 }
 export function editorialDeck(review: DeckReview, options: DeckOptions = {}): Deck { return composer(review.template).compose(review, options); }
 /** Captured candidate slides drawn on person pages (1.2.0: one per page; 1.3.0: up to three per slot page;
- * 1.4.0: each assignment at least once on a portrait page, counted once). */
+ * 1.4.0/1.4.1: each assignment at least once on a portrait page, counted once). */
 export function editorialPersonSlides(deck: Deck) {
-  // 1.4.0 portrait pages always name their sources; 1.2.0 overview pages of the same layout names do not.
+  // 1.4.0/1.4.1 portrait pages always name their sources; 1.2.0 overview pages of the same layout names do not.
   const portraits = (deck.pages as Deck['pages']).filter(page => ['cast_main_backup', 'cast_group_strip', 'cast_single'].includes(page.layout) && (page as { sources?: number[] }).sources !== undefined);
   if (portraits.length) return new Set(portraits.flatMap(page => (page as { sources?: number[] }).sources ?? [])).size;
   return (deck.pages as Deck['pages']).filter(page => page.layout === 'cast_detail' || page.layout === 'cast_group_detail').reduce((sum, page) => sum + ((page as { sources?: number[] }).sources?.length ?? 1), 0);

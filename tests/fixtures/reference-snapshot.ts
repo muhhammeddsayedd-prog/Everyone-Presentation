@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { createCanvas } from '@napi-rs/canvas';
 import referenceRegistry from '../../packages/templates/versions/1.4.0/registry.json';
+import captionedRegistry from '../../packages/templates/versions/1.4.1/registry.json';
 import type { FrozenAsset, FrozenSlide, RenderSnapshot } from '../../packages/domain/src/presentation-types.ts';
 import type { WorkspaceReview } from '../../packages/domain/src/review-types.ts';
 import { refId } from './reference-review.ts';
@@ -29,8 +30,9 @@ function syntheticLogo() {
   return canvas.toBuffer('image/png');
 }
 
-/** Freezes a synthetic 1.4.0 review (tests/fixtures/reference-review.ts) into a render snapshot with real image bytes. */
+/** Freezes a synthetic 1.4.0 or 1.4.1 review (tests/fixtures/reference-review.ts) into a render snapshot with real image bytes. */
 export function referenceSnapshot(review: WorkspaceReview, versionNo = 3) {
+  const registry = review.template.version === '1.4.1' ? captionedRegistry : referenceRegistry;
   const images = new Map<string, Uint8Array>(); const inventory: FrozenAsset[] = []; const slides: FrozenSlide[] = [];
   const version = refId(20001); const logo = review.cover.logo_asset_id;
   const add = (asset: FrozenAsset, bytes?: Uint8Array) => { if (inventory.some(item => item.asset_id === asset.asset_id)) return; inventory.push(asset); if (bytes) images.set(asset.asset_id, bytes); };
@@ -59,7 +61,7 @@ export function referenceSnapshot(review: WorkspaceReview, versionNo = 3) {
   const snapshot: RenderSnapshot = {
     schema_version: '1.0', hash_protocol: 'eps-cast-canonical-v1', version_id: version, series_id: review.series_id, workspace_id: review.workspace_id, project_id: refId(3), version_no: versionNo,
     created_at: '2026-10-09T12:00:00.000000Z', input_workspace_row_version: 1, input_draft_revision: review.draft_revision, input_fingerprint: review.input_fingerprint,
-    template: { key: referenceRegistry.key, version: referenceRegistry.version, content_sha256: referenceRegistry.content_sha256, font_key: referenceRegistry.font_key, font_hashes: Object.fromEntries(referenceRegistry.fonts.map(font => [font.path, font.sha256])) },
+    template: { key: registry.key, version: registry.version, content_sha256: registry.content_sha256, font_key: registry.font_key, font_hashes: Object.fromEntries(registry.fonts.map(font => [font.path, font.sha256])) },
     render_configuration: { renderer_version: 'everyone-casting-pdf-v1', application_origin: 'http://127.0.0.1:3000' },
     audience_snapshot: { id: refId(4), key: 'client', label: 'Client', scope: 'external', settings: {}, archived: false, row_version: 1 },
     cover: structuredClone(review.cover), slides, asset_inventory: inventory, presentation,
