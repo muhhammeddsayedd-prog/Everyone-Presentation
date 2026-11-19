@@ -140,7 +140,7 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
     <section className="panel-section series-choice" aria-labelledby="versions-series-heading">
       <h3 id="versions-series-heading" className="panel-eyebrow">Presentation series</h3>
       <label className="sr-only" htmlFor="versions-series">Presentation series</label>
-      <select id="versions-series" aria-label="Presentation series" value={seriesId} disabled={locked || loading || choicesLoading} onChange={event => { activeSeries.current = event.target.value; contextRequest.current++; setSeriesId(event.target.value); setDraft(null); setVersions([]); setSelectedVersion(''); setLoading(true); setNotice(''); }}>
+      <select id="versions-series" aria-label="Presentation series" title={chosenSeries ? `${chosenSeries.title} · ${chosenSeries.audience_snapshot.label} · ${templateName(chosenSeries.template_version)}` : undefined} value={seriesId} disabled={locked || loading || choicesLoading} onChange={event => { activeSeries.current = event.target.value; contextRequest.current++; setSeriesId(event.target.value); setDraft(null); setVersions([]); setSelectedVersion(''); setLoading(true); setNotice(''); }}>
         {!series.length && <option value="">No saved series</option>}{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} · {templateName(row.template_version)}</option>)}</select>
       {chosenSeries && <p className="small muted">{chosenSeries.output_type === 'selection' ? 'Cast Selection' : 'Cast Shortlist'} · {chosenSeries.audience_snapshot.label} ({chosenSeries.audience_snapshot.scope}). Output, audience and template are fixed per series; change them in Review.</p>}
     </section>
