@@ -5,14 +5,14 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNod
 import type { Candidate, CandidateFacts, LibraryCandidate, WorkspaceCandidateAdded } from '@eps/domain';
 import { api, ApiError, errorMessage, mutation, type Actor } from './api';
 import { ErrorNotice, Loading } from './Feedback';
-import { CandidateFactsEditor, emptyCandidateFacts } from './CandidateFactsEditor';
+import { CandidateFactsEditor, emptyCandidateFacts, factLabels } from './CandidateFactsEditor';
 import { liveFilterDelay, liveFilterValues } from '../lib/live-search';
 import { SearchField, useLiveResults, useLiveSearch, useSettledValue } from './ui/useLiveSearch';
 import { RoleFilterSuggestions } from './RoleFilterSuggestions';
 import { Icon } from './Icon';
 import { cardCastingId, cardLines } from './candidate-card';
-import { SegmentIndicator } from './motion/SegmentIndicator';
-import { stagger } from './motion/motion';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { glide, list as listVariants, listItem, seconds, settle } from './motion/presets';
 import { PageFrame, PanelToggle } from './shell/PageFrame';
 import { CandidatePortrait } from './CandidatePortrait';
 import { useUnsavedChanges, useUnsavedEditor } from './ui/UnsavedChanges';
@@ -109,7 +109,11 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
   const activeCount = applied.length + (filters.review_status ? 1 : 0);
   function setFilter(key: string, value: string) { setFilters(current => ({ ...current, [key]: value })); }
   // Filters start closed. The page uses its filter panel; inside a workspace the facets open in place.
-  const [facetsOpen, setFacetsOpen] = useState(false); const facetsId = useId();
+  const [facetsOpen, setFacetsOpen] = useState(false); const facetsId = useId(); const layoutPill = useId();
+  // List view on the Library page: the row under the pointer or focus opens in the dark detail card (no new controls).
+  const reduce = useReducedMotion(); const [openId, setOpenId] = useState<string | null>(null);
+  const masterDetail = !workspaceId && layout === 'list';
+  const openCandidate = masterDetail ? items.find(item => item.id === openId) ?? items[0] : undefined;
   const filterToggle = workspaceId ? <button type="button" className="icon-button filter-toggle" aria-label={activeCount ? `Filters · ${activeCount} applied` : 'Filters'} aria-expanded={facetsOpen} aria-controls={facetsId} data-tip={facetsOpen ? 'Hide filters' : 'Show filters'} data-tip-side="end" onClick={() => setFacetsOpen(value => !value)}><Icon name="filter" />{activeCount > 0 && <span className="filter-toggle-count" aria-hidden="true">{activeCount}</span>}</button> : <PanelToggle />;
   const heading = <header className={workspaceId ? 'section-heading' : 'page-heading'}><div>{workspaceId ? <h2>Choose from Library</h2> : <h1>Cast Library</h1>}<p>{workspaceId ? 'Newest added first. Add as many people as you need; this stays open until you are done.' : 'Reusable supplied facts and original introductions across all projects. Missing facts stay “Not provided.”'}</p></div><div className="button-row">{canWrite && <button className={creating ? 'button' : 'button button-primary'} onClick={() => creating ? cancelManual() : setCreating(true)} disabled={busy}><Icon name={creating ? 'close' : 'plus'} />{creating ? 'Close manual entry' : 'Add manually'}</button>}{workspaceId && onDone && <button type="button" className="button" onClick={onDone}><Icon name="chevron-left" />Done · Back to project</button>}</div></header>;
   const manual = creating && <form className="panel manual-candidate" onSubmit={create}><header className="panel-header"><div><h2>Manual candidate</h2><p className="small muted">Enter only information supplied by the candidate. A video and a name are optional.</p></div></header><div className="panel-body stack"><CandidateFactsEditor facts={facts} onChange={setFacts} disabled={busy} /><div className="button-row"><button className="button button-primary" disabled={busy}>{busy ? 'Saving…' : 'Save candidate'}</button><button type="button" className="button" disabled={busy} onClick={cancelManual}>Cancel</button></div></div></form>;
@@ -125,13 +129,15 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
     <div className="cast-toolbar"><SearchField id="cast-search" label="Search cast" value={query} maxLength={500} onValueChange={setQuery} busy={loading} placeholder="Name, casting ID or supplied facts" />
       {filterToggle}
       <div className="cluster applied-filters" role="group" aria-label="Applied filters">{filters.review_status && <span className="chip on">{filters.review_status === 'reviewed' ? 'Reviewed' : 'Unreviewed'}<button type="button" aria-label="Remove Fact review filter" onClick={() => setFilter('review_status', '')}><Icon name="close" /></button></span>}{applied.map(field => <span key={field.key} className="chip on" dir="auto">{field.label}: {filters[field.key]}<button type="button" aria-label={`Remove ${field.label} filter`} onClick={() => setFilter(field.key, '')}><Icon name="close" /></button></span>)}</div>
-      <div className="segmented" role="group" aria-label="Cast layout"><SegmentIndicator /><button type="button" aria-pressed={layout === 'grid'} onClick={() => setLayout('grid')}>Grid</button><button type="button" aria-pressed={layout === 'list'} onClick={() => setLayout('list')}>List</button></div></div>
+      <div className="segmented cast-layout-toggle" role="group" aria-label="Cast layout">{(['grid', 'list'] as const).map(value => <button key={value} type="button" aria-pressed={layout === value} onClick={() => setLayout(value)}>{layout === value && <motion.span layoutId={layoutPill} className="segment-pill" transition={glide} aria-hidden="true" />}<span className="segment-label">{value === 'grid' ? 'Grid' : 'List'}</span></button>)}</div></div>
     {canAdd && selected.size > 0 && <div className="cluster batch-bar" role="group" aria-label="Selected people"><span className="small">{selected.size} selected</span>
       <button type="button" className="button button-small button-primary" disabled={batchBusy} onClick={() => void addSelected()}><Icon name="plus" />{batchBusy ? 'Adding…' : `Add ${selected.size} selected to project`}</button>
       <button type="button" className="button button-small button-quiet" disabled={batchBusy} onClick={() => setSelected(new Set())}>Clear selection</button></div>}
     <p className="small muted" role="status" aria-live="polite">{loading ? 'Searching…' : `${items.length}${next ? '+' : ''} ${items.length === 1 ? 'profile' : 'profiles'} shown`}</p>
     {initial || (loading && items.length === 0) ? <Loading label="Opening Cast Library…" /> : !items.length && !error ? <div className="empty-state"><Icon name="people" /><h2>No matching candidates</h2><p>Upload an introduction in a project, add a manual candidate, or adjust the filters.</p></div>
-      : <ul ref={stagger} className={`cast-results cast-results-${layout}`} aria-label="Cast Library results">{items.map(candidate => <li key={candidate.id} className="cast-card">
+      : <div className={masterDetail ? 'cast-master-detail' : 'cast-results-wrap'}><motion.ul key={layout} className={`cast-results cast-results-${layout}`} aria-label="Cast Library results" variants={listVariants} initial={reduce ? false : 'hidden'} animate="shown"><AnimatePresence mode="popLayout" initial={false}>{items.map(candidate => <motion.li key={candidate.id} className="cast-card notched" layout={reduce ? false : 'position'} variants={listItem} transition={settle} exit={reduce ? undefined : { opacity: 0, scale: 0.96, transition: { duration: seconds.fast } }}
+        data-open={openCandidate?.id === candidate.id ? '' : undefined} onMouseEnter={masterDetail ? () => setOpenId(candidate.id) : undefined} onFocus={masterDetail ? () => setOpenId(candidate.id) : undefined}>
+        {layout === 'grid' && <span className="notched-corner" aria-hidden="true"><Link className="notched-go" href={`/library/cast/${candidate.id}`} tabIndex={-1}><Icon name="arrow" /></Link></span>}
         <Link className="cast-card-portrait" href={`/library/cast/${candidate.id}`} tabIndex={-1} aria-hidden="true"><CandidatePortrait candidateId={candidate.id} name={candidate.facts.name} hint={'portrait_photo' in candidate ? { photo: candidate.portrait_photo, frameAssetId: candidate.portrait_frame_asset_id } : undefined} />{candidate.possible_duplicate && <span className="badge badge-warn cast-card-flag">Possible duplicate</span>}{candidate.review_status === 'reviewed' && <span className="cast-card-reviewed"><Icon name="check" />Reviewed</span>}</Link>
         <div className="cast-result-details">{candidate.talent_type && <span className="cast-card-type small muted">{TALENT_TYPE[candidate.talent_type] ?? candidate.talent_type}</span>}<h3 dir="auto"><Link href={`/library/cast/${candidate.id}`}>{candidate.facts.name ?? 'Name not provided'}</Link>{candidate.review_status === 'reviewed' && <span className="reviewed-mark" title="Reviewed facts"><Icon name="check" /></span>}</h3>
           {candidate.name_ar && <p className="cast-card-name-ar" dir="rtl" lang="ar">{candidate.name_ar}</p>}
@@ -139,13 +145,14 @@ export function CastLibraryView({ actor, onDirtyChange, workspaceId, onAdded, me
             {(lines.primary || castingId) && <p className="small muted cast-card-facts" dir="auto">{[lines.primary, castingId].filter(Boolean).join(' · ')}</p>}
             {lines.secondary && <p className="small cast-card-facts" dir="auto">{lines.secondary}</p>}</>; })()}
           <span className="sr-only">{candidate.review_status === 'reviewed' ? 'Reviewed' : 'Unreviewed'}</span>
-          {typeof candidate.tape_count === 'number' && <p className="small muted cast-card-tapes">{candidate.tape_count === 0 ? 'No tapes yet' : `${candidate.tape_count} ${candidate.tape_count === 1 ? 'tape' : 'tapes'}`}{candidate.processing ? ' · new tape processing' : ''}</p>}
+          {typeof candidate.tape_count === 'number' && <p className="small muted cast-card-tapes"><Icon name="film" />{candidate.tape_count === 0 ? 'No tapes yet' : `${candidate.tape_count} ${candidate.tape_count === 1 ? 'tape' : 'tapes'}`}{candidate.processing ? ' · new tape processing' : ''}</p>}
           {!!candidate.search_match?.unknown_filter_fields.length && <p className="small text-warn">Unknown: {candidate.search_match.unknown_filter_fields.join(', ')}</p>}</div>
         <div className="button-row cast-card-actions">{canAdd && !(Object.hasOwn(membershipOverrides, candidate.id) ? membershipOverrides[candidate.id] : candidate.membership) && adds[candidate.id]?.status !== 'adding'
           && <label className="check-line cast-card-select"><input type="checkbox" checked={selected.has(candidate.id)} aria-label={`Select ${candidate.facts.name ?? 'this person'}`} onChange={event => setSelected(current => { const next = new Set(current); if (event.target.checked) next.add(candidate.id); else next.delete(candidate.id); return next; })} />Select</label>}
           <Link className="button button-small button-quiet" href={`/library/cast/${candidate.id}`}>Open profile</Link>{canAdd && <MembershipControl state={adds[candidate.id]}
           member={Object.hasOwn(membershipOverrides, candidate.id) ? membershipOverrides[candidate.id] : candidate.membership?.workspace_candidate_id ?? null}
-          name={candidate.facts.name ?? 'this person'} onAdd={() => void add(candidate)} onAddAndReturn={context && onAddAndReturn ? () => void add(candidate, onAddAndReturn) : undefined} />}</div></li>)}</ul>}
+          name={candidate.facts.name ?? 'this person'} onAdd={() => void add(candidate)} onAddAndReturn={context && onAddAndReturn ? () => void add(candidate, onAddAndReturn) : undefined} />}</div></motion.li>)}</AnimatePresence></motion.ul>
+        {openCandidate && <CastDetailCard candidate={openCandidate} />}</div>}
     {next && <div className="load-more"><button className="button" disabled={search.loadingMore} onClick={() => void search.loadMore()}>{search.loadingMore ? 'Loading…' : 'Load more'}</button></div>}
   </div>;
   if (workspaceId) return <section className="cast-library cast-library-embedded">{heading}
@@ -172,4 +179,26 @@ function MembershipControl({ state, member, name, onAdd, onAddAndReturn }: { sta
   if (state?.status === 'error') return <span className="membership-chip is-error"><span role="alert"><Icon name="alert" />Not added: {state.error}</span><button type="button" className="button button-small" onClick={onAdd} aria-label={`Retry adding ${name}`}>Retry</button></span>;
   return <><button type="button" className="button button-small" onClick={onAdd} aria-label={`Add ${name} to project`}><Icon name="plus" />Add to project</button>
     {onAddAndReturn && <button type="button" className="button button-small button-quiet" onClick={onAddAndReturn} aria-label={`Add ${name} and return`}>Add and return</button>}</>;
+}
+
+const DETAIL_FACTS = ['age_or_range', 'stated_gender', 'height_measurements', 'languages', 'accents', 'city'] as const;
+/** List view: the open person as a dark detail card. It repeats facts already in the row; missing ones read "Not provided". */
+function CastDetailCard({ candidate }: { candidate: LibraryCandidate }) {
+  const facts = candidate.facts; const reviewed = candidate.review_status === 'reviewed';
+  return <section className="cast-detail-card" aria-label={`${facts.name ?? 'Name not provided'} details`}>
+    <header className="cast-detail-head">
+      <div><span className="cast-detail-label">Casting ID</span><p className="cast-detail-id" dir="auto">{facts.casting_id ?? 'Not provided'}{reviewed && <span className="badge badge-dot badge-ok">Reviewed</span>}</p></div>
+      <div><span className="cast-detail-label">Talent type</span><p className={`cast-detail-type${candidate.talent_type ? '' : ' is-missing'}`}>{candidate.talent_type ? TALENT_TYPE[candidate.talent_type] ?? candidate.talent_type : 'Not provided'}</p>{facts.city && <p className="small muted" dir="auto">{facts.city}</p>}</div>
+    </header>
+    <div className="cast-detail-body">
+      <div className="cast-detail-portrait"><CandidatePortrait key={candidate.id} candidateId={candidate.id} name={facts.name} size="large" hint={'portrait_photo' in candidate ? { photo: candidate.portrait_photo, frameAssetId: candidate.portrait_frame_asset_id } : undefined} /></div>
+      <div className="cast-detail-identity">
+        <p className="cast-detail-name" dir="auto">{facts.name ?? 'Name not provided'}</p>
+        {candidate.name_ar && <p className="cast-card-name-ar" dir="rtl" lang="ar">{candidate.name_ar}</p>}
+        <dl className="cast-detail-facts">{DETAIL_FACTS.map(key => { const value = Array.isArray(facts[key]) ? (facts[key] as string[]).join(', ') : facts[key] as string | null;
+          return <div key={key} className={value ? undefined : 'is-missing'}><dt>{factLabels[key]}</dt><dd dir="auto">{value || 'Not provided'}</dd></div>; })}</dl>
+        <Link className="button button-small cast-detail-open" href={`/library/cast/${candidate.id}`}>Open full profile<Icon name="arrow" /></Link>
+      </div>
+    </div>
+  </section>;
 }

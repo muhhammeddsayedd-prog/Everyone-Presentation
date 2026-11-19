@@ -14,6 +14,7 @@ import { StudioDateTime } from './StudioTimeZone';
 import { FramePortal } from './shell/Frame';
 import { PageFrame, RightPanel } from './shell/PageFrame';
 import { useConfirm } from './ui/Confirm';
+import { templateName } from './workspace/template-names';
 import { outputLabel, SavedSlideList, SavedStage, slideName, statusLabel, useSavedVersion, VersionActions } from './presentation/saved-version';
 
 /** Comment counts per saved slide for one version, when the reader may see them. Unavailable leaves the list unbadged. */
@@ -59,6 +60,8 @@ function VersionPage({ versionId, actor, onDirtyChange }: { versionId: string; a
   </RightPanel> : undefined;
   return <>
     <FramePortal slot="top"><div className="workspace-top">
+      {/* Decorative summary of the locked snapshot; the panel carries the same facts as text. */}
+      <div className="version-top-pills" aria-hidden="true"><span className="pill version-top-no">v{version.version_no}</span><span className={`pill ${version.status === 'ready' ? 'pill-ok' : version.status === 'failed' ? 'pill-error' : 'pill-info'}`}>{statusLabel(version)}</span><span className="pill pill-quiet"><Icon name="lock" />Locked</span><span className="pill pill-quiet">{templateName(version.template_version)}</span></div>
       <div className="workspace-title"><h1 dir="auto">{version.render_context.cover.project_name} · Version {version.version_no}</h1></div>
       <nav className="workspace-breadcrumb" aria-label="Breadcrumb"><Link href="/presentations">Presentations</Link><Icon name="chevron-right" /><span dir="auto">{version.render_context.cover.title}</span><Icon name="chevron-right" /><span aria-current="page">Version {version.version_no}</span></nav>
     </div></FramePortal>

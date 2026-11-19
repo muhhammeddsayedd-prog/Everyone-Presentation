@@ -5,6 +5,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Candidate, CandidateUploadRow } from '@eps/domain';
 import { api, errorMessage } from './api';
 import { Icon } from './Icon';
+import { motion } from 'motion/react';
+import { RevealList } from './motion/Reveal';
+import { listItem } from './motion/presets';
 
 const ACTIVE = new Set(['uploading', 'processing']);
 const LABEL: Record<CandidateUploadRow['state'], string> = { uploading: 'Uploading', processing: 'Processing', ready: 'Ready', needs_attention: 'Needs attention', failed: 'Failed', cancelled: 'Cancelled', expired: 'Expired' };
@@ -113,13 +116,13 @@ export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, pre
   return <section className="upload-status" aria-labelledby="upload-status-heading">
     <header className="upload-status-head"><h3 id="upload-status-heading">Your uploads in this project</h3><p className="small muted">{active ? `${active} in progress · ` : ''}Processing continues on the server if you leave this page.</p></header>
     {error && <div className="notice notice-error" role="alert"><p>Upload status could not be read: {error}</p></div>}
-    <ul className="upload-status-list">{rows.map(row => {
+    <RevealList className="upload-status-list">{rows.map(row => {
       // Current membership: the row is shown in the project list, else what the project list knows (null = unknown).
       const member = row.workspace_candidate_id !== null && presentIds.has(row.workspace_candidate_id) ? true : row.candidate_id ? isMember?.(row.candidate_id) ?? null : null;
       const outcome = uploadOutcomeText(row, member, row.candidate_id ? names[row.candidate_id] ?? null : null);
       const busy = Object.hasOwn(retrying, row.upload_id) && retrying[row.upload_id] === '';
       const transfer = transfers?.get(row.upload_id);
-      return <li key={row.upload_id} className="upload-status-row" aria-busy={ACTIVE.has(row.state) || undefined}>
+      return <motion.li variants={listItem} key={row.upload_id} className="upload-status-row" aria-busy={ACTIVE.has(row.state) || undefined}>
         <span className="upload-status-name" dir="auto">{row.filename ?? 'Introduction video'}</span>
         <span className={`badge badge-${TONE[row.state]}`}>{row.state === 'ready' ? <Icon name="check" /> : null}{LABEL[row.state]}</span>
         {row.state === 'uploading' && transfer && <span className="upload-status-progress"><progress value={transfer.offset} max={transfer.size} aria-label={`${row.filename ?? 'Introduction video'}: confirmed uploaded bytes`} /><span className="small muted">{Math.floor(transfer.offset * 100 / Math.max(transfer.size, 1))}% uploaded</span></span>}
@@ -128,7 +131,7 @@ export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, pre
         {row.state === 'failed' && <span className="small">Processing failed.{row.job?.error_code ? ` (${row.job.error_code})` : ''}</span>}
         {row.state === 'failed' && row.job?.retryable && canRetry && <button type="button" className="button button-small" disabled={busy} onClick={() => void retry(row)}>{busy ? 'Retrying…' : 'Retry'}</button>}
         {retrying[row.upload_id] && <span className="small text-bad" role="alert">{retrying[row.upload_id]}</span>}
-      </li>;
-    })}</ul>
+      </motion.li>;
+    })}</RevealList>
   </section>;
 }

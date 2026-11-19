@@ -34,5 +34,5 @@ export function UnsavedCandidateFactsEditor({ id, label, dirty, save, discard, .
 }
 
 export function CandidateFactsView({ facts }: { facts: CandidateFacts }) {
-  return <dl className="candidate-facts">{(Object.keys(factLabels) as (keyof CandidateFacts)[]).map(key => <div key={key}><dt>{factLabels[key]}</dt><dd dir="auto">{Array.isArray(facts[key]) ? (facts[key] as string[]).join(', ') || 'Not provided' : facts[key] || 'Not provided'}</dd></div>)}</dl>;
+  return <dl className="candidate-facts">{(Object.keys(factLabels) as (keyof CandidateFacts)[]).map(key => { const value = Array.isArray(facts[key]) ? (facts[key] as string[]).join(', ') : facts[key]; return <div key={key} className={value ? undefined : 'is-missing'}><dt>{factLabels[key]}</dt><dd dir="auto">{value || 'Not provided'}</dd></div>; })}</dl>;
 }

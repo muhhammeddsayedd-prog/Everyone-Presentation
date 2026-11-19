@@ -133,7 +133,7 @@ function ShareScope({ actor, onDirtyChange, seriesId: fixedSeries, workspaceId, 
       <section className="panel-section" aria-labelledby="feedback-versions-heading"><h3 id="feedback-versions-heading" className="panel-eyebrow">Feedback by version</h3>
         {!versions.length ? <p className="small muted">No ready versions yet. Feedback appears after the first version is ready.</p> : <ul className="feedback-versions">{versions.map(row => <li key={row.id}>
           <button type="button" className="feedback-version" disabled={locked} aria-current={row.id === selected ? 'true' : undefined} onClick={async () => { if (row.id === selected || !await discardFeedback()) return; setSelected(row.id); setFeedback({ locked: false, dirty: false }); }}>
-            <span>Version {row.version_no}</span><span>{row.id === series.latest_ready_version_id ? 'Latest ready · ' : ''}<StudioDateTime value={row.created_at} /></span></button></li>)}</ul>}
+            <span className="version-card-no" aria-hidden="true">v{row.version_no}</span><span className="feedback-version-text"><span>Version {row.version_no}</span><span>{row.id === series.latest_ready_version_id ? 'Latest ready · ' : ''}<StudioDateTime value={row.created_at} /></span></span></button></li>)}</ul>}
       </section>
     </>}
   </div>;

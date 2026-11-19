@@ -122,6 +122,10 @@
   .config-panel > .config-panel-head h2 { color: var(--bi-ink); }
 
   .text-reveal { display: inline-flex; flex-wrap: wrap; }
+  /* KPI count-up: the DOM text is the real value; a CSS counter draws the counting digits on top. */
+  .kpi-count { position: relative; display: inline-block; font-variant-numeric: tabular-nums; }
+  .kpi-count[data-counting] > span { color: transparent; }
+  .kpi-count[data-counting]::after { content: counter(kpi); counter-reset: kpi var(--kpi-n); position: absolute; inset: 0; color: var(--color-text-primary); animation: kpi-count 800ms var(--ease-enter) forwards; }
   /* Main marker: white on dark, ink on paper (the old rule used the text colour as a fill). */
   .position-main { background: var(--brand-white); color: var(--bi-ink); }
   :is(.config-panel, .paper-surface) .position-main { background: var(--bi-ink); color: var(--brand-white); }
@@ -149,6 +153,8 @@
     .toast { animation: latest-toast-in var(--duration-slow) cubic-bezier(.2, 1.2, .4, 1); }
   }
 }
+@property --kpi-n { syntax: '<integer>'; inherits: false; initial-value: 0; }
+@keyframes kpi-count { from { --kpi-n: 0; } to { --kpi-n: var(--kpi-to); } }
 @keyframes latest-drawer-in { from { transform: translateX(32px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes latest-pop-in { from { transform: translateY(8px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes latest-menu-in { from { transform: translateY(-4px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }

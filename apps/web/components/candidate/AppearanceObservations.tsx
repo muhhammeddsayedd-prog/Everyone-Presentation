@@ -3,6 +3,7 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { APPEARANCE_TAXONOMY, appearanceValueLabel, appearanceValues, type AppearanceObservation, type CandidateObservations, type ObservationMedia } from '../../../../packages/domain/src/appearance';
 import { api, errorMessage, mutation } from '../api';
 import { ErrorNotice } from '../Feedback';
+import { Icon } from '../Icon';
 import { APPEARANCE_STYLES as styles } from './appearance-styles';
 
 /** Candidate profile panel: visible-appearance suggestions per photo/frame, kept apart from supplied information.
@@ -44,7 +45,7 @@ export function AppearanceObservations({ candidateId, canReview }: { candidateId
   const pending = all.filter(item => item.status === 'suggested' && item.suggested_value !== 'unknown').length;
   const searchable = all.filter(item => item.status === 'confirmed' || item.status === 'overridden').length;
   return <section className="editor-section" style={styles.panel} aria-labelledby={headingId}>
-    <div className="section-heading"><div><h2 id={headingId}>Visible appearance</h2>
+    <div className="section-heading"><span className="section-icon" aria-hidden="true"><Icon name="eye" /></span><div><h2 id={headingId}>Visible appearance</h2>
       <p>Suggestions describe what is visible in each authorised photo or video frame. Search and Library filters use <strong>confirmed and corrected values only</strong>; suggestions awaiting review are never searchable.</p></div></div>
     {error && <ErrorNotice message={error} retry={() => void load()} />}
     {message && <div className="notice" role="status"><p>{message}</p></div>}

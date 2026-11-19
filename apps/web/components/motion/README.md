@@ -6,7 +6,7 @@ Owner decision (2026-11-19): motion should be **expressive but purposeful**. Eve
 
 - Layout and shared-element transitions with Motion `layout` / `layoutId`: the nav pill, the step pill, segmented fills, cards moving between casting slots, and list reorders.
 - Spring feedback: press scale (`presets.press`) and the drag lift on the casting board (`presets.lift`).
-- Count-ups on KPI figures with `KpiNumber`, plus rolling values with `AnimatedNumber`.
+- Count-ups on KPI figures with `KpiNumber` (DOM text stays the real value), plus rolling values with `AnimatedNumber`.
 - Staggered list entrances with `RevealList`/`RevealItem`, or the `stagger` callback ref in `motion.ts`.
 - Fade and rise for panels and step content with `Reveal`, or `useReveal` in `motion.ts`.
 - One hero text reveal per surface with `TextReveal` (React Bits BlurText). It is used only on the sign-in hero and the guest review title.
@@ -34,6 +34,6 @@ Owner decision (2026-11-19): motion should be **expressive but purposeful**. Eve
 | `MotionRoot.tsx` | The `MotionConfig` wrapper. Every app root (Studio, guest, OAuth) is wrapped in it |
 | `Reveal.tsx` | `Reveal`, `RevealList` and `RevealItem`, built on Motion. The concept comes from React Bits FadeContent/AnimatedList, whose originals need GSAP or an icon pack |
 | `TextReveal.tsx` | Hero reveal via `bits/BlurText` |
-| `KpiNumber.tsx` | The first value counts up (`bits/CountUp`); later changes roll (`AnimatedNumber`) |
+| `KpiNumber.tsx` | The first value counts up once (the React Bits CountUp idea, done as a CSS counter so the DOM text is always the real value); later changes roll (`AnimatedNumber`) |
 | `AnimatedNumber.tsx`, `SegmentIndicator.tsx`, `motion.ts` | Earlier Web Animations helpers. They are test-safe and still used |
 | `bits/` | Vendored React Bits sources (MIT + Commons Clause), kept close to upstream. A scoped ESLint exception covers their ref pattern |

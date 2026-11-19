@@ -13,7 +13,8 @@ import { useRecentWorkspaces } from './recent-workspaces';
 import { useRuntimeMode } from './RuntimeMode';
 import { StudioDateTime } from './StudioTimeZone';
 import { SegmentIndicator } from './motion/SegmentIndicator';
-import { stagger } from './motion/motion';
+import { RevealItem, RevealList } from './motion/Reveal';
+import { KpiNumber } from './motion/KpiNumber';
 import { NewProject } from './NewProject';
 import { plannedPresentation, presentationTypeLabel } from './project-presentation';
 import { parseProjectCreateIntent, projectCreateIntentSnapshot, subscribeProjectCreateIntent } from '../lib/project-create-intent';
@@ -59,6 +60,10 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
   const openLabel = (project: Project) => plannedPresentation(project.presentation_type) ? 'Open project' : project.casting_workspace_id ? 'Resume casting' : 'Open casting';
   const blocked = (project: Project) => opening !== null || (!plannedPresentation(project.presentation_type) && !project.casting_workspace_id && !canCreate);
   const lastWorkspace = recent[0];
+  const lastProject = lastWorkspace ? projects.find(project => project.id === lastWorkspace.projectId) : undefined;
+  // The single green card: the project of the last opened workspace, else the first project in list order.
+  const newestId = lastProject?.id ?? projects[0]?.id ?? null;
+  const plannedCount = projects.filter(project => plannedPresentation(project.presentation_type)).length;
   const filtersPanel = <>
     <div className="panel-section"><h3 className="panel-eyebrow">Show</h3>
       <div className="segmented segmented-vertical" role="group" aria-label="Filter loaded projects"><SegmentIndicator />{filters.map(item => <button key={item.value} type="button" aria-pressed={filter === item.value} aria-describedby={initial ? undefined : `${countId}-${item.value}`} onClick={() => setFilter(item.value)}><Icon name={item.icon} /><span className="segment-label">{item.label}</span>{!initial && <><span className="segment-count" aria-hidden="true">{counts[item.value]}</span><span id={`${countId}-${item.value}`} hidden>{counts[item.value]} loaded</span></>}</button>)}</div>
@@ -69,21 +74,37 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
   </>;
   return <PageFrame className="projects-page" panel={{ title: 'Filters', subtitle: central ? 'Shared central project records' : 'Development project records', label: 'Project filters', body: filtersPanel, filters: { count: filter === 'all' ? 0 : 1 } }}
     right={selected && !initial ? <ProjectPanel key={selected.id} project={selected} central={central} opening={opening === selected.id} disabled={blocked(selected)} onOpen={() => open(selected)} onClose={() => setDetailsOpen(false)} /> : undefined}>
-    <header className="page-heading"><div><h1>Projects</h1><p>{central ? 'Shared Everyone projects and their presentations.' : 'Prepare presentations from your development projects.'}</p></div>{canCreateProject && <button type="button" className="button button-primary" onClick={() => setCreating(true)}>{pendingIntent ? 'Resume project creation' : 'New project'}<Icon name="plus" /></button>}</header>
-    <div className="quick-actions">
-      {lastWorkspace && <Link className="quick-action" href={lastWorkspace.href}><span className="quick-action-icon"><Icon name="board" /></span><span><strong>Resume last workspace</strong><span dir="auto">{lastWorkspace.name}</span></span></Link>}
-      <Link className="quick-action" href="/library/cast"><span className="quick-action-icon"><Icon name="people" /></span><span><strong>Cast Library</strong><span>Reusable talent across projects</span></span></Link>
-      <Link className="quick-action" href="/presentations"><span className="quick-action-icon"><Icon name="slides" /></span><span><strong>Presentations</strong><span>Saved versions and review links</span></span></Link>
+    <header className="page-heading page-heading-kpi"><div><h1>Projects</h1><p>{central ? 'Shared Everyone projects and their presentations.' : 'Prepare presentations from your development projects.'}</p></div>
+      {!initial && projects.length > 0 && <dl className="page-kpis">
+        <div><dt>In progress</dt><dd><KpiNumber value={counts.started} /></dd></div>
+        <div><dt>Not started</dt><dd><KpiNumber value={counts.not_started - plannedCount} /></dd></div>
+        {plannedCount > 0 && <div><dt>Planned</dt><dd><KpiNumber value={plannedCount} /></dd></div>}
+      </dl>}
+    </header>
+    <div className={`quick-actions${lastWorkspace ? ' has-resume' : ''}`}>
+      {lastWorkspace && <Link className="quick-action resume-hero" href={lastWorkspace.href}>
+        <span className="resume-hero-label"><strong>Resume last workspace</strong></span>
+        <span className="resume-hero-cover"><CoverThumb title={lastProject?.name ?? lastWorkspace.name} subtitle="Casting in progress" client={lastProject?.client_name} /></span>
+        <span className="resume-hero-text"><span className="resume-hero-name" dir="auto">{lastWorkspace.name}</span>{lastProject && <span className="resume-hero-meta" dir="auto" aria-hidden="true">{lastProject.client_name ?? 'Client not provided'} · Casting</span>}</span>
+        <span className="notched-go resume-hero-go" aria-hidden="true"><Icon name="arrow" /></span>
+      </Link>}
+      <nav className="jump-to" aria-label="Jump to">
+        <p className="jump-to-title" aria-hidden="true">Jump to</p>
+        <Link className="quick-action" href="/library/cast"><span className="quick-action-icon"><Icon name="people" /></span><span><strong>Cast Library</strong><span>Reusable talent across projects</span></span></Link>
+        <Link className="quick-action" href="/presentations"><span className="quick-action-icon"><Icon name="slides" /></span><span><strong>Presentations</strong><span>Saved versions and review links</span></span></Link>
+      </nav>
     </div>
     <div className="page-toolbar">
       <SearchField label="Search projects or clients" placeholder="Search projects or clients" value={query} onValueChange={setQuery} busy={loading} />
       <PanelToggle />
+      {canCreateProject && <button type="button" className="button button-primary" onClick={() => setCreating(true)}>{pendingIntent ? 'Resume project creation' : 'New project'}<Icon name="plus" /></button>}
     </div>
     <section aria-label="Project list" className="stack">
       {error && <ErrorNotice message={error} retry={() => { setOpenError(''); list.reload(); }} />}
       <p className="sr-only" role="status" aria-live="polite">{loading ? 'Searching projects…' : initial ? '' : `${visible.length} ${visible.length === 1 ? 'project' : 'projects'} shown`}</p>
-      {initial || (loading && !visible.length) ? <Loading label="Finding your projects…" /> : visible.length ? <ul ref={stagger} className="project-grid">{visible.map(project => { const current = selected?.id === project.id; const planned = plannedPresentation(project.presentation_type);
-        return <li key={project.id} className={`project-card${current ? ' is-selected' : ''}`}>
+      {initial || (loading && !visible.length) ? <Loading label="Finding your projects…" /> : visible.length ? <RevealList className="project-grid">{visible.map(project => { const current = selected?.id === project.id; const planned = plannedPresentation(project.presentation_type);
+        return <RevealItem layout key={project.id} className={`project-card notched${current ? ' is-selected' : ''}${project.id === newestId ? ' card-newest' : ''}`}>
+          <span className="notched-corner"><Link className="notched-go" href={`/projects/${project.id}`} aria-label={`Project overview for ${project.name}`} data-tip="Project overview"><Icon name="arrow" /></Link></span>
           <button type="button" className="project-card-cover" aria-pressed={current} onClick={() => { setSelectedId(project.id); setDetailsOpen(true); }}>
             <span className="sr-only">Show details for {project.name}</span><CoverThumb title={project.name} subtitle={planned ? 'Planned module' : project.casting_workspace_id ? 'Casting in progress' : 'Casting not started'} client={project.client_name} tone={planned ? 'muted' : 'default'} />
           </button>
@@ -92,7 +113,7 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
             {planned ? <span className="badge badge-pending">{presentationTypeLabel(project.presentation_type)} · Planned</span> : project.casting_workspace_id ? <span className="badge badge-dot badge-ok">Casting in progress</span> : <span className="badge badge-pending">Not started</span>}
           </div>
           <button className={`button button-small project-card-action${current ? ' button-primary' : ''}`} onClick={() => open(project)} disabled={blocked(project)}>{opening === project.id ? 'Opening…' : openLabel(project)}<Icon name="arrow" /></button>
-        </li>; })}</ul>
+        </RevealItem>; })}</RevealList>
         : <div className="empty-state"><Icon name="projects" /><h2>{term ? 'No projects match your search.' : projects.length ? 'No projects in this view.' : 'No accessible projects.'}</h2><p>{term ? 'Try another project or client name.' : projects.length ? 'Choose All to show every loaded project.' : canCreateProject ? 'Create a shared project to start preparing a presentation.' : 'Projects appear here when they are shared with your acting user.'}</p></div>}
       {cursor && <div className="load-more"><button className="button" onClick={() => void list.loadMore()} disabled={loadingMore}>{loadingMore ? 'Loading…' : 'Load more projects'}</button></div>}
     </section>
