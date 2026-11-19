@@ -18,7 +18,9 @@ import {createCastLibraryRequests as createLatestReadRequests} from '../lib/cast
 import { CastingRetirementReview } from './CastingRetirementReview';
 import { RetirementUndo } from './RetirementUndo';
 import { Icon } from './Icon';
-import { RevealItem, RevealList } from './motion/Reveal';
+import { motion } from 'motion/react';
+import { RevealList } from './motion/Reveal';
+import { listItem } from './motion/presets';
 import { StepFooter } from './workspace/StepFlow';
 import { cardCastingId } from './candidate-card';
 import { useDraftValue } from './workspace/WorkspaceDraftProvider';
@@ -98,7 +100,7 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
       {canWrite&&<MediaRepairPanel workspaceId={workspaceId} revision={repairRevision} onApplied={result=>{setItems(current=>current.map(item=>result.applied.find(row=>row.id===item.id)??item));if(result.applied.length)onWorkspaceChanged();}}/>}
       <CandidateUploadStatus workspaceId={workspaceId} refreshToken={uploadToken} canRetry={!!actor.capabilities?.includes('operations.retry')} presentIds={presentIds} isMember={isMember} onResolved={uploadResolved} onProcessingChange={processingChanged} transfers={transferProgress}/>
       {loading&&!items.length?<Loading label="Opening project candidates…"/>:!items.length&&!error?<div className="empty-state"><Icon name="people"/><h2>No candidates in this project</h2><p>Upload introduction videos or choose people from the Cast Library. Missing information is permitted.</p>{actions}</div>
-        :<><div className="candidate-list-head" aria-hidden="true"><span>Candidate</span><span>Project frames</span><span>Availability</span><span>Attention</span><span/></div><RevealList as="div" className="project-candidate-list">{items.map(item=><RevealItem as="div" key={item.id}><ProjectCandidate key={`${actor.id}/${item.id}/${item.row_version}/${readRevision}`} item={item} actor={actor} storageOrigin={storageOrigin} canWrite={canWrite} processing={processing.has(item.candidate_id)} open={openId===item.id} onOpenChange={value=>setOpenId(value?item.id:null)} onSaved={saved} onRemoved={removed} onDirtyChange={dirtyChanged} onTapeQueued={()=>setUploadToken(value=>value+1)}/></RevealItem>)}</RevealList></>}
+        :<><div className="candidate-list-head" aria-hidden="true"><span>Candidate</span><span>Project frames</span><span>Availability</span><span>Attention</span><span/></div><RevealList as="div" className="project-candidate-list">{items.map(item=><ProjectCandidate key={`${actor.id}/${item.id}/${item.row_version}/${readRevision}`} item={item} actor={actor} storageOrigin={storageOrigin} canWrite={canWrite} processing={processing.has(item.candidate_id)} open={openId===item.id} onOpenChange={value=>setOpenId(value?item.id:null)} onSaved={saved} onRemoved={removed} onDirtyChange={dirtyChanged} onTapeQueued={()=>setUploadToken(value=>value+1)}/>)}</RevealList></>}
       {next&&<div className="load-more"><button className="button" disabled={loading} onClick={()=>void load(next)}>Load more candidates</button></div>}
       <p className="section-note"><Icon name="info"/><span>Shared facts live in the Cast Library. This list holds project choices only: introduction, frames, presentation picture, availability and internal notes.</span></p>
     </div>
@@ -178,7 +180,7 @@ function ProjectCandidate({item,actor,storageOrigin,canWrite,processing,open,onO
   if(processing)attention.push({label:'New tape processing',tone:'info'});
   const locked=busy||supportBusy||sourceBusy;
   const frameChoices=media.flatMap((intro,index)=>intro.available_frames.map(frame=>({asset:frame.asset_id,label:`Introduction ${index+1} · frame at ${(frame.timestamp_ms/1000).toFixed(2)}s`})));
-  return <article className={`candidate-row${open?' is-open':''}`} data-draft-focus={`pool:${item.id}`}>
+  return <motion.article variants={listItem} className={`candidate-row${open?' is-open':''}`} data-draft-focus={`pool:${item.id}`}>
     <div className="candidate-row-summary">
       <div className="identity"><ProjectPicture item={item} processing={processing}/><div><h3 dir="auto">{name}</h3><span className="identity-meta">{cardCastingId(candidate?.facts.casting_id??null)?`${cardCastingId(candidate?.facts.casting_id??null)} · `:''}<span className={reviewed?'text-ok':undefined}>{reviewed?'Reviewed':'Unreviewed'}</span></span></div></div>
       <div className="frame-strip" role="img" aria-label={`${savedFrames.length} of 3 project frames chosen`}>{[0,1,2].map(index=>savedFrames[index]?<span className="frame-thumb" key={index}><CandidateFrameImage assetId={savedFrames[index]} alt=""/></span>:<span className="frame-thumb frame-thumb-empty" key={index} aria-hidden="true"/>)}</div>
@@ -211,5 +213,5 @@ function ProjectCandidate({item,actor,storageOrigin,canWrite,processing,open,onO
       <section className="stack" aria-label="Files"><SupportingFiles candidateId={item.candidate_id} workspaceId={item.workspace_id} actorId={actor.id} maximumBytes={actor.upload_maximum_bytes??0} storageOrigin={storageOrigin} canUpload={!removeReview&&!!actor.upload_purposes?.includes('candidate_support')&&!!actor.capabilities?.includes('cast.upload')&&canWrite} canArchive={!removeReview&&!!actor.capabilities?.includes('cast.write')} onDirtyChange={setSupportBusy}/></section>
       {!removeReview&&!!actor.upload_purposes?.includes('candidate_video')&&actor.capabilities?.includes('cast.upload')&&canWrite&&typeof actor.upload_maximum_bytes==='number'&&<details className="requirements-details"><summary>Add another tape for this person</summary><p className="small muted">New material is appended to the shared profile. This project’s introduction, frames and picture stay as chosen until you change them.</p><CandidateResumableUploads workspaceId={item.workspace_id} candidateId={item.candidate_id} actorId={actor.id} maximumBytes={actor.upload_maximum_bytes} storageOrigin={storageOrigin} onDirtyChange={setSourceBusy} onReserved={onTapeQueued} onQueued={onTapeQueued}/></details>}
     </Drawer>}
-  </article>;
+  </motion.article>;
 }

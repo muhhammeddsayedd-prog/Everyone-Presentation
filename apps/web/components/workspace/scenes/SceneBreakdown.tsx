@@ -6,6 +6,8 @@ import type { Role, RoleRequirements, Slot } from '../../../../../packages/domai
 import { api, errorMessage, mutation, type Envelope, type Workspace } from '../../api';
 import { ErrorNotice, Loading } from '../../Feedback';
 import { Icon } from '../../Icon';
+import { motion } from 'motion/react';
+import { settle } from '../../motion/presets';
 import { useConfirm } from '../../ui/Confirm';
 import { useSceneFocus } from '../WorkspaceDraftProvider';
 import { archiveScene, confirmSceneProposals, createScene, linkSceneOccurrence, listScenes, rejectSceneProposals, reorderScenes, unlinkSceneOccurrence,
@@ -112,11 +114,11 @@ export function SceneBreakdown({ workspaceId, canWrite, castingBefore, onCastRol
           {canWrite && <button className="button button-small" type="button" disabled={busy} onClick={() => void guard(() => { setEditing('new'); setDirty(false); })}><Icon name="plus" />Add scene</button>}</div>
         {data.scenes.length === 0 ? <p className="small muted">No scenes yet. Add the scenes of the script; each role can appear in several scenes and keeps one shared casting.</p>
           : <ol className="scene-nav-list" onKeyDown={navigatorKey}>{data.scenes.map((item, index) => { const progress = sceneProgress(item, data.slots, data.assignments); const current = item.id === selectedId;
-            return <li key={item.id}><button type="button" className="scene-nav-item" aria-current={current ? 'true' : undefined} tabIndex={current || (!selectedId && index === 0) ? 0 : -1} onClick={() => select(item.id)}>
+            return <motion.li layout="position" transition={settle} key={item.id}><button type="button" className="scene-nav-item" aria-current={current ? 'true' : undefined} tabIndex={current || (!selectedId && index === 0) ? 0 : -1} onClick={() => select(item.id)}>
               <span className="scene-nav-number">{item.scene_number ?? index + 1}</span>
               <span className="scene-nav-text"><span className="scene-nav-title" dir="auto">{item.title}</span>
                 <span className="scene-nav-meta small">{item.setting && <span dir="auto">{item.setting}</span>}<span>{progressText(progress)}</span>{item.status === 'proposed' && <span className="badge badge-warn">Proposed</span>}</span></span>
-            </button></li>; })}</ol>}
+            </button></motion.li>; })}</ol>}
       </nav>
       <div className="scene-detail">
         {editing === 'new' ? <SceneForm key="new" title="New scene" busy={busy} onDirty={setDirty} onCancel={() => void guard(() => { setEditing(null); setDirty(false); })}
