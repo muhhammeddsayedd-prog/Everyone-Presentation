@@ -22,6 +22,7 @@ import { WorkspacePresentationView } from './WorkspacePresentationView';
 import { ShareWorkspace } from './share/ShareWorkspace';
 import { rememberWorkspace } from './recent-workspaces';
 import { SegmentIndicator } from './motion/SegmentIndicator';
+import { Reveal } from './motion/Reveal';
 import { StepBar, StepFooter } from './workspace/StepFlow';
 import { plural, stepStatus, useWorkspaceSummary, type WorkspaceSummary } from './workspace-summary';
 
@@ -146,7 +147,7 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     </div>
     <StepBar current={step} steps={steps.map(item => ({ path: item.path, label: item.label, href: `${base}/${item.path}${seriesQuery(item.path)}`, status: stepStatus(summary, item.path, workspace.active_output) }))} /></FramePortal>
     {meta ? <WorkspaceDraftProvider enabled={central} workspaceId={workspaceId} projectId={projectId} canReadProfiles={actor.capabilities?.includes('cast.read') === true} project={draftProject} workspace={workspace} refreshRef={draftRefresh}>
-      <PageFrame inline className="workspace-frame" panel={{ title: meta.title, subtitle: meta.subtitle, label: `${meta.title} panel`, wide: true, body: <>{error && <ErrorNotice message={error} retry={reloadData} />}{stepBody}</> }}>
+      <PageFrame inline className="workspace-frame" panel={{ title: meta.title, subtitle: meta.subtitle, label: `${meta.title} panel`, wide: true, body: <>{error && <ErrorNotice message={error} retry={reloadData} />}<Reveal replay={step} className="step-reveal">{stepBody}</Reveal></> }}>
         <LiveStage />
       </PageFrame>
     </WorkspaceDraftProvider> : <>{error && <ErrorNotice message={error} retry={reloadData} />}{stepBody}</>}

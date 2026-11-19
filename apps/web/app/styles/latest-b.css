@@ -1,3 +1,123 @@
-/* Latest design, Wave 1 agent B overrides (screens layer). features.css and screens.css are frozen; refine here. */
+/* Latest design, Wave 1 agent B overrides (screens layer). features.css and screens.css are frozen; refine here.
+   Scope: the casting workspace frame, the live stage (DeckStage, shared by every presentation surface) and steps 1–4
+   (Project, Specs, Candidates, Casting). Tokens only; the paper panel remaps colour tokens to ink. */
 @layer screens {
+  /* ---------- Step panel: content rises in per step, the footer sits flush in the paper ---------- */
+  .workspace-frame .config-panel-body > .step-reveal { flex: 1 0 auto; display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+  .workspace-frame .config-panel-body > .step-reveal > :is(.casting-board, .specs-view, .workspace-candidates, .project-step, .casting-views),
+  .workspace-frame .config-panel-body > .step-reveal > :is(.casting-board, .specs-view, .workspace-candidates) > .presentation-read-lock { flex: 1 0 auto; display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+  /* The body pads 24px sideways; the old -18px bleed left the footer short and its square corners outside the 32px radius. */
+  .workspace-frame .config-panel .workspace-continue { align-self: stretch; margin: auto -24px 0; padding: 14px 24px 18px; background: var(--bi-paper); border-top: 1px solid var(--color-border); border-radius: 0 0 var(--ui-radius-32) var(--ui-radius-32); }
+  .workspace-frame .config-panel .workspace-continue .workspace-back { flex: none; }
+  .section-jump { top: -6px; margin: -6px -24px 0; padding: 12px 24px; background: var(--bi-paper); }
+  .section-jump .segmented { padding: 4px; border-radius: var(--ui-radius-pill); background: var(--bi-paper-2); }
+  .section-jump a { min-height: 34px; border-radius: var(--ui-radius-pill); font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .section-jump a[aria-current], .section-jump a[aria-current]:hover { background: var(--bi-ink); color: var(--brand-white); }
+
+  /* Section titles in the step panel: medium weight with slight negative tracking */
+  .workspace-frame .config-panel .panel-header h2, .workspace-frame .config-panel .panel-header h3,
+  .workspace-frame .config-panel .section-heading h2 { font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -.01em; }
+
+  /* ---------- Live stage: the dark card beside the paper panel ---------- */
+  .live-stage { background: var(--bi-card-bg); border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-32); overflow: hidden; }
+  .workspace-frame:not(.presentation-frame) .live-stage { top: calc(var(--topbar-height) + var(--space-2)); height: calc(100vh - var(--topbar-height) - var(--space-6)); }
+  .stage-bar { padding: 18px 20px 12px; border-bottom: 0; }
+  .stage-bar > .panel-toggle { order: 3; }
+  .stage-chip { min-height: var(--ui-chip); padding: 0 12px; font-size: var(--ui-text-meta); font-weight: var(--weight-medium); }
+  .stage-meta { font-size: var(--ui-text-meta); }
+  .stage-template { display: inline-flex; align-items: center; gap: 6px; min-height: var(--ui-control-sm); padding: 0 4px 0 14px; border: 1px solid var(--color-border-strong); border-radius: var(--ui-radius-pill); color: var(--color-text-muted); font-size: var(--ui-text-meta); }
+  .stage-template-label { white-space: nowrap; }
+  .stage-template select { min-height: 32px; max-width: 240px; text-overflow: ellipsis; padding: 0 28px 0 4px; border: 0; background-color: transparent; color: var(--color-text-primary); font-size: var(--ui-text-meta); font-weight: var(--weight-medium); box-shadow: none; }
+  .stage-template:focus-within { border-color: var(--color-text-primary); }
+  .stage-template select:focus-visible { box-shadow: none; outline: none; }
+  .stage-notice, .stage-note { margin: 4px 20px 0; }
+  .stage-canvas { padding: 8px 20px 10px; }
+  /* The slide sits centred in a black inset, like a monitor */
+  .stage-frame { width: min(100cqw - 40px, (100cqh - 108px) * 16 / 9 + 40px); padding: 20px; border-radius: var(--ui-radius-28); background: var(--brand-black); }
+  .stage-slide { border-radius: 4px; box-shadow: none; }
+  .stage-pager .icon-button { border: 1px solid var(--color-border-strong); }
+  .stage-count { font-size: var(--ui-text-small); }
+  .stage-disclaimer { padding: 0 20px 10px; font-size: var(--ui-text-meta); }
+  .stage-pages { padding: 12px 20px 20px; }
+  .stage-page .stage-slide { outline: 3px solid transparent; outline-offset: 4px; transition: outline-color var(--duration-base) var(--ease-standard); }
+  .stage-page[aria-current] .stage-slide { outline-color: var(--color-accent); }
+  /* Thumbnail strip: no tray of its own; the current page is outlined green */
+  .slide-strip-nav { border-top: 0; background: transparent; }
+  .stage-strip { padding: 6px 20px 18px; scroll-padding-inline: 20px; }
+  .strip-thumb .stage-slide { border-radius: 6px; outline-width: 2px; outline-offset: 3px; transition: outline-color var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
+  .strip-thumb:hover .stage-slide { transform: translateY(-2px); }
+  .strip-thumb:active .stage-slide { transform: scale(.97); }
+  .live-stage-empty { min-height: 360px; }
+  .live-stage-empty .empty-state { border: 0; background: none; }
+  .stage-loading-slide { border-radius: var(--ui-radius-20); }
+
+  /* ---------- Step 1 · Project ---------- */
+  .workspace-frame .config-panel .next-up-tiles > div { border-radius: var(--ui-radius-20); background: var(--brand-white); }
+  .workspace-frame .config-panel .next-up-tiles dd strong { display: block; margin: 4px 0 2px; font-size: var(--ui-text-stat); font-weight: var(--weight-medium); letter-spacing: var(--ui-tracking-stat); line-height: var(--ui-leading-stat); }
+  .workspace-frame .config-panel .next-steps { margin: 0; padding: 0; list-style: none; }
+  .workspace-frame .config-panel .next-steps > li { padding: 14px 16px; border-radius: var(--ui-radius-20); background: var(--brand-white); }
+  .workspace-frame .config-panel .next-steps > li > .button { border: 1px solid var(--color-border); }
+
+  /* ---------- Step 2 · Specs: flat sections on the paper, divided by hairlines ---------- */
+  .workspace-frame .config-panel .specs-source .editor-section { padding: var(--space-5) 0 0; border: 0; border-top: 1px solid var(--color-border); border-radius: 0; background: none; }
+  .workspace-frame .config-panel .specs-source > .editor-section:first-child { padding-top: var(--space-2); border-top: 0; }
+  .workspace-frame .config-panel .specs-processing .notice, .workspace-frame .config-panel .specs-processing > p { border-radius: var(--ui-radius-18); }
+  .workspace-frame .config-panel .role-editor { border: 1px solid var(--color-border); border-radius: var(--ui-radius-20); background: var(--brand-white); }
+  .workspace-frame .config-panel .role-editor > .role-heading { padding: 14px 16px; }
+  .workspace-frame .config-panel .role-editor h3 { font-size: var(--ui-text-lede); font-weight: var(--weight-medium); letter-spacing: -.01em; }
+
+  /* ---------- Step 3 · Candidates: one white card per person ---------- */
+  .workspace-frame .config-panel .project-candidate-list { gap: 10px; border: 0; border-radius: 0; overflow: visible; }
+  .workspace-frame .config-panel .candidate-row, .workspace-frame .config-panel .candidate-row:first-child { border: 1px solid var(--color-border); border-radius: var(--ui-radius-20); background: var(--brand-white); transition: border-color var(--duration-fast) var(--ease-standard); }
+  .workspace-frame .config-panel .candidate-row:hover, .workspace-frame .config-panel .candidate-row.is-open { background: var(--brand-white); border-color: var(--color-border-strong); }
+  .workspace-frame .config-panel .candidate-row-summary { padding: 12px 12px 14px; gap: 10px var(--space-2); }
+  .workspace-frame .config-panel .candidate-row-summary > :is(.frame-strip, .candidate-availability, .cluster) { padding-left: calc(64px + var(--space-3)); }
+  .workspace-frame .config-panel .candidate-row .candidate-portrait { width: 64px; height: 76px; border-radius: var(--ui-radius-14); }
+  .workspace-frame .config-panel .candidate-row-summary h3 { font-size: var(--ui-text-lede); font-weight: var(--weight-medium); letter-spacing: -.01em; }
+  /* The picture state sits on the portrait (mockup), so the text column keeps its width */
+  .workspace-frame .config-panel .candidate-row .project-picture { position: relative; }
+  .workspace-frame .config-panel .candidate-row .project-picture-state { position: absolute; left: 4px; right: 4px; bottom: 4px; max-width: none; justify-content: center; padding: 2px 4px; font-size: var(--ui-text-badge); text-align: center; }
+  .workspace-frame .config-panel .candidate-row .frame-thumb { width: 44px; height: 56px; border-radius: 10px; }
+  .upload-status-row, .upload-queue > li { border-radius: var(--ui-radius-16); }
+
+  /* ---------- Step 4 · Casting: role cards, slot lanes, assignment cards ---------- */
+  .workspace-frame .config-panel .role-strip li { padding: 6px 6px 6px 14px; border-radius: var(--ui-radius-pill); background: var(--brand-white); }
+  .workspace-frame .config-panel .role-strip li.is-current { border-color: var(--bi-ink); background: var(--brand-white); box-shadow: inset 0 0 0 1px var(--bi-ink); }
+  .workspace-frame .config-panel .role-group { padding: 16px; border-radius: var(--ui-radius-26); background: var(--brand-white); }
+  .workspace-frame .config-panel .role-panel-title h3 { font-size: var(--ui-text-section); font-weight: var(--weight-medium); letter-spacing: -.015em; }
+  .workspace-frame .config-panel .slot-lane { padding: 12px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-20); background: var(--bi-paper); }
+  .workspace-frame .config-panel .assignment-card { grid-template-columns: 52px minmax(0, 1fr); padding: 10px; border-radius: var(--ui-radius-16); background: var(--brand-white); transition: border-color var(--duration-fast) var(--ease-standard); }
+  /* Main: the green-tinted card (green as a fill and line, never as text on paper) */
+  .workspace-frame .config-panel .assignment-card.is-main { border-color: var(--color-accent); background: var(--bi-p-green-bg); box-shadow: inset 0 0 0 1px var(--color-accent); }
+  .workspace-frame .config-panel .assignment-frame { width: 52px; height: 64px; border-radius: 12px; }
+  .assignment-card.is-lifted, .slot-lane.is-lifted, .role-group.is-lifted { position: relative; z-index: 2; }
+  .position-chip { border-radius: var(--ui-radius-pill); }
+  .workspace-frame .config-panel .position-main { background: var(--color-accent); color: var(--color-text-on-accent); }
+  /* Backup is marked white with ink text (a selected secondary marker) */
+  .workspace-frame .config-panel .position-backup { background: var(--brand-white); color: var(--bi-ink); box-shadow: inset 0 0 0 1px var(--bi-ink); }
+  .workspace-frame .config-panel .position-option { background: var(--bi-paper-2); color: var(--bi-ink-2); }
+  .shortlist-toggle { border-radius: var(--ui-radius-pill); }
+  .workspace-frame .config-panel .shortlist-toggle:has(input:checked) { color: var(--bi-ink); }
+  .workspace-frame .config-panel .shortlist-toggle:has(input:checked) svg { fill: var(--color-accent); }
+  .workspace-frame .config-panel .assignment-add { border-radius: var(--ui-radius-16); }
+  .workspace-frame .config-panel .candidate-tray .tray-list { gap: 6px; }
+  .workspace-frame .config-panel .tray-list li { padding: 8px 10px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-16); background: var(--brand-white); }
+  .workspace-frame .config-panel .tray-list li:hover { background: var(--brand-white); border-color: var(--color-border-strong); }
+  .workspace-frame .config-panel .tray-thumb { border-radius: 10px; overflow: hidden; }
+
+  @media (max-width: 1023px) {
+    .workspace-frame .config-panel .workspace-continue { margin-inline: -24px; }
+    .workspace-frame:not(.presentation-frame) .live-stage { position: static; height: auto; }
+    .stage-frame { width: 100%; padding: 12px; border-radius: var(--ui-radius-20); }
+  }
+  @media (max-width: 767px) {
+    .workspace-frame .config-panel .workspace-continue { border-radius: 0; }
+    .live-stage { border-radius: var(--ui-radius-28); }
+    .stage-bar { padding: 14px 16px 10px; }
+    .stage-canvas { padding: 8px 12px; }
+    .stage-strip { padding-inline: 16px; }
+    .stage-template { width: 100%; }
+    .stage-template select { flex: 1; max-width: none; }
+    .workspace-frame .config-panel .candidate-row-summary > :is(.frame-strip, .candidate-availability, .cluster) { padding-left: 0; }
+  }
 }
