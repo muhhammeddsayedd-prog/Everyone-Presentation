@@ -146,7 +146,7 @@ function RoleSlotsEditor({ role, canWrite, onRoleSaved, onWorkspaceChanged, onDi
 
   return <section aria-label={`Slots for ${role.name || 'unnamed role'}`} className="role-slots" data-role-id={role.id}>
     <fieldset className="presentation-read-lock" disabled={retirementInput !== null}>
-    <div className="section-heading"><div><h4>Individual slots</h4><p className="small muted">{role.headcount === null ? 'Count not provided. One provisional slot keeps this role open.' : `${role.headcount} required ${role.headcount === 1 ? 'person' : 'people'}.`}</p></div>
+    <div className="section-heading"><div><p className="small muted">{role.headcount === null ? 'Count not provided. One provisional slot keeps this role open.' : `${role.headcount} required ${role.headcount === 1 ? 'person' : 'people'}.`}</p></div>
       <span className="save-state" role="status" aria-live="polite">{countState === 'saving' ? 'Saving count…' : countState === 'failed' ? 'Count save failed' : review ? 'Unsaved count review' : countState === 'saved' ? 'Count saved' : role.headcount === null ? 'Count not provided' : 'Count up to date'}</span></div>
     {role.headcount === null && <span className="badge">Needs clarification · provisional slot</span>}
     <div className="form-grid"><div className="field"><label htmlFor={countId}>Required people</label><div className="stepper headcount-stepper">

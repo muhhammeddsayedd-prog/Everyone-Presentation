@@ -31,6 +31,9 @@ export function sceneProgress(scene: Scene, slots: readonly Slot[], assignments:
   return { roles: confirmed.length, cast: confirmed.filter(item => roleProgress(item, slots, assignments).cast).length };
 }
 
+/** "1 option", "2 backups": a count with its singular or plural noun. */
+export const countText = (count: number, one: string, many = `${one}s`) => `${count} ${count === 1 ? one : many}`;
+
 export const progressText = (progress: SceneProgress) => progress.roles === 0 ? 'No roles yet' : `${progress.cast}/${progress.roles} ${progress.roles === 1 ? 'role' : 'roles'} cast`;
 
 /** Scenes (in order) in which a role appears. */

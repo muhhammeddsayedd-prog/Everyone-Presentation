@@ -10,6 +10,7 @@ import { processingHref } from './processing-view';
 import { readSourceAccepted, retainSourceIntent, sourceFailure, type SourceAccepted, type SourceIntent } from './source-intake';
 import { useConfirm } from './ui/Confirm';
 import { FileSourceIntake } from './FileSourceIntake';
+import { SegmentIndicator } from './motion/SegmentIndicator';
 
 export function SourceIntake({ spec, canWrite, uploadPurposes = [], storageOrigin, manualEditsPending, onPersisted, onDirtyChange, onLockChange }: {
   spec: Spec; canWrite: boolean; uploadPurposes?: readonly string[]; storageOrigin?: string; manualEditsPending: boolean;
@@ -96,11 +97,15 @@ export function SourceIntake({ spec, canWrite, uploadPurposes = [], storageOrigi
     } catch { if (mounted.current) setError('Saved requirements could not be refreshed. Your pasted text and previous request are retained.'); }
     finally { active.current = false; if (mounted.current) setBusy(false); }
   }
-  return <section className="editor-section"><div className="section-heading"><div><h2>Source brief</h2><p>{canWrite ? 'Supply the brief to request requirements extraction. You can also enter requirements manually below.' : 'Read the original brief and saved requirements.'}</p></div></div>
-    {spec.source_text !== null ? <details className="source-brief"><summary>Read the saved source</summary><pre dir="auto">{spec.source_text}</pre></details>
-      : <p className="small muted">{spec.source_asset_id ? 'A source document is recorded.' : 'No source brief supplied.'}</p>}
-    {spec.processing_job_id && <Link className="button button-small button-quiet source-processing-link" href={processingHref({ job: spec.processing_job_id })}><Icon name="processing" />View source processing</Link>}
-    {fileAllowed ? <div className="segmented source-mode" role="group" aria-label="Source input"><button type="button" aria-pressed={mode === 'text'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('text')}>Paste text</button><button type="button" aria-pressed={mode === 'file'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('file')}>Upload PDF, DOCX or text</button></div>
+  return <section className="editor-section specs-chapter source-chapter"><div className="section-heading chapter-head"><span className="chapter-mark" aria-hidden="true"><Icon name="brief" /></span><div><h2>Source brief</h2><p>{canWrite ? 'Supply the brief to request requirements extraction. You can also enter requirements manually below.' : 'Read the original brief and saved requirements.'}</p></div></div>
+    {(spec.source_text !== null || spec.processing_job_id) && <div className="source-saved">
+      {spec.source_text !== null ? <details className="source-brief"><summary><Icon name="file" />Read the saved source</summary><pre dir="auto">{spec.source_text}</pre></details>
+        : <p className="small muted">{spec.source_asset_id ? 'A source document is recorded.' : 'No source brief supplied.'}</p>}
+      {spec.processing_job_id && <Link className="button button-small button-quiet source-processing-link" href={processingHref({ job: spec.processing_job_id })}><Icon name="processing" />View source processing</Link>}
+    </div>}
+    {spec.source_text === null && !spec.processing_job_id && <p className="small muted">{spec.source_asset_id ? 'A source document is recorded.' : 'No source brief supplied.'}</p>}
+    <div className="source-intake-card">
+    {fileAllowed ? <div className="segmented source-mode" role="group" aria-label="Source input"><SegmentIndicator /><button type="button" aria-pressed={mode === 'text'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('text')}>Paste text</button><button type="button" aria-pressed={mode === 'file'} disabled={busy || pending || fileLocked} onClick={() => void chooseMode('file')}>Upload PDF, DOCX or text</button></div>
       : <div className="button-row"><button className="button button-small button-quiet" disabled>Upload PDF or Word</button><p className="small muted">File uploads are not available yet.{canWrite ? ' Paste the brief or edit requirements manually.' : ''}</p></div>}
     {mode === 'file' ? <FileSourceIntake spec={spec} canWrite={canWrite} uploadPurposes={uploadPurposes} storageOrigin={storageOrigin} manualEditsPending={manualEditsPending}
       onDirtyChange={fileDirtyChanged} onLockChange={fileLockChanged} onPersisted={(saved, roles, cursor) => { setText(saved.source_text ?? ''); onPersisted(saved, roles, cursor); }} /> : canWrite ? <form className="source-intake-form" onSubmit={event => { event.preventDefault(); void submit(); }}>
@@ -113,5 +118,6 @@ export function SourceIntake({ spec, canWrite, uploadPurposes = [], storageOrigi
         {(needsReload || pending && !busy && !accepted) && <button className="button button-quiet" type="button" disabled={busy || manualEditsPending} onClick={() => { void reloadSaved(); }}>Reload saved source</button>}</div>
     </form> : <p className="small muted">You can read this source. Editing and submission require workspace write access.</p>}
     {mode === 'text' && accepted && <div className="notice" role="status"><div><p>Source request recorded.</p><p className="small muted">Open processing for the latest saved status.</p></div><Link className="button button-small" href={processingHref({ job: accepted.job_id })}>View accepted processing</Link></div>}
+    </div>
   </section>;
 }

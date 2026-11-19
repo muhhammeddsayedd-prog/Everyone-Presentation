@@ -1,0 +1,48 @@
+/* Presentation step (cycle 9 follow-up): the step creates its series, measures the layout and generates in one place.
+   Lives on the paper panel, so colour tokens are the ink remap; green text uses --color-accent-text. */
+@layer screens {
+  /* Series: empty state and the quiet "New series" disclosure. */
+  .versions-panel .series-empty { display: grid; gap: var(--space-3); padding: 20px; border: 1px dashed var(--bi-card-line, var(--color-border)); border-radius: var(--ui-radius-24); }
+  .versions-panel .series-empty h4 { margin: 0; font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .versions-panel .series-empty p { margin: 0; }
+  .series-empty-icon { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: var(--radius-full); background: var(--color-accent-soft); color: var(--color-accent-text); }
+  .series-empty-icon svg { width: 20px; height: 20px; }
+  .series-create { display: grid; gap: var(--space-3); }
+  .series-create label { display: grid; gap: 6px; font-size: var(--ui-text-meta); color: var(--color-text-secondary); }
+  .series-create > .button { justify-self: start; }
+  .series-new { border-top: 1px solid var(--bi-card-line, var(--color-border)); padding-top: var(--space-3); }
+  .series-new > summary { display: inline-flex; align-items: center; gap: 6px; min-height: var(--ui-chip, 32px); cursor: pointer; font-weight: var(--weight-medium); color: var(--color-text-primary); }
+  .series-new[open] > .series-create { margin-top: var(--space-3); animation: eps-step-rise var(--duration-base, 200ms) var(--ease-standard, ease) both; }
+
+  /* Working draft: page counts as three figures, then a readiness list, then what to fix. */
+  .draft-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; }
+  .draft-facts > div { display: grid; gap: 2px; padding: 10px 12px; border-radius: var(--ui-radius-16); background: var(--color-surface-3); }
+  .draft-facts dt { color: var(--color-text-secondary); font-size: var(--ui-text-meta); }
+  .draft-facts dd { margin: 0; font-size: var(--ui-text-sub); font-weight: var(--weight-medium); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .draft-card ul.draft-readiness, .draft-card ul.draft-fixes { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; color: var(--color-text-primary); font-size: var(--ui-text-meta); }
+  .draft-readiness li { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: var(--ui-radius-16); background: var(--color-surface-3); line-height: 1.4; }
+  .draft-readiness li svg { flex: none; width: 16px; height: 16px; margin-top: 1px; color: var(--color-text-secondary); }
+  .draft-readiness li strong { font-weight: var(--weight-semibold); margin-right: 4px; }
+  .draft-readiness li[data-tone="ok"] svg { color: var(--color-accent-text); }
+  .draft-readiness li[data-tone="error"] { background: var(--color-danger-soft); }
+  .draft-readiness li[data-tone="error"] svg { color: var(--color-danger); }
+  .draft-readiness li[data-tone="warn"] svg { color: var(--color-warning); }
+  .draft-readiness li[data-tone="info"] svg { color: var(--color-accent-text); animation: eps-spin 1.1s linear infinite; }
+  .draft-fixes li { display: grid; justify-items: start; gap: var(--space-2); padding: 10px 12px; border: 1px solid var(--bi-card-line, var(--color-border)); border-left: 3px solid var(--color-danger); border-radius: var(--ui-radius-16); }
+  .draft-fix-text { display: grid; gap: 2px; min-width: 0; }
+  .draft-fix-text > span { color: var(--color-text-secondary); }
+  .draft-cover-note { display: grid; gap: var(--space-2); }
+  .draft-cover-note label { display: grid; gap: 6px; font-size: var(--ui-text-meta); color: var(--color-text-secondary); }
+  .draft-card .button-primary.draft-generate { justify-self: stretch; min-height: 48px; }
+  .draft-progress { display: grid; gap: 8px; margin: 0; color: var(--color-text-secondary); }
+  .draft-progress-bar { position: relative; height: 4px; overflow: hidden; border-radius: var(--radius-full); background: var(--color-surface-3); }
+  .draft-progress-bar::after { content: ''; position: absolute; inset: 0 auto 0 0; width: 40%; border-radius: inherit; background: var(--color-accent); animation: eps-progress-slide 1.4s var(--ease-standard, ease) infinite; }
+
+  @keyframes eps-step-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes eps-spin { to { transform: rotate(360deg); } }
+  @keyframes eps-progress-slide { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .series-new[open] > .series-create, .draft-readiness li[data-tone="info"] svg { animation: none; }
+    .draft-progress-bar::after { animation: none; width: 100%; opacity: .5; }
+  }
+}

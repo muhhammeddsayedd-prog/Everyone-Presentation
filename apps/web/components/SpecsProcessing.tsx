@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ApiError, api } from './api';
 import { ErrorNotice } from './Feedback';
+import { Icon } from './Icon';
 import { STATUS_LABELS, STATUS_TONES, jobStageLabel, processingDelay, processingHref, type ProcessingJob } from './processing-view';
 import { readSpecsProcessingJob, SpecsProcessingScopeError, specsProcessingMessage, type SpecsProcessingScope } from './specs-processing';
 
@@ -38,12 +39,12 @@ export function SpecsProcessing({ workspaceId, specId, jobId, loadBlocked, onRel
     return () => { current = false; controller?.abort(); clearTimeout(timer); clearTimeout(deadline); };
   }, [workspaceId, specId, jobId, refresh]);
   return <section className="editor-section specs-processing" aria-labelledby="source-processing-heading">
-    <div className="section-heading"><h2 id="source-processing-heading">Source processing</h2>{job && <span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span>}</div>
-    <p className="small" role="status" aria-live="polite">{job ? specsProcessingMessage(job) : checking ? 'Reading saved source processing…' : 'Source processing status is unavailable.'}</p>
-    {job && <p className="small muted">{jobStageLabel(job.stage)}</p>}
+    <div className="section-heading specs-processing-head"><span className="specs-processing-mark" data-status={job?.status} aria-hidden="true"><Icon name="processing" /></span><h2 id="source-processing-heading">Source processing</h2>{job && <span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span>}</div>
+    <div className="specs-processing-body"><p className="small" role="status" aria-live="polite">{job ? specsProcessingMessage(job) : checking ? 'Reading saved source processing…' : 'Source processing status is unavailable.'}</p>
+    {job && <p className="small muted">{jobStageLabel(job.stage)}</p>}</div>
     {error && <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} />}
-    <div className="button-row"><Link className="button button-small button-quiet" href={processingHref({ job: jobId })}>Processing details</Link>
-      {job?.status === 'succeeded' && <button className="button button-small" disabled={loadBlocked || checking || Boolean(error)} onClick={onReload}>Load saved requirements</button>}</div>
+    <div className="button-row"><Link className="button button-small button-quiet" href={processingHref({ job: jobId })}>Processing details<Icon name="external" /></Link>
+      {job?.status === 'succeeded' && <button className="button button-small button-load" disabled={loadBlocked || checking || Boolean(error)} onClick={onReload}>Load saved requirements</button>}</div>
     {job?.status === 'succeeded' && loadBlocked && <p className="small muted">Save or resolve local changes before loading saved requirements.</p>}
   </section>;
 }

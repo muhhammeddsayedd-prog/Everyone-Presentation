@@ -101,7 +101,7 @@ function ShareScope({ actor, onDirtyChange, seriesId: fixedSeries, workspaceId, 
     try { const created = (await api<PresentationSeries>('/api/v1/presentation-series', { ...mutation('POST', { workspace_id: workspaceId, output_type: output, audience_preset_id: contextPreset }), signal: AbortSignal.timeout(30000) })).data;
       if (created.workspace_id !== workspaceId || created.audience_preset_id !== contextPreset) throw new Error('The review context could not be confirmed.');
       setChoices(old => [...old.filter(row => row.id !== created.id), created]); setChosen(created.id); setSeries(null); setVersions([]); setSelected(''); setLoading(true);
-      setContextNote('Review context ready in its own series. Nothing was published and no link was sent; generate a version in Review when ready.');
+      setContextNote('Review context ready in its own series. Nothing was published and no link was sent; generate a version in Presentation when ready.');
     } catch (reason) { setError(reviewError(reason)); } finally { setContextBusy(false); }
   }
   async function discardFeedback() {
@@ -125,7 +125,7 @@ function ShareScope({ actor, onDirtyChange, seriesId: fixedSeries, workspaceId, 
         {!canCreate && <p className="small">Creating a review series requires presentation generation permission.</p>}
         {contextNote && <p className="small" role="status">{contextNote}</p>}
       </details>}</section>}
-    {loading && !series ? <Loading label="Opening sharing…" /> : !series ? !error && <div className="empty-state compact"><Icon name="share" /><h3>No presentation series yet</h3><p>Create a series in Review and generate a version before sharing it.</p></div> : <>
+    {loading && !series ? <Loading label="Opening sharing…" /> : !series ? !error && <div className="empty-state compact"><Icon name="share" /><h3>No presentation series yet</h3><p>Create a series in Presentation and generate a version before sharing it.</p></div> : <>
       <p className="small muted">{series.title} · Cast {series.output_type === 'selection' ? 'Selection' : 'Shortlist'} · {series.audience_snapshot.label} · {series.audience_snapshot.scope === 'external' ? 'external audience' : 'internal audience'}</p>
       {external ? <ReviewLinksPanel seriesId={series.id} workspaceId={series.workspace_id} actor={actor} onDirtyChange={setLinkPending} />
         : <div className="notice notice-info"><p>This series has an internal audience. Use a separate external-audience series for guest sharing.</p></div>}

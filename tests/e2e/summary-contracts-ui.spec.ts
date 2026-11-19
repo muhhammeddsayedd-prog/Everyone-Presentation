@@ -37,9 +37,9 @@ test('workspace summary drives step statuses, output counts and Next up wording'
   await expect(steps.getByRole('link', { name: '2 Specs 2 to clarify', exact: true })).toBeVisible();
   await expect(steps.getByRole('link', { name: '3 Candidates 6 in project', exact: true })).toBeVisible();
   await expect(steps.getByRole('link', { name: '4 Casting 1 open slot', exact: true })).toBeVisible();
-  await expect(steps.getByRole('link', { name: '6 Presentation v2 ready', exact: true })).toBeVisible();
-  // review_issue_count is null in this contract: the Review step shows no number at all.
-  await expect(steps.getByRole('link', { name: '5 Review', exact: true })).toBeVisible();
+  await expect(steps.getByRole('link', { name: '5 Presentation v2 ready', exact: true })).toBeVisible();
+  // There is no Review step: the Presentation step runs the checks itself.
+  await expect(steps.getByRole('link', { name: /Review/u })).toHaveCount(0);
   const outputs = page.getByRole('group', { name: 'Working output' });
   await expect(outputs.getByRole('button', { name: /^Cast Selection\s*,\s*5 assignments$/ })).toHaveAttribute('aria-pressed', 'true');
   await expect(outputs.getByRole('button', { name: /^Cast Shortlist\s*,\s*2 assignments$/ })).toBeVisible();

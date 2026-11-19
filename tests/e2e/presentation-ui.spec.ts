@@ -43,7 +43,7 @@ test('generation retains an unknown request and saved versions never follow late
     return route.fulfill({ status: 404, json: { error: { code: 'NOT_FOUND', message: 'Synthetic route unavailable' } } });
   });
   await page.goto(`/projects/${project}/casting/${workspace}/presentations`);
-  await expect(page.getByRole('heading', { name: 'Versions', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Presentation', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Generate saved version', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Generate saved version', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Confirm generation request', exact: true })).toBeVisible();
@@ -122,7 +122,7 @@ test('saved viewer has mobile frame controls, complete Pending fields and fixed-
   expect(requests.filter(path => /\/candidates\/|^\/api\/v1\/media\//u.test(path))).toEqual([]);
 });
 
-test('review and generation navigation keeps the chosen series instead of the workspace default', async ({ page }) => {
+test('presentation navigation keeps the chosen series and old Review links open the Presentation step', async ({ page }) => {
   const selection = presentationFixture({ frames: 0 }), shortlist = structuredClone(selection);
   const reviewReads: (string | null)[] = []; let seriesReads = 0;
   shortlist.series_id = presentationId(90); shortlist.cover.output_type = 'shortlist'; shortlist.cover.title = 'Synthetic Shortlist';
@@ -150,20 +150,20 @@ test('review and generation navigation keeps the chosen series instead of the wo
     return route.fulfill({ status: 404, json: {} });
   });
   const base = `/projects/${selection.project_id}/casting/${selection.workspace_id}`;
-  await page.goto(`${base}/review`);
-  await page.getByRole('combobox', { name: 'Saved review series', exact: true }).selectOption(shortlist.series_id);
-  await expect(page.getByText(/^Server check · revision \d+ · Synthetic Shortlist$/u)).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Continue to Presentation', exact: true })).toHaveAttribute('href', `${base}/presentations?series_id=${shortlist.series_id}`);
-  await page.getByRole('link', { name: 'Continue to Presentation', exact: true }).click();
+  // The former Review step's links open the Presentation step with the same series.
+  await page.goto(`${base}/review?series_id=${shortlist.series_id}`);
+  await expect(page).toHaveURL(`${base}/presentations?series_id=${shortlist.series_id}`);
   await expect(page.getByRole('combobox', { name: 'Presentation series', exact: true })).toHaveValue(shortlist.series_id);
   await expect(page.getByRole('button', { name: 'Generate saved version', exact: true })).toBeEnabled();
-  await expect(page.getByRole('link', { name: 'Open Final Review', exact: true })).toHaveAttribute('href', `${base}/review?series_id=${shortlist.series_id}`);
-  await page.getByRole('link', { name: 'Open Final Review', exact: true }).click();
-  await expect(page.getByRole('combobox', { name: 'Saved review series', exact: true })).toHaveValue(shortlist.series_id);
-  await expect(page.getByRole('navigation', { name: 'Casting workspace steps' }).getByRole('link', { name: '6 Presentation', exact: true })).toHaveAttribute('href', `${base}/presentations?series_id=${shortlist.series_id}`);
+  const stepsNav = page.getByRole('navigation', { name: 'Casting workspace steps' });
+  await expect(stepsNav.getByRole('link', { name: /Review/u })).toHaveCount(0);
+  await expect(stepsNav.getByRole('link', { name: '5 Presentation', exact: true })).toHaveAttribute('href', `${base}/presentations?series_id=${shortlist.series_id}`);
+  await expect(stepsNav.getByRole('link', { name: '6 Share & feedback', exact: true })).toHaveAttribute('href', `${base}/share?series_id=${shortlist.series_id}`);
+  await page.getByRole('combobox', { name: 'Presentation series', exact: true }).selectOption(selection.series_id);
+  await expect(page.getByRole('link', { name: 'Continue to Share & feedback', exact: true })).toHaveAttribute('href', `${base}/share?series_id=${selection.series_id}`);
   const foreign = presentationId(99);
   await page.goto(`${base}/presentations?series_id=${foreign}`);
-  await expect(page.getByText('The linked presentation series is unavailable in this workspace. Return to Final Review to choose its context.', { exact: true })).toBeVisible();
+  await expect(page.getByText('The linked presentation series is unavailable in this workspace. Choose another series or create one.', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Generate saved version', exact: true })).toHaveCount(0);
   expect(reviewReads).not.toContain(foreign);
   const beforeInvalid = seriesReads;

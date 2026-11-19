@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { StepFooter } from './workspace/StepFlow';
-import { isGenerationTemplate, templateName } from './workspace/template-names';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { isGenerationTemplate, isPortraitTemplate, templateName } from './workspace/template-names';
+import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
 import type { PresentationSeries, PresentationVersion, ReviewJobAccepted, WorkspaceReview } from '@eps/domain';
 import { summarizePresentationChanges } from '../../../packages/domain/src/presentation';
 import { api, ApiError, errorMessage, mutation, type Actor, type Envelope, type Workspace } from './api';
@@ -14,6 +14,7 @@ import { PageFrame } from './shell/PageFrame';
 import { DeckStage } from './workspace/DeckStage';
 import { useStageDeck } from './workspace/useStageDeck';
 import { SavedStage, statusLabel, useSavedVersion, VersionActions } from './presentation/saved-version';
+import { checkLink, checkTitle, fitFieldLabel, LAYOUT_CHECK_CODES } from './presentation/checks';
 import { m as motion } from 'motion/react';
 import { RevealItem, RevealList } from './motion/Reveal';
 import { glide } from './motion/presets';
@@ -22,8 +23,13 @@ interface Props { projectId: string; workspaceId: string; actor: Actor; initialO
 interface GenerationIntent { path: string; init: RequestInit; seriesId: string }
 interface Draft { workspace: Workspace; review: WorkspaceReview; series: PresentationSeries; lastReady: PresentationVersion | null }
 
-/** Versions, presentation-first: series, the working draft and saved history in the panel; on the stage either the
- * server-checked working draft (exactly what Generate captures) or the selected saved version's own snapshot. */
+const outputName = (value: 'selection' | 'shortlist') => value === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
+const plural = (count: number, one: string, many = `${one}s`) => `${count} ${count === 1 ? one : many}`;
+const FIT_POLL_MS = 2000, FIT_WAIT_MS = 5 * 60 * 1000;
+
+/** The Presentation step: choose or create the series, then generate. Generate runs the server's layout measurement
+ * first when this exact draft has not been measured, then captures the version — there is no separate Review step.
+ * On the stage: the server-checked working draft (exactly what Generate captures) or the selected saved version. */
 export function WorkspacePresentationView(props: Props) { return <PresentationScope key={`${props.actor.id}:${props.workspaceId}`} {...props} />; }
 function PresentationScope({ projectId, workspaceId, actor, initialOutput, requestedSeriesId, onSeriesChanged, onDirtyChange }: Props) {
   const [series, setSeries] = useState<PresentationSeries[]>([]); const [seriesId, setSeriesId] = useState('');
@@ -33,13 +39,18 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
   const [error, setError] = useState(''); const [notice, setNotice] = useState(''); const [refresh, setRefresh] = useState(0);
   const [readingMore, setReadingMore] = useState(false); const [stale, setStale] = useState(false);
   const [choicesLoading, setChoicesLoading] = useState(true);
+  const [output, setOutput] = useState(initialOutput); const [audienceMissing, setAudienceMissing] = useState(false);
+  const [coverNote, setCoverNote] = useState<string | null>(null);
+  // The layout measurement job started by Generate; while it runs nothing else can change the draft from here.
+  const [fitJob, setFitJob] = useState<string | null>(null); const generateAfterFit = useRef(false);
   const [choicesRefresh, setChoicesRefresh] = useState(0); const alive = useRef(false); const sending = useRef(false); const intent = useRef<GenerationIntent | null>(null);
   const activeSeries = useRef(''); const contextRequest = useRef(0); const knownSeries = useRef(new Map<string, PresentationSeries>()); const historyCursors = useRef(new Set<string>());
   const canGenerate = actor.capabilities?.includes('presentations.generate') && actor.capabilities?.includes('workspaces.write') && actor.capabilities?.includes('cast.read');
-  const locked = busy || uncertain || readingMore;
+  const canCreate = actor.capabilities?.includes('presentations.generate') === true;
+  const locked = busy || uncertain || readingMore || !!fitJob;
   useEffect(() => { if (seriesId) onSeriesChanged?.(seriesId); }, [seriesId, onSeriesChanged]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
-  useEffect(() => { onDirtyChange(busy || uncertain); return () => onDirtyChange(false); }, [busy, uncertain, onDirtyChange]);
+  useEffect(() => { onDirtyChange(busy || uncertain || !!fitJob || coverNote !== null); return () => onDirtyChange(false); }, [busy, uncertain, fitJob, coverNote, onDirtyChange]);
   const settled = useCallback(() => { if (!intent.current) { setLoading(true); setRefresh(value => value + 1); } }, []);
   useEffect(() => {
     let current = true; const controller = new AbortController(); const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(30000)]);
@@ -54,7 +65,7 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
           if (!next) break; if (seen.has(next) || n === 99) throw new Error('Series changed while paging. Refresh the choices.'); seen.add(next);
         }
         if (!current || intent.current) return;
-        if (requestedSeriesId && !all.some(row => row.id === requestedSeriesId)) throw new Error('The linked presentation series is unavailable in this workspace. Return to Final Review to choose its context.');
+        if (requestedSeriesId && !all.some(row => row.id === requestedSeriesId)) throw new Error('The linked presentation series is unavailable in this workspace. Choose another series or create one.');
         all.forEach(row => knownSeries.current.set(row.id, row));
         const selected = activeSeries.current || requestedSeriesId || all.find(row => row.output_type === initialOutput)?.id || all[0]?.id || '';
         // An in-flight refresh never silently replaces an already chosen context.
@@ -88,9 +99,44 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
         setVersions(history.data.some(row => row.id === last?.id) || !last ? history.data : [...history.data, last]);
         setCursor(history.page?.next_cursor ?? null); historyCursors.current.clear(); setStale(false); knownSeries.current.set(saved.id, saved); setSeries(rows => rows.map(row => row.id === saved.id ? saved : row));
         setError('');
-      } catch (reason) { if (current && !intent.current) { setDraft(null); setError(errorMessage(reason)); } } finally { if (current && !intent.current) setLoading(false); }
+      } catch (reason) { if (current && !intent.current) { setDraft(null); setError(errorMessage(reason)); generateAfterFit.current = false; } } finally { if (current && !intent.current) setLoading(false); }
     }; void load(); return () => { current = false; controller.abort(); };
   }, [workspaceId, projectId, seriesId, refresh, uncertain]);
+  // Follow the layout measurement Generate started; when it settles, re-read the checked draft.
+  useEffect(() => {
+    if (!fitJob) return; let current = true; let timer: ReturnType<typeof setTimeout> | undefined; const controller = new AbortController(); const started = Date.now();
+    const poll = async () => {
+      try {
+        const job = (await api<{ id: string; status: string }>(`/api/v1/jobs/${encodeURIComponent(fitJob)}`, { signal: controller.signal })).data;
+        if (!current) return; if (job.id !== fitJob) throw new Error('Layout job identity changed.');
+        if (['succeeded', 'failed', 'cancelled', 'waiting_for_input'].includes(job.status)) {
+          if (job.status !== 'succeeded') { generateAfterFit.current = false; setNotice(''); setError('The layout check could not complete. Nothing was generated and saved work is unchanged. Generate again to retry.'); }
+          setFitJob(null); setLoading(true); setRefresh(value => value + 1); return;
+        }
+        if (Date.now() - started > FIT_WAIT_MS) { generateAfterFit.current = false; setFitJob(null); setNotice('The layout check is still running. Follow it in Processing, then refresh this draft.'); return; }
+        timer = setTimeout(() => void poll(), FIT_POLL_MS);
+      } catch (reason) { if (current) { generateAfterFit.current = false; setFitJob(null); setError(errorMessage(reason)); } }
+    };
+    void poll(); return () => { current = false; controller.abort(); clearTimeout(timer); };
+  }, [fitJob]);
+  // After a measurement Generate asked for, continue to generation once the re-read draft allows it.
+  const continueAfterFit = useEffectEvent((value: Draft) => {
+    generateAfterFit.current = false;
+    if (value.review.can_generate) void generate();
+    else { setNotice(''); setError(value.review.fit.overflows.length ? `The layout check found ${plural(value.review.fit.overflows.length, 'field')} that ${value.review.fit.overflows.length === 1 ? 'does' : 'do'} not fit. Shorten ${value.review.fit.overflows.length === 1 ? 'it' : 'them'}, then generate again.` : 'Checks still block generation. Fix the items listed below, then generate again.'); }
+  });
+  useEffect(() => { if (draft && !fitJob && !loading && generateAfterFit.current) continueAfterFit(draft); }, [draft, fitJob, loading]);
+  async function measureThenGenerate() {
+    if (sending.current || !draft || uncertain || fitJob) return;
+    sending.current = true; setBusy(true); setError(''); setNotice('');
+    try {
+      const accepted = (await api<ReviewJobAccepted>(`/api/v1/workspaces/${encodeURIComponent(workspaceId)}/review/fit`, { ...mutation('POST', { series_id: draft.series.id, expected_input_fingerprint: draft.review.input_fingerprint }), signal: AbortSignal.timeout(30000) })).data;
+      if (!alive.current) return;
+      if (!accepted.job_id) throw new Error('The layout check could not be started.');
+      generateAfterFit.current = true; setFitJob(accepted.job_id); setNotice('Checking the layout with the registered template, then generating…');
+    } catch (reason) { if (alive.current) { generateAfterFit.current = false; if (reason instanceof ApiError && reason.status === 409) setStale(true); setError(errorMessage(reason)); } }
+    finally { sending.current = false; if (alive.current) setBusy(false); }
+  }
   async function generate(retry = false) {
     if (sending.current || !retry && (uncertain || !draft || choicesLoading || loading || draft.series.id !== activeSeries.current)) return;
     if (!retry) intent.current = { seriesId, path: `/api/v1/presentation-series/${seriesId}/versions`, init: mutation('POST', {
@@ -103,12 +149,38 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
       const value = (await api<ReviewJobAccepted>(request.path, { ...request.init, signal: AbortSignal.timeout(30000) })).data;
       if (!alive.current) return;
       if (!/^[a-f0-9-]{36}$/u.test(value.resource_id) || request.seriesId !== activeSeries.current) throw new Error('The generation acknowledgement could not be confirmed.');
-      intent.current = null; setUncertain(false); setSelectedVersion(value.resource_id); setNotice('The captured version is saved. Its processing status is shown on the stage.'); setRefresh(value => value + 1);
+      intent.current = null; setUncertain(false); setSelectedVersion(value.resource_id); setNotice('The captured version is saved. Its processing status and PDF are shown on the stage.'); setRefresh(value => value + 1);
     } catch (reason) { if (alive.current) {
       const unknown = uncertain || !(reason instanceof ApiError) || reason.status >= 500 || [408, 429].includes(reason.status);
       setUncertain(unknown); if (!unknown) { intent.current = null; if (reason instanceof ApiError && reason.status === 409) setStale(true); }
       setError(`${unknown ? 'Generation may have been accepted. Confirm the same request before starting another. ' : ''}${errorMessage(reason)}`);
     } } finally { sending.current = false; if (alive.current) setBusy(false); }
+  }
+  /** A new series for the chosen output. The server applies the Studio's default review audience and template and
+   * reuses an existing matching series. Another audience (for example Agency) is chosen in Share. */
+  async function createSeries() {
+    if (sending.current || uncertain) return; sending.current = true; setBusy(true); setError(''); setNotice(''); setAudienceMissing(false);
+    try {
+      const value = (await api<PresentationSeries>('/api/v1/presentation-series', { ...mutation('POST', { workspace_id: workspaceId, output_type: output }), signal: AbortSignal.timeout(30000) })).data;
+      if (!alive.current) return;
+      if (value.workspace_id !== workspaceId) throw new Error('The new series belongs to a different workspace.');
+      knownSeries.current.set(value.id, value); setSeries(rows => [...rows.filter(row => row.id !== value.id), value]);
+      activeSeries.current = value.id; contextRequest.current++; setSeriesId(value.id); setDraft(null); setVersions([]); setSelectedVersion(''); setLoading(true);
+      setNotice(`${outputName(value.output_type)} series ready. Generate when the working draft looks right.`);
+    } catch (reason) { if (!alive.current) return;
+      if (reason instanceof ApiError && reason.code === 'AUDIENCE_DEFAULT_REQUIRED') setAudienceMissing(true); else setError(errorMessage(reason));
+    } finally { sending.current = false; if (alive.current) setBusy(false); }
+  }
+  async function saveCoverNote(value: string | null) {
+    const target = draft?.series; if (!target || sending.current) return;
+    sending.current = true; setBusy(true); setError(''); setNotice('');
+    try {
+      const saved = (await api<PresentationSeries>(`/api/v1/presentation-series/${encodeURIComponent(target.id)}`, { ...mutation('PATCH', { row_version: target.row_version, cover_note: value }), signal: AbortSignal.timeout(30000) })).data;
+      if (!alive.current) return;
+      knownSeries.current.set(saved.id, saved); setSeries(rows => rows.map(row => row.id === saved.id ? saved : row)); setCoverNote(null); setNotice('Cover note saved.');
+      setLoading(true); setRefresh(n => n + 1);
+    } catch (reason) { if (alive.current) { if (reason instanceof ApiError && reason.status === 409) setStale(true); setError(errorMessage(reason)); } }
+    finally { sending.current = false; if (alive.current) setBusy(false); }
   }
   async function more() {
     if (!cursor || locked || loading || choicesLoading) return;
@@ -128,10 +200,25 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
   const changes = draft ? summarizePresentationChanges(draft.review, draft.lastReady) : null;
   const chosenSeries = series.find(row => row.id === seriesId) ?? null;
   const blocking = draft?.review.issues.filter(issue => issue.severity === 'blocking') ?? [];
+  // Only "not measured yet / measurement failed" stands between this draft and Generate: Generate measures first.
+  const layoutOnly = !!draft && !draft.review.can_generate && blocking.length > 0 && blocking.every(issue => LAYOUT_CHECK_CODES.includes(issue.code));
+  const fixable = blocking.filter(issue => !LAYOUT_CHECK_CODES.includes(issue.code) && issue.code !== 'LAYOUT_OVERFLOW');
+  const overflows = draft?.review.fit.overflows ?? [];
   const notes = (draft?.review.issues.length ?? 0) - blocking.length;
-  const reviewHref = `${base}/review${seriesId ? `?series_id=${seriesId}` : ''}`;
+  const ready = !!draft && (draft.review.can_generate || layoutOnly);
   // Generate is the one filled action while the draft holds unsaved changes; Continue steps back to a quiet button.
-  const generateLeads = !!(draft && canGenerate && draft.review.can_generate && (!draft.lastReady || changes?.has_changes));
+  const generateLeads = !!(draft && canGenerate && ready && (!draft.lastReady || changes?.has_changes));
+  const layout = !draft ? null : fitJob ? { tone: 'info', text: 'Checking layout…' } : draft.review.fit.status === 'measured' ? overflows.length ? { tone: 'error', text: `${plural(overflows.length, 'field')} too long` } : { tone: 'ok', text: 'Fits the template' }
+    : draft.review.fit.status === 'failed' ? { tone: 'warn', text: 'Check failed · retried on Generate' } : { tone: 'muted', text: 'Checked when you generate' };
+  const shownCoverNote = coverNote ?? draft?.series.cover_note ?? '';
+
+  const createForm = <div className="series-create">
+    <label>Output for a new series<select value={output} disabled={locked || !canCreate} onChange={event => setOutput(event.target.value as typeof output)}><option value="selection">Cast Selection</option><option value="shortlist">Cast Shortlist</option></select></label>
+    <button className={`button${series.length ? '' : ' button-primary'}`} type="button" disabled={!canCreate || locked || choicesLoading} onClick={() => void createSeries()}><Icon name="plus" />Create presentation series</button>
+    {!canCreate && <p className="small">Creating a series requires presentation generation permission.</p>}
+    {audienceMissing && <div className="notice notice-warning" role="status" data-testid="audience-default-recovery"><p>No default review audience is set yet. Choose the Client audience as the default in Settings, then create the series here. To present to a different audience, choose a review context in Share.</p>
+      <span className="button-row"><Link className="button button-small" href="/settings#studio-defaults">Choose default audience in Settings</Link><Link className="button button-small button-quiet" href={`${base}/share`}>Open Share</Link></span></div>}
+  </div>;
 
   const panelBody = <div className="versions-panel stack-lg">
     {error && <ErrorNotice message={error} />}{notice && <p className="review-notice" role="status">{notice}</p>}
@@ -139,23 +226,48 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
     {stale && <div className="notice notice-warning" role="status"><p>The presentation information changed since this draft was read. Refresh the working draft, check it, then generate.</p><button className="button" disabled={locked || loading || choicesLoading} onClick={refreshAll}>Refresh the changed draft</button></div>}
     <section className="panel-section series-choice" aria-labelledby="versions-series-heading">
       <h3 id="versions-series-heading" className="panel-eyebrow">Presentation series</h3>
-      <label className="sr-only" htmlFor="versions-series">Presentation series</label>
-      <select id="versions-series" aria-label="Presentation series" title={chosenSeries ? `${chosenSeries.title} · ${chosenSeries.audience_snapshot.label} · ${templateName(chosenSeries.template_version)}` : undefined} value={seriesId} disabled={locked || loading || choicesLoading} onChange={event => { activeSeries.current = event.target.value; contextRequest.current++; setSeriesId(event.target.value); setDraft(null); setVersions([]); setSelectedVersion(''); setLoading(true); setNotice(''); }}>
-        {!series.length && <option value="">No saved series</option>}{series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} · {templateName(row.template_version)}</option>)}</select>
-      {chosenSeries && <p className="small muted">{chosenSeries.output_type === 'selection' ? 'Cast Selection' : 'Cast Shortlist'} · {chosenSeries.audience_snapshot.label} ({chosenSeries.audience_snapshot.scope}). Output, audience and template are fixed per series; change them in Review.</p>}
+      {series.length > 0 && <>
+        <label className="sr-only" htmlFor="versions-series">Presentation series</label>
+        <select id="versions-series" aria-label="Presentation series" title={chosenSeries ? `${chosenSeries.title} · ${chosenSeries.audience_snapshot.label} · ${templateName(chosenSeries.template_version)}` : undefined} value={seriesId} disabled={locked || loading || choicesLoading} onChange={event => { activeSeries.current = event.target.value; contextRequest.current++; setSeriesId(event.target.value); setDraft(null); setVersions([]); setSelectedVersion(''); setLoading(true); setNotice(''); setCoverNote(null); }}>
+          {series.map(row => <option key={row.id} value={row.id}>{row.title} · {row.audience_snapshot.label} · {templateName(row.template_version)}</option>)}</select>
+        {chosenSeries && <p className="small muted">{outputName(chosenSeries.output_type)} · {chosenSeries.audience_snapshot.label} ({chosenSeries.audience_snapshot.scope}) · {templateName(chosenSeries.template_version)}. Output, audience and template are fixed per series.</p>}
+        <details className="series-new"><summary>New series</summary>{createForm}</details>
+      </>}
+      {!series.length && !choicesLoading && <div className="series-empty"><span className="series-empty-icon" aria-hidden="true"><Icon name="slides" /></span><h4>Start a presentation series</h4><p className="small muted">A series keeps every saved version of one output for one audience. Choose the output, then generate.</p>{createForm}</div>}
     </section>
-    {loading && !draft && series.length > 0 ? <Loading label="Opening the working draft…" /> : !series.length ? !choicesLoading && <div className="empty-state compact"><Icon name="slides" /><h3>Choose a review context first</h3><p>Create or choose an Everyone Film Editorial 1.3.0 series in Review before generating.</p><Link className="button button-primary" href={reviewHref}>Open Final Review</Link></div>
+    {loading && !draft && series.length > 0 ? <Loading label="Opening the working draft…" />
       : draft && <section className="draft-card presentation-draft" data-current={!selectedVersion ? '' : undefined} aria-labelledby="working-draft-heading">
         <div className="draft-card-head"><h3 id="working-draft-heading" className="stage-chip stage-chip-ok"><span className="stage-chip-dot" aria-hidden="true" />Working draft</h3>
           {selectedVersion ? <button type="button" className="button button-small" onClick={() => setSelectedVersion('')}>Show on stage</button> : <span className="small muted">On the stage</span>}</div>
-        <p className="small">{draft.review.cover.project_name} · {draft.series.audience_snapshot.label} · Cast {draft.review.output_type === 'selection' ? 'Selection' : 'Shortlist'}</p>
-        <p className="small muted">{draft.review.candidate_slide_count} candidate pages · {draft.review.pending_slide_count} Pending pages · {draft.review.slides.length + 1} pages including the cover. Guests never see the draft.</p>
-        <p className="small">Layout: {draft.review.can_generate ? 'Measured and ready for this exact draft' : 'Review checks need attention'}</p>
-        {draft.review.issues.length > 0 && <div className={`draft-checks${blocking.length ? ' has-blocking' : ''}`}><p className="small"><strong>{blocking.length ? `${blocking.length} ${blocking.length === 1 ? 'check blocks' : 'checks block'} generation` : 'No blocking checks'}</strong>{notes > 0 && <span className="muted"> · {notes} allowed {notes === 1 ? 'note' : 'notes'} print as stated</span>}</p>{blocking.length > 0 && <ul>{blocking.slice(0, 3).map((issue, index) => <li key={`${issue.code}:${index}`}>{issue.message}</li>)}{blocking.length > 3 && <li>{blocking.length - 3} more in Final Review</li>}</ul>}</div>}
-        {changes && <div className="draft-change-summary"><h4 className="small">{!draft.lastReady ? 'First saved version' : changes.has_changes ? `Changes since ready version ${draft.lastReady.version_no}` : `Matches ready version ${draft.lastReady.version_no}`}</h4>{!draft.lastReady ? <p className="small muted">The first version will capture the current reviewed content.</p> : changes.has_changes ? <ul>{changes.added_assignments > 0 && <li>{changes.added_assignments} assignment{changes.added_assignments === 1 ? '' : 's'} added</li>}{changes.removed_assignments > 0 && <li>{changes.removed_assignments} assignment{changes.removed_assignments === 1 ? '' : 's'} removed</li>}{changes.changed_fields > 0 && <li>{changes.changed_fields} display field{changes.changed_fields === 1 ? '' : 's'} changed</li>}{changes.changed_media > 0 && <li>Selected media changed</li>}{changes.changed_requirements > 0 && <li>Requirements or open slots changed</li>}{changes.changed_casting > 0 && <li>Casting position changed</li>}{changes.order_changed && <li>Page order changed</li>}{changes.branding_changed && <li>Project, client or branding changed</li>}{changes.template_changed && <li>Template changed</li>}{changes.shared_source_changed && <li>Shared source information changed</li>}</ul> : <p className="small muted">No content changes since that ready version.</p>}</div>}
-        <button className="button button-primary" disabled={!canGenerate || locked || loading || choicesLoading || stale || !draft.review.can_generate} onClick={() => void generate()}><Icon name="sparkle" />Generate saved version</button>
-        <Link className="button button-quiet" href={reviewHref}>Open Final Review</Link>
+        <p className="small">{draft.review.cover.project_name} · {draft.series.audience_snapshot.label} · {outputName(draft.review.output_type)}</p>
+        <dl className="draft-facts">
+          <div><dt>Candidates</dt><dd>{draft.review.candidate_slide_count}</dd></div>
+          <div><dt>Pending</dt><dd>{draft.review.pending_slide_count}</dd></div>
+          <div><dt>Total pages</dt><dd>{draft.review.slides.length + 1}</dd></div>
+        </dl>
+        <ul className="draft-readiness" aria-label="Before generating">
+          <li data-tone={layout!.tone}><Icon name={layout!.tone === 'ok' ? 'check' : layout!.tone === 'error' ? 'alert' : fitJob ? 'refresh' : 'info'} /><span><strong>Layout</strong> {layout!.text}</span></li>
+          <li data-tone={fixable.length ? 'error' : 'ok'}><Icon name={fixable.length ? 'alert' : 'check'} /><span><strong>Checks</strong> {fixable.length ? `${plural(fixable.length, 'item blocks', 'items block')} generation` : 'Nothing else blocks generation'}</span></li>
+          {notes > 0 && <li data-tone="muted"><Icon name="info" /><span><strong>Notes</strong> {plural(notes, 'allowed note')} {notes === 1 ? 'prints' : 'print'} as stated (missing facts, open slots, fewer frames)</span></li>}
+        </ul>
+        {(fixable.length > 0 || overflows.length > 0) && <ul className="draft-fixes" aria-label="Fix before generating">
+          {fixable.map((issue, index) => { const link = checkLink(issue, draft.review, base); return <li key={`${issue.code}:${index}`}>
+            <span className="draft-fix-text"><strong dir="auto">{checkTitle(draft.review, issue.entity_id)}</strong><span>{issue.message}{issue.field && <> · {fitFieldLabel(issue.field)}</>}</span></span>
+            {link && <Link className="button button-small button-quiet" href={link.href}>{link.label}</Link>}</li>; })}
+          {overflows.map((overflow, index) => { const slide = overflow.slide_index > 0 ? draft.review.slides[overflow.slide_index - 1] : null; return <li key={`overflow:${index}`}>
+            <span className="draft-fix-text"><strong dir="auto">Slide {overflow.slide_index + 1} · {checkTitle(draft.review, null, overflow.slide_index)}</strong><span>{fitFieldLabel(overflow.field)} is {Math.ceil(overflow.overflow_px)} px too {overflow.axis === 'vertical' ? 'tall' : 'wide'}. Shorten the supplied wording.</span></span>
+            {slide?.candidate_id ? <Link className="button button-small button-quiet" href={`/library/cast/${slide.candidate_id}`}>Open profile</Link> : overflow.slide_index === 0 ? <Link className="button button-small button-quiet" href={`${base}/project`}>Open Project</Link> : null}</li>; })}
+        </ul>}
+        {isPortraitTemplate(draft.series.template_version) && <form className="draft-cover-note" onSubmit={event => { event.preventDefault(); void saveCoverNote(shownCoverNote.trim() || null); }}>
+          <label>Cover note<input type="text" maxLength={500} value={shownCoverNote} placeholder="e.g. Pending Availability." disabled={!canCreate || locked} onChange={event => setCoverNote(event.target.value)} /></label>
+          <span className="button-row"><button className="button button-small" type="submit" disabled={!canCreate || locked || coverNote === null}>Save cover note</button>
+            {draft.series.cover_note && <button className="button button-small button-quiet" type="button" disabled={!canCreate || locked} onClick={() => void saveCoverNote(null)}>Remove cover note</button>}</span>
+        </form>}
+        {changes && <div className="draft-change-summary"><h4 className="small">{!draft.lastReady ? 'First saved version' : changes.has_changes ? `Changes since ready version ${draft.lastReady.version_no}` : `Matches ready version ${draft.lastReady.version_no}`}</h4>{!draft.lastReady ? <p className="small muted">The first version will capture the current content.</p> : changes.has_changes ? <ul>{changes.added_assignments > 0 && <li>{changes.added_assignments} assignment{changes.added_assignments === 1 ? '' : 's'} added</li>}{changes.removed_assignments > 0 && <li>{changes.removed_assignments} assignment{changes.removed_assignments === 1 ? '' : 's'} removed</li>}{changes.changed_fields > 0 && <li>{changes.changed_fields} display field{changes.changed_fields === 1 ? '' : 's'} changed</li>}{changes.changed_media > 0 && <li>Selected media changed</li>}{changes.changed_requirements > 0 && <li>Requirements or open slots changed</li>}{changes.changed_casting > 0 && <li>Casting position changed</li>}{changes.order_changed && <li>Page order changed</li>}{changes.branding_changed && <li>Project, client or branding changed</li>}{changes.template_changed && <li>Template changed</li>}{changes.shared_source_changed && <li>Shared source information changed</li>}</ul> : <p className="small muted">No content changes since that ready version.</p>}</div>}
+        <button className="button button-primary draft-generate" aria-busy={fitJob || busy ? true : undefined} disabled={!canGenerate || locked || loading || choicesLoading || stale || !ready} onClick={() => void (layoutOnly ? measureThenGenerate() : generate())}><Icon name="sparkle" />Generate saved version</button>
+        {fitJob && <p className="draft-progress small" role="status"><span className="draft-progress-bar" aria-hidden="true" />Checking the layout, then generating. This usually takes under a minute.</p>}
         {!canGenerate && <p className="small">Generating requires presentation and project preparation permissions.</p>}
+        <p className="small muted">The saved version and its PDF appear on the stage. Guests never see the working draft.</p>
       </section>}
     {series.length > 0 && <section className="panel-section presentation-history" aria-labelledby="history-heading">
       <div className="history-head"><h3 id="history-heading" className="panel-eyebrow">Saved history</h3><span className="small muted">{versions.length} {versions.length === 1 ? 'version' : 'versions'}{cursor ? '+' : ''}</span></div>
@@ -172,9 +284,9 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
   </div>;
 
   return <PageFrame inline className="workspace-frame presentation-frame versions-frame"
-    panel={{ title: 'Versions', subtitle: 'Generate, view and share', label: 'Versions panel', wide: true, body: panelBody,
+    panel={{ title: 'Presentation', subtitle: 'Generate, download and share', label: 'Versions panel', wide: true, body: panelBody,
       actions: <button type="button" className="icon-button icon-button-small" aria-label="Refresh working draft" title="Refresh working draft" disabled={locked || loading || choicesLoading} onClick={refreshAll}><Icon name="refresh" /></button>,
-      footer: <StepFooter placement="panel" back={{ href: reviewHref, label: 'Review' }} next={{ href: `${base}/share${seriesId ? `?series_id=${seriesId}` : ''}`, label: 'Share & feedback', quiet: generateLeads }}>{selectedVersion && <Link className="button button-quiet button-small step-footer-aside" href={`/presentations/versions/${selectedVersion}`}><Icon name="external" />Open version page</Link>}</StepFooter> }}>
+      footer: <StepFooter placement="panel" back={{ href: `${base}/organize`, label: 'Casting' }} next={{ href: `${base}/share${seriesId ? `?series_id=${seriesId}` : ''}`, label: 'Share & feedback', quiet: generateLeads }}>{selectedVersion && <Link className="button button-quiet button-small step-footer-aside" href={`/presentations/versions/${selectedVersion}`}><Icon name="external" />Open version page</Link>}</StepFooter> }}>
     {selectedVersion ? <VersionStage key={selectedVersion} versionId={selectedVersion} seriesId={seriesId} onSettled={settled} latest={selectedVersion === draft?.series.latest_ready_version_id} />
       : <DraftStage review={draft?.review ?? null} loading={loading} empty={!series.length && !choicesLoading} />}
   </PageFrame>;
@@ -188,7 +300,7 @@ function DraftStage({ review, loading, empty }: { review: WorkspaceReview | null
   const stage = useStageDeck(review);
   const [index, setIndex] = useState(0);
   if (!review || !stage.deck) return <section className="live-stage live-stage-empty" aria-label="Slide preview" aria-busy={loading || undefined}>
-    {stage.error ? <ErrorNotice message={stage.error} /> : empty ? <div className="empty-state"><Icon name="slides" /><h2>No presentation series yet</h2><p>Create a series in Review; its working draft and saved versions appear here.</p></div>
+    {stage.error ? <ErrorNotice message={stage.error} /> : empty ? <div className="empty-state"><Icon name="slides" /><h2>No presentation series yet</h2><p>Create a series in the panel; its working draft and saved versions appear here.</p></div>
       : <div className="stage-loading" role="status"><span className="stage-loading-slide" aria-hidden="true" /><p>Opening the working draft…</p></div>}
   </section>;
   const bounded = Math.min(index, stage.deck.pages.length - 1);

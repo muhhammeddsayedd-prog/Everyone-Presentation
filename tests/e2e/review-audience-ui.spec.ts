@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-// Cycle 7 audience flow: ordinary review series use the Studio's default audience (no everyday Audience select),
+// Cycle 7 audience flow (series now created in the Presentation step): ordinary series use the Studio's default audience (no everyday Audience select),
 // a missing default gives an actionable recovery path, Share's advanced review context resolves or creates a
 // separate series without publishing, and Settings saves the default. Every record is synthetic.
 const workspace = '9a000000-0000-4000-8000-000000000001', project = '9a000000-0000-4000-8000-000000000002';
@@ -36,29 +36,28 @@ async function mock(page: Page, options: Options) {
   return { posts, linkWrites };
 }
 
-test('Review has no audience select; a missing default shows a recovery path, never a bare error', async ({ page }) => {
+test('Presentation creates its series without an audience select; a missing default shows a recovery path, never a bare error', async ({ page }) => {
   const h = await mock(page, { defaultAudience: null, createError: true });
-  await page.goto(`/projects/${project}/casting/${workspace}/review`);
-  await expect(page.getByRole('button', { name: 'Create / reuse review series' })).toBeVisible();
+  await page.goto(`/projects/${project}/casting/${workspace}/presentations`);
+  await expect(page.getByRole('button', { name: 'Create presentation series' })).toBeVisible();
   await expect(page.getByLabel('Audience for a new series')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Create presentation series' }).click();
   const recovery = page.getByTestId('audience-default-recovery');
   await expect(recovery).toContainText('No default review audience is set yet.');
   await expect(recovery.getByRole('link', { name: 'Choose default audience in Settings' })).toHaveAttribute('href', '/settings#studio-defaults');
-  await page.getByRole('button', { name: 'Create / reuse review series' }).click();
-  await expect(recovery).toBeVisible();
   // The ordinary series is requested without an audience: the server applies the default.
   expect(h.posts).toEqual([{ workspace_id: workspace, output_type: 'shortlist' }]);
   await expect(page.getByText('AUDIENCE_DEFAULT_REQUIRED')).toHaveCount(0);
 });
 
-test('Review creates an ordinary series with the configured default audience', async ({ page }) => {
+test('Presentation creates an ordinary series with the configured default audience', async ({ page }) => {
   const h = await mock(page, { defaultAudience: client.id });
-  await page.goto(`/projects/${project}/casting/${workspace}/review`);
-  await expect(page.getByText('New series use the Studio’s default review audience (Client)').or(page.getByText("New series use the Studio's default review audience (Client)"))).toBeVisible();
+  await page.goto(`/projects/${project}/casting/${workspace}/presentations`);
   await expect(page.getByTestId('audience-default-recovery')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Create / reuse review series' }).click();
+  await page.getByRole('button', { name: 'Create presentation series' }).click();
   await expect.poll(() => h.posts.length).toBe(1);
   expect(h.posts[0]).toEqual({ workspace_id: workspace, output_type: 'shortlist' });
+  await expect(page.getByRole('combobox', { name: 'Presentation series', exact: true })).toHaveValue('9a000000-0000-4000-8000-000000000100');
 });
 
 test('Share review context creates a separate series for another audience without publishing or sending a link', async ({ page }) => {

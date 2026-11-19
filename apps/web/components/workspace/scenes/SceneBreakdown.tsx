@@ -7,13 +7,14 @@ import { api, errorMessage, mutation, type Envelope, type Workspace } from '../.
 import { ErrorNotice, Loading } from '../../Feedback';
 import { Icon } from '../../Icon';
 import { m as motion } from 'motion/react';
-import { settle } from '../../motion/presets';
+import { glide, settle } from '../../motion/presets';
+import { Reveal, RevealItem, RevealList } from '../../motion/Reveal';
 import { useConfirm } from '../../ui/Confirm';
 import { useSceneFocus } from '../WorkspaceDraftProvider';
 import { archiveScene, confirmSceneProposals, createScene, linkSceneOccurrence, listScenes, rejectSceneProposals, reorderScenes, unlinkSceneOccurrence,
   updateScene, updateSceneOccurrence, type Scene, type SceneDeckPlacement, type SceneOccurrence } from './scenes-api';
-import { affectedScenes, affectedText, appearanceText, castingFingerprint, moved, progressText, requirementLines, roleChoices, roleProgress,
-  sceneName, sceneProgress } from './scene-model';
+import { affectedScenes, affectedText, appearanceText, castingFingerprint, countText, moved, progressText, requirementLines, roleChoices, roleProgress,
+  sceneName, sceneProgress, type SceneProgress } from './scene-model';
 import { useLeaveGuard } from './unsaved';
 import { useUnsavedEditor } from '../../ui/UnsavedChanges';
 
@@ -107,17 +108,24 @@ export function SceneBreakdown({ workspaceId, canWrite, castingBefore, onCastRol
     {error && <ErrorNotice message={error} />}
     <p className="sr-only" role="status" aria-live="polite">{status}</p>
     {status && <div className="notice scene-status" role="note"><p>{status}</p><button className="button button-small button-quiet" type="button" onClick={() => setStatus('')}>Dismiss</button></div>}
-    {proposals > 0 && <div className="notice notice-info scene-proposal-note"><p><strong>{proposals} {proposals === 1 ? 'proposal' : 'proposals'} from the specs</strong> to confirm or reject. Proposals are not part of the casting until confirmed.</p></div>}
-    <div className="scene-layout">
+    {proposals > 0 && <div className="notice scene-proposal-note"><span className="scene-note-icon" aria-hidden="true"><Icon name="sparkle" /></span>
+      <p><strong>{proposals} {proposals === 1 ? 'proposal' : 'proposals'} from the specs</strong> to confirm or reject. Proposals are not part of the casting until confirmed.</p></div>}
+    <div className="scene-layout" data-empty={data.scenes.length === 0 && editing !== 'new' ? '' : undefined}>
       <nav className="scene-nav" aria-label="Scenes">
-        <div className="scene-nav-head"><h3>Scenes <span className="muted small">{data.scenes.length}</span></h3>
-          {canWrite && <button className="button button-small" type="button" disabled={busy} onClick={() => void guard(() => { setEditing('new'); setDirty(false); })}><Icon name="plus" />Add scene</button>}</div>
-        {data.scenes.length === 0 ? <p className="small muted">No scenes yet. Add the scenes of the script; each role can appear in several scenes and keeps one shared casting.</p>
+        <div className="scene-nav-head"><div><h3>Scenes <span className="scene-nav-count">{data.scenes.length}</span></h3>
+          {data.scenes.length > 1 && <p className="scene-nav-hint small" aria-hidden="true">In script order · ↑↓ to move between scenes</p>}</div>
+          {canWrite && <button className="button button-small button-ink" type="button" disabled={busy} onClick={() => void guard(() => { setEditing('new'); setDirty(false); })}><Icon name="plus" />Add scene</button>}</div>
+        {data.scenes.length === 0 ? editing === 'new' ? null : <div className="scene-empty">
+          <div className="scene-empty-frames" aria-hidden="true"><span>1</span><span>2</span><span><Icon name="plus" /></span></div>
+          <p className="scene-empty-title">No scenes yet</p>
+          <p className="small muted">Add the scenes of the script; each role can appear in several scenes and keeps one shared casting.</p></div>
           : <ol className="scene-nav-list" onKeyDown={navigatorKey}>{data.scenes.map((item, index) => { const progress = sceneProgress(item, data.slots, data.assignments); const current = item.id === selectedId;
-            return <motion.li layout="position" transition={settle} key={item.id}><button type="button" className="scene-nav-item" aria-current={current ? 'true' : undefined} tabIndex={current || (!selectedId && index === 0) ? 0 : -1} onClick={() => select(item.id)}>
+            return <motion.li layout="position" transition={settle} key={item.id} data-status={item.status}><button type="button" className="scene-nav-item" aria-current={current ? 'true' : undefined} tabIndex={current || (!selectedId && index === 0) ? 0 : -1} onClick={() => select(item.id)}>
+              {current && <motion.span layoutId={`scene-nav-current-${workspaceId}`} className="scene-nav-current" transition={glide} aria-hidden="true" />}
               <span className="scene-nav-number">{item.scene_number ?? index + 1}</span>
               <span className="scene-nav-text"><span className="scene-nav-title" dir="auto">{item.title}</span>
-                <span className="scene-nav-meta small">{item.setting && <span dir="auto">{item.setting}</span>}<span>{progressText(progress)}</span>{item.status === 'proposed' && <span className="badge badge-warn">Proposed</span>}</span></span>
+                {item.setting && <span className="scene-nav-setting small" dir="auto">{item.setting}</span>}</span>
+              <span className="scene-nav-meta small"><SceneMeter progress={progress} /><span>{progressText(progress)}</span>{item.status === 'proposed' && <span className="badge badge-warn">Proposed</span>}</span>
             </button></motion.li>; })}</ol>}
       </nav>
       <div className="scene-detail">
@@ -142,7 +150,7 @@ export function SceneBreakdown({ workspaceId, canWrite, castingBefore, onCastRol
             onUpdateOccurrence={(occurrence, input) => write('The scene link was not saved.', () => updateSceneOccurrence(occurrence.id, { row_version: occurrence.row_version, ...input }), 'Saved for this scene. Casting is unchanged.')}
             onUnlink={occurrence => write('The role was not removed from the scene.', () => unlinkSceneOccurrence(occurrence.id, occurrence.row_version), `${occurrence.role_name || 'Role'} removed from ${sceneName(scene)}. The role and its casting are unchanged.`)}
             onCastRole={roleId => void guard(() => onCastRole(roleId, castingFingerprint(data.roles, data.slots, data.assignments)))} />
-          : <div className="empty-state"><p>Select or add a scene.</p></div>}
+          : data.scenes.length > 0 ? <p className="scene-detail-hint small">Select or add a scene.</p> : null}
       </div>
     </div>
   </section>;
@@ -168,7 +176,7 @@ function SceneForm({ scene, title, busy, onSave, onCancel, onDirty }: { scene?: 
   const blank = (value: string) => value.trim() ? value.trim() : null;
   return <form className="scene-form" aria-label={title} onSubmit={event => { event.preventDefault(); if (!form.title.trim() || busy) return;
     void onSave({ title: form.title.trim(), scene_number: blank(form.scene_number), setting: blank(form.setting), sequence_label: blank(form.sequence_label), notes: blank(form.notes), requirements: { items: requirementLines(form.requirements) } }); }}>
-    <h3>{title}</h3>
+    <div className="scene-form-head"><span className="scene-form-icon" aria-hidden="true"><Icon name={scene ? 'edit' : 'film'} /></span><h3>{title}</h3></div>
     <div className="form-grid-2">{field('scene_number', 'Scene number', { max: 40, hint: 'For example 3 or 3A. Renumbering never changes casting.' })}{field('title', 'Title', { max: 300 })}
       {field('setting', 'Setting', { max: 300, hint: 'For example INT. KITCHEN – NIGHT.' })}{field('sequence_label', 'Sequence', { max: 300 })}</div>
     {field('requirements', 'Scene requirements', { multiline: true, max: 26000, hint: 'One per line. Shown with the specs; role requirements stay on each role.' })}
@@ -190,39 +198,55 @@ interface DetailProps {
 function SceneDetail(props: DetailProps) {
   const { scene, data, canWrite, busy, editing, index } = props;
   const proposed = scene.occurrences.filter(item => item.status === 'proposed');
-  return <article className="scene-card" aria-labelledby={`scene-${scene.id}-title`}>
+  const progress = sceneProgress(scene, data.slots, data.assignments);
+  return <Reveal className="scene-card-reveal"><article className="scene-card" data-status={scene.status} aria-labelledby={`scene-${scene.id}-title`}>
     {editing ? <SceneForm scene={scene} title={`Edit ${sceneName(scene)}`} busy={busy} onSave={props.onSave} onCancel={props.onCancelEdit} onDirty={props.onDirty} />
-      : <header className="scene-card-head">
-        <div><p className="eyebrow small">{scene.scene_number ? `Scene ${scene.scene_number}` : `Scene ${index + 1} in order`}{scene.sequence_label && ` · ${scene.sequence_label}`}</p>
-          <h3 id={`scene-${scene.id}-title`} dir="auto">{scene.title}</h3>{scene.setting && <p className="small muted" dir="auto">{scene.setting}</p>}</div>
+      : <header className="scene-slate">
+        <span className="scene-slate-clapper" aria-hidden="true" />
+        <div className="scene-slate-main">
+          <span className="scene-slate-number" aria-hidden="true">{scene.scene_number ?? index + 1}</span>
+          <div className="scene-slate-text"><p className="eyebrow small">{scene.scene_number ? `Scene ${scene.scene_number}` : `Scene ${index + 1} in order`}{scene.sequence_label && ` · ${scene.sequence_label}`}</p>
+            <h3 id={`scene-${scene.id}-title`} dir="auto">{scene.title}</h3>{scene.setting && <p className="scene-slate-setting small" dir="auto">{scene.setting}</p>}</div>
+        </div>
+        <div className="scene-slate-progress"><span className="scene-bar" aria-hidden="true"><span style={{ ['--fill' as string]: progress.roles ? progress.cast / progress.roles : 0 }} /></span>
+          <span className="small">{progressText(progress)}</span></div>
         {canWrite && <div className="button-row scene-actions">
-          <button className="button button-small button-quiet" type="button" disabled={busy || index === 0} aria-label={`Move ${sceneName(scene)} earlier`} onClick={() => props.onMove(-1)}><Icon name="chevron-up" /></button>
-          <button className="button button-small button-quiet" type="button" disabled={busy || index === data.scenes.length - 1} aria-label={`Move ${sceneName(scene)} later`} onClick={() => props.onMove(1)}><Icon name="chevron-down" /></button>
-          <button className="button button-small" type="button" disabled={busy} onClick={props.onEdit}>Edit scene</button>
-          <button className="button button-small button-danger-quiet" type="button" disabled={busy} onClick={props.onRemove}><Icon name="trash" />Remove scene</button></div>}
+          <button className="button button-small button-quiet scene-icon-button" type="button" disabled={busy || index === 0} aria-label={`Move ${sceneName(scene)} earlier`} onClick={() => props.onMove(-1)}><Icon name="chevron-up" /></button>
+          <button className="button button-small button-quiet scene-icon-button" type="button" disabled={busy || index === data.scenes.length - 1} aria-label={`Move ${sceneName(scene)} later`} onClick={() => props.onMove(1)}><Icon name="chevron-down" /></button>
+          <button className="button button-small" type="button" disabled={busy} onClick={props.onEdit}><Icon name="edit" />Edit scene</button>
+          <button className="button button-small button-danger-quiet scene-icon-button" type="button" disabled={busy} title="Remove scene" onClick={props.onRemove}><Icon name="trash" /><span className="sr-only">Remove scene</span></button></div>}
       </header>}
     {scene.status === 'proposed' && <ProposalBar label="This scene was proposed from the specs." refs={scene.source_refs} canWrite={canWrite} busy={busy}
       onConfirm={() => props.onReview('confirm', [scene.id], proposed.filter(item => !item.proposal_stale).map(item => item.id))}
-      onReject={() => props.onReview('reject', [scene.id], [])} confirmLabel={proposed.length ? 'Confirm scene and its links' : 'Confirm scene'} />}
-    {scene.requirements.items.length > 0 && <section aria-label="Scene requirements"><h4 className="small">Scene requirements</h4><ul className="scene-requirements">{scene.requirements.items.map((item, n) => <li key={n} dir="auto">{item}</li>)}</ul></section>}
-    {scene.notes && <p className="small" dir="auto">{scene.notes}</p>}
+      onReject={() => props.onReview('reject', [scene.id], [])} confirmLabel={proposed.length ? 'Confirm scene and its links' : 'Confirm scene'} primary />}
+    {(scene.requirements.items.length > 0 || scene.notes) && <div className="scene-brief">
+      {scene.requirements.items.length > 0 && <section aria-label="Scene requirements"><h4 className="small">Scene requirements</h4><ul className="scene-requirements">{scene.requirements.items.map((item, n) => <li key={n} dir="auto">{item}</li>)}</ul></section>}
+      {scene.notes && <p className="scene-notes small" dir="auto">{scene.notes}</p>}</div>}
     <section className="scene-roles" aria-label={`Roles in ${sceneName(scene)}`}>
-      <h4>Roles in this scene</h4>
-      {scene.occurrences.length === 0 && <p className="small muted">No roles linked yet.</p>}
-      <ul className="scene-role-list">{scene.occurrences.map(occurrence => <li key={occurrence.id}><OccurrenceCard occurrence={occurrence} scene={scene} data={data} canWrite={canWrite} busy={busy}
-        onReview={props.onReview} onUpdate={input => props.onUpdateOccurrence(occurrence, input)} onUnlink={() => props.onUnlink(occurrence)} onCastRole={() => props.onCastRole(occurrence.role_id)} /></li>)}</ul>
+      <div className="scene-roles-head"><h4>Roles in this scene</h4><span className="scene-nav-count">{countText(scene.occurrences.length, 'role')}</span></div>
+      {scene.occurrences.length === 0 && <div className="scene-roles-empty"><span className="scene-empty-frames" aria-hidden="true"><span><Icon name="people" /></span></span>
+        <p className="small muted">No roles linked yet.{canWrite ? ' Add the roles that appear in this scene; their casting stays shared with every other scene.' : ''}</p></div>}
+      <RevealList className="scene-role-list">{scene.occurrences.map(occurrence => <RevealItem key={occurrence.id}><OccurrenceCard occurrence={occurrence} scene={scene} data={data} canWrite={canWrite} busy={busy}
+        onReview={props.onReview} onUpdate={input => props.onUpdateOccurrence(occurrence, input)} onUnlink={() => props.onUnlink(occurrence)} onCastRole={() => props.onCastRole(occurrence.role_id)} /></RevealItem>)}</RevealList>
       {canWrite && <AddRole scene={scene} data={data} busy={busy} onLink={props.onLink} onCreateRole={props.onCreateRole} />}
     </section>
-  </article>;
+  </article></Reveal>;
 }
 
-function ProposalBar({ label, refs, canWrite, busy, onConfirm, onReject, confirmLabel = 'Confirm', stale }: { label: string; refs: Scene['source_refs']; canWrite: boolean; busy: boolean; onConfirm: () => void; onReject: () => void; confirmLabel?: string; stale?: boolean }) {
+/** One pip per confirmed role in the scene; filled pips are roles whose Main is chosen for every shown slot. Decorative: the text beside it says the same. */
+function SceneMeter({ progress }: { progress: SceneProgress }) {
+  if (progress.roles === 0) return null;
+  const shown = Math.min(progress.roles, 8);
+  return <span className="scene-meter" aria-hidden="true">{Array.from({ length: shown }, (_, n) => <i key={n} data-cast={n < Math.round(progress.cast * shown / progress.roles) ? '' : undefined} />)}</span>;
+}
+
+function ProposalBar({ label, refs, canWrite, busy, onConfirm, onReject, confirmLabel = 'Confirm', stale, primary }: { label: string; refs: Scene['source_refs']; canWrite: boolean; busy: boolean; onConfirm: () => void; onReject: () => void; confirmLabel?: string; stale?: boolean; primary?: boolean }) {
   const quotes = refs.map(ref => ref.quote).filter((quote): quote is string => !!quote);
-  return <div className={`notice ${stale ? 'notice-warning' : 'notice-info'} scene-proposal`} role="group" aria-label="Proposal from the specs">
-    <p><span className="badge badge-warn">Proposed</span> {label}</p>
+  return <div className="scene-proposal" data-stale={stale ? '' : undefined} role="group" aria-label="Proposal from the specs">
+    <p className="scene-proposal-label"><span className="badge badge-warn">Proposed</span> <span>{label}</span></p>
     {quotes.length > 0 && <blockquote className="small" dir="auto">“{quotes.slice(0, 2).join('” … “')}”</blockquote>}
     {stale && <p className="small">The role was renamed or its requirements changed after this proposal. Check it before confirming.</p>}
-    {canWrite && <div className="button-row"><button className="button button-small" type="button" disabled={busy || stale} onClick={onConfirm}>{confirmLabel}</button>
+    {canWrite && <div className="button-row"><button className={`button button-small ${primary ? 'button-primary' : 'button-ink'}`} type="button" disabled={busy || stale} onClick={onConfirm}><Icon name="check" />{confirmLabel}</button>
       <button className="button button-small button-quiet" type="button" disabled={busy} onClick={onReject}>Reject</button></div>}
   </div>;
 }
@@ -237,21 +261,25 @@ function OccurrenceCard({ occurrence, scene, data, canWrite, busy, onReview, onU
   const [form, setForm] = useState({ display_title: occurrence.display_title ?? '', setting_override: occurrence.setting_override ?? '', presentation_note: occurrence.presentation_note ?? '',
     deck_placement: occurrence.deck_placement, slot_ids: occurrence.slot_ids });
   const name = occurrence.display_title || occurrence.role_name || 'Unnamed role';
-  return <article className="scene-role-card" aria-label={name} data-draft-focus={`role:${occurrence.role_id}`}>
-    <div className="scene-role-head"><div><h5 dir="auto">{name}</h5>{occurrence.display_title && occurrence.display_title !== occurrence.role_name && <p className="small muted" dir="auto">Role: {occurrence.role_name}</p>}
-      {appearance && <p className={`small ${recurring ? 'scene-recurring' : 'muted'}`}>{appearance}{recurring && ' · one shared casting'}</p>}</div>
+  const state = occurrence.status === 'proposed' ? 'proposed' : progress.cast ? 'cast' : 'open';
+  return <article className="scene-role-card" data-state={state} aria-label={name} data-draft-focus={`role:${occurrence.role_id}`}>
+    <div className="scene-role-head">
+      <span className="scene-role-mark" aria-hidden="true">{state === 'cast' ? <Icon name="check" /> : (name.trim()[0] ?? '?').toLocaleUpperCase()}</span>
+      <div className="scene-role-id"><h5 dir="auto">{name}</h5>{occurrence.display_title && occurrence.display_title !== occurrence.role_name && <p className="small muted" dir="auto">Role: {occurrence.role_name}</p>}</div>
       {occurrence.status === 'confirmed' && <span className={`badge ${progress.cast ? 'badge-ok' : 'badge-outline'}`}>{progress.slots === 0 ? 'No slots' : progress.cast ? 'Main chosen' : `Main ${progress.mainChosen}/${progress.slots}`}</span>}</div>
+    {appearance && <p className={`small scene-appearance${recurring ? ' scene-recurring' : ''}`}>{recurring && <Icon name="link" />}<span>{appearance}{recurring && ' · one shared casting'}</span></p>}
     {occurrence.status === 'proposed' ? <ProposalBar label={`${occurrence.role_name || 'This role'} was proposed for this scene.`} refs={occurrence.source_refs} canWrite={canWrite} busy={busy} stale={occurrence.proposal_stale}
       onConfirm={() => void onReview('confirm', scene.status === 'proposed' ? [scene.id] : [], [occurrence.id])} onReject={() => void onReview('reject', [], [occurrence.id])} />
       : <>
-        <p className="small scene-role-progress">{progress.options} {progress.options === 1 ? 'option' : 'options'} · {progress.backups} backup · {progress.shortlisted} shortlisted
-          {occurrence.slot_ids.length > 0 && ` · ${progress.slots} of ${roleSlots.length} slots shown here`}</p>
-        <p className="small muted">{placementLabel[occurrence.deck_placement]}{occurrence.setting_override && ` · Setting here: ${occurrence.setting_override}`}</p>
-        <div className="button-row">
-          <button className="button button-small" type="button" onClick={onCastRole} aria-describedby={appearance ? `appear-${occurrence.id}` : undefined}>Cast this role<Icon name="arrow" /></button>
+        <p className="scene-role-progress"><span><strong>{progress.options}</strong> {progress.options === 1 ? 'option' : 'options'}</span>
+          <span><strong>{progress.backups}</strong> {progress.backups === 1 ? 'backup' : 'backups'}</span><span><strong>{progress.shortlisted}</strong> shortlisted</span>
+          {occurrence.slot_ids.length > 0 && <span className="scene-role-subset">{`${progress.slots} of ${roleSlots.length} slots shown here`}</span>}</p>
+        <p className="small muted scene-placement"><Icon name="slides" /><span>{placementLabel[occurrence.deck_placement]}{occurrence.setting_override && ` · Setting here: ${occurrence.setting_override}`}</span></p>
+        <div className="button-row scene-role-actions">
+          <button className="button button-small button-ink" type="button" onClick={onCastRole} aria-describedby={appearance ? `appear-${occurrence.id}` : undefined}>Cast this role<Icon name="arrow" /></button>
           {appearance && <span id={`appear-${occurrence.id}`} className="sr-only">{`${appearance}. Casting changes apply to every scene of this role.`}</span>}
-          {canWrite && <button className="button button-small button-quiet" type="button" aria-expanded={open} onClick={() => setOpen(!open)}>Presentation in this scene</button>}
-          {canWrite && <button className="button button-small button-danger-quiet" type="button" disabled={busy} onClick={() => void onUnlink()}>Remove from scene</button>}
+          {canWrite && <button className="button button-small button-quiet scene-disclose" type="button" aria-expanded={open} onClick={() => setOpen(!open)}>Presentation<span className="sr-only"> in this scene</span><Icon name={open ? 'chevron-up' : 'chevron-down'} /></button>}
+          {canWrite && <button className="button button-small button-danger-quiet scene-icon-button" type="button" disabled={busy} title="Remove from scene" onClick={() => void onUnlink()}><Icon name="trash" /><span className="sr-only">Remove from scene</span></button>}
         </div>
         {open && canWrite && <form className="scene-occurrence-form" aria-label={`Presentation of ${name} in this scene`} onSubmit={event => { event.preventDefault();
           void onUpdate({ display_title: form.display_title.trim() || null, setting_override: form.setting_override.trim() || null, presentation_note: form.presentation_note.trim() || null,

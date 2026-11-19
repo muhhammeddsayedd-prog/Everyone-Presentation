@@ -14,6 +14,9 @@ import { SpecsProcessing } from './SpecsProcessing';
 import { RetirementUndo } from './RetirementUndo';
 import { useConfirm } from './ui/Confirm';
 import { StepFooter } from './workspace/StepFlow';
+import { m as motion, useReducedMotion } from 'motion/react';
+import { glide, rise } from './motion/presets';
+import { RevealItem, RevealList } from './motion/Reveal';
 
 function Instructions({ spec, canWrite, onSaved, onDirtyChange }: { spec: Spec; canWrite: boolean; onSaved: (spec: Spec) => void; onDirtyChange: (id: string, dirty: boolean) => void }) {
   const [text, setText] = useState(spec.normalized_instructions ?? '');
@@ -42,8 +45,9 @@ function Instructions({ spec, canWrite, onSaved, onDirtyChange }: { spec: Spec; 
     if (!dirty || saving || error || !canWrite) return;
     const timer = setTimeout(() => { void save(); }, 800); return () => clearTimeout(timer);
   });
-  return <section className="editor-section"><div className="section-heading"><div><h2>General requirements</h2><p>Keep project-wide instructions separate from each role.</p></div>
-    <span className="save-state" role="status" aria-live="polite">{saving ? 'Saving…' : error ? 'Could not save' : dirty ? 'Unsaved changes' : saved ? 'Saved' : 'Up to date'}</span></div>
+  const state = error ? 'error' : saving || dirty ? 'pending' : saved ? 'saved' : undefined;
+  return <section className="editor-section specs-chapter"><div className="section-heading chapter-head"><span className="chapter-mark" aria-hidden="true"><Icon name="checklist" /></span><div><h2>General requirements</h2><p>Keep project-wide instructions separate from each role.</p></div>
+    <span className="save-state" data-state={state} role="status" aria-live="polite">{saving ? 'Saving…' : error ? 'Could not save' : dirty ? 'Unsaved changes' : saved ? 'Saved' : 'Up to date'}</span></div>
     <div className="field"><label htmlFor="spec-instructions">General instructions</label><textarea id="spec-instructions" rows={4} dir="auto" placeholder="Not provided" value={text} readOnly={!canWrite} onChange={event => { setText(event.target.value); setSaved(false); }} /></div>
     <Clarifications level={3} entries={clarifications} disabled={!canWrite} onChange={value => { setClarifications(value); setSaved(false); }} />
     {error && <ErrorNotice message={error} retry={save} />}
@@ -74,12 +78,12 @@ function AddRole({ workspaceId, onCreated, onDirtyChange }: { workspaceId: strin
       setUncertain(!(reason instanceof ApiError) || reason.status >= 500);
     } finally { setSaving(false); }
   }
-  return <form className="editor-section add-role" onSubmit={event => { event.preventDefault(); void create(); }}><div className="section-heading"><div><h2>Add a role</h2><p>Leave the count blank when it is unknown. One provisional slot will keep preparation moving.</p></div></div>
-    <div className="form-grid"><div className="field"><label htmlFor="new-role-name">New role name</label><input id="new-role-name" value={name} disabled={saving || uncertain} placeholder="Not provided" onChange={event => setName(event.target.value)} /></div>
+  return <form className="editor-section add-role specs-chapter" onSubmit={event => { event.preventDefault(); void create(); }}><div className="section-heading chapter-head"><span className="chapter-mark" aria-hidden="true"><Icon name="user-plus" /></span><div><h2>Add a role</h2><p>Leave the count blank when it is unknown. One provisional slot will keep preparation moving.</p></div></div>
+    <div className="form-grid add-role-grid"><div className="field field-wide"><label htmlFor="new-role-name">New role name</label><input id="new-role-name" value={name} disabled={saving || uncertain} placeholder="Not provided" onChange={event => setName(event.target.value)} /></div>
       <div className="field"><label htmlFor="new-role-count">Headcount</label><input id="new-role-count" type="number" min="1" step="1" value={count} disabled={saving || uncertain} placeholder="Needs clarification" onChange={event => setCount(event.target.value)} /></div>
       <div className="field"><label htmlFor="new-role-category">Classification</label><input id="new-role-category" value={category} disabled={saving || uncertain} placeholder="Not provided" onChange={event => setCategory(event.target.value)} /></div></div>
     {error && <ErrorNotice message={error} />}{uncertain && <p className="small muted">The save could not be confirmed. Retry this request or reload the saved requirements before adding another role.</p>}
-    <button className="button button-small" type="submit" disabled={saving}>{saving ? 'Adding…' : uncertain ? 'Retry adding this role' : 'Add role'}</button>
+    <button className="button button-small" type="submit" disabled={saving}><Icon name="plus" />{saving ? 'Adding…' : uncertain ? 'Retry adding this role' : 'Add role'}</button>
   </form>;
 }
 
@@ -87,6 +91,8 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
   workspaceId: string; projectId: string; canWrite: boolean; uploadPurposes?: readonly string[]; storageOrigin?: string; onDirtyChange: (dirty: boolean) => void; onWorkspaceChanged: () => void;
 }) {
   const confirm = useConfirm();
+  const settled = useReducedMotion() === true;
+  const [sceneCount, setSceneCount] = useState<number | null>(null);
   const [spec, setSpec] = useState<Spec | null>(null); const [roles, setRoles] = useState<Role[]>([]);
   const [ordering, setOrdering] = useState(false);
   const [cursor, setCursor] = useState<string | null>(null); const [loading, setLoading] = useState(true); const [loadingMore, setLoadingMore] = useState(false);
@@ -198,7 +204,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
   const orderBlocked = hasUnsaved || Boolean(cursor) || loadingMore || orderNeedsReload;
   return <div className="specs-view">{retirement && <RetirementUndo workspaceId={workspaceId} resourceId={retirement.resourceId} label={retirement.label} canWrite={canWrite} disabled={otherEdits} onDirtyChange={retirementDirty} onDismiss={() => setRetirement(null)} onRestored={() => { setRetirement(null); setUndoLocked(false); setLoading(true); setRefresh(value => value + 1); onWorkspaceChanged(); }} />}
     <fieldset className="presentation-read-lock" disabled={undoLocked}>{error && <ErrorNotice message={error} retry={() => void reload()} />}
-    <SectionJump sections={SPEC_SECTIONS} />
+    <SectionJump sections={SPEC_SECTIONS} counts={{ 'specs-roles': roles.length, 'specs-scenes': sceneCount }} />
     <div className="specs-layout">
       <div className="specs-source stack-lg" id="specs-brief">
         <SourceIntake key={`${workspaceId}/${spec.id}/${refresh}`} spec={spec} canWrite={canWrite} uploadPurposes={uploadPurposes} storageOrigin={storageOrigin} manualEditsPending={manualEditsPending} onDirtyChange={dirtyChanged} onLockChange={sourceLockChanged}
@@ -208,26 +214,26 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
       </div>
       <div className="specs-editor stack-lg">
         <div id="specs-general" className="specs-anchor"><Instructions key={`${spec.id}/${refresh}/${sourceEpoch}`} spec={spec} canWrite={canWrite && !reordering && !orderPending && !sourceLocked} onSaved={next => { setSpec(current => current && current.row_version > next.row_version ? current : next); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} /></div>
-        <section className="panel roles-panel specs-anchor" id="specs-roles" aria-labelledby="roles-heading">
-          <header className="panel-header"><div><h2 id="roles-heading" ref={rolesHeading} tabIndex={-1}>Roles and individual slots</h2><p className="small muted">{roles.length} {roles.length === 1 ? 'role' : 'roles'}{cursor ? ' loaded' : ''} · A role may cover several scenes. Its headcount determines the number of slots.</p></div>
-            <div className="button-row"><button className="button button-small button-quiet" disabled={reordering || sourceLocked} onClick={() => void reload()}><Icon name="refresh" />Reload saved requirements</button>
-              {canWrite && roles.length > 1 && <button className="button button-small" aria-expanded={ordering} aria-controls="role-order-panel" onClick={() => setOrdering(value => !value)}><Icon name="order" />{ordering ? 'Done ordering' : 'Change role order'}</button>}</div></header>
+        <section className="panel roles-panel specs-anchor specs-chapter" id="specs-roles" aria-labelledby="roles-heading">
+          <header className="panel-header chapter-head"><span className="chapter-mark" aria-hidden="true"><Icon name="people" /></span><div><div className="chapter-title"><h2 id="roles-heading" ref={rolesHeading} tabIndex={-1}>Roles and individual slots</h2>{roles.length > 0 && <span className="chapter-count" aria-hidden="true">{roles.length}</span>}</div><p className="small muted">{roles.length} {roles.length === 1 ? 'role' : 'roles'}{cursor ? ' loaded' : ''} · A role may cover several scenes. Its headcount determines the number of slots.</p></div>
+            <div className="button-row chapter-actions"><button className="button button-small button-quiet chapter-icon-button" title="Reload saved requirements" disabled={reordering || sourceLocked} onClick={() => void reload()}><Icon name="refresh" /><span className="sr-only">Reload saved requirements</span></button>
+              {canWrite && roles.length > 1 && <button className="button button-small" aria-expanded={ordering} aria-controls="role-order-panel" onClick={() => setOrdering(value => !value)}><Icon name={ordering ? 'check' : 'order'} />{ordering ? 'Done ordering' : 'Change role order'}</button>}</div></header>
           <div className="panel-body stack">
-            {ordering && canWrite && roles.length > 1 && <div id="role-order-panel" className="role-order-panel" role="group" aria-label="Role order">
+            {ordering && canWrite && roles.length > 1 && <motion.div id="role-order-panel" className="role-order-panel" role="group" aria-label="Role order" variants={rise} initial={settled ? false : 'hidden'} animate="shown">
               <p className="small muted">Roles appear in this order in Casting and in presentations. Save any edits and load all roles before changing their order.</p>
-              <ol className="order-list">{roles.map((role, index) => <li key={role.id}><span className="order-index" aria-hidden="true">{index + 1}</span><span className="order-name" dir="auto">{role.name || 'Unnamed role'}</span>
-                <span className="button-row"><button className="button button-small button-quiet" aria-label={`Move ${role.name} up`} disabled={index === 0 || orderBlocked} onClick={() => { void reorder(role.id, -1); }}><Icon name="chevron-up" />Move up</button>
-                  <button className="button button-small button-quiet" aria-label={`Move ${role.name} down`} disabled={index === roles.length - 1 || orderBlocked} onClick={() => { void reorder(role.id, 1); }}><Icon name="chevron-down" />Move down</button></span></li>)}</ol>
-            </div>}
+              <ol className="order-list">{roles.map((role, index) => <motion.li key={role.id} layout="position" transition={glide}><span className="order-index" aria-hidden="true">{index + 1}</span><span className="order-name" dir="auto">{role.name || 'Unnamed role'}</span>
+                <span className="button-row"><button className="button button-small button-quiet" aria-label={`Move ${role.name} up`} disabled={index === 0 || orderBlocked} onClick={() => { void reorder(role.id, -1); }}><Icon name="chevron-up" /><span className="order-move-label">Move up</span></button>
+                  <button className="button button-small button-quiet" aria-label={`Move ${role.name} down`} disabled={index === roles.length - 1 || orderBlocked} onClick={() => { void reorder(role.id, 1); }}><Icon name="chevron-down" /><span className="order-move-label">Move down</span></button></span></motion.li>)}</ol>
+            </motion.div>}
             <p className="save-state" role="status" aria-live="polite">{reordering ? 'Saving role order…' : orderStatus}</p>
             {orderError && <ErrorNotice message={orderError} retry={orderPending ? () => { void reorder(); } : undefined} />}
             {orderPending && !reordering && <p className="small muted">The order could not be confirmed. Retry this same change or reload the saved requirements before editing.</p>}
-            {roles.length ? <div className="role-list">{roles.map(role => <RoleEditor key={`${role.id}/${refresh}/${sourceEpoch}`} role={role} canWrite={canWrite && !reordering && !orderPending && !sourceLocked && !undoLocked} onSaved={roleSaved} onArchived={roleArchived} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={dirtyChanged} onReload={() => void reload()} onRetired={retired} />)}</div>
-              : <div className="requirements-empty"><h3>No casting requirements yet</h3><p className="muted">Add a role when its requirements are available. You can continue while information is missing.</p></div>}
+            {roles.length ? <RevealList as="div" className="role-list">{roles.map((role, index) => <RevealItem as="div" layout="position" className="role-list-item" key={role.id}><RoleEditor key={`${role.id}/${refresh}/${sourceEpoch}`} index={index + 1} role={role} canWrite={canWrite && !reordering && !orderPending && !sourceLocked && !undoLocked} onSaved={roleSaved} onArchived={roleArchived} onWorkspaceChanged={onWorkspaceChanged} onDirtyChange={dirtyChanged} onReload={() => void reload()} onRetired={retired} /></RevealItem>)}</RevealList>
+              : <div className="requirements-empty"><span className="chapter-mark" aria-hidden="true"><Icon name="people" /></span><h3>No casting requirements yet</h3><p className="muted">Add a role when its requirements are available. You can continue while information is missing.</p></div>}
             {cursor && <div className="load-more"><button className="button button-small" disabled={loadingMore} onClick={loadMore}>{loadingMore ? 'Loading…' : 'Load more roles'}</button></div>}
           </div>
         </section>
-        <SpecsScenes workspaceId={workspaceId} projectId={projectId} canWrite={canWrite && !sourceLocked && !undoLocked} refreshKey={`${refresh}/${sourceEpoch}`} onWorkspaceChanged={onWorkspaceChanged} />
+        <SpecsScenes workspaceId={workspaceId} projectId={projectId} canWrite={canWrite && !sourceLocked && !undoLocked} refreshKey={`${refresh}/${sourceEpoch}`} onWorkspaceChanged={onWorkspaceChanged} onCount={setSceneCount} />
         {canWrite && !reordering && !orderPending && !sourceLocked && <AddRole workspaceId={workspaceId} onCreated={role => { roleSaved(role); onWorkspaceChanged(); }} onDirtyChange={dirtyChanged} />}
       </div>
     </div>
@@ -238,7 +244,7 @@ export function SpecsView({ workspaceId, projectId, canWrite, uploadPurposes = [
 // In page order: the brief, project-wide requirements, then roles.
 const SPEC_SECTIONS = [{ id: 'specs-brief', label: 'Brief' }, { id: 'specs-general', label: 'General' }, { id: 'specs-roles', label: 'Roles' }, { id: 'specs-scenes', label: 'Scenes' }];
 /** Jump links to the panel's sections; the one in view is marked. Every section stays mounted, so unsaved edits survive. */
-function SectionJump({ sections }: { sections: { id: string; label: string }[] }) {
+function SectionJump({ sections, counts }: { sections: { id: string; label: string }[]; counts: Record<string, number | null> }) {
   const [current, setCurrent] = useState(sections[0].id);
   const nav = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -252,6 +258,9 @@ function SectionJump({ sections }: { sections: { id: string; label: string }[] }
     update(); root.addEventListener('scroll', update, { passive: true }); window.addEventListener('scroll', update, { passive: true });
     return () => { root.removeEventListener('scroll', update); window.removeEventListener('scroll', update); };
   }, [sections]);
+  // The current marker glides between links (a shared layout pill); the counts are visual only, so link names stay the labels.
   return <nav ref={nav} className="section-jump" aria-label="Specs sections"><div className="segmented">{sections.map(section => <a key={section.id} href={`#${section.id}`} aria-current={current === section.id ? 'location' : undefined}
-    onClick={event => { event.preventDefault(); setCurrent(section.id); document.getElementById(section.id)?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }}>{section.label}</a>)}</div></nav>;
+    onClick={event => { event.preventDefault(); setCurrent(section.id); document.getElementById(section.id)?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }}>
+    {current === section.id && <motion.span layoutId="specs-jump-pill" className="section-jump-pill" transition={glide} aria-hidden="true" />}
+    <span className="section-jump-label">{section.label}</span>{typeof counts[section.id] === 'number' && counts[section.id]! > 0 && <span className="section-jump-count" aria-hidden="true">{counts[section.id]}</span>}</a>)}</div></nav>;
 }

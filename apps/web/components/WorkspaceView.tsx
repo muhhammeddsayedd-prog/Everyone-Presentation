@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api, errorMessage, mutation, type Actor, type Project, type Workspace } from './api';
 import { ErrorNotice, Loading } from './Feedback';
@@ -17,7 +17,6 @@ import { useRuntimeMode } from './RuntimeMode';
 import { WorkspaceCandidatesView } from './WorkspaceCandidatesView';
 import { CastingBoard } from './CastingBoard';
 import { CastingViews } from './workspace/scenes/CastingViews';
-import { WorkspaceReviewView } from './WorkspaceReviewView';
 import { WorkspacePresentationView } from './WorkspacePresentationView';
 import { ShareWorkspace } from './share/ShareWorkspace';
 import { rememberWorkspace } from './recent-workspaces';
@@ -26,19 +25,19 @@ import { Reveal } from './motion/Reveal';
 import { StepBar, StepFooter } from './workspace/StepFlow';
 import { plural, stepStatus, useWorkspaceSummary, type WorkspaceSummary } from './workspace-summary';
 
-// Steps edited beside the live draft stage. Review, Versions and Share & feedback lay out their own panel and stage.
+// Steps edited beside the live draft stage. Presentation and Share & feedback lay out their own panel and stage.
+// There is no separate Review step: the Presentation step runs the server checks and the layout measurement itself.
 const staged: Record<string, { title: string; subtitle: string }> = {
   project: { title: 'Project', subtitle: 'Shared details & presentation setup' }, specs: { title: 'Specs', subtitle: 'Brief, roles and individual slots' },
   cast: { title: 'Candidates', subtitle: 'People in this project' }, organize: { title: 'Casting', subtitle: 'Slots, positions and Shortlist' },
 };
-const steps: { path: string; label: string; icon: IconName }[] = [{ path: 'project', label: 'Project', icon: 'brief' }, { path: 'specs', label: 'Specs', icon: 'file' }, { path: 'cast', label: 'Candidates', icon: 'user-plus' }, { path: 'organize', label: 'Casting', icon: 'board' }, { path: 'review', label: 'Review', icon: 'checklist' }, { path: 'presentations', label: 'Presentation', icon: 'history' }, { path: 'share', label: 'Share & feedback', icon: 'share' }];
+const steps: { path: string; label: string; icon: IconName }[] = [{ path: 'project', label: 'Project', icon: 'brief' }, { path: 'specs', label: 'Specs', icon: 'file' }, { path: 'cast', label: 'Candidates', icon: 'user-plus' }, { path: 'organize', label: 'Casting', icon: 'board' }, { path: 'presentations', label: 'Presentation', icon: 'history' }, { path: 'share', label: 'Share & feedback', icon: 'share' }];
 // Shown only without the central business connection (development fixture mode).
 const connectionNeeded = 'This step uses the central business connection, which this development session does not have. Sign in to the connected Studio to use it.';
 const pending: Record<string, { title: string; body: string }> = {
   specs: { title: 'Specs need the central connection', body: connectionNeeded },
   cast: { title: 'Candidates need the central connection', body: connectionNeeded },
   organize: { title: 'Casting needs the central connection', body: connectionNeeded },
-  review: { title: 'Review needs the central connection', body: connectionNeeded },
   presentations: { title: 'Presentations need the central connection', body: connectionNeeded },
   share: { title: 'Sharing needs the central connection', body: connectionNeeded },
 };
@@ -46,10 +45,15 @@ const pending: Record<string, { title: string; body: string }> = {
 interface WorkspaceProps { projectId: string; workspaceId: string; step: string; actor: Actor; storageOrigin?: string; onDirtyChange: (dirty: boolean) => void }
 export function WorkspaceView(props: WorkspaceProps) { return <Suspense fallback={<Loading />}><WorkspaceRoute {...props} /></Suspense>; }
 function WorkspaceRoute(props: WorkspaceProps) {
-  const params = useSearchParams(); const contextual = ['review', 'presentations', 'share'].includes(props.step);
+  const params = useSearchParams(); const router = useRouter();
+  // The former Review step: old links and bookmarks open the Presentation step with the same series.
+  const legacyReview = props.step === 'review'; const step = legacyReview ? 'presentations' : props.step;
+  const query = params.toString();
+  useEffect(() => { if (legacyReview) router.replace(`/projects/${props.projectId}/casting/${props.workspaceId}/presentations${query ? `?${query}` : ''}`); }, [legacyReview, router, props.projectId, props.workspaceId, query]);
+  const contextual = ['presentations', 'share'].includes(step);
   const seriesId = contextual ? params.get('series_id') : null;
   if (contextual && (params.getAll('series_id').length > 1 || seriesId !== null && !/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/u.test(seriesId))) return <ErrorNotice message="This presentation context link is invalid. Open the workspace again from Projects." />;
-  return <WorkspaceScope key={`${props.actor.id}:${props.workspaceId}:${seriesId ?? ''}`} {...props} requestedSeriesId={seriesId} />;
+  return <WorkspaceScope key={`${props.actor.id}:${props.workspaceId}:${seriesId ?? ''}`} {...props} step={step} requestedSeriesId={seriesId} />;
 }
 function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, onDirtyChange, requestedSeriesId }: WorkspaceProps & { requestedSeriesId: string | null }) {
   const central = useRuntimeMode() === 'supabase';
@@ -65,7 +69,6 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
   const [specsDirty, setSpecsDirty] = useState(false);
   const [castDirty, setCastDirty] = useState(false);
   const [castingDirty, setCastingDirty] = useState(false);
-  const [reviewDirty, setReviewDirty] = useState(false);
   const [presentationDirty, setPresentationDirty] = useState(false);
   const [shareDirty, setShareDirty] = useState(false);
   const detailsChanged = useCallback((dirty: boolean) => setDetailsDirty(dirty), []);
@@ -73,7 +76,6 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
   const specsChanged = useCallback((dirty: boolean) => setSpecsDirty(dirty), []);
   const castChanged = useCallback((dirty: boolean) => setCastDirty(dirty), []);
   const castingChanged = useCallback((dirty: boolean) => setCastingDirty(dirty), []);
-  const reviewChanged = useCallback((dirty: boolean) => setReviewDirty(dirty), []);
   const presentationChanged = useCallback((dirty: boolean) => setPresentationDirty(dirty), []);
   const shareChanged = useCallback((dirty: boolean) => setShareDirty(dirty), []);
   const workspaceRefresh = useRef(0);
@@ -87,7 +89,7 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
       .catch(reason => { if (request === workspaceRefresh.current) setError(`The change was saved, but workspace status could not be refreshed. ${errorMessage(reason)}`); });
   }, [workspaceId]);
   function reloadData() { setLoading(true); setRefresh(value => value + 1); }
-  useEffect(() => { onDirtyChange(detailsDirty || logoDirty || specsDirty || castDirty || castingDirty || reviewDirty || presentationDirty || shareDirty || outputSaving); return () => onDirtyChange(false); }, [detailsDirty, logoDirty, specsDirty, castDirty, castingDirty, reviewDirty, presentationDirty, shareDirty, outputSaving, onDirtyChange]);
+  useEffect(() => { onDirtyChange(detailsDirty || logoDirty || specsDirty || castDirty || castingDirty || presentationDirty || shareDirty || outputSaving); return () => onDirtyChange(false); }, [detailsDirty, logoDirty, specsDirty, castDirty, castingDirty, presentationDirty, shareDirty, outputSaving, onDirtyChange]);
   useEffect(() => {
     let current = true;
     Promise.all([api<Project>(`/api/v1/projects/${projectId}`), api<Workspace>(`/api/v1/workspaces/${workspaceId}`)]).then(([projectResult, workspaceResult]) => {
@@ -116,9 +118,9 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
   const canUpload = canWrite && (actor.upload_purposes?.includes('client_logo') ?? false);
   const selectedStep = steps.find(item => item.path === step);
   const meta = selectedStep && (central || step === 'project') ? staged[step] : undefined;
-  const ownsOutput = ['organize', 'review', 'presentations', 'share'].includes(step) && central;
+  const ownsOutput = ['organize', 'presentations', 'share'].includes(step) && central;
   const canChangeOutput = !outputSaving && Boolean(actor.capabilities?.includes('workspaces.write'));
-  const seriesQuery = (path: string) => contextSeries && ['review', 'presentations', 'share'].includes(path) ? `?series_id=${contextSeries}` : '';
+  const seriesQuery = (path: string) => contextSeries && ['presentations', 'share'].includes(path) ? `?series_id=${contextSeries}` : '';
   const stepBody = step === 'project' ? <div className="project-step">
       <ProjectDetails key={project.id} project={project} onSaved={projectSaved} onDirtyChange={detailsChanged} />
       <LogoPanel key={workspace.id} actorId={actor.id} workspace={workspace} clientLogoAssetId={project.client_logo_asset_id} canWrite={canWrite} canUpload={canUpload} onSaved={next => { setWorkspace(next); draftRefresh.current?.(); }} onDirtyChange={logoChanged} projectName={project.name} clientName={project.client_name} />
@@ -129,7 +131,6 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     : step === 'cast' && central ? <WorkspaceCandidatesView workspaceId={workspaceId} projectId={projectId} actor={actor} storageOrigin={storageOrigin} onDirtyChange={castChanged} onWorkspaceChanged={specsWorkspaceChanged} />
     : step === 'organize' && central ? <CastingViews workspaceId={workspaceId} canWrite={canWrite} onDirtyChange={castingChanged} onWorkspaceChanged={specsWorkspaceChanged}
       board={(focusRoleId, boardDirty) => <CastingBoard workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} focusRoleId={focusRoleId} onDirtyChange={boardDirty} onWorkspaceChanged={specsWorkspaceChanged} />} />
-    : step === 'review' && central ? <WorkspaceReviewView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={reviewChanged} onWorkspaceChanged={specsWorkspaceChanged} />
     : step === 'presentations' && central ? <WorkspacePresentationView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={presentationChanged} />
     : step === 'share' && central ? <ShareWorkspace workspaceId={workspaceId} requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} actor={actor} onDirtyChange={shareChanged} />
     : selectedStep && pending[step] ? <div className="empty-state step-empty"><Icon name={step === 'cast' ? 'people' : step === 'presentations' ? 'slides' : 'projects'} /><h2>{pending[step].title}</h2><p>{pending[step].body}</p><span className="badge badge-pending">Implementation pending</span><Link className="button" href={`${base}/project`}>Return to Project</Link></div>
@@ -142,8 +143,7 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     <div className="workspace-actions">
       {!ownsOutput && <div className="segmented" role="group" aria-label="Working output"><SegmentIndicator />{(['selection', 'shortlist'] as const).map(value => <button key={value} type="button" aria-pressed={workspace.active_output === value} disabled={!canChangeOutput} onClick={() => { if (workspace.active_output !== value) void changeOutput(value); }}>{value === 'selection' ? 'Cast Selection' : 'Cast Shortlist'}{summary && <span className="segment-count"><span className="sr-only">, </span>{summary.assignment_count[value]}<span className="sr-only"> {summary.assignment_count[value] === 1 ? 'assignment' : 'assignments'}</span></span>}</button>)}</div>}
       {central && step !== 'share' && <Link className="button" href={`${base}/share${seriesQuery('share')}`}><Icon name="share" />Share</Link>}
-      {step === 'review' ? <Link className="button workspace-shortcut" href={`${base}/presentations${seriesQuery('presentations')}`}><Icon name="sparkle" />Generate version</Link>
-        : !['presentations', 'share'].includes(step) && <Link className="button workspace-shortcut" href={`${base}/review${seriesQuery('review')}`}>Review &amp; generate<Icon name="arrow" /></Link>}
+      {!['presentations', 'share'].includes(step) && <Link className="button workspace-shortcut" href={`${base}/presentations${seriesQuery('presentations')}`}><Icon name="sparkle" />Generate presentation</Link>}
     </div>
     <StepBar current={step} steps={steps.map(item => ({ path: item.path, label: item.label, href: `${base}/${item.path}${seriesQuery(item.path)}`, status: stepStatus(summary, item.path, workspace.active_output) }))} /></FramePortal>
     {meta ? <WorkspaceDraftProvider enabled={central} workspaceId={workspaceId} projectId={projectId} canReadProfiles={actor.capabilities?.includes('cast.read') === true} project={draftProject} workspace={workspace} refreshRef={draftRefresh}>
@@ -154,18 +154,18 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
   </>;
 }
 
-const nextSteps = [{ path: 'specs', tag: 'Specs', body: 'Add or correct roles, requirements and slots from the brief.', action: 'Review specs' }, { path: 'cast', tag: 'Candidates', body: 'Add people from the Cast Library or upload new material.', action: 'Open candidates' }, { path: 'organize', tag: 'Casting', body: 'Assign candidates to slots and choose Main, Option or Backup.', action: 'Open casting' }, { path: 'review', tag: 'Review', body: 'Check facts and slide fit, then generate a saved version.', action: 'Open review' }];
+const nextSteps = [{ path: 'specs', tag: 'Specs', body: 'Add or correct roles, requirements and slots from the brief.', action: 'Review specs' }, { path: 'cast', tag: 'Candidates', body: 'Add people from the Cast Library or upload new material.', action: 'Open candidates' }, { path: 'organize', tag: 'Casting', body: 'Assign candidates to slots and choose Main, Option or Backup.', action: 'Open casting' }, { path: 'presentations', tag: 'Presentation', body: 'Generate a saved version and download its PDF.', action: 'Open presentation' }];
 // Summary-backed wording replaces the generic hint only when its count is known.
 function nextStepBody(path: string, summary: WorkspaceSummary | null, output: 'selection' | 'shortlist', unpublished: boolean): { body: string; tone?: 'warn' | 'ok' } | null {
   if (!summary) return null;
   if (path === 'specs' && summary.roles_needing_clarification) return { body: `${plural(summary.roles_needing_clarification, 'role needs', 'roles need')} clarification or a confirmed headcount.`, tone: 'warn' };
   if (path === 'cast' && summary.unreviewed_candidate_count) return { body: `${plural(summary.unreviewed_candidate_count, 'profile is', 'profiles are')} not yet Reviewed.`, tone: 'warn' };
   if (path === 'organize' && summary.open_slot_count) return { body: `${plural(summary.open_slot_count, 'slot has', 'slots have')} no candidate yet. Open slots stay Pending in a presentation.`, tone: 'warn' };
-  if (path === 'review') {
+  if (path === 'presentations') {
     const ready = summary.latest_ready_versions.filter(item => item.output_type === output);
     const label = output === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
     if (ready.length === 1) return { body: `${label} v${ready[0].version_no} is saved${unpublished ? ' · later changes are not in a saved version yet' : ''}.`, tone: unpublished ? 'warn' : 'ok' };
-    if (!ready.length) return { body: `No ${label} version saved yet. Check facts and slide fit, then generate one.` };
+    if (!ready.length) return { body: `No ${label} version saved yet. Generate one when the casting is ready.` };
   }
   return null;
 }

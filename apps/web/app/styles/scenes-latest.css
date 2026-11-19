@@ -1,0 +1,222 @@
+/* Scene breakdown, latest design (cycle 9). Unlayered and imported last, so it refines scenes.css and the
+   shared latest-* rules without editing them. The breakdown lives on the light paper panel, where colour
+   tokens are already remapped to ink: green stays a fill or a pip, never text (use --color-accent-text).
+   Signature moves used here: a dark "slate" card for the open scene (paper holding a dark record), striped
+   progress, pill controls and a storyboard strip of scene frames. */
+
+.scene-breakdown { gap: var(--space-4); }
+.scene-breakdown .button-ink { border-color: var(--bi-ink); background: var(--bi-ink); color: var(--brand-white); }
+.scene-breakdown .button-ink:hover:not(:disabled) { border-color: var(--bi-ink-2); background: var(--bi-ink-2); color: var(--brand-white); }
+.scene-breakdown .button-ink svg { width: 16px; height: 16px; }
+
+/* ---------- Notes above the breakdown ---------- */
+.scene-breakdown .scene-proposal-note { display: flex; flex-direction: row; align-items: flex-start; gap: var(--space-3); padding: 14px 16px; border: 1px solid var(--bi-p-warn-line);
+  border-radius: var(--ui-radius-20); background: var(--bi-p-warn-bg); color: var(--bi-ink); }
+.scene-breakdown .scene-proposal-note p { flex: 1 1 auto; min-width: 0; margin: 0; font-size: var(--ui-text-small); line-height: 1.45; color: var(--bi-ink-2); }
+.scene-breakdown .scene-proposal-note strong { color: var(--bi-ink); font-weight: var(--weight-semibold); }
+.scene-note-icon { display: inline-grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: var(--radius-full); background: var(--color-warning); color: var(--brand-white); }
+.scene-note-icon svg { width: 16px; height: 16px; }
+.scene-breakdown .scene-status { padding: 12px 14px 12px 18px; border: 1px solid var(--bi-p-green-line); border-radius: var(--ui-radius-20); background: var(--bi-p-green-bg); color: var(--bi-ink); }
+.scene-breakdown .scene-status p { margin: 0; font-size: var(--ui-text-small); }
+
+/* ---------- Navigator head ---------- */
+.scene-breakdown .scene-layout { gap: var(--space-5); }
+.scene-breakdown .scene-nav { gap: var(--space-3); }
+.scene-breakdown .scene-nav-head { align-items: flex-start; }
+.scene-breakdown .scene-nav-head h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0; font-size: var(--ui-text-section); line-height: 1.2; letter-spacing: -0.01em; font-weight: var(--weight-medium); }
+.scene-nav-count { display: inline-flex; align-items: center; min-height: 22px; padding: 0 9px; border-radius: var(--radius-full); background: var(--bi-paper-2); color: var(--bi-ink-2);
+  font-size: var(--ui-text-tag); font-weight: var(--weight-medium); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.scene-nav-hint { margin: 4px 0 0; color: var(--bi-ink-3); }
+.scene-breakdown .scene-nav-head .button { flex: none; }
+
+/* ---------- Storyboard strip: one frame per scene ---------- */
+.scene-breakdown .scene-nav-list { gap: 10px; max-height: none; overflow: visible; padding: 2px; margin: -2px; }
+.scene-breakdown .scene-nav-item { position: relative; isolation: isolate; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'num text' 'meta meta';
+  align-content: start; gap: 10px 12px; min-height: 100%; padding: 14px 16px 14px 14px; border: 1px solid var(--bi-paper-line); border-radius: var(--ui-radius-20);
+  background: var(--brand-white); color: var(--bi-ink); transition: border-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+.scene-breakdown .scene-nav-item:hover { border-color: color-mix(in srgb, var(--bi-ink) 28%, var(--bi-paper)); }
+.scene-breakdown .scene-nav-item:focus-visible { outline: 2px solid var(--bi-ink); outline-offset: 2px; }
+.scene-breakdown .scene-nav-item > :not(.scene-nav-current) { position: relative; z-index: 1; }
+.scene-nav-current { position: absolute; inset: -1px; z-index: 0; border-radius: inherit; background: var(--bi-ink); }
+.scene-breakdown .scene-nav-item[aria-current='true'] { border-color: var(--bi-ink); background: var(--brand-white); color: var(--brand-white); }
+.scene-breakdown .scene-nav-number { grid-area: num; display: inline-grid; place-items: center; min-width: 40px; height: 40px; padding: 0 8px; border-radius: var(--radius-full);
+  background: var(--bi-paper-2); color: var(--bi-ink); font-size: var(--ui-text-lede); font-weight: var(--weight-medium); letter-spacing: -0.01em; transition: background-color var(--duration-fast) var(--ease-standard); }
+.scene-breakdown .scene-nav-item[aria-current='true'] .scene-nav-number { background: var(--color-accent); color: var(--color-text-on-accent); }
+.scene-breakdown .scene-nav-text { grid-area: text; align-self: center; gap: 3px; }
+.scene-breakdown .scene-nav-title { font-size: var(--ui-text-input); line-height: 1.2; letter-spacing: -0.01em; font-weight: var(--weight-medium); white-space: normal;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; }
+.scene-nav-setting { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bi-ink-3); font-size: var(--ui-text-meta); }
+.scene-breakdown .scene-nav-item[aria-current='true'] .scene-nav-setting { color: color-mix(in srgb, var(--brand-white) 70%, var(--bi-ink)); }
+.scene-breakdown .scene-nav-meta { grid-area: meta; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--bi-ink-2); font-size: var(--ui-text-meta); }
+.scene-breakdown .scene-nav-item[aria-current='true'] .scene-nav-meta { color: color-mix(in srgb, var(--brand-white) 82%, var(--bi-ink)); }
+.scene-breakdown .scene-nav-meta .badge { min-height: var(--ui-badge); }
+.scene-breakdown .scene-nav-list > li[data-status='proposed'] .scene-nav-item:not([aria-current='true']) { border-style: dashed; border-color: var(--bi-p-warn-line); background: color-mix(in srgb, var(--bi-p-warn-bg) 45%, var(--brand-white)); }
+
+/* Pips: one per confirmed role, filled when its Main is chosen. Ink on white frames, green only on the open frame. */
+.scene-meter { display: inline-flex; gap: 3px; }
+.scene-meter > i { width: 12px; height: 6px; border-radius: var(--radius-full); background: var(--bi-paper-line); }
+.scene-meter > i[data-cast] { background: var(--bi-ink); }
+.scene-nav-item[aria-current='true'] .scene-meter > i { background: color-mix(in srgb, var(--brand-white) 24%, var(--bi-ink)); }
+.scene-nav-item[aria-current='true'] .scene-meter > i[data-cast] { background: var(--color-accent); }
+
+/* Narrow panel (the 400px casting panel, phones): a horizontal storyboard with a fade that hints at more frames. */
+@container (max-width: 719px) {
+  .scene-breakdown .scene-nav-list { grid-auto-columns: minmax(196px, 62%); gap: 10px; margin: -2px -24px -2px -2px; padding: 2px 24px 6px 2px; overflow-x: auto; overflow-y: hidden;
+    scroll-padding-inline: 2px 24px; scrollbar-width: none; mask-image: linear-gradient(90deg, #000 calc(100% - 20px), transparent); }
+  .scene-breakdown .scene-nav-list::-webkit-scrollbar { display: none; }
+  .scene-breakdown .scene-nav-list > li { display: grid; }
+}
+
+/* ---------- Empty state: a quiet storyboard of blank frames, not a blank box ---------- */
+.scene-empty { display: grid; justify-items: center; gap: var(--space-2); padding: 28px 22px 26px; border: 1px dashed color-mix(in srgb, var(--bi-ink) 22%, var(--bi-paper)); border-radius: var(--ui-radius-26);
+  background: transparent; text-align: center; }
+.scene-empty > p { margin: 0; max-width: 34ch; }
+.scene-empty > .scene-empty-title { margin-top: var(--space-2); font-size: var(--ui-text-section); line-height: 1.2; letter-spacing: -0.01em; font-weight: var(--weight-medium); color: var(--bi-ink); }
+.scene-empty-frames { display: inline-flex; gap: 8px; margin-bottom: var(--space-2); }
+.scene-empty-frames > span { display: grid; place-items: center; width: 56px; height: 72px; border-radius: var(--ui-radius-14); background: var(--brand-white); color: var(--bi-ink-3);
+  box-shadow: inset 0 0 0 1px var(--bi-paper-line); font-size: var(--ui-text-sub); font-weight: var(--weight-medium); }
+.scene-empty-frames > span:nth-child(1) { transform: rotate(-5deg) translateY(4px); }
+.scene-empty-frames > span:nth-child(3) { transform: rotate(5deg) translateY(4px); background: var(--bi-ink); color: var(--brand-white); box-shadow: none; }
+.scene-empty-frames svg { width: 20px; height: 20px; }
+.scene-breakdown .scene-layout[data-empty] > .scene-detail { display: none; }
+.scene-detail-hint { margin: 0; padding: var(--space-4); color: var(--bi-ink-3); }
+
+/* ---------- The open scene ---------- */
+.scene-card-reveal { min-width: 0; }
+.scene-breakdown .scene-card { gap: var(--space-4); }
+.scene-slate { position: relative; display: grid; gap: 18px; overflow: hidden; padding: 30px 22px 20px; border-radius: var(--ui-radius-28); background: var(--bi-ink); color: var(--brand-white);
+  color-scheme: dark;
+  --color-text-primary: var(--brand-white); --color-text-secondary: color-mix(in srgb, var(--brand-white) 76%, var(--bi-ink));
+  --color-text-muted: color-mix(in srgb, var(--brand-white) 64%, var(--bi-ink)); --color-surface-2: color-mix(in srgb, var(--brand-white) 10%, var(--bi-ink));
+  --color-border: color-mix(in srgb, var(--brand-white) 14%, var(--bi-ink)); --color-border-strong: color-mix(in srgb, var(--brand-white) 30%, var(--bi-ink));
+  --color-danger: var(--bi-p-danger-bg); --color-danger-soft: color-mix(in srgb, var(--bi-p-danger-bg) 14%, var(--bi-ink)); }
+.scene-slate :focus-visible { outline-color: var(--brand-white); }
+/* Clapper stripe along the top edge. */
+.scene-slate-clapper { position: absolute; inset: 0 0 auto; height: 12px;
+  background: repeating-linear-gradient(-55deg, color-mix(in srgb, var(--brand-white) 16%, var(--bi-ink)) 0 12px, transparent 12px 24px); }
+.scene-slate-main { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 16px; }
+.scene-slate-number { min-width: 1ch; font-size: var(--ui-text-stat); line-height: var(--ui-leading-stat); letter-spacing: var(--ui-tracking-stat); font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums; color: var(--brand-white); }
+.scene-slate-text { display: grid; gap: 4px; min-width: 0; padding-top: 2px; }
+.scene-slate .eyebrow { margin: 0; color: var(--color-text-muted); font-size: var(--ui-text-meta); }
+.scene-slate h3 { margin: 0; font-size: var(--ui-text-title); line-height: 1.12; letter-spacing: -0.02em; font-weight: var(--weight-medium); overflow-wrap: anywhere; }
+.scene-slate-setting { margin: 2px 0 0; color: var(--color-text-secondary); }
+.scene-slate-progress { display: flex; align-items: center; gap: 12px; color: var(--color-text-secondary); }
+.scene-slate-progress .small { flex: none; }
+/* Striped progress: green fill with a darker tick every 16px, drawn by transform so it can glide. */
+.scene-bar { position: relative; flex: 1 1 auto; height: 8px; overflow: hidden; border-radius: var(--radius-full); background: color-mix(in srgb, var(--brand-white) 14%, var(--bi-ink)); }
+.scene-bar > span { position: absolute; inset: 0; border-radius: inherit; transform-origin: left center; transform: scaleX(var(--fill, 0));
+  background: repeating-linear-gradient(90deg, var(--color-accent) 0 14px, var(--bi-on-accent-muted) 14px 16px); transition: transform var(--duration-slow) var(--ease-standard); }
+.scene-slate .scene-actions { gap: 6px; padding-top: 14px; border-top: 1px solid var(--color-border); }
+.scene-slate .button { border-color: var(--color-border-strong); color: var(--brand-white); }
+.scene-slate .button:hover:not(:disabled) { background: var(--color-surface-2); }
+.scene-slate .button-quiet { border-color: transparent; }
+.scene-slate .button-danger-quiet { margin-left: auto; border-color: transparent; color: var(--color-danger); }
+.scene-slate .button-danger-quiet:hover:not(:disabled) { background: var(--color-danger-soft); }
+.scene-breakdown .scene-icon-button { width: var(--ui-control-sm); padding: 0; border-color: var(--color-border-strong); }
+.scene-slate .scene-icon-button { border-color: var(--color-border-strong); }
+.scene-breakdown .button svg { width: 16px; height: 16px; }
+
+/* Requirements and notes: a white sheet under the slate. */
+.scene-brief { display: grid; gap: var(--space-3); padding: 18px 20px; border-radius: var(--ui-radius-20); background: var(--brand-white); box-shadow: inset 0 0 0 1px var(--bi-paper-line); }
+.scene-brief h4 { margin: 0 0 8px; color: var(--bi-ink-3); font-size: var(--ui-text-meta); font-weight: var(--weight-medium); }
+.scene-breakdown .scene-requirements { display: grid; gap: 6px; padding: 0; list-style: none; }
+.scene-breakdown .scene-requirements > li { position: relative; padding-left: 18px; font-size: var(--ui-text-body); line-height: 1.4; }
+.scene-breakdown .scene-requirements > li::before { content: ''; position: absolute; left: 2px; top: 0.5em; width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--color-accent); }
+.scene-notes { margin: 0; padding-top: var(--space-3); border-top: 1px solid var(--bi-paper-line); color: var(--bi-ink-2); font-size: var(--ui-text-small); line-height: 1.5; }
+.scene-brief > .scene-notes:first-child { padding-top: 0; border-top: 0; }
+
+/* ---------- Roles in the scene ---------- */
+.scene-breakdown .scene-roles { display: grid; gap: var(--space-3); }
+.scene-roles-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.scene-roles-head h4 { margin: 0; font-size: var(--ui-text-section); line-height: 1.2; letter-spacing: -0.01em; font-weight: var(--weight-medium); }
+.scene-roles-empty { display: flex; align-items: center; gap: var(--space-3); padding: 16px 18px; border: 1px dashed color-mix(in srgb, var(--bi-ink) 22%, var(--bi-paper)); border-radius: var(--ui-radius-20); }
+.scene-roles-empty p { margin: 0; }
+.scene-roles-empty .scene-empty-frames { margin: 0; }
+.scene-roles-empty .scene-empty-frames > span { width: 44px; height: 44px; border-radius: var(--radius-full); transform: none; }
+.scene-breakdown .scene-role-list { gap: 10px; }
+.scene-breakdown .scene-role-card { gap: 12px; padding: 16px 16px 12px; border: 0; border-radius: var(--ui-radius-24); background: var(--brand-white); box-shadow: inset 0 0 0 1px var(--bi-paper-line);
+  transition: box-shadow var(--duration-fast) var(--ease-standard); }
+.scene-breakdown .scene-role-card:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bi-ink) 28%, var(--bi-paper)); }
+.scene-breakdown .scene-role-card[data-state='proposed'] { background: color-mix(in srgb, var(--bi-p-warn-bg) 45%, var(--brand-white)); box-shadow: inset 0 0 0 1px var(--bi-p-warn-line); }
+.scene-breakdown .scene-role-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+.scene-role-mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--radius-full); background: var(--bi-paper-2); color: var(--bi-ink);
+  font-size: var(--ui-text-lede); font-weight: var(--weight-medium); }
+.scene-role-card[data-state='cast'] .scene-role-mark { background: var(--bi-ink); color: var(--color-accent); }
+.scene-role-mark svg { width: 18px; height: 18px; }
+.scene-role-id { min-width: 0; }
+.scene-role-id p { margin: 2px 0 0; }
+.scene-breakdown .scene-role-head h5 { margin: 0; font-size: var(--ui-text-sub); line-height: 1.2; letter-spacing: -0.01em; font-weight: var(--weight-medium); overflow-wrap: anywhere; }
+.scene-breakdown .scene-role-head .badge { align-self: center; white-space: nowrap; }
+.scene-appearance { display: flex; align-items: flex-start; gap: 6px; margin: 0; color: var(--bi-ink-3); }
+.scene-breakdown .scene-appearance.scene-recurring { color: var(--bi-p-info); }
+.scene-appearance svg { flex: none; width: 14px; height: 14px; margin-top: 2px; }
+.scene-breakdown p.scene-recurring:not(.scene-appearance) { color: var(--bi-p-info); }
+.scene-breakdown .scene-role-progress { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.scene-role-progress > span { display: inline-flex; align-items: baseline; gap: 5px; padding: 6px 12px; border-radius: var(--radius-full); background: var(--bi-paper); color: var(--bi-ink-2); font-size: var(--ui-text-meta); }
+.scene-role-progress strong { color: var(--bi-ink); font-size: var(--ui-text-input); font-weight: var(--weight-medium); font-variant-numeric: tabular-nums; }
+.scene-role-progress > .scene-role-subset { background: transparent; box-shadow: inset 0 0 0 1px var(--bi-paper-line); }
+.scene-placement { display: flex; align-items: flex-start; gap: 6px; margin: 0; }
+.scene-placement svg { flex: none; width: 14px; height: 14px; margin-top: 2px; }
+.scene-breakdown .scene-role-actions { flex-wrap: wrap; align-items: center; gap: 4px; padding-top: 10px; border-top: 1px solid var(--bi-paper-line); }
+.scene-breakdown .scene-role-actions > .button-ink { margin-right: auto; }
+.scene-breakdown .scene-role-actions > .scene-disclose { padding-inline: 12px 10px; color: var(--bi-ink-2); }
+.scene-breakdown .scene-role-actions > .scene-disclose[aria-expanded='true'] { background: var(--bi-paper); color: var(--bi-ink); }
+.scene-breakdown .button-danger-quiet.scene-icon-button { border-color: transparent; background: transparent; color: var(--color-danger); }
+.scene-breakdown .button-danger-quiet.scene-icon-button:hover:not(:disabled) { background: var(--color-danger-soft); }
+
+/* Add a role: a dashed pill across the list until it opens. */
+.scene-breakdown .scene-add-role { display: block; }
+.scene-breakdown .scene-add-role > .button { width: 100%; min-height: var(--ui-control); border: 1px dashed color-mix(in srgb, var(--bi-ink) 30%, var(--bi-paper)); background: transparent; color: var(--bi-ink); font-size: var(--ui-text-small); }
+.scene-breakdown .scene-add-role > .button:hover:not(:disabled) { border-style: solid; border-color: var(--bi-ink); background: var(--brand-white); }
+
+/* ---------- Proposals ---------- */
+.scene-breakdown .scene-proposal { display: grid; gap: 10px; margin: 0; padding: 16px 18px; border: 1px dashed var(--color-warning); border-radius: var(--ui-radius-20);
+  background: var(--bi-p-warn-bg); color: var(--bi-ink); }
+.scene-breakdown .scene-proposal[data-stale] { border-style: solid; }
+.scene-role-card .scene-proposal { padding: 14px 16px; background: var(--brand-white); }
+.scene-proposal-label { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 0; font-weight: var(--weight-medium); }
+.scene-breakdown .scene-proposal blockquote { margin: 0; padding: 2px 0 2px 12px; border-left: 2px solid var(--color-warning); color: var(--bi-ink-2); font-style: normal; line-height: 1.45; }
+.scene-breakdown .scene-proposal p.small { margin: 0; color: var(--bi-ink-2); }
+.scene-breakdown .scene-proposal .button-row { gap: 6px; }
+
+/* ---------- Forms (new scene, edit scene, presentation in this scene, add role) ---------- */
+.scene-breakdown :is(.scene-form, .scene-add-role-form, .scene-occurrence-form) { gap: var(--space-4); padding: 20px; border: 0; border-radius: var(--ui-radius-24); background: var(--brand-white);
+  box-shadow: inset 0 0 0 1px var(--bi-paper-line); }
+.scene-breakdown .scene-occurrence-form { padding: 16px; border-radius: var(--ui-radius-20); background: var(--bi-paper); box-shadow: none; }
+.scene-form-head { display: flex; align-items: center; gap: 12px; }
+.scene-form-head h3 { margin: 0; font-size: var(--ui-text-section); line-height: 1.2; letter-spacing: -0.01em; font-weight: var(--weight-medium); overflow-wrap: anywhere; }
+.scene-form-icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: var(--radius-full); background: var(--bi-ink); color: var(--brand-white); }
+.scene-form-icon svg { width: 18px; height: 18px; }
+.scene-breakdown .scene-add-role-form legend { float: left; width: 100%; padding: 0; margin: 0; font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+.scene-breakdown .scene-add-role-form > legend + * { clear: both; }
+.scene-breakdown .scene-add-role-form .segmented { display: grid; grid-template-columns: 1fr; border-radius: var(--ui-radius-20); }
+.scene-breakdown .scene-add-role-form .segmented > label { justify-content: flex-start; border-radius: var(--ui-radius-16); text-align: left; }
+.scene-breakdown fieldset.field { display: grid; gap: 6px; margin: 0; padding: 0; border: 0; }
+.scene-breakdown fieldset.field > legend { margin-bottom: 6px; padding: 0; font-size: var(--ui-text-meta); color: var(--bi-ink-2); }
+.scene-breakdown .scene-occurrence-form .choice { padding: 10px 12px; border-radius: var(--ui-radius-14); background: var(--brand-white); font-size: var(--ui-text-small); }
+.scene-breakdown .scene-occurrence-form .choice:has(input:checked) { box-shadow: inset 0 0 0 1px var(--bi-ink); }
+
+/* ---------- Wide container (panel expanded): navigator column beside the open scene ---------- */
+@container (min-width: 720px) {
+  .scene-breakdown .scene-layout { grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); }
+  .scene-breakdown .scene-layout[data-empty] { grid-template-columns: minmax(0, 1fr); }
+  .scene-breakdown .scene-nav-list { grid-auto-flow: row; }
+}
+
+/* Reduced motion: the bar settles at once (Motion already turns off the selection glide). */
+@media (prefers-reduced-motion: reduce) {
+  .scene-bar > span, .scene-breakdown .scene-nav-item { transition: none; }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 639px) {
+  .scene-slate { padding: 26px 18px 16px; border-radius: var(--ui-radius-24); }
+  .scene-slate-number { font-size: var(--ui-text-title-lg); }
+  .scene-slate h3 { font-size: var(--ui-text-card-title); }
+  .scene-breakdown .scene-nav-list { grid-auto-columns: minmax(188px, 72%); }
+  .scene-breakdown .scene-slate .button, .scene-breakdown .scene-role-actions .button { min-height: 44px; }
+  .scene-breakdown .scene-icon-button { width: 44px; }
+  .scene-breakdown .scene-role-actions { flex-wrap: nowrap; }
+  .scene-breakdown .scene-role-actions > .scene-disclose { padding-inline: 8px 6px; }
+}

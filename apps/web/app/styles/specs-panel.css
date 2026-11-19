@@ -1,0 +1,219 @@
+/* specs-panel: owned by the cycle 9 follow-up (round 1).
+   The Specs step side panel as a sequence of chapters (Brief, General, Roles, Scenes, Add a role). Each chapter opens
+   with an icon tile, a medium title with its count and its actions on one row; the description sits under the title.
+   Content lives in white cards on the paper. Hairlines separate chapters. Tokens only (paper remaps colour to ink).
+   Screens layer, loaded after latest-mobile.css, so equal-specificity rules here win. */
+@layer screens {
+  /* ---------- Jump nav: a gliding ink pill (Motion layoutId) with visual-only counts ---------- */
+  .workspace-frame .config-panel .specs-view .section-jump { padding-bottom: 14px; border-bottom: 1px solid var(--color-border); }
+  .workspace-frame .config-panel .specs-view .section-jump .segmented { gap: 2px; }
+  .workspace-frame .config-panel .specs-view .section-jump a { position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 8px; color: var(--bi-ink-2); transition: color var(--duration-fast) var(--ease-standard); }
+  .workspace-frame .config-panel .specs-view .section-jump a:hover { color: var(--bi-ink); background: transparent; }
+  .workspace-frame .config-panel .specs-view .section-jump a[aria-current],
+  .workspace-frame .config-panel .specs-view .section-jump a[aria-current]:hover { background: transparent; color: var(--brand-white); }
+  .section-jump-pill { position: absolute; inset: 0; z-index: -1; border-radius: var(--ui-radius-pill); background: var(--bi-ink); }
+  .section-jump-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--ui-radius-pill); background: var(--brand-white); color: var(--bi-ink-2); font-size: var(--ui-text-badge); font-variant-numeric: tabular-nums; line-height: 1; }
+  .section-jump a[aria-current] .section-jump-count { background: color-mix(in srgb, var(--brand-white) 18%, var(--bi-ink)); color: var(--brand-white); }
+
+  /* ---------- Chapters: flat on paper, hairline between, generous rhythm ---------- */
+  .workspace-frame .config-panel .specs-view .specs-layout,
+  .workspace-frame .config-panel .specs-view .specs-editor { gap: var(--space-6); }
+  .workspace-frame .config-panel .specs-view .specs-source { gap: var(--space-4); }
+  .workspace-frame .config-panel .specs-view :is(.editor-section, .panel).specs-chapter { max-width: none; margin: 0; padding: var(--space-6) 0 0; border: 0; border-top: 1px solid var(--color-border); border-radius: 0; background: none; box-shadow: none; }
+  .workspace-frame .config-panel .specs-view .specs-source > .specs-chapter:first-child { padding-top: var(--space-3); border-top: 0; }
+  .workspace-frame .config-panel .specs-view .specs-chapter > .panel-body { padding: 0; }
+  .workspace-frame .config-panel .specs-view .specs-chapter > .panel-header { padding: 0; border: 0; background: none; }
+
+  .workspace-frame .config-panel .specs-view .chapter-head { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; grid-template-areas: "mark title aside" ". desc desc"; align-items: center; gap: 4px 12px; margin: 0 0 var(--space-4); }
+  .workspace-frame .config-panel .specs-view .chapter-head > div:not(.chapter-actions) { display: contents; }
+  .workspace-frame .config-panel .specs-view .chapter-head > div > :is(h2, .chapter-title) { grid-area: title; min-width: 0; }
+  .workspace-frame .config-panel .specs-view .chapter-head > div > p { grid-area: desc; margin: 0; color: var(--color-text-muted); font-size: var(--ui-text-meta); line-height: 1.45; }
+  .workspace-frame .config-panel .specs-view .chapter-head > :is(.chapter-actions, .save-state) { grid-area: aside; justify-self: end; }
+  .workspace-frame .config-panel .specs-view .chapter-head h2 { font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -.01em; line-height: 1.25; overflow-wrap: anywhere; }
+  .workspace-frame .config-panel .specs-view .chapter-head h2:focus { outline: none; }
+  .chapter-title { display: flex; align-items: center; gap: 8px; }
+  .chapter-mark { grid-area: mark; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-12); background: var(--brand-white); color: var(--bi-ink); }
+  .chapter-mark svg { width: 18px; height: 18px; }
+  .chapter-count { display: inline-grid; place-items: center; flex: none; min-width: 22px; height: 22px; padding: 0 7px; border-radius: var(--ui-radius-pill); background: var(--bi-ink); color: var(--brand-white); font-size: var(--ui-text-badge); font-weight: var(--weight-medium); font-variant-numeric: tabular-nums; line-height: 1; }
+  .workspace-frame .config-panel .specs-view .chapter-actions { flex-wrap: nowrap; gap: 6px; margin: 0; }
+  /* Roles carries two actions: they get their own row under the description so the title never squeezes. */
+  .workspace-frame .config-panel .specs-view .roles-panel .chapter-head { grid-template-areas: "mark title title" ". desc desc" ". aside aside"; }
+  .workspace-frame .config-panel .specs-view .roles-panel .chapter-head > .chapter-actions { justify-self: start; margin-top: 8px; }
+  .workspace-frame .config-panel .specs-view .chapter-actions .button { white-space: nowrap; }
+  .workspace-frame .config-panel .specs-view .chapter-icon-button { width: 36px; min-width: 36px; padding: 0; justify-content: center; border-color: var(--color-border); }
+  .workspace-frame .config-panel .specs-view .chapter-actions svg { width: 16px; height: 16px; }
+
+  /* Save state: a quiet dot that turns green when saved, amber while pending, red on failure. */
+  .workspace-frame .config-panel .specs-view :is(.chapter-head, .role-flags) > .save-state { gap: 6px; white-space: nowrap; font-size: var(--ui-text-meta); color: var(--color-text-muted); }
+  .workspace-frame .config-panel .specs-view :is(.chapter-head, .role-flags) > .save-state::before { content: ""; width: 6px; height: 6px; flex: none; border-radius: 50%; background: var(--bi-ink-3); opacity: .55; transition: background-color var(--duration-base) var(--ease-standard); }
+  .workspace-frame .config-panel .specs-view :is(.chapter-head, .role-flags) > .save-state[data-state="saved"] { color: var(--color-accent-text); }
+  .workspace-frame .config-panel .specs-view :is(.chapter-head, .role-flags) > .save-state[data-state="saved"]::before { background: var(--color-accent); opacity: 1; }
+  .workspace-frame .config-panel .specs-view :is(.chapter-head, .role-flags) > .save-state[data-state="pending"]::before { background: var(--bi-p-warn); opacity: 1; }
+  .workspace-frame .config-panel .specs-view :is(.chapter-head, .role-flags) > .save-state[data-state="error"] { color: var(--color-danger); }
+  .workspace-frame .config-panel .specs-view :is(.chapter-head, .role-flags) > .save-state[data-state="error"]::before { background: var(--color-danger); opacity: 1; }
+
+  /* Fields on paper: white wells, 16 px corners. */
+  .workspace-frame .config-panel .specs-view :is(textarea, input:not([type="checkbox"], [type="radio"], [type="file"])) { border-radius: var(--ui-radius-16); background: var(--brand-white); }
+  .workspace-frame .config-panel .specs-view textarea { field-sizing: content; max-height: 320px; }
+  .workspace-frame .config-panel .specs-view textarea[rows="1"] { min-height: var(--ui-input); }
+  .workspace-frame .config-panel .specs-view textarea:not([rows="1"]) { min-height: calc(var(--ui-input) + 24px); }
+  .workspace-frame .config-panel .specs-view #source-pasted-text { min-height: 168px; max-height: 300px; }
+  .workspace-frame .config-panel .specs-view .field > label { color: var(--bi-ink-2); font-size: var(--ui-text-meta); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .field > .small.muted { font-size: var(--ui-text-meta); }
+
+  /* ---------- Brief: saved source row, then the composer card ---------- */
+  .source-saved { display: grid; gap: 8px; margin-bottom: var(--space-3); }
+  .workspace-frame .config-panel .specs-view .source-brief { border: 1px solid var(--color-border); border-radius: var(--ui-radius-18); background: var(--brand-white); transition: border-color var(--duration-fast) var(--ease-standard); }
+  .workspace-frame .config-panel .specs-view .source-brief:hover { border-color: var(--color-border-strong); }
+  .workspace-frame .config-panel .specs-view .source-brief > summary { display: flex; align-items: center; gap: 10px; width: auto; min-height: 48px; padding: 0 16px; color: var(--bi-ink); font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .source-brief > summary svg { width: 18px; height: 18px; flex: none; color: var(--bi-ink-2); }
+  .workspace-frame .config-panel .specs-view .source-brief > pre { max-height: 260px; margin: 0; padding: 4px 16px 16px; overflow: auto; color: var(--bi-ink-2); font-size: var(--ui-text-meta); line-height: 1.55; }
+  .workspace-frame .config-panel .specs-view .source-processing-link { justify-self: start; min-height: 32px; padding: 0 12px; border-color: transparent; color: var(--bi-ink-2); font-size: var(--ui-text-meta); }
+  .workspace-frame .config-panel .specs-view .source-processing-link:hover { color: var(--bi-ink); }
+  .workspace-frame .config-panel .specs-view .source-processing-link svg { width: 16px; height: 16px; }
+
+  .source-intake-card { display: grid; gap: var(--space-3); padding: 8px 8px 16px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-24); background: var(--brand-white); }
+  .source-intake-card > :not(.segmented) { padding-inline: 8px; }
+  .workspace-frame .config-panel .specs-view .source-intake-card .source-mode { display: grid; grid-template-columns: 1fr 1fr; width: 100%; margin: 0; padding: 4px; background: var(--bi-paper); }
+  .workspace-frame .config-panel .specs-view .source-intake-card .source-mode > button { min-height: 36px; padding: 0 10px; font-size: var(--ui-text-meta); font-weight: var(--weight-medium); white-space: nowrap; }
+  .workspace-frame .config-panel .specs-view .source-intake-card .source-intake-form { display: grid; gap: var(--space-3); }
+  .workspace-frame .config-panel .specs-view .source-intake-card textarea { background: var(--bi-paper); border-color: transparent; }
+  .workspace-frame .config-panel .specs-view .source-intake-card textarea:focus { background: var(--brand-white); border-color: var(--color-border-strong); }
+  .workspace-frame .config-panel .specs-view .source-intake-card .save-state:empty { display: block; height: 0; margin: calc(var(--space-3) * -1) 0 0; }
+  .workspace-frame .config-panel .specs-view .source-intake-card .button-row { margin: 0; }
+  .workspace-frame .config-panel .specs-view .source-intake-card .notice { margin-inline: 8px; border-radius: var(--ui-radius-16); }
+
+  /* Source processing: a compact status card under the brief. */
+  .workspace-frame .config-panel .specs-source .editor-section.specs-processing { display: grid; gap: 10px; max-width: none; margin: 0; padding: 14px 16px 16px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-20); background: var(--brand-white); }
+  .workspace-frame .config-panel .specs-view .specs-processing-head { display: flex; align-items: center; gap: 10px; margin: 0; }
+  .workspace-frame .config-panel .specs-view .specs-processing-head h2 { flex: 1; font-size: var(--ui-text-body); font-weight: var(--weight-medium); letter-spacing: -.005em; }
+  .specs-processing-mark { display: grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--bi-paper-2); color: var(--bi-ink-2); }
+  .specs-processing-mark svg { width: 15px; height: 15px; }
+  .specs-processing-mark[data-status="succeeded"] { background: var(--bi-p-green-bg); color: var(--bi-p-green); }
+  .specs-processing-mark[data-status="failed"] { background: var(--bi-p-danger-bg); color: var(--bi-p-danger); }
+  .specs-processing-mark:is([data-status="running"], [data-status="queued"]) { background: var(--bi-p-info-bg); color: var(--bi-p-info); }
+  .specs-processing-body { display: grid; gap: 2px; padding-left: 38px; }
+  .workspace-frame .config-panel .specs-view .specs-processing .specs-processing-body > p { padding: 0; border-radius: 0; background: none; }
+  .workspace-frame .config-panel .specs-view .specs-processing .button-row { margin: 0; padding-left: 38px; }
+  .workspace-frame .config-panel .specs-view .specs-processing .button-row svg { width: 14px; height: 14px; }
+  .workspace-frame .config-panel .specs-view .specs-processing > p.small.muted { padding-left: 38px; }
+
+  /* ---------- General requirements ---------- */
+  .workspace-frame .config-panel .specs-view #specs-general .specs-chapter { display: grid; gap: var(--space-4); }
+  .workspace-frame .config-panel .specs-view #specs-general .chapter-head { margin: 0; }
+  .workspace-frame .config-panel .specs-view #specs-general .specs-chapter > .button { justify-self: start; margin: 0; }
+  .workspace-frame .config-panel .specs-view .clarification-list { display: grid; gap: 8px; margin: 0; }
+  .workspace-frame .config-panel .specs-view .clarification-list > :is(h3, h4) { margin: 4px 0 2px; font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .clarification-entry { display: grid; gap: 8px; margin: 0; padding: 12px 14px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-18); background: var(--brand-white); }
+  .workspace-frame .config-panel .specs-view .clarification-entry:has(input:not(:checked)) { border-color: var(--bi-p-warn-line); background: var(--bi-p-warn-bg); }
+  .workspace-frame .config-panel .specs-view .clarification-entry .radio-line { align-items: flex-start; gap: 10px; font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .clarification-entry blockquote { margin: 0; padding: 8px 12px; border-left: 2px solid var(--bi-ink-3); border-radius: 0 var(--ui-radius-12) var(--ui-radius-12) 0; background: color-mix(in srgb, var(--bi-ink) 4%, transparent); color: var(--bi-ink-2); font-size: var(--ui-text-meta); }
+  .workspace-frame .config-panel .specs-view .clarification-entry > p { margin: 0; }
+
+  /* ---------- Roles: numbered cards with disclosure rows ---------- */
+  .workspace-frame .config-panel .specs-view .roles-panel .panel-body { gap: var(--space-3); }
+  .workspace-frame .config-panel .specs-view .roles-panel .panel-body > p.save-state:empty { display: none; }
+  .workspace-frame .config-panel .specs-view .role-list { display: grid; gap: 10px; }
+  .workspace-frame .config-panel .specs-view .role-editor { container: role-card / inline-size; padding: 0; border: 1px solid var(--color-border); border-radius: var(--ui-radius-24); background: var(--brand-white); transition: border-color var(--duration-fast) var(--ease-standard); }
+  .workspace-frame .config-panel .specs-view .role-editor:hover, .workspace-frame .config-panel .specs-view .role-editor:has(details[open]) { border-color: var(--color-border-strong); }
+  .workspace-frame .config-panel .specs-view .role-editor > .role-heading { display: grid; grid-template-columns: 28px minmax(0, 1fr); grid-template-areas: "index title" ". flags"; gap: 8px 12px; align-items: start; padding: 16px 16px 14px; }
+  .role-index { grid-area: index; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--bi-ink); color: var(--brand-white); font-size: var(--ui-text-badge); font-weight: var(--weight-medium); font-variant-numeric: tabular-nums; }
+  .workspace-frame .config-panel .specs-view .role-title { grid-area: title; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-width: 0; padding-top: 2px; }
+  .workspace-frame .config-panel .specs-view .role-editor h3 { font-size: var(--ui-text-lede); font-weight: var(--weight-medium); letter-spacing: -.01em; line-height: 1.25; }
+  .workspace-frame .config-panel .specs-view .role-count { display: inline-flex; align-items: center; min-height: 22px; padding: 0 9px; border-radius: var(--ui-radius-pill); background: var(--bi-paper-2); color: var(--bi-ink-2); font-size: var(--ui-text-badge); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .role-count[data-provisional] { background: var(--bi-p-warn-bg); color: var(--bi-p-warn); }
+  .workspace-frame .config-panel .specs-view .role-summary { flex-basis: 100%; margin: 2px 0 0; overflow: hidden; color: var(--bi-ink-2); font-size: var(--ui-text-meta); text-overflow: ellipsis; white-space: nowrap; }
+  .workspace-frame .config-panel .specs-view .role-flags { grid-area: flags; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+
+  /* Disclosure rows: full-width summaries with a turning chevron; content fades in on open. */
+  .workspace-frame .config-panel .specs-view .role-editor > details { margin: 0; padding: 0; border-top: 1px solid var(--color-border); }
+  .workspace-frame .config-panel .specs-view :is(.role-editor > details, .source-brief) > summary { position: relative; cursor: pointer; list-style: none; }
+  .workspace-frame .config-panel .specs-view .role-editor > details > summary { display: flex; align-items: center; gap: 10px; width: auto; min-height: 46px; margin: 0; padding: 0 16px; color: var(--bi-ink); font-size: var(--ui-text-small); font-weight: var(--weight-medium); transition: background-color var(--duration-fast) var(--ease-standard); }
+  .workspace-frame .config-panel .specs-view .role-editor > details:last-of-type:not([open]) > summary { border-radius: 0 0 var(--ui-radius-24) var(--ui-radius-24); }
+  .workspace-frame .config-panel .specs-view .role-editor > details > summary:hover { background: color-mix(in srgb, var(--bi-paper) 60%, var(--brand-white)); }
+  .workspace-frame .config-panel .specs-view :is(.role-editor > details, .source-brief) > summary::-webkit-details-marker { display: none; }
+  .workspace-frame .config-panel .specs-view :is(.role-editor > details, .source-brief) > summary::marker { content: ""; }
+  .workspace-frame .config-panel .specs-view :is(.role-editor > details, .source-brief) > summary::before { content: none; }
+  .workspace-frame .config-panel .specs-view :is(.role-editor > details, .source-brief) > summary::after { content: ""; width: 7px; height: 7px; margin: -3px 2px 0 auto; flex: none; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; color: var(--bi-ink-2); transform: rotate(45deg); transition: transform var(--duration-base) var(--ease-standard); }
+  .workspace-frame .config-panel .specs-view :is(.role-editor > details, .source-brief)[open] > summary::after { margin-top: 3px; transform: rotate(-135deg); }
+  .workspace-frame .config-panel .specs-view :is(.role-editor > details, .source-brief)[open] > :not(summary) { animation: specs-disclose var(--duration-slow) var(--ease-standard) both; }
+  @keyframes specs-disclose { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+  .workspace-frame .config-panel .specs-view .requirements-details[open] > summary { margin-bottom: 0; }
+  .workspace-frame .config-panel .specs-view .requirements-details > :not(summary) { margin-inline: 16px; }
+  .workspace-frame .config-panel .specs-view .requirements-details > .role-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 4px; }
+  .workspace-frame .config-panel .specs-view .role-fields > .field-wide { grid-column: 1 / -1; }
+  /* Label, field and hint rows line up across each pair, even when one label wraps. */
+  .workspace-frame .config-panel .specs-view .role-fields > .field { grid-row: span 3; grid-template-rows: subgrid; row-gap: 6px; align-items: end; }
+  .workspace-frame .config-panel .specs-view .role-fields > .field > :is(textarea, input) { align-self: start; }
+  .workspace-frame .config-panel .specs-view .role-fields > .field > .small { align-self: start; }
+  .workspace-frame .config-panel .specs-view .role-fields { row-gap: 0; column-gap: 12px; }
+  .workspace-frame .config-panel .specs-view .role-fields > .field { margin-bottom: 12px; }
+  @container role-card (max-width: 300px) { .workspace-frame .config-panel .specs-view .requirements-details > .role-fields { grid-template-columns: minmax(0, 1fr); } }
+  .workspace-frame .config-panel .specs-view .requirements-details > .presentation-note-field { margin-top: var(--space-4); padding: 14px; border-radius: var(--ui-radius-18); background: var(--bi-paper); }
+  .workspace-frame .config-panel .specs-view .requirements-details > .clarification-list { margin-top: var(--space-4); }
+  .workspace-frame .config-panel .specs-view .role-actions { display: flex; flex-direction: row-reverse; justify-content: space-between; margin: var(--space-4) 16px 16px; padding-top: var(--space-3); border-top: 1px dashed var(--color-border); }
+  .workspace-frame .config-panel .specs-view .role-editor > .role-slots-disclosure[open] { padding-bottom: 16px; }
+  .workspace-frame .config-panel .specs-view .role-editor > .role-slots-disclosure > .role-slots { margin: 4px 16px 0; }
+  .workspace-frame .config-panel .specs-view .role-slots .section-heading h4 { font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .role-slots .slot-label-editor { padding: 12px; border-radius: var(--ui-radius-16); background: var(--bi-paper); }
+  .workspace-frame .config-panel .specs-view .role-slots .slot-label-editor .button-row { margin-top: 8px; }
+  .workspace-frame .config-panel .specs-view .role-slots .slot-labels { gap: 8px; }
+  .workspace-frame .config-panel .specs-view .role-editor > :is(.notice, .button-row) { margin-inline: 16px; }
+
+  /* Role order: an inset tray of numbered rows with round arrow buttons; rows glide when moved. */
+  .workspace-frame .config-panel .specs-view .role-order-panel { display: grid; gap: 10px; padding: 12px; border-radius: var(--ui-radius-24); background: var(--bi-paper-2); }
+  .workspace-frame .config-panel .specs-view .role-order-panel > p { margin: 0 4px; }
+  .workspace-frame .config-panel .specs-view .order-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .workspace-frame .config-panel .specs-view .order-list > li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px 6px 6px 8px; border: 0; border-radius: var(--ui-radius-pill); background: var(--brand-white); }
+  .workspace-frame .config-panel .specs-view .order-index { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--bi-ink); color: var(--brand-white); font-size: var(--ui-text-badge); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .order-name { overflow: hidden; font-size: var(--ui-text-small); font-weight: var(--weight-medium); text-overflow: ellipsis; white-space: nowrap; }
+  .workspace-frame .config-panel .specs-view .order-list .button-row { flex-wrap: nowrap; gap: 4px; margin: 0; }
+  .workspace-frame .config-panel .specs-view .order-list .button { width: 36px; min-width: 36px; min-height: 36px; padding: 0; justify-content: center; border-color: var(--color-border); }
+  .workspace-frame .config-panel .specs-view .order-list .button svg { width: 16px; height: 16px; }
+  .order-move-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  .workspace-frame .config-panel .specs-view .requirements-empty { display: grid; justify-items: center; gap: 6px; padding: var(--space-6) var(--space-4); border: 1.5px dashed var(--color-border-strong); border-radius: var(--ui-radius-24); text-align: center; }
+  .workspace-frame .config-panel .specs-view .requirements-empty h3 { font-size: var(--ui-text-body); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .load-more { display: flex; justify-content: center; }
+
+  /* ---------- Scenes ---------- */
+  .workspace-frame .config-panel .specs-view .specs-scenes .panel-body { gap: var(--space-3); }
+  .workspace-frame .config-panel .specs-view .specs-scenes .panel-body > p.save-state:empty { display: none; }
+  .workspace-frame .config-panel .specs-view .specs-scenes .chapter-actions svg { order: 1; }
+  .workspace-frame .config-panel .specs-view .scene-proposals { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--bi-p-info-line); border-radius: var(--ui-radius-24); background: var(--bi-p-info-bg); }
+  .workspace-frame .config-panel .specs-view .scene-proposals > .section-heading { flex-wrap: wrap; gap: 8px; margin: 0; }
+  .workspace-frame .config-panel .specs-view .scene-proposals h3 { font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .scene-proposals .button-row { margin: 0; }
+  .workspace-frame .config-panel .specs-view .scene-proposal-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .workspace-frame .config-panel .specs-view .scene-proposal-list > li { display: block; padding: 12px 14px; border: 1px dashed var(--bi-p-info-line); border-radius: var(--ui-radius-18); background: var(--brand-white); }
+  .workspace-frame .config-panel .specs-view .scene-proposal-list blockquote { margin: 8px 0 0; padding: 6px 10px; border-left: 2px solid var(--bi-ink-3); border-radius: 0 var(--ui-radius-12) var(--ui-radius-12) 0; background: color-mix(in srgb, var(--bi-ink) 4%, transparent); color: var(--bi-ink-2); }
+  .workspace-frame .config-panel .specs-view .scene-proposal-list .button-row { margin-top: 10px; }
+  .workspace-frame .config-panel .specs-view .scene-requirement-list { display: grid; gap: 8px; margin: 0; counter-reset: specs-scene; }
+  .workspace-frame .config-panel .specs-view .scene-requirement-list > div { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px 12px; padding: 12px 14px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-18); background: var(--brand-white); counter-increment: specs-scene; }
+  .workspace-frame .config-panel .specs-view .scene-requirement-list > div::before { content: counter(specs-scene) / ""; grid-row: span 2; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--bi-paper-2); color: var(--bi-ink); font-size: var(--ui-text-badge); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .scene-requirement-list dt { align-self: center; font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .workspace-frame .config-panel .specs-view .scene-requirement-list dd { margin: 0; color: var(--bi-ink-2); font-size: var(--ui-text-meta); }
+  .workspace-frame .config-panel .specs-view .scene-requirement-list dd ul { margin: 0; padding-left: 16px; }
+  .workspace-frame .config-panel .specs-view .specs-scenes-empty { margin: 0; padding: 14px 16px; border: 1.5px dashed var(--color-border-strong); border-radius: var(--ui-radius-18); }
+
+  /* ---------- Add a role: a dashed "new card" ---------- */
+  .workspace-frame .config-panel .specs-view .add-role .add-role-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 14px; border: 1.5px dashed var(--color-border-strong); border-radius: var(--ui-radius-24); }
+  .workspace-frame .config-panel .specs-view .add-role .add-role-grid > .field-wide { grid-column: 1 / -1; }
+  .workspace-frame .config-panel .specs-view .add-role > .button { display: flex; margin: var(--space-3) 0 0 auto; }
+  .workspace-frame .config-panel .specs-view .add-role > .button svg { width: 16px; height: 16px; }
+  .workspace-frame .config-panel .specs-view .add-role:focus-within .add-role-grid { border-color: var(--bi-ink-3); }
+
+  /* ---------- Phone: the panel is a bottom sheet; 44 px touch targets, single-column new-role fields ---------- */
+  @media (max-width: 767px) {
+    .workspace-frame .config-panel .specs-view .section-jump a { min-height: 40px; padding: 0 6px; }
+    .workspace-frame .config-panel .specs-view .chapter-head { grid-template-columns: 32px minmax(0, 1fr) auto; column-gap: 10px; }
+    .chapter-mark { width: 32px; height: 32px; }
+    .workspace-frame .config-panel .specs-view .chapter-icon-button, .workspace-frame .config-panel .specs-view .order-list .button { width: 44px; min-width: 44px; min-height: 44px; }
+    .workspace-frame .config-panel .specs-view .role-editor > details > summary, .workspace-frame .config-panel .specs-view .source-brief > summary { min-height: 48px; }
+    .workspace-frame .config-panel .specs-view .add-role .add-role-grid { grid-template-columns: minmax(0, 1fr); }
+    .workspace-frame .config-panel .specs-view .source-intake-card .source-mode > button { min-height: 44px; }
+    .workspace-frame .config-panel .specs-view .role-summary { white-space: normal; }
+    .workspace-frame .config-panel .specs-view #source-pasted-text { max-height: 220px; }
+  }
+}

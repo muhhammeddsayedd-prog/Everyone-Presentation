@@ -99,7 +99,7 @@ test('persistent M01 development journey: shared edits, real logo bytes and acce
 
   await page.screenshot({ path: testInfo.outputPath('project-desktop.png'), fullPage: true });
   const stepNav = page.getByRole('navigation', { name: 'Casting workspace steps' });
-  for (const step of ['Specs', 'Candidates', 'Casting', 'Review', 'Presentation']) {
+  for (const step of ['Specs', 'Candidates', 'Casting', 'Presentation']) {
     await stepNav.getByRole('link', { name: new RegExp(`${step}$`) }).click();
     await expect(page.getByText('Implementation pending', { exact: true })).toBeVisible();
   }

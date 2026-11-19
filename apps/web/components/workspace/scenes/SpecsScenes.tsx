@@ -6,12 +6,14 @@ import { api, errorMessage, type Workspace } from '../../api';
 import { ErrorNotice } from '../../Feedback';
 import { confirmSceneProposals, listScenes, rejectSceneProposals, type Scene } from './scenes-api';
 import { sceneName } from './scene-model';
+import { Icon } from '../../Icon';
 
 /** Scenes inside the Specs review: scene requirements next to the roles, and the scene proposals the specs import made,
  * to confirm or reject here (the same operations as the scene breakdown, API and MCP). The whole project stays in view. */
-export function SpecsScenes({ workspaceId, projectId, canWrite, refreshKey, onWorkspaceChanged }: { workspaceId: string; projectId: string; canWrite: boolean; refreshKey: string; onWorkspaceChanged: () => void }) {
+export function SpecsScenes({ workspaceId, projectId, canWrite, refreshKey, onWorkspaceChanged, onCount }: { workspaceId: string; projectId: string; canWrite: boolean; refreshKey: string; onWorkspaceChanged: () => void; onCount?: (count: number | null) => void }) {
   const [scenes, setScenes] = useState<Scene[] | null>(null); const [error, setError] = useState(''); const [busy, setBusy] = useState(false); const [status, setStatus] = useState('');
   const run = useRef(0);
+  useEffect(() => { onCount?.(scenes ? scenes.length : null); }, [scenes, onCount]);
   const load = useCallback(async () => {
     const current = ++run.current;
     try { const next = await listScenes(workspaceId); if (current === run.current) { setScenes(next); setError(''); } }
@@ -37,9 +39,9 @@ export function SpecsScenes({ workspaceId, projectId, canWrite, refreshKey, onWo
   const proposedScenes = scenes.filter(scene => scene.status === 'proposed');
   const proposedLinks = scenes.flatMap(scene => scene.occurrences.filter(item => item.status === 'proposed').map(item => ({ scene, item })));
   const withRequirements = scenes.filter(scene => scene.requirements.items.length > 0);
-  return <section className="panel specs-anchor specs-scenes" id="specs-scenes" aria-labelledby="specs-scenes-heading">
-    <header className="panel-header"><div><h2 id="specs-scenes-heading">Scenes</h2><p className="small muted">{scenes.length} {scenes.length === 1 ? 'scene' : 'scenes'} · Roles stay the characters; a scene only lists which roles appear in it.</p></div>
-      <Link className="button button-small button-quiet" href={`/projects/${projectId}/casting/${workspaceId}/organize`}>Open scene breakdown</Link></header>
+  return <section className="panel specs-anchor specs-scenes specs-chapter" id="specs-scenes" aria-labelledby="specs-scenes-heading">
+    <header className="panel-header chapter-head"><span className="chapter-mark" aria-hidden="true"><Icon name="film" /></span><div><div className="chapter-title"><h2 id="specs-scenes-heading">Scenes</h2>{scenes.length > 0 && <span className="chapter-count" aria-hidden="true">{scenes.length}</span>}</div><p className="small muted">{scenes.length} {scenes.length === 1 ? 'scene' : 'scenes'} · Roles stay the characters; a scene only lists which roles appear in it.</p></div>
+      <div className="button-row chapter-actions"><Link className="button button-small button-quiet" href={`/projects/${projectId}/casting/${workspaceId}/organize`}>Open scene breakdown<Icon name="arrow" /></Link></div></header>
     <div className="panel-body stack">
       {error && <ErrorNotice message={error} />}
       <p className="save-state" role="status" aria-live="polite">{busy ? 'Saving…' : status}</p>
@@ -60,7 +62,7 @@ export function SpecsScenes({ workspaceId, projectId, canWrite, refreshKey, onWo
         </ul></div>}
       {withRequirements.length > 0 ? <dl className="scene-requirement-list">{withRequirements.map(scene => <div key={scene.id}><dt dir="auto">{sceneName(scene)}</dt>
         <dd><ul>{scene.requirements.items.map((item, index) => <li key={index} dir="auto">{item}</li>)}</ul></dd></div>)}</dl>
-        : <p className="small muted">{scenes.length ? 'No scene-specific requirements.' : 'No scenes yet. Scenes are optional; the whole project can be cast without them.'}</p>}
+        : <p className="small muted specs-scenes-empty">{scenes.length ? 'No scene-specific requirements.' : 'No scenes yet. Scenes are optional; the whole project can be cast without them.'}</p>}
     </div>
   </section>;
 }

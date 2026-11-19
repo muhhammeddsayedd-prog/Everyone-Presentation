@@ -300,7 +300,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
     {editingItem && <Drawer inline title="Assignment notes" description={`${name(profiles[data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? ''], data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? editingItem.workspace_candidate_id)} · ${data.slots.find(slot => slot.id === editingItem.slot_id)?.label ?? 'Slot'}`} onClose={() => void closeNotes()} busy={busy}>
       <div data-draft-focus={`assignment:${editingItem.id}`}><AssignmentNotes key={`${editingItem.id}:${editingItem.row_version}`} item={editingItem} disabled={loading || busy || uncertain} canSave={fresh} onDirty={setNotesDirty} onDiscard={() => { setEditing(null); setNotesDirty(false); }} onSave={(presentation_notes, internal_notes) => patch(editingItem, { presentation_notes, internal_notes }, 'Assignment notes')} /></div>
     </Drawer>}
-    <StepFooter back={{ href: `${base}/cast`, label: 'Candidates' }} next={{ href: `${base}/review`, label: 'Review' }} />
+    <StepFooter back={{ href: `${base}/cast`, label: 'Candidates' }} next={{ href: `${base}/presentations`, label: 'Presentation' }} />
   </section>;
 }
 function MoveButtons({ label, disabled, first, last, move }: { label: string; disabled: boolean; first: boolean; last: boolean; move: (direction: -1 | 1) => void }) {

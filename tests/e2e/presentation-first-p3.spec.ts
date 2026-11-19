@@ -66,68 +66,7 @@ async function studio(page: Page, options: Options = {}) {
 }
 const stage = (page: Page) => page.getByRole('region', { name: 'Slide preview' });
 const field = (page: Page, name: string) => page.locator(`.stage-frame .stage-slide [data-fit-field="${name}"]`);
-const marked = (page: Page) => page.evaluate(() => document.querySelector('.stage-frame .stage-slide-canvas')?.shadowRoot?.querySelector('style')?.textContent ?? '');
-/** Opens a check group (blocking groups start open; a second click would close them). */
-async function expand(page: Page, group: RegExp) { const toggle = page.getByRole('button', { name: group }); if (await toggle.getAttribute('aria-expanded') !== 'true') await toggle.click(); }
 const axe = async (page: Page) => (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()).violations.map(item => `${item.id}: ${item.nodes.map(node => node.target.join(' ')).join(', ')}`);
-const issues = [
-  { code: 'UNREVIEWED_PROFILE', severity: 'warning', entity_id: id(9), field: null, message: 'Current Draft Name is Unreviewed.', repair_action: null },
-  { code: 'MISSING_FIELD', severity: 'warning', entity_id: id(8), field: 'height_measurements', message: 'Height is not provided.', repair_action: null },
-  { code: 'OPEN_SLOT', severity: 'information', entity_id: id(44), field: null, message: 'Synthetic Slot2 has no candidate yet.', repair_action: null },
-  { code: 'NO_MAIN', severity: 'blocking', entity_id: id(41), field: null, message: 'Synthetic Slot1 needs a Main.', repair_action: null },
-];
-
-test('review: a check brings its slide with the field marked, Fix opens the inspector and unsaved wording is previewed as such', async ({ page }) => {
-  const model = await studio(page, { issues }); await page.goto(`${model.base}/review?series_id=${model.S}`);
-  await expect(stage(page).getByText('Server-checked draft · revision 2')).toBeVisible();
-  await expect(page.getByText('1 check blocks generation', { exact: true })).toBeVisible();
-  await expect(page.getByText('3 notes · 1 blocker', { exact: true })).toBeVisible();
-  // Information: the field the server named is marked on the person's slide.
-  await expand(page, /^Information/);
-  await page.getByRole('button', { name: /^Show Current Draft Name on the slide: Height is not provided\./u }).click();
-  await expect(page.locator('.stage-frame .stage-slide')).toHaveAttribute('aria-label', 'Slide 2 of 3: Current Draft Name');
-  await expect.poll(() => marked(page)).toContain('[data-fit-field="height_measurements"]');
-  // Pending slots: the open slot's Pending page.
-  await expand(page, /^Pending slots/);
-  await page.getByRole('button', { name: /^Show Synthetic Slot2 · Pending on the slide: Synthetic Slot2 has no candidate yet\./u }).click();
-  await expect(page.locator('.stage-frame .stage-slide')).toHaveAttribute('aria-label', 'Slide 3 of 3: Synthetic Slot2 · Pending');
-  // Profiles: Fix opens the inspector on the person's facts.
-  await expand(page, /^Profiles not reviewed/);
-  await page.locator('.check-group').filter({ has: page.getByRole('button', { name: /^Profiles not reviewed/ }) }).getByRole('button', { name: 'Fix Current Draft Name' }).click();
-  const inspector = page.getByRole('complementary', { name: 'Assignment review' });
-  await expect(inspector.getByRole('tab', { name: 'Facts' })).toHaveAttribute('aria-selected', 'true');
-  await expect(inspector.getByText('Unreviewed · facts not yet confirmed')).toBeVisible();
-  // A missing field opens the wording for that field; typing previews it on the slide and the stage says it is unsaved.
-  await page.locator('.check-group').filter({ has: page.getByRole('button', { name: /^Information/ }) }).getByRole('button', { name: 'Fix Current Draft Name' }).click();
-  await expect(inspector.getByRole('tab', { name: 'Wording' })).toHaveAttribute('aria-selected', 'true');
-  await expect(inspector.getByRole('combobox', { name: 'Slide wording field' })).toHaveValue('height_measurements');
-  await inspector.getByRole('textbox', { name: 'Presentation wording' }).fill('190 cm');
-  await expect(stage(page).getByText('Previewing your unsaved edit')).toBeVisible();
-  await expect(field(page, 'height_measurements')).toHaveText('190 cm');
-  await inspector.getByRole('button', { name: 'Discard wording edit' }).click();
-  await expect(field(page, 'height_measurements')).toHaveText('Not provided');
-  await expect(stage(page).getByText('Server-checked draft · revision 2')).toBeVisible();
-  // Someone moves the draft after this check: the panel says so instead of re-checking silently.
-  model.moveDraft(); await page.evaluate(() => window.dispatchEvent(new Event('focus')));
-  await expect(page.getByText('The draft changed after this check (revision 2 → 3). The stage and checks show the checked revision.')).toBeVisible();
-  await expect(stage(page).getByText('Draft changed since this check')).toBeVisible();
-  const reads = model.state.reviewReads; await page.getByRole('button', { name: 'Check again' }).click();
-  await expect.poll(() => model.state.reviewReads).toBeGreaterThan(reads);
-  await expect(stage(page).getByText('Server-checked draft · revision 3')).toBeVisible();
-  expect(await axe(page)).toEqual([]);
-  expect(model.errors).toEqual([]);
-});
-
-test('review: a measured overflow opens its page with the field marked as overflowing and its wording ready to shorten', async ({ page }) => {
-  const model = await studio(page, { overflow: true }); await page.goto(`${model.base}/review?series_id=${model.S}`);
-  await expect(page.getByRole('button', { name: /^Layout fit/ })).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByText('1 overflow', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: /^Edit Slide 2/ }).click();
-  await expect(page.locator('.stage-frame .stage-slide')).toHaveAttribute('aria-label', 'Slide 2 of 3: Current Draft Name');
-  await expect.poll(() => marked(page)).toContain('#ff6b6b');
-  await expect(page.getByRole('complementary', { name: 'Assignment review' }).getByRole('combobox', { name: 'Slide wording field' })).toHaveValue('presentation_notes');
-  expect(model.errors).toEqual([]);
-});
 
 test('versions: the stage shows either the server-checked draft or the selected saved snapshot, and a stale draft is refused', async ({ page }) => {
   const model = await studio(page, { staleGeneration: true, badTemplate: true }); await page.goto(`${model.base}/presentations?series_id=${model.S}`);
@@ -158,7 +97,7 @@ test('versions: the stage shows either the server-checked draft or the selected 
 
 test('share: links stay in the panel, the stage shows the version guests see, and feedback follows the slide', async ({ page }) => {
   const model = await studio(page); await page.goto(`${model.base}/share?series_id=${model.S}`);
-  await expect(page.getByRole('navigation', { name: 'Casting workspace steps' }).getByRole('link', { name: '7 Share & feedback', exact: true })).toHaveAttribute('aria-current', 'step');
+  await expect(page.getByRole('navigation', { name: 'Casting workspace steps' }).getByRole('link', { name: '6 Share & feedback', exact: true })).toHaveAttribute('aria-current', 'step');
   await expect(page.getByRole('heading', { name: 'Client review', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Create review link', exact: true })).toBeVisible();
   await expect(page.getByText('Version 1 · guests see this version')).toBeVisible();
