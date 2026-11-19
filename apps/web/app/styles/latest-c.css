@@ -1,3 +1,236 @@
-/* Latest design, Wave 1 agent C overrides (screens layer). features.css and screens.css are frozen; refine here. */
+/* Latest design, Wave 1 agent C overrides (screens layer). features.css and screens.css are frozen; refine here.
+   Scope: Review (step 5), Versions (step 6), Share & feedback (step 7), the saved-version viewer, the share drawer. */
 @layer screens {
+  /* ---------- Shared frame: the stage is a dark card beside the paper panel ---------- */
+  .presentation-frame > .page-frame-main { min-width: 0; }
+  .presentation-frame :is(.live-stage, .saved-stage, .media-stage) {
+    top: calc(var(--topbar-height) + var(--space-2)); height: calc(100vh - var(--topbar-height) - var(--space-6));
+    border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-32); background: var(--bi-card-bg); overflow: hidden;
+  }
+  .presentation-frame .saved-stage { margin-top: 0; }
+  .presentation-frame :is(.live-stage, .saved-stage, .media-stage) > .stage-bar { padding: 14px 18px; border-bottom: 0; }
+  .presentation-frame .live-stage-empty { padding: var(--space-8); }
+  .presentation-frame :is(.live-stage, .saved-stage) .empty-state { border: 0; background: transparent; }
+  .presentation-frame .saved-stage-strip { border-top: 1px solid var(--bi-line); background: transparent; }
+  .presentation-frame .saved-stage-body .saved-casting-slide, .presentation-frame .saved-stage-body .ef-preview-frame { box-shadow: none; }
+  @media (min-width: 1280px) {
+    .presentation-frame > .right-panel { top: calc(var(--topbar-height) + var(--space-2)); height: calc(100vh - var(--topbar-height) - var(--space-6)); }
+  }
+  /* Stage chips: pills, never square tags. */
+  .presentation-frame .stage-chip { min-height: var(--ui-chip); padding: 0 12px; border-radius: var(--radius-full); font-size: var(--ui-text-meta); }
+  .presentation-frame .stage-chip-lock { background: var(--color-surface-2); box-shadow: none; }
+  .presentation-frame .stage-meta { color: var(--color-text-muted); font-size: var(--ui-text-meta); }
+
+  /* Paper panel sections: quiet hairlines, medium section titles */
+  .presentation-frame .config-panel .panel-eyebrow { color: var(--color-text-primary); font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .presentation-frame .config-panel select { border-radius: var(--ui-radius-18); }
+  .presentation-frame .config-panel .empty-state { border: 1px solid var(--bi-card-line); background: var(--bi-card-bg); }
+
+  /* ---------- Step 5 Review ---------- */
+  .review-checks-head { align-items: center; }
+  .review-checks-head h3 { font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .review-gate { display: inline-flex; align-items: center; gap: 6px; min-height: var(--ui-chip); padding: 0 10px; border-radius: var(--radius-full); background: var(--color-surface-3); color: var(--color-text-secondary); font-size: var(--ui-text-tag); font-weight: var(--weight-medium); }
+  .review-gate-blocked { background: var(--color-danger-soft); color: var(--color-danger); }
+  .review-gate-blocked::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .review-clear { padding: 12px 16px; border-radius: var(--ui-radius-18); background: var(--color-accent-soft); }
+
+  .check-group { border-color: var(--bi-card-line); border-radius: var(--ui-radius-20); background: var(--bi-card-bg); }
+  .check-group-toggle { min-height: 58px; padding: 12px 14px 12px 18px; font-weight: var(--weight-medium); }
+  .check-group-toggle:hover { background: transparent; }
+  .check-group-toggle > svg:last-child { box-sizing: content-box; width: 14px; height: 14px; padding: 7px; border: 1px solid var(--color-border); border-radius: 50%; color: var(--color-text-primary); }
+  .check-group-body { padding: 0 12px 12px; }
+  .check-list { gap: 8px; }
+  .check-row { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-16); background: var(--bi-card-bg); }
+  .check-row-blocking { box-shadow: none; border-color: color-mix(in srgb, var(--color-danger) 35%, var(--bi-card-line)); }
+  .check-row-main { padding: 2px 4px; border-radius: var(--ui-radius-12); }
+  .check-row-main:hover:not(:disabled) { background: var(--color-surface-3); }
+  .check-row-title { font-weight: var(--weight-medium); }
+  .check-row-actions { padding: 2px 4px 0; }
+  .check-row-actions:empty { display: none; }
+  /* The repair action is the one filled control per row: ink on paper. Links to other screens stay outlined. */
+  .check-row-actions button.button { background: var(--bi-ink); border-color: var(--bi-ink); color: var(--brand-white); }
+  .check-row-actions button.button:hover:not(:disabled) { background: var(--bi-ink-2); border-color: var(--bi-ink-2); }
+  .check-row-actions a.button { border-color: var(--color-border-strong); color: var(--color-text-primary); }
+  .check-group-foot { padding: 10px 4px 2px; }
+  .review-frame .step-footer-extra p { margin: 0; line-height: 1.3; }
+
+  /* Assignment inspector (dark right panel) */
+  .review-frame .inspector-tabs { display: flex; padding: 4px; }
+  .review-frame .inspector-tabs button { flex: 1 1 auto; min-height: 38px; padding-inline: 12px; font-size: var(--ui-text-meta); white-space: nowrap; }
+  .inspector-frames img { border-radius: var(--ui-radius-14); }
+  .inspector-frames .candidate-frame > a { border-radius: var(--ui-radius-14); }
+  .inspector-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-20); overflow: hidden; }
+  .inspector-facts > div { grid-template-columns: minmax(0, 1fr); align-content: start; gap: 4px; padding: 12px 16px; border-bottom: 1px solid var(--bi-card-line); }
+  .inspector-facts > div:nth-child(odd) { border-right: 1px solid var(--bi-card-line); }
+  .inspector-facts > div:nth-last-child(-n + 2):nth-child(odd), .inspector-facts > div:last-child { border-bottom: 0; }
+  .inspector-facts .pill { grid-column: 1; }
+  .inspector-facts dd { font-weight: var(--weight-medium); }
+  .inspector-status { padding: 14px 16px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-18); font-weight: var(--weight-medium); }
+  .inspector-status[data-status="reviewed"] { border-color: color-mix(in srgb, var(--color-accent) 40%, transparent); background: var(--color-accent-soft); color: var(--color-accent-text); }
+  .inspector-status:not([data-status="reviewed"]) { border-color: color-mix(in srgb, var(--color-warning) 45%, transparent); background: var(--color-warning-soft); color: var(--color-text-primary); }
+  .inspector-status:not([data-status="reviewed"]) svg { color: var(--color-warning); }
+  .inspector-source { border-radius: var(--ui-radius-14); }
+  .inspector-video { border-radius: var(--ui-radius-20); }
+  .review-source .source-transcript { border-radius: var(--ui-radius-14); }
+  .suggestion-card { border-radius: var(--ui-radius-20); }
+  .inspector > .inspector-section > .button-row .button-quiet { padding-inline: 0; color: var(--color-accent-text); text-decoration: underline; text-underline-offset: 3px; }
+  /* Tab change: the newly shown section rises in. Done in CSS (display:none -> shown restarts the animation), so the
+     hidden sections keep their state and loaded images instead of remounting. */
+  @media (prefers-reduced-motion: no-preference) {
+    .inspector-section:not([hidden]) { animation: c-rise var(--duration-base) var(--ease-enter); }
+  }
+
+  /* ---------- Step 6 Versions ---------- */
+  .versions-panel .series-choice > .small { margin: 0; }
+  .draft-card { gap: var(--space-3); padding: 20px; border-color: var(--bi-card-line); border-radius: var(--ui-radius-24); background: var(--bi-card-bg); }
+  .draft-card[data-current] { border-color: var(--bi-card-line); box-shadow: inset 0 0 0 2px var(--color-accent); }
+  .draft-card-head .stage-chip-ok { min-height: var(--ui-chip); padding: 0 12px; border-radius: var(--radius-full); background: var(--color-accent-soft); color: var(--color-accent-text); font-size: var(--ui-text-meta); font-weight: var(--weight-medium); }
+  .presentation-draft > p:nth-of-type(1) { color: var(--color-text-primary); font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; line-height: 1.3; }
+  .draft-checks { padding: 12px 14px; border-radius: var(--ui-radius-16); background: var(--color-surface-3); }
+  .draft-checks.has-blocking { background: var(--color-danger-soft); }
+  .draft-checks p { margin: 0; }
+  .draft-change-summary { display: grid; gap: var(--space-2); }
+  .draft-change-summary h4 { margin: 0; color: var(--color-text-secondary); font-weight: normal; }
+  /* The change summary reads as chips. */
+  .draft-change-summary ul { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; list-style: none; }
+  .draft-change-summary li { display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px; border-radius: var(--radius-full); background: var(--color-surface-3); color: var(--color-text-primary); font-size: var(--ui-text-meta); }
+  .draft-card .button-primary { width: auto; justify-self: start; }
+  .draft-card .button-quiet { justify-self: start; color: var(--color-text-primary); font-weight: var(--weight-semibold); }
+
+  .history-head { align-items: center; justify-content: flex-start; }
+  .history-head > .small { display: inline-flex; align-items: center; min-height: var(--ui-chip); padding: 0 10px; border-radius: var(--radius-full); background: var(--bi-ink); color: var(--brand-white); font-size: var(--ui-text-tag); }
+  .version-list { gap: 10px; }
+  .version-card { position: relative; isolation: isolate; gap: 14px; padding: 12px 14px 12px 12px; border-color: var(--bi-card-line); border-radius: var(--ui-radius-20); background: var(--bi-card-bg); transition: border-color var(--duration-fast) var(--ease-standard), transform var(--duration-base) var(--ease-standard); }
+  .version-card:hover:not(:disabled) { border-color: var(--color-border-strong); }
+  .version-card:active:not(:disabled) { transform: scale(.985); }
+  .version-card[aria-current="true"] { border-color: var(--bi-card-line); background: var(--bi-card-bg); }
+  /* The latest ready version is the single green card of the set. */
+  .version-card.card-newest, .version-card.card-newest[aria-current="true"], .version-card.card-newest:hover:not(:disabled) { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-text-on-accent); }
+  .version-card-no { width: 46px; height: 46px; border-radius: var(--ui-radius-14); background: var(--bi-ink); color: var(--brand-white); font-size: var(--ui-text-body); font-weight: var(--weight-medium); }
+  .version-card-no svg { width: 16px; height: 16px; }
+  .version-card-text strong { font-size: var(--ui-text-body); font-weight: var(--weight-medium); }
+  .version-card.card-newest .version-card-text span { color: var(--bi-on-accent-muted); }
+  .version-card.card-newest .pill { background: var(--bi-ink); color: var(--brand-white); }
+  .version-card .pill-ok { background: var(--color-surface-3); color: var(--color-text-primary); }
+  /* The selected version's ring: one shared element that glides between cards (layoutId). */
+  .version-card-highlight { position: absolute; inset: -1px; z-index: 1; border-radius: inherit; box-shadow: inset 0 0 0 2px var(--bi-ink); pointer-events: none; }
+  /* On the Versions step Generate is the one filled action; the stage's download is a white secondary pill. */
+  .versions-frame .stage-tools .button-primary { background: var(--brand-white); border-color: var(--brand-white); color: var(--bi-ink); }
+  .versions-frame .stage-tools .button-primary:hover:not(:disabled) { background: var(--color-surface-3); border-color: var(--color-surface-3); color: var(--color-text-primary); box-shadow: none; }
+  .presentation-history > .button { justify-self: center; border-color: transparent; font-weight: var(--weight-semibold); }
+
+  /* ---------- Step 7 Share & feedback ---------- */
+  .share-panel > .small.muted { margin: 0; }
+  .share-info { padding: 16px 18px; border: 1px solid var(--bi-p-info-line); border-radius: var(--ui-radius-20); background: var(--color-info-soft); color: var(--color-text-primary); font-size: var(--ui-text-small); }
+  .share-info svg { color: var(--color-info); }
+  .share-review-context > summary { cursor: pointer; color: var(--color-text-secondary); font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .share-review-context[open] { display: grid; gap: var(--space-3); }
+  .feedback-versions { gap: 10px; }
+  .feedback-version { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; padding: 12px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-20); background: var(--bi-card-bg); color: var(--color-text-primary); font-weight: normal; }
+  .feedback-version:hover:not(:disabled) { background: var(--bi-card-bg); border-color: var(--color-border-strong); }
+  .feedback-version[aria-current="true"] { background: var(--bi-card-bg); box-shadow: inset 0 0 0 2px var(--bi-ink); font-weight: normal; }
+  .feedback-version-text { display: grid; gap: 2px; min-width: 0; }
+  .feedback-version-text > span:first-child { font-size: var(--ui-text-body); font-weight: var(--weight-medium); color: var(--color-text-primary); }
+  .feedback-version-text > span:last-child { color: var(--color-text-muted); font-size: var(--ui-text-small); }
+
+  /* Review links (workspace step, sharing page and the share drawer) */
+  .review-links-panel { display: grid; gap: var(--space-3); }
+  .review-links-panel > .section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+  .review-links-panel > .section-heading h2 { font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; color: var(--color-text-primary); }
+  .review-links-panel > .section-heading p { margin: 4px 0 0; color: var(--color-text-secondary); font-size: var(--ui-text-small); }
+  .review-links-panel > .section-heading > .button { flex: none; min-height: var(--ui-control-sm); padding: 0 14px; font-size: var(--ui-text-meta); }
+  .review-links-panel > p { margin: 0; }
+  .review-links-panel .review-link-create { display: grid; gap: var(--space-3); padding: 18px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-24); background: var(--bi-card-bg); }
+  .review-links-panel .review-link-create label:not(.review-link-checkbox) { display: grid; gap: 6px; color: var(--color-text-secondary); font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .review-links-panel .review-link-create input:not([type="checkbox"]) { width: 100%; }
+  .review-links-panel .review-link-checkbox { display: flex; align-items: center; gap: 8px; font-size: var(--ui-text-small); }
+  /* Creating a link is a secondary action on this panel: ink on paper, white on the dark drawer. */
+  .review-links-panel .review-link-create .button-primary { background: var(--bi-ink); border-color: var(--bi-ink); color: var(--brand-white); }
+  .drawer .review-links-panel .review-link-create .button-primary { background: var(--brand-white); border-color: var(--brand-white); color: var(--bi-ink); }
+  .review-links-panel .review-link-create .button-primary:hover:not(:disabled) { box-shadow: none; }
+  .review-links-panel .review-link-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .review-links-panel .review-link-list > li { display: grid; gap: var(--space-2); padding: 16px 18px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-24); background: var(--bi-card-bg); }
+  .review-links-panel .review-link-list > li:is([data-state="expired"], [data-state="revoked"]) { background: transparent; }
+  .review-links-panel .review-link-list > li:is([data-state="expired"], [data-state="revoked"]) h3 { color: var(--color-text-muted); }
+  .review-links-panel .review-link-list > li > .section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-2); }
+  .review-links-panel .review-link-list h3 { display: flex; align-items: center; gap: 8px; margin: 0; font-size: var(--ui-text-body); font-weight: var(--weight-medium); overflow-wrap: anywhere; }
+  .review-links-panel .review-link-list h3 svg { width: 16px; height: 16px; flex: none; color: var(--color-text-muted); }
+  .review-links-panel .review-link-list p { margin: 0; color: var(--color-text-secondary); font-size: var(--ui-text-small); }
+  .review-links-panel .review-link-list .badge { flex: none; }
+  .review-links-panel .badge-follow { background: var(--color-accent-soft); color: var(--color-accent-text); }
+  .review-links-panel .review-link-list .button-row { gap: 6px; }
+  .review-links-panel .review-link-list .button-row > .button { min-height: var(--ui-control-sm); padding: 0 14px; font-size: var(--ui-text-meta); }
+  .review-links-panel .review-link-list .button-row > .button svg { width: 15px; height: 15px; }
+  .review-links-panel .review-link-revoke:not(:disabled) { border-color: color-mix(in srgb, var(--color-danger) 45%, transparent); color: var(--color-danger); }
+  .review-links-panel .review-link-revoke:hover:not(:disabled) { background: var(--color-danger-soft); border-color: var(--color-danger); }
+  .review-links-panel .review-link-confirm { display: grid; gap: var(--space-2); }
+  .review-links-panel .review-link-confirm p { color: var(--color-text-primary); }
+  .review-links-panel .review-link-created { display: grid; gap: var(--space-2); padding: 18px; border: 1px solid var(--color-accent); border-radius: var(--ui-radius-24); background: var(--color-accent-soft); }
+  .review-links-panel .review-link-created label { display: grid; gap: 6px; font-size: var(--ui-text-small); font-weight: var(--weight-medium); }
+  .review-links-panel .review-link-created input { width: 100%; font-family: var(--font-mono); font-size: var(--ui-text-meta); }
+  .review-links-panel .review-link-created p { margin: 0; }
+  .review-link-copy svg { width: 16px; height: 16px; }
+  /* Copy confirmation: the icon turns to a tick and the button settles with a small press. */
+  @media (prefers-reduced-motion: no-preference) {
+    .review-link-copy[data-copied] { animation: c-copied var(--duration-slow) var(--ease-standard); }
+    .review-link-copy[data-copied] svg { animation: c-tick var(--duration-slow) cubic-bezier(.2, 1.2, .4, 1); }
+  }
+  .drawer .review-links-panel .review-link-list > li, .drawer .review-links-panel .review-link-create { background: var(--color-surface-2); }
+
+  /* Feedback panel (dark right panel) */
+  .presentation-frame .right-panel .review-preference-counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; }
+  .presentation-frame .right-panel .review-preference-counts > div:nth-child(4) { grid-column: 1 / -1; flex-direction: row-reverse; justify-content: space-between; align-items: baseline; }
+  .presentation-frame .right-panel .review-preference-counts > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 4px; min-width: 0; padding: 12px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-18); background: transparent; }
+  .presentation-frame .right-panel .review-preference-counts dt { color: var(--color-text-muted); font-size: var(--ui-text-meta); line-height: 1.25; overflow-wrap: normal; word-break: normal; hyphens: none; }
+  .presentation-frame .right-panel .review-preference-counts dd { margin: 0; color: var(--color-text-primary); font-size: var(--ui-text-title); font-weight: var(--weight-medium); letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .presentation-frame .right-panel .review-preference-counts dd .small { font-size: var(--ui-text-tag); font-weight: normal; letter-spacing: 0; }
+  .presentation-frame .right-panel .review-feedback > .button-primary { background: transparent; border-color: var(--color-border-strong); color: var(--color-text-primary); }
+  .presentation-frame .right-panel .review-feedback > .button-primary:hover:not(:disabled) { background: var(--color-surface-2); box-shadow: none; }
+  .presentation-frame .right-panel .review-comments { gap: 10px; }
+  .presentation-frame .right-panel .review-comments > li { gap: 8px; padding: 16px 18px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-20); }
+  .presentation-frame .right-panel .review-comments > li:has(.review-comment-badge-internal) { border-color: color-mix(in srgb, var(--color-warning) 30%, var(--bi-card-line)); background: color-mix(in srgb, var(--color-warning) 6%, transparent); }
+  .presentation-frame .right-panel .review-comment-reply { margin-left: 18px; }
+  .presentation-frame .right-panel .review-comments > li .button-row { gap: 4px; }
+  .presentation-frame .right-panel .review-feedback select { border-radius: var(--ui-radius-18); }
+  .review-comment-avatar { display: inline-grid; place-items: center; width: 36px; height: 36px; flex: none; border-radius: 50%; background: var(--color-surface-3); color: var(--color-text-primary); font-size: var(--ui-text-meta); font-weight: var(--weight-semibold); }
+  .review-comment-badge-internal { background: var(--color-warning-soft); color: var(--color-warning); }
+  .review-comment-badge-external { background: var(--color-info-soft); color: var(--color-info); }
+  .review-comment-badge-external.is-resolved, .review-comment-badge-internal.is-resolved { background: var(--color-accent-soft); color: var(--color-accent-text); }
+
+  /* ---------- Saved-version viewer ---------- */
+  .version-top-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .version-top-pills .pill { min-height: var(--ui-chip); padding: 0 12px; font-size: var(--ui-text-meta); font-weight: var(--weight-medium); }
+  .version-top-pills .version-top-no { background: var(--brand-white); color: var(--bi-ink); }
+  .version-top-pills .pill-quiet { color: var(--color-text-primary); }
+  .version-top-pills svg { width: 12px; height: 12px; }
+  .version-frame .version-meta-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .version-slide-list { gap: 8px; }
+  .version-slide-item { min-height: 64px; padding: 12px 16px 30px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-20); background: var(--bi-card-bg); color: var(--color-text-primary); transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard); }
+  .version-slide-item:hover { background: var(--bi-card-bg); border-color: var(--color-border-strong); }
+  .version-slide-item .version-slide-place { font-weight: var(--weight-medium); }
+  /* The current slide is the dark card on paper. */
+  .version-slide-item[aria-current="step"] { border-color: var(--bi-ink); background: var(--bi-ink); color: var(--brand-white); }
+  .version-slide-item[aria-current="step"] > span:first-child { color: var(--brand-white); }
+  .version-slide-row:has(> [aria-current="step"]) .version-slide-note { color: color-mix(in srgb, var(--brand-white) 70%, transparent); }
+  .version-slide-note { padding: 0 16px 11px 16px; }
+  .version-slide-count { margin: 12px 14px 0 0; background: var(--bi-ink); color: var(--brand-white); }
+  .version-slide-row:has(> [aria-current="step"]) .version-slide-count { background: var(--brand-white); color: var(--bi-ink); }
+  .version-slide-count svg { width: 12px; height: 12px; }
+  .panel-foot-actions { align-items: center; }
+  .panel-foot-actions > .button-quiet { min-height: var(--ui-control-sm); padding: 0 14px; border-color: var(--color-border-strong); color: var(--color-text-primary); font-size: var(--ui-text-meta); }
+
+  /* ---------- Narrow screens ---------- */
+  @media (max-width: 1023px) {
+    .presentation-frame :is(.live-stage, .saved-stage, .media-stage) { position: static; height: auto; }
+  }
+  @media (max-width: 767px) {
+    .presentation-frame :is(.live-stage, .saved-stage, .media-stage) { border-radius: var(--ui-radius-24); }
+    .inspector-facts { grid-template-columns: minmax(0, 1fr); }
+    .inspector-facts > div:nth-child(odd) { border-right: 0; }
+    .inspector-facts > div:nth-last-child(-n + 2):nth-child(odd) { border-bottom: 1px solid var(--bi-card-line); }
+  }
 }
+
+@keyframes c-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes c-copied { 0% { transform: scale(1); } 40% { transform: scale(.96); } 100% { transform: scale(1); } }
+@keyframes c-tick { from { transform: scale(.4) rotate(-20deg); opacity: 0; } to { transform: none; opacity: 1; } }

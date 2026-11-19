@@ -14,6 +14,9 @@ import { PageFrame } from './shell/PageFrame';
 import { DeckStage } from './workspace/DeckStage';
 import { useStageDeck } from './workspace/useStageDeck';
 import { SavedStage, statusLabel, useSavedVersion, VersionActions } from './presentation/saved-version';
+import { motion } from 'motion/react';
+import { RevealItem, RevealList } from './motion/Reveal';
+import { glide } from './motion/presets';
 
 interface Props { projectId: string; workspaceId: string; actor: Actor; initialOutput: 'selection' | 'shortlist'; requestedSeriesId?: string | null; onSeriesChanged?: (value: string) => void; onDirtyChange: (dirty: boolean) => void }
 interface GenerationIntent { path: string; init: RequestInit; seriesId: string }
@@ -127,6 +130,8 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
   const blocking = draft?.review.issues.filter(issue => issue.severity === 'blocking') ?? [];
   const notes = (draft?.review.issues.length ?? 0) - blocking.length;
   const reviewHref = `${base}/review${seriesId ? `?series_id=${seriesId}` : ''}`;
+  // Generate is the one filled action while the draft holds unsaved changes; Continue steps back to a quiet button.
+  const generateLeads = !!(draft && canGenerate && draft.review.can_generate && (!draft.lastReady || changes?.has_changes));
 
   const panelBody = <div className="versions-panel stack-lg">
     {error && <ErrorNotice message={error} />}{notice && <p className="review-notice" role="status">{notice}</p>}
@@ -154,14 +159,14 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
       </section>}
     {series.length > 0 && <section className="panel-section presentation-history" aria-labelledby="history-heading">
       <div className="history-head"><h3 id="history-heading" className="panel-eyebrow">Saved history</h3><span className="small muted">{versions.length} {versions.length === 1 ? 'version' : 'versions'}{cursor ? '+' : ''}</span></div>
-      {!versions.length && !selectedVersion ? <p className="small muted">No saved versions in this series yet. Generate one to capture the working draft.</p> : <ul className="version-list" aria-label="Saved versions">
-        {selectedVersion && !versions.some(row => row.id === selectedVersion) && <li><button type="button" className="version-card" aria-current="true"><span className="version-card-no"><Icon name="lock" /></span><span className="version-card-text"><strong>Selected saved version</strong><span>Opening…</span></span></button></li>}
-        {versions.map(row => <li key={row.id}><button type="button" className="version-card" disabled={locked} aria-current={row.id === selectedVersion ? 'true' : undefined} onClick={() => setSelectedVersion(row.id)}>
-          <span className="version-card-no" aria-hidden="true">v{row.version_no}</span>
+      {!versions.length && !selectedVersion ? <p className="small muted">No saved versions in this series yet. Generate one to capture the working draft.</p> : <RevealList className="version-list" label="Saved versions">
+        {selectedVersion && !versions.some(row => row.id === selectedVersion) && <RevealItem><button type="button" className="version-card" aria-current="true"><VersionHighlight /><span className="version-card-no"><Icon name="lock" /></span><span className="version-card-text"><strong>Selected saved version</strong><span>Opening…</span></span></button></RevealItem>}
+        {versions.map(row => <RevealItem key={row.id}><button type="button" className={`version-card${row.id === draft?.series.latest_ready_version_id ? ' card-newest' : ''}`} data-status={row.status} disabled={locked} aria-current={row.id === selectedVersion ? 'true' : undefined} onClick={() => setSelectedVersion(row.id)}>
+          {row.id === selectedVersion && <VersionHighlight />}<span className="version-card-no" aria-hidden="true">v{row.version_no}</span>
           <span className="version-card-text"><strong>Version {row.version_no}</strong><span>{statusLabel(row)} · <StudioDateTime value={row.created_at} /> · {row.slides.length} slides</span></span>
           <span className={`pill ${row.status === 'ready' ? 'pill-ok' : row.status === 'failed' ? 'pill-error' : 'pill-info'}`}>{row.id === draft?.series.latest_ready_version_id ? 'Latest ready' : statusLabel(row)}</span>
-        </button></li>)}
-      </ul>}
+        </button></RevealItem>)}
+      </RevealList>}
       {cursor && <button className="button button-small" disabled={locked || loading || choicesLoading || !!error} onClick={() => void more()}>Load older versions</button>}
     </section>}
   </div>;
@@ -169,11 +174,14 @@ function PresentationScope({ projectId, workspaceId, actor, initialOutput, reque
   return <PageFrame inline className="workspace-frame presentation-frame versions-frame"
     panel={{ title: 'Versions', subtitle: 'Generate, view and share', label: 'Versions panel', wide: true, body: panelBody,
       actions: <button type="button" className="icon-button icon-button-small" aria-label="Refresh working draft" title="Refresh working draft" disabled={locked || loading || choicesLoading} onClick={refreshAll}><Icon name="refresh" /></button>,
-      footer: <StepFooter placement="panel" back={{ href: reviewHref, label: 'Review' }} next={{ href: `${base}/share${seriesId ? `?series_id=${seriesId}` : ''}`, label: 'Share & feedback' }}>{selectedVersion && <Link className="button button-quiet button-small step-footer-aside" href={`/presentations/versions/${selectedVersion}`}><Icon name="external" />Open version page</Link>}</StepFooter> }}>
+      footer: <StepFooter placement="panel" back={{ href: reviewHref, label: 'Review' }} next={{ href: `${base}/share${seriesId ? `?series_id=${seriesId}` : ''}`, label: 'Share & feedback', quiet: generateLeads }}>{selectedVersion && <Link className="button button-quiet button-small step-footer-aside" href={`/presentations/versions/${selectedVersion}`}><Icon name="external" />Open version page</Link>}</StepFooter> }}>
     {selectedVersion ? <VersionStage key={selectedVersion} versionId={selectedVersion} seriesId={seriesId} onSettled={settled} latest={selectedVersion === draft?.series.latest_ready_version_id} />
       : <DraftStage review={draft?.review ?? null} loading={loading} empty={!series.length && !choicesLoading} />}
   </PageFrame>;
 }
+
+/** The selected saved version's ring: one shared element that glides between version cards. */
+function VersionHighlight() { return <motion.span layoutId="version-card-current" className="version-card-highlight" transition={glide} aria-hidden="true" />; }
 
 /** The working draft as the server checked it — the content Generate captures for this series. */
 function DraftStage({ review, loading, empty }: { review: WorkspaceReview | null; loading: boolean; empty: boolean }) {
