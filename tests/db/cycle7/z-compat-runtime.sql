@@ -22,6 +22,8 @@ select pg_temp.check(not exists(select 1 from pg_proc p where p.pronamespace='ep
    'settings_dto_cycle7','specs_role_dto_cycle7','specs_slot_dto_cycle7','review_series_dto_cycle7','cast_pool_dto_cycle7','cast_library_dto_cycle7','jobs_dto_cycle7')
   and has_function_privilege('public',p.oid,'EXECUTE')), 'response builders and the client gate are not executable by PUBLIC');
 
+select pg_temp.check(has_function_privilege('eps_appearance_owner','eps.cast_canonical(jsonb)','EXECUTE'), 'Reviewed filter can run (m25)');
+
 -- 2. Previous-client gate.
 select set_config('request.headers','{"accept":"application/json","user-agent":"postgrest"}',true);
 select pg_temp.check(eps.previous_client(), 'Data API request without the contract header is a previous client');
