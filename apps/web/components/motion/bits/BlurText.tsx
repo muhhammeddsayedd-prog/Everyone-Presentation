@@ -3,7 +3,7 @@
    Licence: MIT + Commons Clause (internal product use). Animation runs on the pinned `motion` package.
    Local changes are limited to typing fixes; Studio usage goes through components/motion/*.tsx wrappers. */
 
-import { motion, MotionConfig, type Easing, type MotionStyle, type Transition } from 'motion/react';
+import { m as motion, MotionConfig, type Easing, type MotionStyle, type Transition } from 'motion/react';
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 
 type Snapshot = Record<string, string | number>;

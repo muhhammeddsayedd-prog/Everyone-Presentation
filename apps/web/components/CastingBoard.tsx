@@ -15,7 +15,7 @@ import { ActionMenu, type MenuItem } from './ui/Menu';
 import { Drawer } from './ui/Overlay';
 import { useConfirm } from './ui/Confirm';
 import { useToast } from './ui/Toast';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { SegmentIndicator } from './motion/SegmentIndicator';
 import { RevealItem, RevealList } from './motion/Reveal';
 import { lift, press, settle } from './motion/presets';

@@ -6,7 +6,7 @@ import type { Role, RoleRequirements, Slot } from '../../../../../packages/domai
 import { api, errorMessage, mutation, type Envelope, type Workspace } from '../../api';
 import { ErrorNotice, Loading } from '../../Feedback';
 import { Icon } from '../../Icon';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { settle } from '../../motion/presets';
 import { useConfirm } from '../../ui/Confirm';
 import { useSceneFocus } from '../WorkspaceDraftProvider';

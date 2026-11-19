@@ -11,7 +11,7 @@ import { ActionMenu } from './ui/Menu';
 import { Modal } from './ui/Overlay';
 import { useConfirm } from './ui/Confirm';
 import { useToast } from './ui/Toast';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { RevealList } from './motion/Reveal';
 import { listItem } from './motion/presets';
 import { KpiNumber } from './motion/KpiNumber';

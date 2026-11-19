@@ -14,7 +14,7 @@ import { PageFrame } from './shell/PageFrame';
 import { DeckStage } from './workspace/DeckStage';
 import { useStageDeck } from './workspace/useStageDeck';
 import { SavedStage, statusLabel, useSavedVersion, VersionActions } from './presentation/saved-version';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { RevealItem, RevealList } from './motion/Reveal';
 import { glide } from './motion/presets';
 

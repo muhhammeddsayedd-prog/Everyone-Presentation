@@ -60,7 +60,7 @@
   li[data-state="before"] .step-number { border-color: color-mix(in srgb, var(--color-accent) 60%, transparent); color: var(--color-accent-text); }
   .step-link[aria-current] { color: var(--bi-ink); }
   .step-link[aria-current]:not(:has(.step-current)) { background: var(--brand-white); }
-  .step-current { position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--brand-white); }
+  .step-current { position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--brand-white); transform-origin: left center; }
   .step-link[aria-current] .step-number { border-color: var(--color-accent); background: var(--color-accent); color: var(--color-text-on-accent); }
   .step-status { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: var(--radius-full); background: var(--color-surface-3); color: var(--color-text-secondary); font-size: var(--ui-text-tag); font-weight: var(--weight-medium); }
   .step-status-warn { background: var(--color-warning-soft); color: var(--color-warning); }

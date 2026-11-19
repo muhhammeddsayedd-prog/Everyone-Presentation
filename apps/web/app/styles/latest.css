@@ -155,6 +155,8 @@
 }
 @property --kpi-n { syntax: '<integer>'; inherits: false; initial-value: 0; }
 @keyframes kpi-count { from { --kpi-n: 0; } to { --kpi-n: var(--kpi-to); } }
+/* The hero text waits (hidden) for its reveal only when motion and scripting are on; otherwise it shows at once. */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) { .text-reveal[data-pending] { opacity: 0; } }
 @keyframes latest-drawer-in { from { transform: translateX(32px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes latest-pop-in { from { transform: translateY(8px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes latest-menu-in { from { transform: translateY(-4px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }

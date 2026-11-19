@@ -11,7 +11,7 @@ import { SearchField, useLiveResults, useLiveSearch, useSettledValue } from './u
 import { RoleFilterSuggestions } from './RoleFilterSuggestions';
 import { Icon } from './Icon';
 import { cardCastingId, cardLines } from './candidate-card';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, m as motion, useReducedMotion } from 'motion/react';
 import { glide, list as listVariants, listItem, seconds, settle } from './motion/presets';
 import { PageFrame, PanelToggle } from './shell/PageFrame';
 import { CandidatePortrait } from './CandidatePortrait';

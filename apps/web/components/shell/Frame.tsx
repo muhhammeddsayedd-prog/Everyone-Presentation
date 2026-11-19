@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { Icon, type IconName } from '../Icon';
 import { ActionMenu } from '../ui/Menu';
 import { glide } from '../motion/presets';

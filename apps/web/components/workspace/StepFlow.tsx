@@ -3,11 +3,16 @@
 import Link from 'next/link';
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { Icon } from '../Icon';
-import { motion } from 'motion/react';
-import { glide } from '../motion/presets';
+import { DURATION, EASE, motionAllowed } from '../motion/motion';
 
 /* The casting workspace flow: one visible, numbered step bar under the workspace header, and the same
    "Back / Continue to …" footer at the end of every step's panel. Link names stay "<n> <Step> <status>". */
+
+// The step bar remounts with each step's view; a step chosen from the bar by keyboard keeps focus on the bar.
+let refocusPath: string | null = null;
+// Each step's view (and so the bar) remounts and loads before it shows; a layoutId has nothing to glide from.
+// The outgoing pill's box is kept for a moment and the new pill slides from it (FLIP, transform only).
+let lastPill: { left: number; width: number; at: number } | null = null;
 
 export interface FlowStep { path: string; label: string; href: string; status?: { text: string; tone: 'warn' | 'muted' | 'ok' } }
 
@@ -21,10 +26,25 @@ export function StepBar({ steps, current }: { steps: FlowStep[]; current: string
     const left = active.offsetLeft - root.offsetLeft;
     if (left < root.scrollLeft || left + active.offsetWidth > root.scrollLeft + root.clientWidth) root.scrollLeft = Math.max(0, left - 24);
   }, [current]);
+  useLayoutEffect(() => {
+    const pill = list.current?.querySelector<HTMLElement>('.step-current');
+    if (!pill) return;
+    const box = pill.getBoundingClientRect();
+    if (lastPill && Date.now() - lastPill.at < 2000 && motionAllowed() && Math.abs(lastPill.left - box.left) > 1 && box.width > 0) {
+      const dx = lastPill.left - box.left; const sx = lastPill.width / box.width;
+      pill.animate([{ transform: `translateX(${dx}px) scaleX(${sx})` }, { transform: 'none' }], { duration: DURATION.slow, easing: EASE.standard });
+    }
+    return () => { const end = pill.getBoundingClientRect(); lastPill = end.width ? { left: end.left, width: end.width, at: Date.now() } : lastPill; };
+  }, [current]);
+  useLayoutEffect(() => {
+    if (refocusPath !== current) return;
+    refocusPath = null;
+    if (document.activeElement === document.body || !document.activeElement) list.current?.querySelector<HTMLElement>('[aria-current="step"]')?.focus({ preventScroll: true });
+  }, [current]);
   return <nav className="workspace-steps" aria-label="Casting workspace steps">
     <ol ref={list}>{steps.map((step, position) => <li key={step.path} data-state={position < index ? 'before' : position === index ? 'current' : 'after'}>
-      <Link className="step-link" href={step.href} aria-current={position === index ? 'step' : undefined}>
-        {position === index && <motion.span layoutId="workspace-step-current" className="step-current" transition={glide} aria-hidden="true" />}
+      <Link className="step-link" href={step.href} aria-current={position === index ? 'step' : undefined} onClick={event => { refocusPath = event.detail === 0 ? step.path : null; }}>
+        {position === index && <span className="step-current" aria-hidden="true" />}
         <span className="step-number">{position + 1}</span>{' '}<span className="step-name">{step.label}</span>
         {step.status && <>{' '}<span className={`step-status step-status-${step.status.tone}`}>{step.status.text}</span></>}
       </Link>

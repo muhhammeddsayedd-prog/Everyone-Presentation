@@ -18,7 +18,7 @@ import {createCastLibraryRequests as createLatestReadRequests} from '../lib/cast
 import { CastingRetirementReview } from './CastingRetirementReview';
 import { RetirementUndo } from './RetirementUndo';
 import { Icon } from './Icon';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { RevealList } from './motion/Reveal';
 import { listItem } from './motion/presets';
 import { StepFooter } from './workspace/StepFlow';

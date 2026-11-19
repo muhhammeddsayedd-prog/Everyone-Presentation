@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Candidate, CandidateUploadRow } from '@eps/domain';
 import { api, errorMessage } from './api';
 import { Icon } from './Icon';
-import { motion } from 'motion/react';
+import { m as motion } from 'motion/react';
 import { RevealList } from './motion/Reveal';
 import { listItem } from './motion/presets';
 

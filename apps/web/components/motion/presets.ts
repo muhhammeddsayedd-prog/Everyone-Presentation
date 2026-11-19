@@ -25,8 +25,9 @@ export const rise: Variants = {
   gone: { opacity: 0, y: -4, transition: { duration: seconds.fast, ease: ease.exit } },
 };
 
-/** Lists: children rise 30 ms apart, capped so long lists never cascade for more than ~360 ms. */
-export const list: Variants = { hidden: {}, shown: { transition: { staggerChildren: 0.03, delayChildren: 0.02 } } };
+/** Lists: children rise 30 ms apart; rows after the 12th share the last delay, so a long list settles in ~400 ms. */
+const cappedStagger = (index: number) => 0.02 + Math.min(index, 12) * 0.03;
+export const list: Variants = { hidden: {}, shown: { transition: { delayChildren: cappedStagger } } };
 export const listItem: Variants = {
   hidden: { opacity: 0, y: 4 },
   shown: { opacity: 1, y: 0, transition: { duration: seconds.base, ease: ease.enter } },
