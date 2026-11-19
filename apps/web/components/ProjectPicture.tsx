@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type { PortraitCrop, PortraitSource, WorkspaceCandidate } from '@eps/domain';
-import { Icon } from './Icon';
+import { Icon, type IconName } from './Icon';
 import { PORTRAIT_FOCAL } from '../../../packages/templates/versions/1.4.0/layouts';
 
 export function pictureUrl(assetId: string, source: PortraitSource) {
@@ -28,12 +28,14 @@ export function ProjectPicture({ item, processing = false }: { item: Picture; pr
   // A failure is remembered per asset and per processing phase: when processing ends the picture is read again.
   const attempt = asset ? `${asset}/${processing ? 'processing' : 'ready'}` : null;
   const broken = attempt !== null && failed === attempt;
-  const state = processing && (!asset || broken) ? { label: 'Processing', tone: 'info' } : broken ? { label: 'Picture can’t be loaded', tone: 'bad' }
-    : asset ? null : item.media_selection_state === 'intentionally_empty' ? { label: 'No picture (intentional)', tone: 'outline' } : { label: 'No presentation picture', tone: 'warn' };
+  // `short` is the word drawn on a row's 64 px thumbnail (CSS); the full label stays the text and the tooltip.
+  const state: { label: string; short: string; icon: IconName; tone: string } | null = processing && (!asset || broken) ? { label: 'Processing', short: 'Processing', icon: 'processing', tone: 'info' }
+    : broken ? { label: 'Picture can’t be loaded', short: 'Error', icon: 'alert', tone: 'bad' }
+    : asset ? null : item.media_selection_state === 'intentionally_empty' ? { label: 'No picture (intentional)', short: 'None', icon: 'minus', tone: 'outline' } : { label: 'No presentation picture', short: 'Missing', icon: 'image', tone: 'warn' };
   return <span className="project-picture">
     <span className="candidate-portrait" aria-hidden="true">{asset && source && !broken
       ? <img key={attempt} src={pictureUrl(asset, source)} alt="" loading="lazy" decoding="async" style={{ objectFit: 'cover', objectPosition: cropPosition(item.portrait_crop) }} onError={() => setFailed(attempt)} />
       : <Icon name={broken && !processing ? 'alert' : 'people'} />}</span>
-    {state && <span className={`badge badge-${state.tone} project-picture-state`}>{state.label}</span>}
+    {state && <span className={`badge badge-${state.tone} project-picture-state`} title={state.label}><Icon name={state.icon} /><span className="project-picture-label" data-short={state.short}>{state.label}</span></span>}
   </span>;
 }

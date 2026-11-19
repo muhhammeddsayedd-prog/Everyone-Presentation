@@ -37,7 +37,8 @@ interface DragChoice { kind: OrderKind; id: string; scope?: string; rowVersion: 
 interface Write { label: string; run: () => Promise<void>; focus?: string }
 const encode = encodeURIComponent;
 const ordered = <T extends { id: string; sort_order: number }>(items: readonly T[]) => [...items].sort((a, b) => a.sort_order - b.sort_order || a.id.localeCompare(b.id));
-function name(candidate: Candidate | undefined, id: string) { return candidate?.facts.name || candidate?.facts.casting_id || `Candidate record ${id}`; }
+/** While profiles are still being read a missing name says so; only a profile that could not be read falls back to its record ID. */
+function name(candidate: Candidate | undefined, id: string, pending = false) { return candidate?.facts.name || candidate?.facts.casting_id || (pending && !candidate ? 'Loading name…' : `Candidate record ${id}`); }
 function message(reason: unknown): string {
   if (reason instanceof ApiError && ['MAIN_UNDO_INVALID', 'MAIN_UNDO_ALREADY_USED'].includes(reason.code)) return 'This Main change can no longer be undone. Reload the current choices.';
   if (reason instanceof ApiError && reason.code === 'MAIN_OPERATION_REQUIRED') return 'Clear the Main to Backup before changing it to Option.';
@@ -65,7 +66,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
   const [lifted, setLifted] = useState<string | null>(null);
   const output = previewOutput ?? data?.workspace.active_output ?? initialOutput;
   const [loading, setLoading] = useState(true); const [fresh, setFresh] = useState(false); const [busy, setBusy] = useState(false);
-  const [error, setError] = useState(''); const [status, setStatus] = useState(''); const [profileWarning, setProfileWarning] = useState(false);
+  const [error, setError] = useState(''); const [status, setStatus] = useState(''); const [profileWarning, setProfileWarning] = useState(false); const [profilesPending, setProfilesPending] = useState(false);
   const [uncertain, setUncertain] = useState(false); const [editing, setEditing] = useState<string | null>(null); const [notesDirty, setNotesDirty] = useState(false);
   const [picks, setPicks] = useState<Record<string, string>>({}); const [undos, setUndos] = useState<Record<string, UndoChoice>>({});
   const confirm = useConfirm(); const toast = useToast(); const router = useRouter(); const undoRef = useRef<((slotId: string) => void) | null>(null);
@@ -107,7 +108,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
       setUndos(values => Object.fromEntries(Object.entries(values).filter(([, item]) => slots.some(slot => slot.id === item.payload.slot_id && slot.row_version === item.payload.expected_slot_row_version)
         && Object.entries(item.revisions).every(([id, revision]) => assignments.some(row => row.id === id && row.row_version === revision)))));
       if (canReadLibrary) {
-        const ids = [...new Set(pool.map(item => item.candidate_id))]; let unavailable = false;
+        const ids = [...new Set(pool.map(item => item.candidate_id))]; let unavailable = false; setProfilesPending(true);
         for (let index = 0; index < ids.length && current() && !deadline.aborted; index += 8) {
           const batch = ids.slice(index, index + 8); const values = await Promise.allSettled(batch.map(id => api<Candidate>(`/api/v1/candidates/${encode(id)}`, { signal })));
           if (!current()) return;
@@ -115,7 +116,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
           values.forEach((result, position) => { if (result.status === 'fulfilled' && result.value.data.id === batch[position]) found[batch[position]] = result.value.data; else unavailable = true; });
           setProfiles(old => { const next = { ...old }; for (const id of batch) delete next[id]; return { ...next, ...found }; });
         }
-        if (current()) setProfileWarning(unavailable || deadline.aborted);
+        if (current()) { setProfileWarning(unavailable || deadline.aborted); setProfilesPending(false); }
       }
     } catch (reason) {
       if (current()) { setError(message(reason)); if (reason instanceof ApiError && [401, 403, 404].includes(reason.status)) setData(null); }
@@ -256,7 +257,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
             return <motion.section layout="position" transition={settle} animate={{ scale: lifted === slot.id ? lift.scale : 1 }} className={`slot-lane${lifted === slot.id ? ' is-lifted' : ''}`} key={slot.id} onDragOver={event => allowDrop(event, 'slot', role.id)} onDrop={event => drop(event, 'slot', slot.id, role.id)} aria-labelledby={`slot-${slot.id}`} data-draft-focus={`slot:${slot.id}`}>
               <header className="slot-lane-head"><div><h4 id={`slot-${slot.id}`} tabIndex={-1} ref={node => register(slot.id, node)}>{slot.label}</h4><p className={shown.length ? 'small muted' : 'small text-warn'}>{shown.length ? `${shown.length} assigned ${shown.length === 1 ? 'entry' : 'entries'}` : `Pending in ${output === 'selection' ? 'Selection' : 'Shortlist'}`}{!hasMain ? ' · No Main selected' : ''}</p></div>
                 <div className="button-row">{undos[slot.id] && <button className="button button-small" disabled={actionsLocked} onClick={() => undoMain(slot.id)}>Undo Main change</button>}{dragHandle('slot', slot.id, slot.label, role.id)}<MoveButtons label={`slot ${slot.label}`} disabled={actionsLocked} first={slotIndex === 0} last={slotIndex === slots.length - 1} move={direction => reorder('slot', slot.id, direction, role.id)} /></div></header>
-              <div className="slot-cards">{shown.map(item => { const pool = data.pool.find(row => row.id === item.workspace_candidate_id)!; const profile = profiles[pool.candidate_id]; const index = all.findIndex(row => row.id === item.id); const label = name(profile, pool.candidate_id);
+              <div className="slot-cards">{shown.map(item => { const pool = data.pool.find(row => row.id === item.workspace_candidate_id)!; const profile = profiles[pool.candidate_id]; const index = all.findIndex(row => row.id === item.id); const label = name(profile, pool.candidate_id, profilesPending);
                 const positionLabel = item.position === 'main' ? 'Main' : item.position === 'backup' ? 'Backup' : 'Option';
                 const menu: MenuItem[] = [
                   ...(item.position === 'main' ? [{ label: 'Clear Main to Backup', onSelect: () => main(slot, null) }] : [{ label: 'Set as Main', onSelect: () => main(slot, item, label) }, { label: 'Option', checked: item.position === 'option', onSelect: () => { if (item.position !== 'option') patch(item, { position: 'option' }, 'Assignment position'); } }, { label: 'Backup', checked: item.position === 'backup', onSelect: () => { if (item.position !== 'backup') patch(item, { position: 'backup' }, 'Assignment position'); } }]),
@@ -281,7 +282,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
                   </div>
                 </motion.article>;
               })}
-                <fieldset className="assignment-add" disabled={actionsLocked} aria-label={`Add candidate to ${slot.label}`}><label className="field" htmlFor={`add-${slot.id}`}><span>Project candidate<span className="sr-only"> for {slot.label}</span></span><select id={`add-${slot.id}`} value={picks[slot.id] ?? ''} onChange={event => setPicks(values => ({ ...values, [slot.id]: event.target.value }))}><option value="">Choose an existing project candidate</option>{data.pool.map(item => { const existing = all.find(row => row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included); return <option key={item.id} value={item.id} disabled={present}>{name(profiles[item.candidate_id], item.candidate_id)}{present ? ' · already included' : existing ? ' · add existing assignment to Shortlist' : ''}</option>; })}</select></label><button className="button button-small" disabled={!picks[slot.id] || all.some(row => row.workspace_candidate_id === picks[slot.id] && (output === 'selection' || row.shortlist_included))} onClick={() => add(slot)} aria-label={`${output === 'shortlist' ? 'Add to Shortlist in' : 'Assign as Option to'} ${slot.label}`}><Icon name="plus" />{output === 'shortlist' ? 'Add to Shortlist' : 'Assign as Option'}</button></fieldset>
+                <fieldset className="assignment-add" disabled={actionsLocked} aria-label={`Add candidate to ${slot.label}`}><label className="field" htmlFor={`add-${slot.id}`}><span>Project candidate<span className="sr-only"> for {slot.label}</span></span><select id={`add-${slot.id}`} value={picks[slot.id] ?? ''} onChange={event => setPicks(values => ({ ...values, [slot.id]: event.target.value }))}><option value="">Choose an existing project candidate</option>{data.pool.map(item => { const existing = all.find(row => row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included); return <option key={item.id} value={item.id} disabled={present}>{name(profiles[item.candidate_id], item.candidate_id, profilesPending)}{present ? ' · already included' : existing ? ' · add existing assignment to Shortlist' : ''}</option>; })}</select></label><button className="button button-small" disabled={!picks[slot.id] || all.some(row => row.workspace_candidate_id === picks[slot.id] && (output === 'selection' || row.shortlist_included))} onClick={() => add(slot)} aria-label={`${output === 'shortlist' ? 'Add to Shortlist in' : 'Assign as Option to'} ${slot.label}`}><Icon name="plus" />{output === 'shortlist' ? 'Add to Shortlist' : 'Assign as Option'}</button></fieldset>
               </div>
               {output === 'shortlist' && <p className="small muted">Shortlist follows the assignment order in Selection.</p>}
             </motion.section>;
@@ -289,7 +290,7 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
         </motion.section>; })}</div>}
       </div>
       <aside className="panel candidate-tray" aria-labelledby="candidate-tray-heading"><header className="panel-header"><h3 id="candidate-tray-heading">Project candidates</h3><span className="small muted">{data.pool.length}</span></header>
-        <RevealList className="tray-list">{data.pool.map(item => { const count = data.assignments.filter(row => row.workspace_candidate_id === item.id).length; const person = name(profiles[item.candidate_id], item.candidate_id);
+        <RevealList className="tray-list">{data.pool.map(item => { const count = data.assignments.filter(row => row.workspace_candidate_id === item.id).length; const person = name(profiles[item.candidate_id], item.candidate_id, profilesPending);
           const items: MenuItem[] = roles.flatMap(group => [{ kind: 'label' as const, label: group.name }, ...ordered(data.slots.filter(slot => slot.role_id === group.id)).map(slot => { const existing = data.assignments.find(row => row.slot_id === slot.id && row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included);
             return { label: present ? `${slot.label} · already included` : `${slot.label}${existing ? ' · add to Shortlist' : ''}`, disabled: present, onSelect: () => add(slot, item.id) }; })]);
           return <RevealItem key={item.id} layout>{item.selected_frame_asset_ids[0] ? <span className="tray-thumb"><CandidateFrameImage assetId={item.selected_frame_asset_ids[0]} alt="" /></span> : <span className="tray-thumb assignment-frame-photo" aria-hidden="true"><CandidatePortrait candidateId={item.candidate_id} name={person} /></span>}<span className="tray-person"><strong dir="auto">{person}</strong><span className="small muted">{count ? `${count} ${count === 1 ? 'assignment' : 'assignments'}` : 'Not assigned'}</span></span>

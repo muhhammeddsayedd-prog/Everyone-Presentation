@@ -51,6 +51,12 @@
   .live-stage-empty .empty-state { border: 0; background: none; }
   .stage-loading-slide { border-radius: var(--ui-radius-20); }
 
+  /* Unknown step: an amber card with a way back to the first step */
+  .step-missing { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: var(--space-2) var(--space-3); padding: 16px 18px; border-radius: var(--ui-radius-20); }
+  .step-missing > svg { color: var(--color-warning); }
+  .step-missing > p { margin: 0; }
+  .step-missing > .button { grid-column: 2; justify-self: start; }
+
   /* ---------- Step 1 · Project ---------- */
   .workspace-frame .config-panel .next-up-tiles > div { border-radius: var(--ui-radius-20); background: var(--brand-white); }
   .workspace-frame .config-panel .next-up-tiles dd strong { display: block; margin: 4px 0 2px; font-size: var(--ui-text-stat); font-weight: var(--weight-medium); letter-spacing: var(--ui-tracking-stat); line-height: var(--ui-leading-stat); }
@@ -70,14 +76,46 @@
   .workspace-frame .config-panel .project-candidate-list { gap: 10px; border: 0; border-radius: 0; overflow: visible; }
   .workspace-frame .config-panel .candidate-row, .workspace-frame .config-panel .candidate-row:first-child { border: 1px solid var(--color-border); border-radius: var(--ui-radius-20); background: var(--brand-white); transition: border-color var(--duration-fast) var(--ease-standard); }
   .workspace-frame .config-panel .candidate-row:hover, .workspace-frame .config-panel .candidate-row.is-open { background: var(--brand-white); border-color: var(--color-border-strong); }
-  .workspace-frame .config-panel .candidate-row-summary { padding: 12px 12px 14px; gap: 10px var(--space-2); }
-  .workspace-frame .config-panel .candidate-row-summary > :is(.frame-strip, .candidate-availability, .cluster) { padding-left: calc(64px + var(--space-3)); }
-  .workspace-frame .config-panel .candidate-row .candidate-portrait { width: 64px; height: 76px; border-radius: var(--ui-radius-14); }
-  .workspace-frame .config-panel .candidate-row-summary h3 { font-size: var(--ui-text-lede); font-weight: var(--weight-medium); letter-spacing: -.01em; }
-  /* The picture state sits on the portrait (mockup), so the text column keeps its width */
-  .workspace-frame .config-panel .candidate-row .project-picture { position: relative; }
-  .workspace-frame .config-panel .candidate-row .project-picture-state { position: absolute; left: 4px; right: 4px; bottom: 4px; max-width: none; justify-content: center; padding: 2px 4px; font-size: var(--ui-text-badge); text-align: center; }
-  .workspace-frame .config-panel .candidate-row .frame-thumb { width: 44px; height: 56px; border-radius: 10px; }
+  /* Row (mockup 06/01): portrait | name, meta, availability, attention | project frames | round edit button.
+     The identity wrapper dissolves so the portrait can span every text line. */
+  .workspace-frame .config-panel .candidate-row-summary { grid-template-columns: 56px minmax(0, 1fr) auto auto; grid-template-areas: "pic text frames edit" "pic avail avail avail" "pic attn attn attn"; grid-template-rows: auto auto 1fr; align-items: start; padding: 12px; gap: 2px 10px; }
+  .workspace-frame .config-panel .candidate-row-summary > .identity { display: contents; }
+  .workspace-frame .config-panel .candidate-row-summary > .identity > .project-picture { grid-area: pic; }
+  .workspace-frame .config-panel .candidate-row-summary > .identity > div { grid-area: text; min-width: 0; padding-top: 2px; }
+  .workspace-frame .config-panel .candidate-row-summary > .candidate-availability { grid-area: avail; margin: 2px 0 0; color: var(--color-text-secondary); }
+  .workspace-frame .config-panel .candidate-row-summary > .candidate-availability.muted { color: var(--color-text-muted); }
+  .workspace-frame .config-panel .candidate-row-summary > .cluster { grid-area: attn; gap: 4px; margin-top: 6px; }
+  .workspace-frame .config-panel .candidate-row-summary > .cluster .badge { white-space: normal; }
+  /* Nothing needs attention: no dangling dash, the row stays compact */
+  .workspace-frame .config-panel .candidate-row-summary > .cluster:has(> .muted:only-child) { display: none; }
+  .workspace-frame .config-panel .candidate-row-summary > .frame-strip { grid-area: frames; align-self: center; gap: 3px; }
+  .workspace-frame .config-panel .candidate-row-summary > .button { grid-area: edit; align-self: center; justify-self: end; }
+  /* Narrow panel: the edit control is the round chevron of the mockup; its accessible name is unchanged (aria-label). */
+  .workspace-frame .config-panel .candidate-row-summary > .button:has(> .candidate-row-edit-label) { width: 36px; min-width: 36px; padding: 0; justify-content: center; border-radius: 50%; }
+  .workspace-frame .config-panel .candidate-row-edit-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .workspace-frame .config-panel .candidate-row .candidate-portrait { width: 56px; height: 68px; border-radius: var(--ui-radius-14); }
+  .workspace-frame .config-panel .candidate-row-summary h3 { font-size: var(--ui-text-body); font-weight: var(--weight-medium); letter-spacing: -.01em; }
+  .workspace-frame .config-panel .candidate-row-summary .identity-meta { font-size: var(--ui-text-meta); }
+  /* Narrow panel: the three frames fan out, overlapping, so the name keeps its line */
+  .workspace-frame .config-panel .candidate-row .frame-thumb { width: 26px; height: 34px; border-radius: 8px; }
+  .workspace-frame .config-panel .candidate-row-summary > .frame-strip > .frame-thumb + .frame-thumb { margin-left: -12px; outline: 2px solid var(--brand-white); }
+  @container workspace-panel (min-width: 480px) {
+    .workspace-frame .config-panel .candidate-row-summary { grid-template-columns: 64px minmax(0, 1fr) auto auto; gap: 2px var(--space-4); padding: 12px 14px 12px 12px; }
+    .workspace-frame .config-panel .candidate-row .candidate-portrait { width: 64px; height: 76px; }
+    .workspace-frame .config-panel .candidate-row-summary h3 { font-size: var(--ui-text-lede); }
+    .workspace-frame .config-panel .candidate-row .frame-thumb { width: 36px; height: 46px; border-radius: 9px; }
+    .workspace-frame .config-panel .candidate-row-summary > .frame-strip { gap: 4px; }
+    .workspace-frame .config-panel .candidate-row-summary > .frame-strip > .frame-thumb + .frame-thumb { margin-left: 0; outline: 0; }
+  }
+  /* The picture state sits inside the portrait: an icon and one short word; the full wording stays the text
+     (screen readers, tooltip and tests read it) and is only visually replaced. */
+  .workspace-frame .config-panel .candidate-row-summary .project-picture { position: relative; display: block; }
+  .workspace-frame .config-panel .candidate-row-summary .project-picture:has(.project-picture-state) .candidate-portrait svg { display: none; }
+  .workspace-frame .config-panel .candidate-row-summary .project-picture-state { position: absolute; inset: 3px; display: flex; align-items: center; flex-direction: column; justify-content: center; gap: 4px; width: auto; min-height: 0; padding: 4px 2px; border-radius: 11px; font-size: var(--ui-text-badge); line-height: 1.1; text-align: center; overflow: hidden; }
+  .workspace-frame .config-panel .candidate-row-summary .project-picture-state svg { width: 16px; height: 16px; flex: none; }
+  .workspace-frame .config-panel .candidate-row-summary .project-picture-label { display: block; max-width: 100%; font-size: 0; }
+  .workspace-frame .config-panel .candidate-row-summary .project-picture-label::after { content: attr(data-short) / ""; display: block; overflow: hidden; font-size: var(--ui-text-badge); text-overflow: ellipsis; white-space: nowrap; }
+  .project-picture-state svg { width: 12px; height: 12px; flex: none; }
   /* Upload queue and "Your uploads" rows: white cards with a pill progress bar */
   .workspace-frame .config-panel .upload-queue { gap: var(--space-2); }
   .workspace-frame .config-panel .upload-queue > li { padding: 12px 14px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-20); background: var(--brand-white); }
@@ -89,6 +127,12 @@
   .workspace-frame .config-panel :is(.upload-queue, .upload-status-list) progress::-moz-progress-bar { background: var(--color-accent); border-radius: var(--ui-radius-pill); }
 
   /* ---------- Step 4 · Casting: role cards, slot lanes, assignment cards ---------- */
+  /* The strip runs to the paper's edge and scrolls sideways: a wide fade on the edge, snap points and a thin
+     scrollbar say "more roles"; the last chip can scroll fully clear of the fade. */
+  .workspace-frame .config-panel .role-strip { margin-right: -24px; }
+  .workspace-frame .config-panel .role-strip ul { padding: 0 56px 8px 0; scroll-snap-type: x proximity; scroll-padding-inline: 0 56px; scrollbar-width: thin; scrollbar-color: var(--color-border-strong) transparent;
+    mask-image: linear-gradient(to right, black calc(100% - 64px), transparent calc(100% - 4px)); }
+  .workspace-frame .config-panel .role-strip li { scroll-snap-align: start; }
   .workspace-frame .config-panel .role-strip li { padding: 6px 6px 6px 14px; border-radius: var(--ui-radius-pill); background: var(--brand-white); }
   .workspace-frame .config-panel .role-strip li.is-current { border-color: var(--bi-ink); background: var(--brand-white); box-shadow: inset 0 0 0 1px var(--bi-ink); }
   .workspace-frame .config-panel .role-group { padding: 16px; border-radius: var(--ui-radius-26); background: var(--brand-white); }

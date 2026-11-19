@@ -133,7 +133,7 @@ function WorkspaceScope({ projectId, workspaceId, step, actor, storageOrigin, on
     : step === 'presentations' && central ? <WorkspacePresentationView requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} workspaceId={workspaceId} projectId={projectId} actor={actor} initialOutput={workspace.active_output} onDirtyChange={presentationChanged} />
     : step === 'share' && central ? <ShareWorkspace workspaceId={workspaceId} requestedSeriesId={requestedSeriesId} onSeriesChanged={setContextSeries} actor={actor} onDirtyChange={shareChanged} />
     : selectedStep && pending[step] ? <div className="empty-state step-empty"><Icon name={step === 'cast' ? 'people' : step === 'presentations' ? 'slides' : 'projects'} /><h2>{pending[step].title}</h2><p>{pending[step].body}</p><span className="badge badge-pending">Implementation pending</span><Link className="button" href={`${base}/project`}>Return to Project</Link></div>
-    : <ErrorNotice message="This workspace step does not exist. Use the navigation above." />;
+    : <div className="notice notice-warning step-missing" role="alert"><Icon name="alert" /><p>This workspace step does not exist. Use the navigation above.</p><Link className="button button-small" href={`${base}/project`}>Open Project step</Link></div>;
   return <>
     <FramePortal slot="top"><div className="workspace-top">
       <div className="workspace-title"><h1>{project.name}</h1>{workspace.has_unpublished_changes && <span className="badge badge-dot badge-warn">Unpublished changes</span>}</div>
