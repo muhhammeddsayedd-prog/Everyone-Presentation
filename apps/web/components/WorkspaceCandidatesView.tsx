@@ -18,6 +18,7 @@ import {createCastLibraryRequests as createLatestReadRequests} from '../lib/cast
 import { CastingRetirementReview } from './CastingRetirementReview';
 import { RetirementUndo } from './RetirementUndo';
 import { Icon } from './Icon';
+import { StepFooter } from './workspace/StepFlow';
 import { cardCastingId } from './candidate-card';
 import { useDraftValue } from './workspace/WorkspaceDraftProvider';
 import { draftKey } from './workspace/draft-review';
@@ -87,7 +88,7 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
   const returnFromLibrary=()=>{if(context.returnTo)window.location.assign(context.returnTo);else void chooseTab('project');};
 
   return <section className="workspace-candidates" aria-busy={loading}>{retirement&&<RetirementUndo workspaceId={workspaceId} resourceId={retirement} label="project removal" canWrite={canWrite} disabled={Object.entries(dirty).some(([id,value])=>id!=='retirement-undo'&&value)} onDirtyChange={retirementDirty} onDismiss={()=>setRetirement(null)} onRestored={()=>{setRetirement(null);setUndoLocked(false);void load();onWorkspaceChanged();}}/>}<fieldset className="presentation-read-lock" disabled={loading||undoLocked} aria-label="Project candidate controls">
-    <header className="section-heading candidates-heading"><div><h2>Project candidates</h2><p>Newest added first. Choose each person’s introduction, frames, presentation picture and availability for this project. Shared facts stay in Cast Library.</p></div><div className="button-row">{actions}<button className="button button-small button-quiet" disabled={loading||anyDirty} onClick={()=>void load()}><Icon name="refresh"/>Reload saved candidates</button><Link className="button button-small button-quiet" href="/processing"><Icon name="processing"/>Open Processing</Link></div></header>
+    <header className="section-heading candidates-heading"><div><h2>Project candidates</h2><p>Newest first. Choose each person’s picture and availability here; shared facts stay in the Cast Library.</p></div><div className="button-row">{actions}<button className="button button-small button-quiet" disabled={loading||anyDirty} onClick={()=>void load()}><Icon name="refresh"/>Reload saved candidates</button><Link className="button button-small button-quiet" href="/processing"><Icon name="processing"/>Open Processing</Link></div></header>
     <div className="tabs" role="tablist" aria-label="Candidate sources" onKeyDown={tabKeys}><button {...tabProps('project')}>In this project <span className="count">{items.length}{next?'+':''}</span>{dirty.upload&&<span className="badge badge-info">Uploading</span>}</button><button {...tabProps('library')}>Cast Library</button></div>
     {error&&<ErrorNotice message={error} retry={retryRead}/>}
     <div id="candidates-panel-project" role="tabpanel" aria-labelledby="candidates-tab-project" hidden={tab!=='project'}>
@@ -103,7 +104,7 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
     {/* Kept mounted once opened so search, filters, loaded pages and scroll survive switching back. */}
     <div id="candidates-panel-library" role="tabpanel" aria-labelledby="candidates-tab-library" hidden={tab!=='library'}>{libraryOpened&&<CastLibraryView actor={actor} workspaceId={workspaceId} onDirtyChange={libraryDirty} onAdded={libraryAdded} membershipOverrides={membership} renderFacets={facets=><CastLibraryFacets {...facets}/>}
       context={context.roleId||context.sceneId?{roleId:context.roleId,sceneId:context.sceneId}:undefined} onDone={returnFromLibrary} onAddAndReturn={context.roleId||context.sceneId?returnFromLibrary:undefined}/>}</div>
-    <footer className="sticky-bar workspace-continue"><Link className="icon-button workspace-back" href={`/projects/${projectId}/casting/${workspaceId}/specs`} aria-label="Back to Specs" data-tip="Back to Specs" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/organize`}>Continue to Casting<Icon name="arrow"/></Link></footer>
+    <StepFooter back={{ href: `/projects/${projectId}/casting/${workspaceId}/specs`, label: 'Specs' }} next={{ href: `/projects/${projectId}/casting/${workspaceId}/organize`, label: 'Casting' }} />
   </fieldset></section>;
 }
 
