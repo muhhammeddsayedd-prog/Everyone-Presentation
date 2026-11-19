@@ -15,6 +15,8 @@ import { JOB_KINDS, JOB_STATUSES, STATUS_LABELS, STATUS_TONES, jobFailureMessage
   readJobPage, readProcessingJob, readJobRetryAcknowledgement, retainJobIntent, validProcessingId, workspaceResultHref,
   type JobAction, type JobIntent, type JobPage, type ProcessingJob, type ProcessingStatus } from './processing-view';
 import { stagger } from './motion/motion';
+import { KpiNumber } from './motion/KpiNumber';
+import type { IconName } from './Icon';
 
 function readError(reason: unknown): string {
   if (reason instanceof ApiError) {
@@ -73,7 +75,7 @@ function JobProgress({ job }: { job: ProcessingJob }) {
   if (job.status === 'succeeded') return <p className="processing-progress">Processing complete.</p>;
   return <div className="processing-progress">
     {job.progress_total !== null && job.progress_total > 0
-      ? <><progress aria-label={`${JOB_KINDS[job.kind]} progress`} value={job.progress_completed} max={job.progress_total} /><span>{job.progress_completed} of {job.progress_total} completed</span></>
+      ? <><progress className="sr-only" aria-label={`${JOB_KINDS[job.kind]} progress`} value={job.progress_completed} max={job.progress_total} /><span className={`job-bar job-bar-${job.status}`} aria-hidden="true"><span style={{ transform: `scaleX(${Math.min(1, job.progress_completed / job.progress_total)})` }} /></span><span>{job.progress_completed} of {job.progress_total} completed</span></>
       : <span>{job.progress_completed > 0 ? `${job.progress_completed} completed` : 'Progress not yet reported'}</span>}
   </div>;
 }
@@ -109,14 +111,29 @@ function WorkspaceDestination({ job }: { job: ProcessingJob }) {
   return <div className="processing-destination"><span className="small muted">{resolved.title}</span><Link className="button button-small button-quiet" href={resolved.href}>{job.kind === 'specs_extract' ? 'Open requirements' : 'Open casting workspace'}</Link></div>;
 }
 
+const KIND_ICONS: Record<ProcessingJob['kind'], IconName> = { specs_extract: 'brief', candidate_scan: 'film', frame_extract: 'image', ai_suggestion: 'sparkle',
+  review_fit: 'checklist', presentation_render: 'slides', presentation_export: 'file', candidate_appearance: 'eye' };
+const OVERVIEW: { label: string; statuses: ProcessingStatus[]; tone: string }[] = [
+  { label: 'In progress', statuses: ['queued', 'running'], tone: 'running' }, { label: 'Needs input', statuses: ['waiting_for_input'], tone: 'waiting_for_input' },
+  { label: 'Failed', statuses: ['failed'], tone: 'failed' }, { label: 'Completed', statuses: ['succeeded'], tone: 'succeeded' }];
+/** Where the loaded jobs stand: big counts with a share bar each. Counts cover the loaded page only. `format` keeps
+ * KpiNumber on the Web Animations roll (AnimatedNumber): the rAF CountUp races the polling specs under page.clock. */
+function ProcessingOverview({ jobs, partial }: { jobs: ProcessingJob[]; partial: boolean }) {
+  return <section className="processing-overview" aria-labelledby="processing-overview-heading"><div className="processing-overview-head"><h2 id="processing-overview-heading">Where processing stands</h2>{partial && <span className="small muted">Counts include this page only</span>}</div>
+    <dl className="processing-kpis">{OVERVIEW.map(item => { const count = jobs.filter(job => item.statuses.includes(job.status)).length;
+      return <div key={item.label} className={`processing-kpi processing-kpi-${item.tone}`}><dt>{item.label}</dt><dd><span className="processing-kpi-value"><KpiNumber value={count} format={String} /></span><span className="processing-kpi-unit">{count === 1 ? 'job' : 'jobs'}</span></dd>
+        <span className={`job-bar job-bar-${item.tone}`} aria-hidden="true"><span style={{ transform: `scaleX(${jobs.length ? count / jobs.length : 0})` }} /></span></div>; })}</dl>
+  </section>;
+}
+
 function JobGroup({ jobs, status, cursor, partial, batch }: { jobs: ProcessingJob[]; status: ProcessingStatus | null; cursor: string | null; partial: boolean; batch: string | null }) {
   const [showWorkspace, setShowWorkspace] = useState(false);
   const batchId = jobs[0].batch_id;
-  return <section className="processing-group"><div className="section-heading"><h2>{batchId ? 'Processing batch' : 'Individual jobs'}</h2><span className="small muted">{jobs.length} {partial ? 'loaded ' : ''}{jobs.length === 1 ? 'job' : 'jobs'}</span>{batchId && !batch && <Link className="button button-small button-quiet" href={processingHref({ batch: batchId, status })}>Open batch<Icon name="arrow" /></Link>}</div>
+  return <section className={`processing-group${batchId ? ' processing-batch' : ''}`}><div className="section-heading">{batchId && <span className="section-icon" aria-hidden="true"><Icon name="layers" /></span>}<h2>{batchId ? 'Processing batch' : 'Individual jobs'}</h2><span className="small muted">{jobs.length} {partial ? 'loaded ' : ''}{jobs.length === 1 ? 'job' : 'jobs'}</span>{batchId && !batch && <Link className="button button-small button-quiet" href={processingHref({ batch: batchId, status })}>Open batch<Icon name="arrow" /></Link>}</div>
     {jobs[0].batch_id && <div className="batch-strip-wrap"><ol ref={stagger} className="batch-strip" aria-label={`${jobs.length} loaded ${jobs.length === 1 ? 'file' : 'files'} in this batch`}>{jobs.map((job, index) => <li key={job.id} className={`batch-cell batch-${job.status}`} title={`${JOB_KINDS[job.kind]} · ${STATUS_LABELS[job.status]}`}><span className="sr-only">File {index + 1}: {STATUS_LABELS[job.status]}</span></li>)}</ol>
       <p className="small muted">{JOB_STATUSES.filter(value => jobs.some(job => job.status === value)).map(value => `${jobs.filter(job => job.status === value).length} ${STATUS_LABELS[value].toLowerCase()}`).join(' · ')}{partial ? ' · counts include this page only' : ''}</p></div>}
     <details className="processing-project" onToggle={event => { if (event.currentTarget.open) setShowWorkspace(true); }}><summary>Project and workspace</summary>{showWorkspace && <WorkspaceDestination job={jobs[0]} />}</details>
-    <ul ref={stagger} className="processing-jobs">{jobs.map(job => <li key={job.id}><div><Link className="processing-job-link" href={processingHref({ job: job.id, status, cursor, batch })}>{JOB_KINDS[job.kind]}</Link><p className="small muted">{jobStageLabel(job.stage)}</p><JobProgress job={job} /></div>
+    <ul ref={stagger} className="processing-jobs">{jobs.map(job => <li key={job.id}><span className="section-icon job-kind-icon" aria-hidden="true"><Icon name={KIND_ICONS[job.kind]} /></span><div><Link className="processing-job-link" href={processingHref({ job: job.id, status, cursor, batch })}>{JOB_KINDS[job.kind]}</Link><p className="small muted">{jobStageLabel(job.stage)}</p><JobProgress job={job} /></div>
       <div className="processing-job-state"><span className={STATUS_TONES[job.status]}>{STATUS_LABELS[job.status]}</span><StudioDateTime className="small muted" value={job.created_at} prefix="Submitted " />{job.status === 'failed' && <p className="small">{jobFailureMessage(job.error)}</p>}</div></li>)}</ul>
   </section>;
 }
@@ -142,6 +159,7 @@ function JobList({ status, cursor, batch }: { status: ProcessingStatus | null; c
     {batch && <Link className="back-link" href={processingHref({ status })}>← All processing jobs</Link>}
     <header className="page-heading"><div><h1>{batch ? 'Processing batch' : 'Processing'}</h1><p>{batch ? 'Every job in this batch that your account can access. Use Next jobs to read further pages.' : 'Saved processing state for the projects shared with your account.'}</p></div><div className="page-heading-actions"><button className="button button-small" disabled={state.checking} onClick={state.reload}><Icon name="refresh" />Refresh jobs</button><PanelToggle /></div></header>
     {state.error && <ErrorNotice message={state.error} retry={state.reload} />}
+    {state.data && state.data.jobs.length > 0 && <ProcessingOverview jobs={state.data.jobs} partial={Boolean(cursor || state.data.cursor)} />}
     {!state.data && state.loading ? <Loading label="Loading processing jobs…" /> : state.data?.jobs.length ? <div className="processing-groups">{[...groups].map(([key, jobs]) => <JobGroup key={key} jobs={jobs} status={status} cursor={cursor} batch={batch} partial={Boolean(cursor || state.data?.cursor)} />)}</div>
       : !state.error && <div className="processing-empty"><h2>{status ? 'No jobs with this status' : batch ? 'No accessible jobs in this batch' : 'No processing jobs'}</h2><p className="muted">{status ? 'Choose another status to see your other accessible jobs.' : batch ? 'This batch has no jobs that your account can read.' : 'Jobs will appear here after processing is requested.'}</p></div>}
     <nav className="button-row processing-pagination" aria-label="Processing pages">{cursor && <Link className="button button-small button-quiet" href={processingHref({ status, batch })}>First jobs</Link>}{state.data?.cursor && <Link className="button button-small" href={processingHref({ status, cursor: state.data.cursor, batch })}>Next jobs</Link>}</nav>
