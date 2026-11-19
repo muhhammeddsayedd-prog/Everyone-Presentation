@@ -42,12 +42,14 @@ type Props = {
   /** A finished upload produced this project row: insert it (the person is newest, so page 1 has them). */
   onResolved: (row: CandidateUploadRow) => void;
   onProcessingChange?: (candidateIds: ReadonlySet<string>) => void;
+  /** This tab's byte progress per upload session (upload_id), shown on rows the server still records as uploading. */
+  transfers?: ReadonlyMap<string, { offset: number; size: number }>;
   pollMs?: number;
 };
 
 /** Server-backed upload rows: restored after a refresh, polled until each job finishes. Leaving the screen
  * never cancels a server job; this only reads and, when permitted, retries a failed job. */
-export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, presentIds, isMember, onResolved, onProcessingChange, pollMs = 3000 }: Props) {
+export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, presentIds, isMember, onResolved, onProcessingChange, transfers, pollMs = 3000 }: Props) {
   const [rows, setRows] = useState<CandidateUploadRow[]>([]);
   const [error, setError] = useState('');
   const [retrying, setRetrying] = useState<Record<string, string>>({});
@@ -107,17 +109,20 @@ export function CandidateUploadStatus({ workspaceId, refreshToken, canRetry, pre
     } catch (reason) { setRetrying(current => ({ ...current, [row.upload_id]: errorMessage(reason) })); }
   }
   if (!rows.length && !error) return null;
-  return <section className="upload-status panel" aria-labelledby="upload-status-heading">
-    <header className="panel-header"><div><h3 id="upload-status-heading">Your uploads in this project</h3><p className="small muted">Processing continues on the server if you leave this page.</p></div></header>
+  const active = rows.filter(row => ACTIVE.has(row.state)).length;
+  return <section className="upload-status" aria-labelledby="upload-status-heading">
+    <header className="upload-status-head"><h3 id="upload-status-heading">Your uploads in this project</h3><p className="small muted">{active ? `${active} in progress · ` : ''}Processing continues on the server if you leave this page.</p></header>
     {error && <div className="notice notice-error" role="alert"><p>Upload status could not be read: {error}</p></div>}
     <ul className="upload-status-list">{rows.map(row => {
       // Current membership: the row is shown in the project list, else what the project list knows (null = unknown).
       const member = row.workspace_candidate_id !== null && presentIds.has(row.workspace_candidate_id) ? true : row.candidate_id ? isMember?.(row.candidate_id) ?? null : null;
       const outcome = uploadOutcomeText(row, member, row.candidate_id ? names[row.candidate_id] ?? null : null);
       const busy = Object.hasOwn(retrying, row.upload_id) && retrying[row.upload_id] === '';
+      const transfer = transfers?.get(row.upload_id);
       return <li key={row.upload_id} className="upload-status-row" aria-busy={ACTIVE.has(row.state) || undefined}>
         <span className="upload-status-name" dir="auto">{row.filename ?? 'Introduction video'}</span>
         <span className={`badge badge-${TONE[row.state]}`}>{row.state === 'ready' ? <Icon name="check" /> : null}{LABEL[row.state]}</span>
+        {row.state === 'uploading' && transfer && <span className="upload-status-progress"><progress value={transfer.offset} max={transfer.size} aria-label={`${row.filename ?? 'Introduction video'}: confirmed uploaded bytes`} /><span className="small muted">{Math.floor(transfer.offset * 100 / Math.max(transfer.size, 1))}% uploaded</span></span>}
         {outcome && <span className="small" role="status">{outcome}</span>}
         {row.state === 'needs_attention' && <span className="small">The source changed while processing. <Link href={`/processing?job=${row.job?.id ?? ''}`}>Open Processing</Link></span>}
         {row.state === 'failed' && <span className="small">Processing failed.{row.job?.error_code ? ` (${row.job.error_code})` : ''}</span>}

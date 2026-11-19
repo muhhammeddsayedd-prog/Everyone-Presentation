@@ -187,23 +187,32 @@ test('project creation requires current project capabilities and a loaded catalo
   await expect(dialog.getByRole('button', { name: 'Create project', exact: true })).toBeDisabled();
 });
 
-test('folder selection feeds the resumable queue without claiming upload success', async ({ page }, testInfo) => {
+test('folder selection in the project list starts uploading at once and never claims a refused upload', async ({ page }, testInfo) => {
   const state = await fixture(page);
   await page.goto(`/projects/${projectId}/casting/${workspaceId}/cast`);
-  await page.getByRole('tab', { name: 'Uploads', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Choose files', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Choose folder', exact: true })).toBeVisible();
+  // Uploading happens in place on the project list: there is no separate Uploads tab.
+  await expect(page.getByRole('tab', { name: 'Uploads', exact: true })).toHaveCount(0);
+  const panel = page.locator('#project-upload-panel');
+  await expect(panel).toBeHidden();
+  await page.getByRole('button', { name: 'Upload new candidates', exact: true }).first().click();
+  await expect(page.getByRole('tab', { name: /In this project/ })).toHaveAttribute('aria-selected', 'true');
+  await expect(panel.getByRole('button', { name: 'Choose files', exact: true })).toBeVisible();
+  await expect(panel.getByRole('button', { name: 'Choose folder', exact: true })).toBeVisible();
   const directory = testInfo.outputPath('synthetic-introductions'); await mkdir(path.join(directory, 'nested'), { recursive: true });
   const files = [path.join(directory, 'introduction.mp4'), path.join(directory, 'nested', 'introduction.mp4')];
   for (const file of files) { await writeFile(file, 'synthetic bytes, not live media'); await utimes(file, 1793577600, 1793577600); }
   await page.locator('input[webkitdirectory]').setInputFiles(directory);
-  const queue = page.locator('.upload-queue'); await expect(queue.getByRole('listitem')).toHaveCount(2);
+  const queue = panel.locator('.upload-queue'); await expect(queue.getByRole('listitem')).toHaveCount(2);
+  // Both files start without a second click; the synthetic server refuses the reservation, so each row says so.
+  await expect(queue.getByText('Synthetic route unavailable.', { exact: true })).toHaveCount(2);
   await expect(queue.getByText(/0 \/ .* bytes confirmed · Ready to resume/)).toHaveCount(2);
-  await expect(queue.getByText(/Processing requested|Supporting file saved/)).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'Upload / resume pending files', exact: true })).toBeEnabled();
+  await expect(queue.getByText(/Processing|Supporting file saved/)).toHaveCount(0);
+  expect(state.mutations).toEqual(['/api/v1/uploads', '/api/v1/uploads']);
+  await expect(panel.getByRole('button', { name: 'Upload / resume pending files', exact: true })).toBeEnabled();
+  await expect(panel.getByRole('button', { name: 'Close upload panel', exact: true })).toBeDisabled();
   await writeFile(path.join(directory, 'unsupported.txt'), 'synthetic unsupported introduction');
   await page.locator('input[webkitdirectory]').setInputFiles(directory);
   await expect(page.getByText('Choose a supported file with a matching extension and MIME type.', { exact: true })).toBeVisible();
   await expect(queue.getByRole('listitem')).toHaveCount(2);
-  expect(state.writes).toEqual([]); expect(state.mutations).toEqual([]); expect(state.errors).toEqual([]);
+  expect(state.writes).toEqual([]); expect(state.mutations).toHaveLength(2); expect(state.errors).toEqual([]);
 });

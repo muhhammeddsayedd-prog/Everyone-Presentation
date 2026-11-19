@@ -10,7 +10,7 @@ import { ErrorNotice, Loading } from './Feedback';
 import { CastLibraryView } from './CastLibraryView';
 import { CandidateProcessingIssues } from './CandidateProcessingIssues';
 import { CandidateFrameImage } from './CandidateFrameImage';
-import { CandidateResumableUploads } from './CandidateResumableUploads';
+import { CandidateResumableUploads, type UploadControls, type UploadTransfer } from './CandidateResumableUploads';
 import { CandidateUploadStatus } from './CandidateUploadStatus';
 import { ProjectPicture, pictureUrl } from './ProjectPicture';
 import { SupportingFiles } from './SupportingFiles';
@@ -25,7 +25,7 @@ import { Drawer } from './ui/Overlay';
 import { useUnsavedChanges, useUnsavedEditor } from './ui/UnsavedChanges';
 import { CastLibraryFacets } from './library/CastLibraryFacets';
 
-type Tab='project'|'library'|'uploads';
+type Tab='project'|'library';
 type Props={workspaceId:string;projectId:string;actor:Actor;storageOrigin?:string;onDirtyChange:(dirty:boolean)=>void;onWorkspaceChanged:()=>void};
 /** Opened from a role or scene ("Add someone to this role"): the Library offers "Add and return". It never assigns or changes Main. */
 type LibraryContext={roleId:string|null;sceneId:string|null;returnTo:string|null};
@@ -44,6 +44,11 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
   const [libraryOpened,setLibraryOpened]=useState(initial.library);const context:LibraryContext=initial.context;
   // Server-derived membership, patched locally after an add/removal so cards change without a reload.
   const [membership,setMembership]=useState<Record<string,string|null>>({});
+  // Uploading happens in place: "Upload new candidates" opens this panel at the top of the project list and the file
+  // chooser; each file then shows as a status row above the candidates until its person joins the list.
+  const [uploadOpen,setUploadOpen]=useState(false);const [transfers,setTransfers]=useState<UploadTransfer[]>([]);const uploadControls=useRef<UploadControls>(null);
+  const transferProgress=useMemo(()=>new Map(transfers.filter(item=>item.sessionId&&item.status==='paused').map(item=>[item.sessionId!,{offset:item.offset,size:item.size}])),[transfers]);
+  const transfersChanged=useCallback((next:UploadTransfer[])=>setTransfers(current=>JSON.stringify(current)===JSON.stringify(next)?current:next),[]);
   const [uploadToken,setUploadToken]=useState(0);const [processing,setProcessing]=useState<ReadonlySet<string>>(new Set());const [repairRevision,setRepairRevision]=useState(0);
   const itemsRef=useRef(items);useEffect(()=>{itemsRef.current=items;},[items]);
   const membershipRef=useRef(membership);useEffect(()=>{membershipRef.current=membership;},[membership]);
@@ -72,19 +77,24 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
   const uploadResolved=useCallback((row:CandidateUploadRow)=>{if(!row.workspace_candidate_id||itemsRef.current.some(item=>item.id===row.workspace_candidate_id))return;if(mergeTimer.current)clearTimeout(mergeTimer.current);mergeTimer.current=setTimeout(()=>void mergeFirstPage(),150);},[mergeFirstPage]);
   const presentIds=useMemo(()=>new Set(items.map(item=>item.id)),[items]);
   const processingChanged=useCallback((ids:ReadonlySet<string>)=>setProcessing(current=>current.size===ids.size&&[...ids].every(id=>current.has(id))?current:ids),[]);
-  async function chooseTab(nextTab:Tab){if(nextTab===tab)return;if(tab==='library'&&!await confirmLeave({scope:'editor:library'}))return;if(tab==='library')setLibraryTop(window.scrollY);setTab(nextTab);if(nextTab==='library'){setLibraryOpened(true);const top=libraryTop;requestAnimationFrame(()=>window.scrollTo({top}));}}
-  function tabKeys(event:React.KeyboardEvent<HTMLDivElement>){const order:Tab[]=canUpload?['project','library','uploads']:['project','library'];const index=order.indexOf(tab);const target=event.key==='ArrowRight'?order[(index+1)%order.length]:event.key==='ArrowLeft'?order[(index-1+order.length)%order.length]:null;if(!target)return;event.preventDefault();void chooseTab(target).then(()=>document.getElementById(`candidates-tab-${target}`)?.focus());}
+  async function chooseTab(nextTab:Tab):Promise<boolean>{if(nextTab===tab)return true;if(tab==='library'&&!await confirmLeave({scope:'editor:library'}))return false;if(tab==='library')setLibraryTop(window.scrollY);setTab(nextTab);if(nextTab==='library'){setLibraryOpened(true);const top=libraryTop;requestAnimationFrame(()=>window.scrollTo({top}));}return true;}
+  /** Opens the upload panel in the project list and, in the same click, the file chooser. */
+  async function openUpload(){if(!await chooseTab('project'))return;setUploadOpen(true);uploadControls.current?.choose();requestAnimationFrame(()=>document.getElementById('project-upload-panel')?.scrollIntoView({block:'nearest'}));}
+  const uploadShown=uploadOpen||transfers.some(item=>item.busy||item.status==='paused');
+  function tabKeys(event:React.KeyboardEvent<HTMLDivElement>){const order:Tab[]=['project','library'];const index=order.indexOf(tab);const target=event.key==='ArrowRight'?order[(index+1)%order.length]:event.key==='ArrowLeft'?order[(index-1+order.length)%order.length]:null;if(!target)return;event.preventDefault();void chooseTab(target).then(()=>document.getElementById(`candidates-tab-${target}`)?.focus());}
   const tabProps=(value:Tab)=>({id:`candidates-tab-${value}`,role:'tab' as const,type:'button' as const,'aria-selected':tab===value,'aria-controls':`candidates-panel-${value}`,tabIndex:tab===value?0:-1,onClick:()=>void chooseTab(value)});
-  const actions=<div className="button-row intake-actions">{canUpload&&<button type="button" className="button button-primary" onClick={()=>void chooseTab('uploads')}><Icon name="upload"/>Upload new candidates</button>}{canWrite&&<button type="button" className="button" onClick={()=>void chooseTab('library')}><Icon name="people"/>Choose from Library</button>}</div>;
+  const actions=<div className="button-row intake-actions">{canUpload&&<button type="button" className="button button-primary" aria-controls="project-upload-panel" aria-expanded={uploadShown} onClick={()=>void openUpload()}><Icon name="upload"/>Upload new candidates</button>}{canWrite&&<button type="button" className="button" onClick={()=>void chooseTab('library')}><Icon name="people"/>Choose from Library</button>}</div>;
   const returnFromLibrary=()=>{if(context.returnTo)window.location.assign(context.returnTo);else void chooseTab('project');};
 
   return <section className="workspace-candidates" aria-busy={loading}>{retirement&&<RetirementUndo workspaceId={workspaceId} resourceId={retirement} label="project removal" canWrite={canWrite} disabled={Object.entries(dirty).some(([id,value])=>id!=='retirement-undo'&&value)} onDirtyChange={retirementDirty} onDismiss={()=>setRetirement(null)} onRestored={()=>{setRetirement(null);setUndoLocked(false);void load();onWorkspaceChanged();}}/>}<fieldset className="presentation-read-lock" disabled={loading||undoLocked} aria-label="Project candidate controls">
     <header className="section-heading candidates-heading"><div><h2>Project candidates</h2><p>Newest added first. Choose each person’s introduction, frames, presentation picture and availability for this project. Shared facts stay in Cast Library.</p></div><div className="button-row">{actions}<button className="button button-small button-quiet" disabled={loading||anyDirty} onClick={()=>void load()}><Icon name="refresh"/>Reload saved candidates</button><Link className="button button-small button-quiet" href="/processing"><Icon name="processing"/>Open Processing</Link></div></header>
-    <div className="tabs" role="tablist" aria-label="Candidate sources" onKeyDown={tabKeys}><button {...tabProps('project')}>In this project <span className="count">{items.length}{next?'+':''}</span></button><button {...tabProps('library')}>Cast Library</button>{canUpload&&<button {...tabProps('uploads')}>Uploads{dirty.upload&&<span className="badge badge-info">Active</span>}</button>}</div>
+    <div className="tabs" role="tablist" aria-label="Candidate sources" onKeyDown={tabKeys}><button {...tabProps('project')}>In this project <span className="count">{items.length}{next?'+':''}</span>{dirty.upload&&<span className="badge badge-info">Uploading</span>}</button><button {...tabProps('library')}>Cast Library</button></div>
     {error&&<ErrorNotice message={error} retry={retryRead}/>}
-    <div hidden={tab==='library'}><CandidateUploadStatus workspaceId={workspaceId} refreshToken={uploadToken} canRetry={!!actor.capabilities?.includes('operations.retry')} presentIds={presentIds} isMember={isMember} onResolved={uploadResolved} onProcessingChange={processingChanged}/></div>
     <div id="candidates-panel-project" role="tabpanel" aria-labelledby="candidates-tab-project" hidden={tab!=='project'}>
+      {/* Kept mounted (hidden when closed) so transfers keep running and the chooser can open from the same click. */}
+      {canUpload&&<div id="project-upload-panel" className="project-upload-panel" hidden={!uploadShown}>{validUploadMaximum?<CandidateResumableUploads key={`${actor.id}:${workspaceId}`} inline controls={uploadControls} workspaceId={workspaceId} actorId={actor.id} maximumBytes={uploadMaximum} storageOrigin={storageOrigin} onDirtyChange={uploadDirty} onItemsChange={transfersChanged} onClose={()=>setUploadOpen(false)} onReserved={()=>setUploadToken(value=>value+1)} onQueued={()=>setUploadToken(value=>value+1)}/>:<ErrorNotice message="The current video upload limit is unavailable. Reload your session before choosing videos."/>}</div>}
       {canWrite&&<MediaRepairPanel workspaceId={workspaceId} revision={repairRevision} onApplied={result=>{setItems(current=>current.map(item=>result.applied.find(row=>row.id===item.id)??item));if(result.applied.length)onWorkspaceChanged();}}/>}
+      <CandidateUploadStatus workspaceId={workspaceId} refreshToken={uploadToken} canRetry={!!actor.capabilities?.includes('operations.retry')} presentIds={presentIds} isMember={isMember} onResolved={uploadResolved} onProcessingChange={processingChanged} transfers={transferProgress}/>
       {loading&&!items.length?<Loading label="Opening project candidates…"/>:!items.length&&!error?<div className="empty-state"><Icon name="people"/><h2>No candidates in this project</h2><p>Upload introduction videos or choose people from the Cast Library. Missing information is permitted.</p>{actions}</div>
         :<><div className="candidate-list-head" aria-hidden="true"><span>Candidate</span><span>Project frames</span><span>Availability</span><span>Attention</span><span/></div><div className="project-candidate-list">{items.map(item=><ProjectCandidate key={`${actor.id}/${item.id}/${item.row_version}/${readRevision}`} item={item} actor={actor} storageOrigin={storageOrigin} canWrite={canWrite} processing={processing.has(item.candidate_id)} open={openId===item.id} onOpenChange={value=>setOpenId(value?item.id:null)} onSaved={saved} onRemoved={removed} onDirtyChange={dirtyChanged} onTapeQueued={()=>setUploadToken(value=>value+1)}/>)}</div></>}
       {next&&<div className="load-more"><button className="button" disabled={loading} onClick={()=>void load(next)}>Load more candidates</button></div>}
@@ -93,7 +103,6 @@ export function WorkspaceCandidatesView({workspaceId,projectId,actor,storageOrig
     {/* Kept mounted once opened so search, filters, loaded pages and scroll survive switching back. */}
     <div id="candidates-panel-library" role="tabpanel" aria-labelledby="candidates-tab-library" hidden={tab!=='library'}>{libraryOpened&&<CastLibraryView actor={actor} workspaceId={workspaceId} onDirtyChange={libraryDirty} onAdded={libraryAdded} membershipOverrides={membership} renderFacets={facets=><CastLibraryFacets {...facets}/>}
       context={context.roleId||context.sceneId?{roleId:context.roleId,sceneId:context.sceneId}:undefined} onDone={returnFromLibrary} onAddAndReturn={context.roleId||context.sceneId?returnFromLibrary:undefined}/>}</div>
-    {canUpload&&<div id="candidates-panel-uploads" role="tabpanel" aria-labelledby="candidates-tab-uploads" hidden={tab!=='uploads'}>{validUploadMaximum?<CandidateResumableUploads key={`${actor.id}:${workspaceId}`} workspaceId={workspaceId} actorId={actor.id} maximumBytes={uploadMaximum} storageOrigin={storageOrigin} onDirtyChange={uploadDirty} onReserved={()=>setUploadToken(value=>value+1)} onQueued={()=>setUploadToken(value=>value+1)}/>:<ErrorNotice message="The current video upload limit is unavailable. Reload your session before choosing videos."/>}</div>}
     <footer className="sticky-bar workspace-continue"><Link className="icon-button workspace-back" href={`/projects/${projectId}/casting/${workspaceId}/specs`} aria-label="Back to Specs" data-tip="Back to Specs" data-tip-side="start" data-tip-pos="top"><Icon name="chevron-left" /></Link><Link className="button button-primary" href={`/projects/${projectId}/casting/${workspaceId}/organize`}>Continue to Casting<Icon name="arrow"/></Link></footer>
   </fieldset></section>;
 }
