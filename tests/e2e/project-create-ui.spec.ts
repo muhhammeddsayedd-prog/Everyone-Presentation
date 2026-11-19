@@ -68,7 +68,8 @@ test('planned project with permitted client saves an overview without a workspac
   await page.screenshot({ path: testInfo.outputPath('new-project-form.png'), fullPage: true });
   await dialog.getByRole('button', { name: 'Create project', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Synthetic wardrobe campaign', exact: true })).toBeVisible();
-  await expect(page.getByText('Wardrobe · Planned', { exact: true })).toBeVisible();
+  // Scoped to the page: the closing drawer's exit copy (aria-hidden, inert, ~200 ms) still holds the same option text.
+  await expect(page.locator('#main-content').getByText('Wardrobe · Planned', { exact: true })).toBeVisible();
   const overviewAccessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
   expect(overviewAccessibility.violations).toEqual([]);
   await expect(page.getByRole('button', { name: /Start casting|Generate/ })).toHaveCount(0);
