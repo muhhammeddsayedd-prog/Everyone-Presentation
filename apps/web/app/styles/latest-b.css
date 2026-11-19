@@ -78,7 +78,15 @@
   .workspace-frame .config-panel .candidate-row .project-picture { position: relative; }
   .workspace-frame .config-panel .candidate-row .project-picture-state { position: absolute; left: 4px; right: 4px; bottom: 4px; max-width: none; justify-content: center; padding: 2px 4px; font-size: var(--ui-text-badge); text-align: center; }
   .workspace-frame .config-panel .candidate-row .frame-thumb { width: 44px; height: 56px; border-radius: 10px; }
-  .upload-status-row, .upload-queue > li { border-radius: var(--ui-radius-16); }
+  /* Upload queue and "Your uploads" rows: white cards with a pill progress bar */
+  .workspace-frame .config-panel .upload-queue { gap: var(--space-2); }
+  .workspace-frame .config-panel .upload-queue > li { padding: 12px 14px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-20); background: var(--brand-white); }
+  .workspace-frame .config-panel .upload-status-list { gap: var(--space-2); }
+  .workspace-frame .config-panel .upload-status-row { padding: 12px 14px; border: 1px solid var(--color-border); border-radius: var(--ui-radius-20); background: var(--brand-white); }
+  .workspace-frame .config-panel :is(.upload-queue, .upload-status-list) progress { flex: 1 1 100%; height: 6px; border: 0; border-radius: var(--ui-radius-pill); overflow: hidden; background: var(--bi-paper-2); appearance: none; }
+  .workspace-frame .config-panel :is(.upload-queue, .upload-status-list) progress::-webkit-progress-bar { background: var(--bi-paper-2); }
+  .workspace-frame .config-panel :is(.upload-queue, .upload-status-list) progress::-webkit-progress-value { background: var(--color-accent); border-radius: var(--ui-radius-pill); transition: width var(--duration-base) var(--ease-standard); }
+  .workspace-frame .config-panel :is(.upload-queue, .upload-status-list) progress::-moz-progress-bar { background: var(--color-accent); border-radius: var(--ui-radius-pill); }
 
   /* ---------- Step 4 · Casting: role cards, slot lanes, assignment cards ---------- */
   .workspace-frame .config-panel .role-strip li { padding: 6px 6px 6px 14px; border-radius: var(--ui-radius-pill); background: var(--brand-white); }
