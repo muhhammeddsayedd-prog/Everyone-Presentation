@@ -29,7 +29,7 @@
   .quick-action:hover { border-color: var(--color-border-strong); background: var(--color-surface-2); text-decoration: none; }
   .quick-action-icon { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 10px; background: var(--color-accent-soft); color: var(--color-accent-text); }
   .quick-action-icon svg { width: 20px; height: 20px; }
-  .quick-action strong { display: block; font-size: 14px; font-weight: var(--weight-semibold); }
+  .quick-action strong { display: block; font-size: var(--ui-text-body); font-weight: var(--weight-semibold); }
   .quick-action strong + span { display: block; color: var(--color-text-muted); font-size: var(--text-small); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .quick-action > span:last-child { min-width: 0; }
 
@@ -51,7 +51,7 @@
   .project-card.is-selected .project-card-cover { box-shadow: 0 0 0 2px var(--color-accent), 0 12px 32px rgba(0, 0, 0, .45); }
   .project-card-body { display: flex; align-items: flex-start; gap: var(--space-2); min-width: 0; }
   .project-card-text { flex: 1; min-width: 0; }
-  .project-card-text h2 { font-size: 15px; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .project-card-text h2 { font-size: var(--ui-text-input); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .project-card-text p { color: var(--color-text-muted); font-size: var(--text-small); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .project-card-body .badge { flex: none; }
   .project-card-action { justify-self: start; }
@@ -68,13 +68,13 @@
   .overview-hero { display: grid; grid-template-columns: minmax(0, 520px) minmax(0, 1fr); gap: var(--space-8); align-items: end; }
   .overview-cover { border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--color-border), 0 24px 60px rgba(0, 0, 0, .5); }
   .overview-identity { display: grid; gap: var(--space-2); justify-items: start; padding-bottom: var(--space-2); }
-  .overview-identity h1 { font-size: 30px; overflow-wrap: anywhere; }
+  .overview-identity h1 { font-size: var(--ui-text-title-lg); overflow-wrap: anywhere; }
   .overview-identity p { color: var(--color-text-muted); }
   .overview-modules { display: grid; gap: var(--space-3); }
   .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-4); }
   .module-card { display: grid; gap: var(--space-3); align-content: start; padding: var(--space-5); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface-1); }
   .module-card header { display: flex; align-items: center; gap: var(--space-3); }
-  .module-card h3 { font-size: 15px; }
+  .module-card h3 { font-size: var(--ui-text-input); }
   .module-card header p { color: var(--color-text-muted); font-size: var(--text-small); }
   .module-card-active { border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border)); }
   .module-card-planned { border-style: dashed; }
@@ -84,7 +84,7 @@
 
   /* Candidate portraits (real frames, or the initial) */
   .library-portrait { position: absolute; inset: 0; display: grid; place-items: center; background: radial-gradient(120% 90% at 30% 20%, var(--color-surface-3), var(--color-surface-1)); }
-  .library-portrait-initial { font-size: 44px; font-weight: var(--weight-semibold); color: var(--color-text-muted); }
+  .library-portrait-initial { font-size: var(--ui-text-stat); font-weight: var(--weight-semibold); color: var(--color-text-muted); }
   .library-portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
   /* Presentations index */
@@ -94,7 +94,7 @@
   .series-card-cover { border-radius: var(--radius-md); box-shadow: 0 0 0 1px var(--color-border); }
   .series-card-body { display: flex; align-items: flex-start; gap: var(--space-2); min-width: 0; }
   .series-card-body .series-identity { flex: 1; min-width: 0; }
-  .series-card .series-identity h2 { font-size: 15px; line-height: 1.3; overflow-wrap: anywhere; }
+  .series-card .series-identity h2 { font-size: var(--ui-text-input); line-height: 1.3; overflow-wrap: anywhere; }
   .series-card .series-actions { flex-wrap: wrap; justify-content: flex-start; }
   .series-card .series-error { grid-column: 1 / -1; }
 

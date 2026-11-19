@@ -51,7 +51,7 @@
   .card-newest .badge { background: transparent; border-color: var(--bi-on-accent-muted); color: var(--color-text-on-accent); }
   .card-newest .badge-dot::before { background: var(--color-text-on-accent); }
   .card-newest .button:not(.button-primary) { border-color: var(--color-text-on-accent); color: var(--color-text-on-accent); }
-  .card-newest .button:not(.button-primary):hover:not(:disabled) { background: var(--color-text-on-accent); color: var(--color-accent); }
+  .card-newest .button:not(.button-primary):hover:not(:disabled) { background: var(--color-text-on-accent); color: var(--color-accent-text); }
   .card-newest .button-primary { background: var(--color-text-on-accent); border-color: var(--color-text-on-accent); color: var(--brand-white); }
   .card-newest.is-selected { box-shadow: inset 0 0 0 2px var(--color-text-on-accent); }
   .card-newest :focus-visible { outline-color: var(--color-text-on-accent); }
@@ -103,7 +103,11 @@
   .main-content > .session-page { max-width: none; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.25fr); gap: var(--space-6); align-items: stretch; padding: var(--space-6) 0; min-height: calc(100vh - 160px); }
   .session-page > .session-form { order: 0; display: flex; flex-direction: column; padding: 56px 60px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
   .session-page > .session-intro { order: 1; display: flex; flex-direction: column; padding: 48px 52px; border-radius: var(--ui-radius-32); background: radial-gradient(120% 90% at 0% 0%, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 30%, var(--bi-paper)) 38%, var(--bi-paper) 72%); color: var(--bi-ink); }
-  .session-intro h1 { font-size: var(--ui-text-display); line-height: var(--ui-leading-hero); letter-spacing: var(--ui-tracking-hero); font-weight: var(--weight-medium); color: var(--bi-ink); max-width: 15ch; }
+  .session-intro h1 { font-size: var(--ui-text-display); line-height: var(--ui-leading-hero); letter-spacing: var(--ui-tracking-hero); font-weight: var(--weight-medium); color: var(--bi-ink); max-width: 18ch; }
+  /* A hero split into two reveals (the development gate) flows as one sentence: inline words, no forced break. */
+  .session-intro h1 > .text-reveal { display: inline; }
+  .session-intro h1 > br { display: none; }
+  .session-intro h1 > br + .text-reveal::before { content: " "; }
   .session-intro > p { max-width: 52ch; color: var(--bi-ink-2); font-size: var(--ui-text-lede); }
   .session-intro .session-flow { order: -1; margin: 0 0 var(--space-8); color: var(--bi-ink); }
   .session-intro .session-flow span { padding: 6px 14px; border-color: transparent; background: var(--brand-white); color: var(--bi-ink); font-size: var(--ui-text-small); }

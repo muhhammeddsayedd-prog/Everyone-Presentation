@@ -6,14 +6,14 @@
   .cast-library-page .cast-results-grid .cast-card:hover { border-color: var(--color-border-strong); }
   .cast-library-page .cast-results-grid .cast-card-portrait { border: 0; border-radius: 0; aspect-ratio: 4 / 5; }
   .cast-library-page .cast-results-grid .cast-card-portrait::after { content: ""; position: absolute; inset: auto 0 0 0; height: 40%; background: linear-gradient(to top, rgba(0, 0, 0, .55), transparent); pointer-events: none; }
-  .cast-card-reviewed { position: absolute; top: 8px; right: 8px; z-index: 1; display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: var(--radius-full); background: rgba(245, 245, 245, .82); color: #000; font-size: 11px; font-weight: var(--weight-semibold); backdrop-filter: blur(8px); }
+  .cast-card-reviewed { position: absolute; top: 8px; right: 8px; z-index: 1; display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: var(--radius-full); background: rgba(245, 245, 245, .82); color: #000; font-size: var(--ui-text-badge); font-weight: var(--weight-semibold); backdrop-filter: blur(8px); }
   .cast-card-reviewed svg { width: 12px; height: 12px; }
   .cast-card-portrait .cast-card-flag { z-index: 1; background: rgba(0, 0, 0, .78); color: var(--color-warning); border-color: transparent; }
   .cast-library-page .cast-results-grid .cast-result-details { padding: 12px 14px 4px; }
-  .cast-library-page .cast-results-grid .cast-result-details h3 { font-size: 15px; }
+  .cast-library-page .cast-results-grid .cast-result-details h3 { font-size: var(--ui-text-input); }
   .cast-library-page .cast-results-grid .cast-card-actions { padding: 8px 14px 14px; }
   .cast-library-page .cast-results-list .cast-card-portrait { width: 48px; height: 60px; aspect-ratio: auto; }
-  .cast-library-page .cast-results-list .library-portrait-initial { font-size: 18px; }
+  .cast-library-page .cast-results-list .library-portrait-initial { font-size: var(--ui-text-sub); }
   .cast-library-page .cast-results-list .cast-card-reviewed, .cast-library-page .cast-results-list .cast-card-flag { display: none; }
   .config-panel .facet-group { margin: 0; }
   .config-panel .form-grid { grid-template-columns: minmax(0, 1fr); }

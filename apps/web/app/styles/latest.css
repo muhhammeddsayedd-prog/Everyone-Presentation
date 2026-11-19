@@ -21,6 +21,11 @@
   .button-quiet { border-color: transparent; color: var(--color-text-secondary); }
   .button-danger { border-color: var(--color-danger); background: var(--color-danger); color: var(--color-text-on-accent); }
   .button-danger:hover:not(:disabled) { background: color-mix(in srgb, var(--color-danger) 85%, var(--brand-white)); border-color: transparent; }
+  /* Disabled is a deliberate, quiet state rather than a dimmed action: no green, no half-transparent fill.
+     Filled buttons (primary, danger) become a neutral surface-3 pill; outlined ones keep a faint outline. */
+  .button:disabled { opacity: 1; border-color: var(--color-border); background: transparent; color: var(--color-text-muted); box-shadow: none; }
+  :is(.button-primary, .button-danger):disabled { border-color: var(--color-surface-3); background: var(--color-surface-3); color: var(--color-text-muted); font-weight: var(--weight-medium); }
+  .button-quiet:disabled { border-color: transparent; }
   .button-small { min-height: var(--ui-control-sm); padding: 0 14px; font-size: var(--ui-text-meta); }
   .button-block { width: 100%; }
   .icon-button { border-radius: var(--radius-full); }
@@ -114,6 +119,8 @@
   :is(.config-panel, .paper-surface) .segmented { background: var(--bi-paper-2); border-color: transparent; }
   :is(.config-panel, .paper-surface) :is(.segmented > [aria-pressed="true"], .segmented > [aria-selected="true"], .segmented > [aria-current], .segmented > label:has(input:checked), .chip[aria-pressed="true"], .chip.on, .tabs > [aria-selected="true"]) { background: var(--bi-ink); border-color: var(--bi-ink); color: var(--brand-white); }
   :is(.config-panel, .paper-surface) .segmented > .segment-indicator { background: var(--bi-ink); }
+  /* A selected tab on paper is an ink pill: its count reads light on ink (ink-3 on ink was 3.3:1). */
+  :is(.config-panel, .paper-surface) .tabs > [aria-selected="true"] .count { color: color-mix(in srgb, var(--brand-white) 78%, var(--bi-ink)); }
   :is(.config-panel, .paper-surface) .segmented:has(> .segment-indicator[data-active]) > :is([aria-pressed="true"], [aria-selected="true"], [aria-current], label:has(input:checked)) { background: transparent; color: var(--brand-white); }
   :is(.config-panel, .paper-surface) .text-button:hover:not(:disabled) { color: var(--bi-p-green); }
   :is(.config-panel, .paper-surface) :focus-visible { outline-color: var(--bi-ink); }
