@@ -15,7 +15,10 @@ import { ActionMenu, type MenuItem } from './ui/Menu';
 import { Drawer } from './ui/Overlay';
 import { useConfirm } from './ui/Confirm';
 import { useToast } from './ui/Toast';
+import { motion } from 'motion/react';
 import { SegmentIndicator } from './motion/SegmentIndicator';
+import { RevealItem, RevealList } from './motion/Reveal';
+import { lift, press, settle } from './motion/presets';
 import { AnimatedNumber } from './motion/AnimatedNumber';
 import { useDraftValue } from './workspace/WorkspaceDraftProvider';
 import { draftKey } from './workspace/draft-review';
@@ -58,6 +61,8 @@ export function CastingBoard(props: Props) { return <CastingBoardScope key={`${p
 function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'selection', onDirtyChange, onWorkspaceChanged, focusRoleId }: Props) {
   const [data, setData] = useState<BoardData | null>(null); const [profiles, setProfiles] = useState<Record<string, Candidate>>({});
   const [previewOutput, setPreviewOutput] = useState<CastingOutput | null>(null); const [selectedRole, setSelectedRole] = useState(focusRoleId ?? ''); const [view, setView] = useState<'all' | 'one'>(focusRoleId ? 'one' : 'all');
+  // The row being dragged lifts in place (presets.lift); the native drag image stays the handle.
+  const [lifted, setLifted] = useState<string | null>(null);
   const output = previewOutput ?? data?.workspace.active_output ?? initialOutput;
   const [loading, setLoading] = useState(true); const [fresh, setFresh] = useState(false); const [busy, setBusy] = useState(false);
   const [error, setError] = useState(''); const [status, setStatus] = useState(''); const [profileWarning, setProfileWarning] = useState(false);
@@ -211,12 +216,12 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
   function dragHandle(kind: OrderKind, id: string, label: string, scope?: string) {
     const disabled = !data || !canWrite || !fresh || loading || busy || uncertain || editing !== null || kind === 'assignment' && output !== 'selection';
     return <button type="button" className="icon-button icon-button-small drag-handle" disabled={disabled} draggable={!disabled} title="Drag to reorder"
-      aria-label={'Drag ' + kind + ' ' + label + ' to reorder'} onDragEnd={() => { dragging.current = null; }}
+      aria-label={'Drag ' + kind + ' ' + label + ' to reorder'} onDragEnd={() => { dragging.current = null; setLifted(null); }}
       onDragStart={event => {
         if (disabled || !data) { event.preventDefault(); return; }
         event.stopPropagation(); event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('application/x-eps-casting-order', '1');
-        dragging.current = { kind, id, scope, rowVersion: data.workspace.row_version, draftRevision: data.workspace.draft_revision };
+        dragging.current = { kind, id, scope, rowVersion: data.workspace.row_version, draftRevision: data.workspace.draft_revision }; setLifted(id);
       }}><Icon name="drag" /></button>;
   }
 
@@ -238,17 +243,17 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
     {!roles.length ? <div className="empty-state"><Icon name="people" /><h3>No roles or slots yet</h3><p>Add or correct your requirements in Specs. Unassigned project candidates do not create casting pages.</p><Link className="button" href={`${base}/specs`}>Open Specs</Link></div> : <div className="board-tray">
       <div className="stack-lg">
         <nav className="role-strip" aria-label="Casting role"><ul>{roles.map((item, index) => { const count = visible.filter(row => data.slots.some(slot => slot.role_id === item.id && slot.id === row.slot_id)).length; const slotCount = data.slots.filter(slot => slot.role_id === item.id).length;
-          return <li key={item.id} className={role?.id === item.id ? 'is-current' : undefined} onDragOver={event => allowDrop(event, 'role')} onDrop={event => drop(event, 'role', item.id)}>
+          return <motion.li layout="position" transition={settle} key={item.id} className={role?.id === item.id ? 'is-current' : undefined} onDragOver={event => allowDrop(event, 'role')} onDrop={event => drop(event, 'role', item.id)}>
             <button type="button" className="role-chip" ref={node => register(`role-tab:${item.id}`, node)} aria-controls="casting-role-panel" aria-current={role?.id === item.id ? 'true' : undefined} disabled={locked || editing !== null} onClick={() => { setSelectedRole(item.id); if (view === 'all') requestAnimationFrame(() => { const heading = document.getElementById(`role-heading-${item.id}`); heading?.scrollIntoView({ block: 'start', behavior: 'smooth' }); heading?.focus({ preventScroll: true }); }); }}>{item.name}</button>
             <span className="role-chip-meta">{count} assigned entries · {slotCount} {slotCount === 1 ? 'slot' : 'slots'}</span>
             <span className="role-chip-order">{dragHandle('role', item.id, item.name)}<MoveButtons label={`role ${item.name}`} disabled={actionsLocked} first={index === 0} last={index === roles.length - 1} move={direction => reorder('role', item.id, direction)} /></span>
-          </li>; })}</ul></nav>
+          </motion.li>; })}</ul></nav>
         {role && <div className="role-groups" id="casting-role-panel">{(view === 'all' ? roles : [role]).map(group => { const groupSlots = ordered(data.slots.filter(slot => slot.role_id === group.id)); const filled = groupSlots.filter(slot => visible.some(row => row.slot_id === slot.id)).length; const mains = groupSlots.filter(slot => data.assignments.some(row => row.slot_id === slot.id && row.position === 'main')).length;
-          return <section className="slot-lanes role-group" key={group.id} aria-labelledby={`role-heading-${group.id}`} data-draft-focus={`role:${group.id}`}><header className="role-panel-head"><div className="role-panel-title"><h3 id={`role-heading-${group.id}`} tabIndex={-1}>{group.name}</h3><p className="role-coverage"><span className={filled === groupSlots.length ? 'text-ok' : 'text-warn'}><AnimatedNumber value={filled} /> of {groupSlots.length} {groupSlots.length === 1 ? 'slot' : 'slots'} filled</span><span><AnimatedNumber value={mains} /> Main chosen</span>{groupSlots.length - filled > 0 && <span>{groupSlots.length - filled} Pending</span>}</p></div><p className="small muted">{group.headcount === null ? 'Headcount needs clarification. Current slots are a working allocation.' : `${groupSlots.length} individual slots`} · {[group.requirements.age_range, group.requirements.gender_requirement, ...group.requirements.languages, ...group.requirements.skills].filter(Boolean).join(' · ') || 'Role requirements not provided.'}</p></header>
+          return <motion.section layout="position" transition={settle} animate={{ scale: lifted === group.id ? lift.scale : 1 }} className={`slot-lanes role-group${lifted === group.id ? ' is-lifted' : ''}`} key={group.id} aria-labelledby={`role-heading-${group.id}`} data-draft-focus={`role:${group.id}`}><header className="role-panel-head"><div className="role-panel-title"><h3 id={`role-heading-${group.id}`} tabIndex={-1}>{group.name}</h3><p className="role-coverage"><span className={filled === groupSlots.length ? 'text-ok' : 'text-warn'}><AnimatedNumber value={filled} /> of {groupSlots.length} {groupSlots.length === 1 ? 'slot' : 'slots'} filled</span><span><AnimatedNumber value={mains} /> Main chosen</span>{groupSlots.length - filled > 0 && <span>{groupSlots.length - filled} Pending</span>}</p></div><p className="small muted">{group.headcount === null ? 'Headcount needs clarification. Current slots are a working allocation.' : `${groupSlots.length} individual slots`} · {[group.requirements.age_range, group.requirements.gender_requirement, ...group.requirements.languages, ...group.requirements.skills].filter(Boolean).join(' · ') || 'Role requirements not provided.'}</p></header>
           {groupSlots.map((slot, slotIndex, slots) => { const role = group;
             const all = ordered(data.assignments.filter(row => row.slot_id === slot.id)); const shown = all.filter(row => output === 'selection' || row.shortlist_included);
             const hasMain = all.some(row => row.position === 'main');
-            return <section className="slot-lane" key={slot.id} onDragOver={event => allowDrop(event, 'slot', role.id)} onDrop={event => drop(event, 'slot', slot.id, role.id)} aria-labelledby={`slot-${slot.id}`} data-draft-focus={`slot:${slot.id}`}>
+            return <motion.section layout="position" transition={settle} animate={{ scale: lifted === slot.id ? lift.scale : 1 }} className={`slot-lane${lifted === slot.id ? ' is-lifted' : ''}`} key={slot.id} onDragOver={event => allowDrop(event, 'slot', role.id)} onDrop={event => drop(event, 'slot', slot.id, role.id)} aria-labelledby={`slot-${slot.id}`} data-draft-focus={`slot:${slot.id}`}>
               <header className="slot-lane-head"><div><h4 id={`slot-${slot.id}`} tabIndex={-1} ref={node => register(slot.id, node)}>{slot.label}</h4><p className={shown.length ? 'small muted' : 'small text-warn'}>{shown.length ? `${shown.length} assigned ${shown.length === 1 ? 'entry' : 'entries'}` : `Pending in ${output === 'selection' ? 'Selection' : 'Shortlist'}`}{!hasMain ? ' · No Main selected' : ''}</p></div>
                 <div className="button-row">{undos[slot.id] && <button className="button button-small" disabled={actionsLocked} onClick={() => undoMain(slot.id)}>Undo Main change</button>}{dragHandle('slot', slot.id, slot.label, role.id)}<MoveButtons label={`slot ${slot.label}`} disabled={actionsLocked} first={slotIndex === 0} last={slotIndex === slots.length - 1} move={direction => reorder('slot', slot.id, direction, role.id)} /></div></header>
               <div className="slot-cards">{shown.map(item => { const pool = data.pool.find(row => row.id === item.workspace_candidate_id)!; const profile = profiles[pool.candidate_id]; const index = all.findIndex(row => row.id === item.id); const label = name(profile, pool.candidate_id);
@@ -263,32 +268,32 @@ function CastingBoardScope({ workspaceId, projectId, actor, initialOutput = 'sel
                   { kind: 'separator' },
                   { label: 'Remove assignment', danger: true, onSelect: () => void remove(item) },
                 ];
-                return <article className={`assignment-card${item.position === 'main' ? ' is-main' : ''}`} key={item.id} onDragOver={event => allowDrop(event, 'assignment', slot.id)} onDrop={event => drop(event, 'assignment', item.id, slot.id)} aria-label={`${label}, ${positionLabel}`} data-draft-focus={`assignment:${item.id}`}>
+                return <motion.article layout="position" layoutId={`assignment-${item.id}`} transition={settle} animate={{ scale: lifted === item.id ? lift.scale : 1 }} className={`assignment-card${item.position === 'main' ? ' is-main' : ''}${lifted === item.id ? ' is-lifted' : ''}`} key={item.id} onDragOver={event => allowDrop(event, 'assignment', slot.id)} onDrop={event => drop(event, 'assignment', item.id, slot.id)} aria-label={`${label}, ${positionLabel}`} data-draft-focus={`assignment:${item.id}`}>
                   <div className="assignment-frame">{pool.selected_frame_asset_ids[0] ? <CandidateFrameImage assetId={pool.selected_frame_asset_ids[0]} alt={`Selected project frame 1 for ${label}`} /> : <span className="assignment-frame-photo"><CandidatePortrait candidateId={pool.candidate_id} name={label} /><span className="sr-only">No project frames selected.</span></span>}</div>
                   <div className="assignment-body">
                     <h5 dir="auto">{label}{profile?.review_status === 'reviewed' && <span className="reviewed-mark" title="Reviewed facts"><Icon name="check" /><span className="sr-only"> · Reviewed facts</span></span>}</h5>
                     <p className="small muted" dir="auto">{pool.availability || 'Availability pending'}{pool.fresh_material_required ? ' · Fresh material required' : ''}</p>
                     {!profile && <p className="small muted">Profile status not loaded</p>}{profile?.archived && <p className="small muted">Archived library profile retained for this project</p>}
                     <div className="assignment-controls"><span className={`position-chip position-${item.position}`}>{positionLabel}</span>{(item.presentation_notes || item.internal_notes) && <span className="assignment-note-mark" title="Has assignment notes"><Icon name="comment" /><span className="sr-only">Has assignment notes</span></span>}
-                      <label className="shortlist-toggle" title="Include in Shortlist"><input type="checkbox" checked={item.shortlist_included} disabled={actionsLocked} onChange={event => patch(item, { shortlist_included: event.target.checked }, 'Shortlist choice')} /><Icon name={item.shortlist_included ? 'star-filled' : 'star'} /><span className="sr-only">Include {label} in Shortlist for {slot.label}</span></label>
+                      <motion.label whileTap={actionsLocked ? undefined : press} className="shortlist-toggle" title="Include in Shortlist"><input type="checkbox" checked={item.shortlist_included} disabled={actionsLocked} onChange={event => patch(item, { shortlist_included: event.target.checked }, 'Shortlist choice')} /><Icon name={item.shortlist_included ? 'star-filled' : 'star'} /><span className="sr-only">Include {label} in Shortlist for {slot.label}</span></motion.label>
                       <ActionMenu label={`Assignment actions for ${label} in ${slot.label}`} disabled={actionsLocked} items={menu} /></div>
                     <span className="drag-assignment">{dragHandle('assignment', item.id, label, slot.id)}</span>
                   </div>
-                </article>;
+                </motion.article>;
               })}
                 <fieldset className="assignment-add" disabled={actionsLocked} aria-label={`Add candidate to ${slot.label}`}><label className="field" htmlFor={`add-${slot.id}`}><span>Project candidate<span className="sr-only"> for {slot.label}</span></span><select id={`add-${slot.id}`} value={picks[slot.id] ?? ''} onChange={event => setPicks(values => ({ ...values, [slot.id]: event.target.value }))}><option value="">Choose an existing project candidate</option>{data.pool.map(item => { const existing = all.find(row => row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included); return <option key={item.id} value={item.id} disabled={present}>{name(profiles[item.candidate_id], item.candidate_id)}{present ? ' · already included' : existing ? ' · add existing assignment to Shortlist' : ''}</option>; })}</select></label><button className="button button-small" disabled={!picks[slot.id] || all.some(row => row.workspace_candidate_id === picks[slot.id] && (output === 'selection' || row.shortlist_included))} onClick={() => add(slot)} aria-label={`${output === 'shortlist' ? 'Add to Shortlist in' : 'Assign as Option to'} ${slot.label}`}><Icon name="plus" />{output === 'shortlist' ? 'Add to Shortlist' : 'Assign as Option'}</button></fieldset>
               </div>
               {output === 'shortlist' && <p className="small muted">Shortlist follows the assignment order in Selection.</p>}
-            </section>;
+            </motion.section>;
           })}
-        </section>; })}</div>}
+        </motion.section>; })}</div>}
       </div>
       <aside className="panel candidate-tray" aria-labelledby="candidate-tray-heading"><header className="panel-header"><h3 id="candidate-tray-heading">Project candidates</h3><span className="small muted">{data.pool.length}</span></header>
-        <ul className="tray-list">{data.pool.map(item => { const count = data.assignments.filter(row => row.workspace_candidate_id === item.id).length; const person = name(profiles[item.candidate_id], item.candidate_id);
+        <RevealList className="tray-list">{data.pool.map(item => { const count = data.assignments.filter(row => row.workspace_candidate_id === item.id).length; const person = name(profiles[item.candidate_id], item.candidate_id);
           const items: MenuItem[] = roles.flatMap(group => [{ kind: 'label' as const, label: group.name }, ...ordered(data.slots.filter(slot => slot.role_id === group.id)).map(slot => { const existing = data.assignments.find(row => row.slot_id === slot.id && row.workspace_candidate_id === item.id); const present = !!existing && (output === 'selection' || existing.shortlist_included);
             return { label: present ? `${slot.label} · already included` : `${slot.label}${existing ? ' · add to Shortlist' : ''}`, disabled: present, onSelect: () => add(slot, item.id) }; })]);
-          return <li key={item.id}>{item.selected_frame_asset_ids[0] ? <span className="tray-thumb"><CandidateFrameImage assetId={item.selected_frame_asset_ids[0]} alt="" /></span> : <span className="tray-thumb assignment-frame-photo" aria-hidden="true"><CandidatePortrait candidateId={item.candidate_id} name={person} /></span>}<span className="tray-person"><strong dir="auto">{person}</strong><span className="small muted">{count ? `${count} ${count === 1 ? 'assignment' : 'assignments'}` : 'Not assigned'}</span></span>
-            {canWrite && <ActionMenu label={`Assign ${person} to a slot ${output === 'shortlist' ? 'in Shortlist' : 'as Option'}`} disabled={actionsLocked || !data.slots.length} items={items} trigger={<><Icon name="plus" /><span className="sr-only">Assign {person}</span></>} />}</li>; })}</ul>
+          return <RevealItem key={item.id} layout>{item.selected_frame_asset_ids[0] ? <span className="tray-thumb"><CandidateFrameImage assetId={item.selected_frame_asset_ids[0]} alt="" /></span> : <span className="tray-thumb assignment-frame-photo" aria-hidden="true"><CandidatePortrait candidateId={item.candidate_id} name={person} /></span>}<span className="tray-person"><strong dir="auto">{person}</strong><span className="small muted">{count ? `${count} ${count === 1 ? 'assignment' : 'assignments'}` : 'Not assigned'}</span></span>
+            {canWrite && <ActionMenu label={`Assign ${person} to a slot ${output === 'shortlist' ? 'in Shortlist' : 'as Option'}`} disabled={actionsLocked || !data.slots.length} items={items} trigger={<><Icon name="plus" /><span className="sr-only">Assign {person}</span></>} />}</RevealItem>; })}</RevealList>
         <div className="panel-footer stack"><p className="small muted">Use + beside a person, or a slot’s Project candidate list, to assign. Each slot keeps its own Option, Main and Backup choices.</p><Link className="button button-small button-quiet" href={`${base}/cast`}><Icon name="plus" />Add from Cast Library</Link></div></aside>
     </div>}
     {editingItem && <Drawer inline title="Assignment notes" description={`${name(profiles[data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? ''], data.pool.find(row => row.id === editingItem.workspace_candidate_id)?.candidate_id ?? editingItem.workspace_candidate_id)} · ${data.slots.find(slot => slot.id === editingItem.slot_id)?.label ?? 'Slot'}`} onClose={() => void closeNotes()} busy={busy}>

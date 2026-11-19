@@ -99,7 +99,7 @@ function StageView({ deck, paused, notes, previewOnly, choice, onChoice, seriesO
     : overlayCount ? { tone: 'ok', text: 'Live preview · includes unsaved edits' } : { tone: 'ok', text: 'Live preview · updates as you edit' };
   return <DeckStage deck={deck} rendered={rendered} index={index} onIndex={go} chip={chip} highlight={highlight ? { field: highlight, tone: 'edit' } : null}
     meta={<>Working draft · Slide {index + 1} of {deck.pages.length}</>}
-    tools={<label className="stage-template"><span className="sr-only">Preview as</span><select aria-label="Preview as" value={choice} onChange={event => onChoice(event.target.value)}>
+    tools={<label className="stage-template"><span className="stage-template-label">Preview as</span><select aria-label="Preview as" value={choice} onChange={event => onChoice(event.target.value)}>
       {choice === 'default' && <option value="default">{defaultLabel}</option>}{seriesOptions.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}{choice !== 'default' && <option value="default">{defaultLabel}</option>}</select></label>}
     notices={<>
       {previewOnly && <p className="stage-note small" role="note"><Icon name="info" />{previewOnly}</p>}
