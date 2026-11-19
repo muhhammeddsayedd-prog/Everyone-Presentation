@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ExportPreparation, ExternalPresentationVersion, GuestBrowserAccess, PresentationExport } from '../../../packages/domain/src/guest-types';
 import type { PdfDownload } from '@eps/domain';
 import { ErrorNotice } from './Feedback';
+import { Icon } from './Icon';
 import { reviewError, reviewRequest, sameOriginReviewUrl, useReviewMutation } from './review-client';
 import { GUEST_PDF_DOWNLOAD_ERROR, guestPdfFilename, readGuestPdfResponse } from './guest-pdf-transfer';
 
@@ -65,16 +66,16 @@ export function GuestPdfDownload({ version, access, onStateChange }: { version: 
       } catch (reason) { if (current) { setDownload(''); setError(reviewError(reason)); } }
     }; void poll(); return () => { current = false; controller.abort(); if (timer) clearTimeout(timer); };
   }, [exportId, version.id, context, access.download_enabled, refresh]);
-  if (!access.download_enabled) return <p className="small muted">PDF downloads are disabled for this link.</p>;
+  if (!access.download_enabled) return <p className="small muted guest-pdf-disabled">PDF downloads are disabled for this link.</p>;
   return <div className="guest-pdf-control">
-    {cancelled ? <p className="small" role="status">PDF preparation was cancelled.</p> : download ? <a className="button button-primary" href={download} download aria-disabled={transferring || write.locked} aria-busy={transferring} onClick={event => {
+    {cancelled ? <p className="small guest-pdf-note" role="status">PDF preparation was cancelled.</p> : download ? <a className="button button-primary" href={download} download aria-disabled={transferring || write.locked} aria-busy={transferring} onClick={event => {
       if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault(); void savePdf();
-    }}>{transferring ? 'Downloading PDF…' : 'Download guest PDF'}</a> : <button className="button button-primary" disabled={write.locked || !!exported && ['queued', 'rendering'].includes(exported.status) && !error} onClick={() => void prepare()}>{write.busy ? 'Preparing PDF…' : exported?.status === 'failed' ? 'Retry PDF preparation' : exported && exported.status !== 'ready' ? 'Preparing PDF…' : 'Prepare PDF'}</button>}
+    }}><Icon name="download" />{transferring ? 'Downloading PDF…' : 'Download guest PDF'}</a> : <button className="button guest-pdf-prepare" disabled={write.locked || !!exported && ['queued', 'rendering'].includes(exported.status) && !error} onClick={() => void prepare()}><Icon name="file" />{write.busy ? 'Preparing PDF…' : exported?.status === 'failed' ? 'Retry PDF preparation' : exported && exported.status !== 'ready' ? 'Preparing PDF…' : 'Prepare PDF'}</button>}
     {write.error && <ErrorNotice message={write.error} />}{error && <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} />}
     {transferError && <ErrorNotice message={transferError} retry={() => void savePdf()} />}
     {write.uncertain && <button className="button" disabled={write.busy} onClick={async () => accepted(await write.send<ExportPreparation>())}>Confirm PDF request</button>}
-    {exported?.status === 'failed' && !cancelled && <p className="small" role="status">PDF preparation failed. Retry uses this saved version.</p>}
-    {exported && ['queued', 'rendering'].includes(exported.status) && <p role="status" className="small">Preparing this version’s PDF. You can continue reviewing.</p>}
+    {exported?.status === 'failed' && !cancelled && <p className="small guest-pdf-note guest-pdf-failed" role="status">PDF preparation failed. Retry uses this saved version.</p>}
+    {exported && ['queued', 'rendering'].includes(exported.status) && <p role="status" className="small guest-pdf-toast"><span className="guest-pdf-toast-icon" aria-hidden="true"><Icon name="file" /></span>Preparing this version’s PDF. You can continue reviewing.</p>}
   </div>;
 }

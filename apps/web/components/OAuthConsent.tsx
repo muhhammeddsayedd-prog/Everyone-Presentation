@@ -5,6 +5,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ErrorNotice, Loading } from './Feedback';
 import { parseOAuthConsentEnvelope, type OAuthConsentView } from '../lib/oauth-consent-contract';
 import styles from './OAuthConsent.module.css';
+import { Icon } from './Icon';
+import { MotionRoot } from './motion/MotionRoot';
+import { Reveal } from './motion/Reveal';
 
 class ConsentRequestError extends Error {
   constructor(readonly status: number, readonly code: string) { super('The authorization request could not be completed.'); }
@@ -90,13 +93,20 @@ export function OAuthConsent({ authorizationId, callbackFailed = false }: { auth
     finally { setBusy(false); }
   }
   const consent = view?.state === 'consent' ? view : null;
-  return <main className={styles.page} id="main-content">
-    <header className={styles.header}><Link href="/projects" aria-label="Everyone Presentation Studio home"><img src="/brand/everyone-logotype.svg" alt="everyone." width={160} height={45} /></Link><span>Presentation Studio</span></header>
+  return <MotionRoot><main className={styles.page} id="main-content">
+    <header className={styles.header}><Link href="/projects" aria-label="Everyone Presentation Studio home"><img src="/brand/everyone-logotype.svg" alt="everyone." width={160} height={45} /></Link><span className={styles.product}>Presentation Studio</span></header>
     <div className={styles.layout}>
-      <div className={styles.intro}><p className={styles.eyebrow}>Connect your tools</p><h1>Your workspace.<br />Your permissions.</h1>
+      <div className={styles.intro}><p className={styles.eyebrow}><span className={styles.dot} aria-hidden="true" />Connect your tools</p><h1>Your workspace.<br /><em>Your</em> permissions.</h1>
         <p>Connect a client to the Everyone projects and casting library your account can already access.</p>
-        <p className="small muted">Your account permissions still apply to every read, edit, generation and shared link.</p></div>
-      <section className={styles.card} aria-labelledby="consent-heading" aria-busy={busy || loading}>
+        <p className="small muted">Your account permissions still apply to every read, edit, generation and shared link.</p>
+        <ul className={styles.flow} aria-label="How a connection works">
+          <li><span><strong>Ask</strong><small>you</small></span><p>Ask in your connected client</p></li>
+          <li><span><strong>Check</strong><small>Everyone</small></span><p>Your permissions</p></li>
+          <li><span><strong>Act</strong><small>as you</small></span><p>Same steps as the Studio</p></li>
+          <li className={styles.flowNever}><span><strong>Never</strong><small>limits</small></span><p>No access beyond yours</p></li>
+        </ul></div>
+      <Reveal className={styles.card}><div aria-labelledby="consent-heading" aria-busy={busy || loading} role="region" className={styles.cardInner}>
+        <p className={styles.cardTag} aria-hidden="true"><Icon name="link" />Connect to Everyone</p>
         <h2 id="consent-heading">Connect to Everyone</h2>
         {!authorizationId ? <ErrorNotice message="This authorization request is unavailable. Return to your client and start the connection again." />
           : loading ? <Loading label="Checking the connection request…" />
@@ -104,16 +114,16 @@ export function OAuthConsent({ authorizationId, callbackFailed = false }: { auth
             <label className="field" htmlFor="oauth-email">Email address<input id="oauth-email" type="email" autoComplete="email" required maxLength={254} value={email} disabled={busy} onChange={event => setEmail(event.target.value)} /></label>
             <button className="button button-primary" disabled={busy || view?.state === 'sign_in_sent'}>{busy ? 'Requesting link…' : 'Email me a sign-in link'}</button></form>
             {view?.state === 'sign_in_sent' && <p role="status">Check your inbox and open the link in this browser. It returns you to this connection request. Only existing accounts can sign in.</p>}</>
-          : consent ? <><p className={styles.requested}>Requested by <strong dir="auto">{consent.client.name}</strong></p>
-            {consent.client.website && <p className="small muted">Registered client website: <span dir="ltr">{consent.client.website}</span></p>}
+          : consent ? <><div className={styles.client}><span className={styles.clientMark} aria-hidden="true">{consent.client.name.trim().charAt(0).toUpperCase()}</span><div><p className={styles.requested}>Requested by <strong dir="auto">{consent.client.name}</strong></p>
+            {consent.client.website && <p className="small muted">Registered client website: <span dir="ltr">{consent.client.website}</span></p>}</div></div>
             <dl className={styles.details}><div><dt>Everyone account</dt><dd dir="auto">{consent.account_email ?? 'Signed-in business account'}</dd></div><div><dt>Identity scope</dt><dd><code>openid</code> · Identify your signed-in account</dd></div></dl>
-            <h3>What this connection can do</h3><p>Read and change only the projects, casting records, presentations and sharing controls your Everyone account can access. Confirming facts and generating versions follow your current permissions.</p>
+            <h3>What this connection can do</h3><p className={styles.can}><Icon name="check" />Read and change only the projects, casting records, presentations and sharing controls your Everyone account can access. Confirming facts and generating versions follow your current permissions.</p>
             {!uncertain && <div className={styles.actions}><button type="button" className="button button-primary" disabled={busy} onClick={() => void decide('approve')}>{busy ? 'Sending decision…' : 'Approve connection'}</button><button type="button" className="button" disabled={busy} onClick={() => void decide('deny')}>Deny connection</button></div>}</>
           : null}
         {uncertain && <div className="notice" role="status"><p>The decision could not be confirmed. Check its status; a second approval will not be sent from this page.</p></div>}
         {error && <ErrorNotice message={error} />}
         {authorizationId && !loading && !busy && !signedOut && (uncertain || error) && <button type="button" className="button" onClick={() => { setLoading(true); setError(''); void inspect(); }}>Check authorization status</button>}
-      </section>
+      </div></Reveal>
     </div>
-  </main>;
+  </main></MotionRoot>;
 }
