@@ -3,6 +3,7 @@ import { useState, useSyncExternalStore } from 'react';
 import { api, errorMessage, mutation } from './api';
 import { ErrorNotice } from './Feedback';
 import { TextReveal } from './motion/TextReveal';
+import { Icon } from './Icon';
 
 function subscribeToLocationChange(onChange: () => void) {
   window.addEventListener('popstate', onChange);
@@ -48,6 +49,7 @@ export function BusinessSignIn() {
     <div className="session-intro">
       <h1><TextReveal text="Your casting workspace." /></h1>
       <p>Sign in to Everyone to access the projects and library your account is authorized to use.</p>
+      <div className="session-flow" aria-hidden="true"><span>Project</span><Icon name="arrow" /><span>Casting</span><Icon name="arrow" /><span>Presentation</span></div>
     </div>
     <section className="session-form">
       <h2>Sign in to Everyone</h2>

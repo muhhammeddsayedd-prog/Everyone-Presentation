@@ -1,3 +1,149 @@
 /* Latest design, Wave 1 agent A overrides (screens layer). features.css and screens.css are frozen; refine here. */
 @layer screens {
+  /* ---------- Page heading with KPI figures (Projects, Presentations) ---------- */
+  .page-heading.page-heading-kpi { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: var(--space-6) var(--space-10); }
+  .page-heading.page-heading-kpi > div:first-child { min-width: 0; flex: 1 1 420px; }
+  .page-kpis { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-4) var(--space-10); margin: 0; }
+  .page-kpis > div { display: flex; align-items: baseline; gap: var(--space-2); }
+  .page-kpis dd { order: 0; margin: 0; font-size: var(--ui-text-kpi); line-height: var(--ui-leading-kpi); letter-spacing: var(--ui-tracking-kpi); font-weight: var(--weight-medium); font-variant-numeric: tabular-nums; color: var(--color-text-primary); }
+  .page-kpis dt { order: 1; color: var(--color-text-secondary); font-size: var(--ui-text-small); }
+
+  /* ---------- Projects: resume hero + jump-to card ---------- */
+  .projects-page .quick-actions { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .projects-page .quick-actions.has-resume { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
+  .quick-action.resume-hero { position: relative; display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); grid-template-rows: auto 1fr; align-items: start; gap: var(--space-5) var(--space-6); min-height: 0; padding: 28px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-32); background: var(--bi-card-bg); transition: border-color var(--duration-fast) var(--ease-standard); }
+  .quick-action.resume-hero:hover { background: var(--bi-card-bg); border-color: var(--color-border-strong); }
+  .resume-hero-label { grid-column: 1 / -1; padding-right: 64px; }
+  .quick-action .resume-hero-label strong { font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .resume-hero-cover { display: block; min-width: 0; }
+  .resume-hero-cover .cover-thumb { border-radius: var(--ui-radius-20); }
+  .resume-hero-text { display: grid; gap: var(--space-2); align-content: start; min-width: 0; }
+  .quick-action .resume-hero-name { display: block; color: var(--color-text-primary); font-size: var(--ui-text-title-lg); line-height: 1.1; letter-spacing: -0.02em; font-weight: var(--weight-medium); white-space: normal; overflow-wrap: anywhere; }
+  .quick-action .resume-hero-meta { color: var(--color-text-muted); font-size: var(--ui-text-small); white-space: normal; }
+  .resume-hero-go { position: absolute; top: 20px; right: 20px; }
+  .notched-go svg { width: 20px; height: 20px; transform: rotate(-45deg); }
+  .jump-to { display: grid; align-content: start; gap: var(--space-3); padding: 28px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
+  .jump-to-title { margin: 0 0 var(--space-1); font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .quick-actions:not(.has-resume) .jump-to { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .quick-actions:not(.has-resume) .jump-to-title { grid-column: 1 / -1; }
+  .jump-to .quick-action { min-height: 72px; padding: 12px 18px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-20); background: transparent; }
+  .jump-to .quick-action:hover { background: var(--color-surface-2); border-color: var(--color-border-strong); }
+  .jump-to .quick-action-icon { width: 36px; height: 36px; border-radius: var(--radius-full); background: transparent; color: var(--color-text-primary); }
+  .jump-to .quick-action strong { font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .projects-page .page-toolbar > .button-primary { min-height: var(--ui-control-lg); padding: 0 26px; font-size: var(--ui-text-input); }
+
+  /* ---------- Notched collection cards (projects, series) ---------- */
+  .project-grid, .series-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-5); }
+  .project-card.notched, .series-card.notched { --notch-bg: var(--color-bg); gap: var(--space-3); padding: 10px 10px 20px; border-radius: var(--ui-radius-26); background: var(--color-surface-2); }
+  .notched > .notched-corner { z-index: 2; }
+  .project-card.notched .project-card-cover, .series-card.notched .series-card-cover { border-radius: var(--ui-radius-20); box-shadow: none; overflow: hidden; }
+  .project-card.notched .project-card-cover:hover { box-shadow: none; transform: none; }
+  .project-card.notched .cover-thumb, .series-card.notched .cover-thumb { border-radius: var(--ui-radius-20); }
+  .project-card.notched.is-selected { box-shadow: inset 0 0 0 2px var(--color-accent); }
+  .project-card.notched.is-selected .project-card-cover { box-shadow: none; }
+  .project-card.notched > :not(.notched-corner):not(.project-card-cover), .series-card.notched > :not(.notched-corner):not(.series-card-cover) { margin-inline: var(--space-2); }
+  .project-card.notched .project-card-body { flex-wrap: wrap; row-gap: var(--space-2); }
+  .project-card.notched .project-card-text h2, .series-card.notched .series-identity h2 { font-size: var(--ui-text-row-title); line-height: 1.15; letter-spacing: -0.015em; font-weight: var(--weight-medium); white-space: normal; overflow-wrap: anywhere; }
+  .project-card.notched .project-card-text p { margin-top: var(--space-1); }
+  .project-card.notched .project-card-cover:focus-visible { outline-offset: -2px; }
+  /* The single green card: ink text, ink outlines, chips as ink pills. */
+  .card-newest { --color-text-primary: var(--color-text-on-accent); --color-border-strong: var(--bi-on-accent-muted); --color-surface-2: var(--color-accent); }
+  .card-newest .badge { background: transparent; border-color: var(--bi-on-accent-muted); color: var(--color-text-on-accent); }
+  .card-newest .badge-dot::before { background: var(--color-text-on-accent); }
+  .card-newest .button:not(.button-primary) { border-color: var(--color-text-on-accent); color: var(--color-text-on-accent); }
+  .card-newest .button:not(.button-primary):hover:not(:disabled) { background: var(--color-text-on-accent); color: var(--color-accent); }
+  .card-newest .button-primary { background: var(--color-text-on-accent); border-color: var(--color-text-on-accent); color: var(--brand-white); }
+  .card-newest.is-selected { box-shadow: inset 0 0 0 2px var(--color-text-on-accent); }
+  .card-newest :focus-visible { outline-color: var(--color-text-on-accent); }
+  .project-grid > .project-card.card-newest { background: var(--color-accent); }
+  .card-newest > .notched-corner { --color-text-primary: var(--brand-white); --color-border-strong: color-mix(in srgb, var(--brand-white) 22%, transparent); }
+  .card-newest > .notched-corner :focus-visible { outline-color: var(--color-accent); }
+  /* The status chip sits on the cover's top-left, as an ink pill (readable on the light cover). */
+  .project-card.notched .project-card-body .badge { position: absolute; top: 22px; left: 22px; z-index: 1; max-width: calc(100% - 120px); border-color: transparent; background: var(--bi-ink); color: var(--brand-white); }
+  .project-card.notched .project-card-body .badge-dot::before { background: var(--color-accent); }
+  .project-card.notched .project-card-text p { white-space: normal; }
+  /* The notch takes the cover's top-right corner, so the wordmark moves to the bottom-right. */
+  .notched .cover-thumb-wordmark { top: auto; bottom: 6cqw; }
+  .notched .cover-thumb-client { right: 32cqw; }
+
+  /* ---------- Presentations index ---------- */
+  .series-card.notched .notched-corner .icon-button { width: 52px; height: 52px; border: 1px solid var(--color-border-strong); }
+  .series-card.notched .series-actions { gap: var(--space-2); }
+  .series-card.notched.is-archived { opacity: 1; }
+  .series-card.notched > .series-state { position: absolute; top: 22px; left: 22px; z-index: 1; margin: 0; max-width: calc(100% - 120px); }
+  .series-card.notched > .series-state .badge { border-color: transparent; background: var(--bi-ink); color: var(--brand-white); }
+  .series-card.notched > .series-state .badge-dot::before { background: var(--color-accent); }
+  .series-card.notched.is-archived .series-card-cover { opacity: .6; }
+
+  /* ---------- Project overview ---------- */
+  .project-overview .back-link { display: inline-flex; align-items: center; gap: var(--space-2); width: fit-content; min-height: var(--ui-control-sm); padding: 0 16px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-full); color: var(--color-text-primary); font-size: var(--ui-text-small); }
+  .project-overview .back-link:hover { background: var(--color-surface-2); text-decoration: none; }
+  .overview-title { display: grid; gap: var(--space-4); justify-items: start; }
+  .overview-title .overview-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .overview-title h1 { font-size: var(--text-display); line-height: var(--ui-leading-display); letter-spacing: var(--ui-tracking-display); font-weight: var(--weight-medium); overflow-wrap: anywhere; }
+  .overview-title p { color: var(--color-text-secondary); font-size: var(--ui-text-lede); }
+  .overview-board { display: grid; gap: var(--space-5); padding: 28px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
+  .overview-board-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+  .overview-board-head h2 { font-size: var(--ui-text-sub); font-weight: var(--weight-medium); letter-spacing: -0.01em; color: var(--color-text-primary); }
+  .overview-board-head p { color: var(--color-text-muted); font-size: var(--ui-text-small); }
+  .overview-main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-5); align-items: start; }
+  .overview-main .overview-cover { box-shadow: none; border-radius: var(--ui-radius-20); overflow: hidden; }
+  .overview-main .overview-cover .cover-thumb { border-radius: var(--ui-radius-20); }
+  .module-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-4); }
+  .module-card { padding: 24px; border-color: var(--bi-card-line); border-radius: var(--ui-radius-20); background: var(--color-surface-2); }
+  .module-card h3 { font-size: var(--ui-text-section); font-weight: var(--weight-medium); letter-spacing: -0.01em; }
+  .module-card-active { padding: 28px; border-color: color-mix(in srgb, var(--color-accent) 55%, var(--bi-card-line)); border-radius: var(--ui-radius-26); background: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface-2)); }
+  .module-card-active h3 { font-size: var(--ui-text-card-title); }
+  .module-card-planned { border-style: solid; background: transparent; }
+  .module-card .quick-action-icon { width: 40px; height: 40px; border-radius: var(--radius-full); border: 1px solid var(--color-border-strong); background: transparent; color: var(--color-text-primary); }
+  .module-card-planned .quick-action-icon { background: transparent; color: var(--color-text-muted); }
+  .module-card .button-primary { min-height: var(--ui-control-lg); padding: 0 24px; font-size: var(--ui-text-input); }
+
+  /* ---------- Sign-in (bi auth): dark form card + green-to-paper hero ---------- */
+  .main-content > .session-page { max-width: none; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.25fr); gap: var(--space-6); align-items: stretch; padding: var(--space-6) 0; min-height: calc(100vh - 160px); }
+  .session-page > .session-form { order: 0; display: flex; flex-direction: column; padding: 56px 60px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
+  .session-page > .session-intro { order: 1; display: flex; flex-direction: column; padding: 48px 52px; border-radius: var(--ui-radius-32); background: radial-gradient(120% 90% at 0% 0%, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 30%, var(--bi-paper)) 38%, var(--bi-paper) 72%); color: var(--bi-ink); }
+  .session-intro h1 { font-size: var(--ui-text-display); line-height: var(--ui-leading-hero); letter-spacing: var(--ui-tracking-hero); font-weight: var(--weight-medium); color: var(--bi-ink); max-width: 15ch; }
+  .session-intro > p { max-width: 52ch; color: var(--bi-ink-2); font-size: var(--ui-text-lede); }
+  .session-intro .session-flow { order: -1; margin: 0 0 var(--space-8); color: var(--bi-ink); }
+  .session-intro .session-flow span { padding: 6px 14px; border-color: transparent; background: var(--brand-white); color: var(--bi-ink); font-size: var(--ui-text-small); }
+  .session-intro .session-flow svg { color: var(--bi-ink); }
+  .session-form h2 { font-size: var(--ui-text-stat); line-height: var(--ui-leading-stat); letter-spacing: var(--ui-tracking-stat); font-weight: var(--weight-medium); margin-bottom: var(--space-3); }
+  .session-form > p { font-size: var(--ui-text-body); color: var(--color-text-secondary); }
+  .session-form .google-sign-in { min-height: var(--ui-control-lg); background: var(--brand-white); border-color: var(--brand-white); color: var(--bi-ink); font-size: var(--ui-text-input); font-weight: var(--weight-medium); }
+  .session-form .google-sign-in:hover:not(:disabled) { background: var(--bi-paper); border-color: var(--bi-paper); color: var(--bi-ink); }
+  .session-form .button { min-height: var(--ui-control-lg); font-size: var(--ui-text-input); }
+  .session-form input, .session-form select { min-height: var(--ui-input); border-radius: var(--ui-radius-16); }
+  .session-form > .sign-in-divider { margin: var(--space-6) 0; }
+
+  /* ---------- New project side sheet ---------- */
+  .drawer:has(.new-project-form) { width: min(600px, 100vw); }
+  .drawer:has(.new-project-form) .drawer-header h2 { font-size: var(--ui-text-stat); line-height: var(--ui-leading-stat); letter-spacing: var(--ui-tracking-stat); }
+  .drawer:has(.new-project-form) .drawer-header p { color: var(--color-text-secondary); font-size: var(--ui-text-body); }
+  .drawer:has(.new-project-form) .drawer-footer { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); }
+  .drawer:has(.new-project-form) .drawer-footer .button { min-height: var(--ui-control-lg); padding: 0 26px; font-size: var(--ui-text-input); }
+  .new-project-form input, .new-project-form select { min-height: var(--ui-input); border-radius: var(--ui-radius-16); }
+  .new-project-form fieldset { padding: 0; border: 0; }
+  .new-project-form legend { display: flex; align-items: center; gap: var(--space-3); width: 100%; margin-bottom: var(--space-3); color: var(--color-text-secondary); font-size: var(--ui-text-small); }
+  .new-project-form legend::after { content: ""; flex: 1; height: 1px; background: var(--bi-line); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1279px) {
+    .projects-page .quick-actions.has-resume { grid-template-columns: minmax(0, 1fr); }
+    .overview-main { grid-template-columns: minmax(0, 1fr); }
+    .main-content > .session-page { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .session-page > .session-intro { order: -1; }
+  }
+  @media (max-width: 767px) {
+    .page-kpis { gap: var(--space-3) var(--space-6); }
+    .page-kpis dd { font-size: var(--ui-text-stat); }
+    .quick-action.resume-hero { grid-template-columns: minmax(0, 1fr); padding: 20px; border-radius: var(--ui-radius-28); }
+    .jump-to { padding: 20px; border-radius: var(--ui-radius-28); }
+    .overview-board { padding: 18px; border-radius: var(--ui-radius-28); }
+    .session-page > .session-form { padding: 28px 22px; border-radius: var(--ui-radius-28); }
+    .session-page > .session-intro { padding: 28px 22px; border-radius: var(--ui-radius-28); }
+    .session-intro h1 { font-size: var(--ui-text-stat); line-height: var(--ui-leading-stat); }
+    .session-form h2 { font-size: var(--ui-text-title-lg); line-height: 1.1; }
+    .projects-page .page-toolbar > .button-primary { flex: 1 1 100%; }
+  }
 }

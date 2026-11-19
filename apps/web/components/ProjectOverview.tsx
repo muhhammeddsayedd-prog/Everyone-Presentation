@@ -26,12 +26,10 @@ export function ProjectOverview({ projectId, actor, onDirtyChange }: { projectId
   const status = planned ? 'Planned module' : project.casting_workspace_id ? 'Casting in progress' : 'Casting not started';
   return <PageFrame className="project-overview" panel={{ title: 'Project details', subtitle: 'Shared central record', wide: true, body: <ProjectDetails key={project.id} project={project} onSaved={setProject} onDirtyChange={onDirtyChange} /> }}>
     <Link className="back-link" href="/projects">← Projects</Link>
-    <div className="overview-hero">
-      <div className="overview-cover"><CoverThumb title={project.name} subtitle={status} client={project.client_name} tone={planned ? 'muted' : 'default'} size="hero" /></div>
-      <header className="overview-identity"><span className={`badge ${planned ? 'badge-pending' : project.casting_workspace_id ? 'badge-dot badge-ok' : 'badge-outline'}`}>{label}{planned ? ' · Planned' : project.casting_workspace_id ? ' · In progress' : ''}</span><h1 dir="auto">{project.name}</h1><p dir="auto">{project.client_name ?? 'Client not provided'}</p></header>
-    </div>
-    <section className="overview-modules" aria-labelledby="overview-modules-heading"><h2 id="overview-modules-heading" className="panel-eyebrow">Presentation modules</h2>
-      <div className="module-grid">
+    <header className="overview-title"><div className="overview-tags"><span className={`badge ${planned ? 'badge-pending' : project.casting_workspace_id ? 'badge-dot badge-ok' : 'badge-outline'}`}>{label}{planned ? ' · Planned' : project.casting_workspace_id ? ' · In progress' : ''}</span></div><h1 dir="auto">{project.name}</h1><p dir="auto">{project.client_name ?? 'Client not provided'}</p></header>
+    <section className="overview-modules overview-board" aria-labelledby="overview-modules-heading"><div className="overview-board-head"><h2 id="overview-modules-heading">Presentation modules</h2><p>One shared project · many outputs</p></div>
+      <div className="overview-main">
+        <div className="overview-cover"><CoverThumb title={project.name} subtitle={status} client={project.client_name} tone={planned ? 'muted' : 'default'} size="hero" /></div>
         <article className={`module-card${planned ? '' : ' module-card-active'}`} aria-labelledby="overview-presentation-heading">
           <header><span className="quick-action-icon"><Icon name={planned ? 'layers' : 'board'} /></span><div><h3 id="overview-presentation-heading">{label} presentation</h3><p>{planned ? 'Planned module' : 'Cast Selection and Cast Shortlist'}</p></div></header>
           {planned ? <><p>This shared project is saved. {label} preparation and generation are Planned.</p><p className="small muted">You can update the shared project details and return from Projects. No presentation has been generated.</p></>
@@ -39,6 +37,8 @@ export function ProjectOverview({ projectId, actor, onDirtyChange }: { projectId
               <div><button className="button button-primary" disabled={opening || !project.casting_workspace_id && !canStart} onClick={() => void openCasting()}>{opening ? 'Opening…' : project.casting_workspace_id ? 'Resume casting' : 'Start casting'}<Icon name="arrow" /></button></div>{!project.casting_workspace_id && !canStart && <p className="permission-note">Starting Casting requires workspace write permission. Your shared project is saved.</p>}</>}
           {error && <ErrorNotice message={error} />}
         </article>
+      </div>
+      <div className="module-grid">
         {(['Wardrobe', 'Art direction', 'Storyboard'] as const).filter(name => name !== label).map(name => <article key={name} className="module-card module-card-planned" aria-label={`${name} · Planned`}><header><span className="quick-action-icon"><Icon name="layers" /></span><div><h3>{name}</h3><p>Planned module</p></div></header><p className="small muted">Not available yet. Nothing is generated for this module.</p></article>)}
       </div>
     </section>

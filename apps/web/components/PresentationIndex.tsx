@@ -11,7 +11,10 @@ import { ActionMenu } from './ui/Menu';
 import { Modal } from './ui/Overlay';
 import { useConfirm } from './ui/Confirm';
 import { useToast } from './ui/Toast';
-import { stagger } from './motion/motion';
+import { motion } from 'motion/react';
+import { RevealList } from './motion/Reveal';
+import { listItem } from './motion/presets';
+import { KpiNumber } from './motion/KpiNumber';
 import { SegmentIndicator } from './motion/SegmentIndicator';
 import { PageFrame, PanelToggle } from './shell/PageFrame';
 import { CoverThumb } from './shell/Cover';
@@ -65,22 +68,27 @@ function IndexScope({ canManage }: { canManage: boolean }) {
     <div className="section-note"><Icon name="lock" /><p>{canManage ? 'Each saved version is immutable. Renaming or archiving a series never changes its versions.' : 'Renaming and archiving series requires presentation generation permission.'}</p></div>
   </>;
   return <PageFrame className="presentations-page" panel={{ title: 'Filters', subtitle: 'Saved presentation series', label: 'Series filters', body: panelBody, filters: { count: (output === 'all' ? 0 : 1) + (showArchived ? 1 : 0) } }}>
-    <header className="page-heading"><div><h1>Presentations</h1><p>Saved versions follow their own output and audience series. Each version is immutable; new work creates the next version.</p></div><Link className="button" href="/projects">Open Projects</Link></header>
+    <header className="page-heading page-heading-kpi"><div><h1>Presentations</h1><p>Saved versions follow their own output and audience series. Each version is immutable; new work creates the next version.</p></div>
+      {items.length > 0 && <dl className="page-kpis">
+        <div><dt>Series</dt><dd><KpiNumber value={items.filter(row => !row.archived).length} /></dd></div>
+        <div><dt>With a ready version</dt><dd><KpiNumber value={items.filter(row => !row.archived && row.latest_ready_version_no !== null).length} /></dd></div>
+      </dl>}
+    </header>
     {error && <ErrorNotice message={error} retry={reloadAll} />}
-    <div className="page-toolbar">{items.length > 0 ? <p className="small muted page-toolbar-status" role="status">{visible.length} series shown{next ? ' · more available' : ''}</p> : <span className="page-toolbar-status" />}<PanelToggle /></div>
+    <div className="page-toolbar">{items.length > 0 ? <p className="small muted page-toolbar-status" role="status">{visible.length} series shown{next ? ' · more available' : ''}</p> : <span className="page-toolbar-status" />}<PanelToggle /><Link className="button" href="/projects">Open Projects<Icon name="arrow" /></Link></div>
     {loading && !items.length ? <Loading label="Opening presentation series…" /> : !items.length && !error ? <div className="empty-state"><Icon name="slides" /><h2>No presentation series yet</h2><p>Open a project, choose a review context and generate its first saved version.</p><Link className="button button-primary" href="/projects">Open Projects</Link></div>
-      : visible.length ? <ul ref={stagger} className="series-grid" aria-label="Presentation series">{visible.map(series => { const workspace = workspaces[series.workspace_id]; const history = workspace ? `/projects/${workspace.project_id}/casting/${series.workspace_id}/presentations?series_id=${series.id}` : null;
+      : visible.length ? <RevealList className="series-grid" label="Presentation series">{visible.map(series => { const workspace = workspaces[series.workspace_id]; const history = workspace ? `/projects/${workspace.project_id}/casting/${series.workspace_id}/presentations?series_id=${series.id}` : null;
         const outputLabel = series.output_type === 'selection' ? 'Cast Selection' : 'Cast Shortlist';
-        return <li key={series.id} className={`series-card${series.archived ? ' is-archived' : ''}`} aria-busy={busyId === series.id || undefined}>
+        return <motion.li layout variants={listItem} key={series.id} className={`series-card notched${series.archived ? ' is-archived' : ''}`} aria-busy={busyId === series.id || undefined}>
+          {canManage && <span className="notched-corner"><ActionMenu label={`Series actions for ${series.title}`} disabled={busyId !== null} items={[{ label: 'Rename series', onSelect: () => setRenaming(series) }, { label: 'Share and review', onSelect: () => router.push(`/presentations/series/${series.id}/sharing`) }, { kind: 'separator' as const }, series.archived ? { label: 'Restore series', onSelect: () => void patch(series, { archived: false }, `${series.title} restored.`) } : { label: 'Archive series', danger: true, onSelect: () => void archive(series) }]} /></span>}
           <div className="series-card-cover"><CoverThumb title={series.title} subtitle={series.latest_ready_version_no ? `${outputLabel} · Version ${series.latest_ready_version_no}` : outputLabel} client={series.audience_snapshot.label} tone={series.archived || !series.latest_ready_version_no ? 'muted' : 'default'} /></div>
           <div className="series-card-body">
             <div className="series-identity"><h2 dir="auto">{series.title}</h2><p className="small muted">{outputLabel} · {series.audience_snapshot.label} ({series.audience_snapshot.scope}) · template {series.template_version}</p></div>
-            {canManage && <ActionMenu label={`Series actions for ${series.title}`} disabled={busyId !== null} items={[{ label: 'Rename series', onSelect: () => setRenaming(series) }, { label: 'Share and review', onSelect: () => router.push(`/presentations/series/${series.id}/sharing`) }, { kind: 'separator' as const }, series.archived ? { label: 'Restore series', onSelect: () => void patch(series, { archived: false }, `${series.title} restored.`) } : { label: 'Archive series', danger: true, onSelect: () => void archive(series) }]} />}
           </div>
           <div className="series-state">{series.archived ? <span className="badge">Archived</span> : series.latest_ready_version_no ? <span className="badge badge-dot badge-ok">Version {series.latest_ready_version_no} ready</span> : <span className="badge badge-pending">No ready version yet</span>}</div>
           <div className="button-row series-actions">{series.latest_ready_version_id && <Link className="button button-small" href={`/presentations/versions/${series.latest_ready_version_id}`}>Open latest ready</Link>}{history && <Link className="button button-small button-quiet" href={history}>Open workspace history</Link>}</div>
           {rowError?.id === series.id && !renaming && <div className="series-error"><ErrorNotice message={rowError.message} retry={reloadAll} /></div>}
-        </li>; })}</ul>
+        </motion.li>; })}</RevealList>
       : <div className="empty-state"><Icon name="slides" /><h2>No series in this view</h2><p>Choose All series{archivedCount > 0 && !showArchived ? ' or show archived series' : ''} to see the others that are loaded.</p></div>}
     {next && !error && <button className="button" disabled={loading} onClick={() => { setLoading(true); setCursor(next); }}>Load more series</button>}
     {renaming && <RenameSeries series={renaming} busy={busyId === renaming.id} error={rowError?.id === renaming.id ? rowError.message : ''} onCancel={() => { setRenaming(null); setRowError(null); }} onSave={async title => { if (await patch(renaming, { title }, `Series renamed to ${title}.`)) setRenaming(null); }} />}
