@@ -17,6 +17,7 @@ import { stagger } from './motion/motion';
 import { NewProject } from './NewProject';
 import { plannedPresentation, presentationTypeLabel } from './project-presentation';
 import { parseProjectCreateIntent, projectCreateIntentSnapshot, subscribeProjectCreateIntent } from '../lib/project-create-intent';
+import { SearchField, useLiveResults, useLiveSearch } from './ui/useLiveSearch';
 
 type Filter = 'all' | 'started' | 'not_started';
 const filters: { value: Filter; label: string; icon: IconName }[] = [{ value: 'all', label: 'All', icon: 'projects' }, { value: 'started', label: 'Casting in progress', icon: 'board' }, { value: 'not_started', label: 'Not started', icon: 'clock' }];
@@ -26,48 +27,28 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [cursor, setCursor] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [error, setError] = useState('');
   const [opening, setOpening] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [refresh, setRefresh] = useState(0);
   const [creating, setCreating] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(true);
   const recent = useRecentWorkspaces();
   const countId = useId();
   const pending = useSyncExternalStore(subscribeProjectCreateIntent, () => projectCreateIntentSnapshot(actor.id), () => null);
   const pendingIntent = parseProjectCreateIntent(pending);
-  useEffect(() => {
-    let current = true;
-    const timer = setTimeout(() => {
-      setLoading(true);
-      api<Project[]>(`/api/v1/projects?q=${encodeURIComponent(query)}&limit=25`).then(result => {
-        if (current) { setProjects(result.data); setCursor(result.page?.next_cursor ?? null); setError(''); }
-      }).catch(reason => { if (current) setError(errorMessage(reason)); }).finally(() => { if (current) setLoading(false); });
-    }, 180);
-    return () => { current = false; clearTimeout(timer); };
-  }, [query, refresh]);
+  // Live search: results follow the box as you type; clearing it returns the full list at once.
+  const { term } = useLiveSearch(query);
+  const list = useLiveResults<Project>(`q=${term}`, (cursor, signal) => api<Project[]>(`/api/v1/projects?q=${encodeURIComponent(term)}&limit=25${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`, { signal }));
+  const { items: projects, next: cursor, loading, initial, loadingMore, error: listError } = list;
+  const [openError, setOpenError] = useState('');
+  const error = openError || listError;
 
   async function open(project: Project) {
     if (plannedPresentation(project.presentation_type)) { router.push(`/projects/${project.id}`); return; }
-    setOpening(project.id); setError('');
+    setOpening(project.id); setOpenError('');
     try {
       const workspace = project.casting_workspace_id ? (await api<Workspace>(`/api/v1/workspaces/${project.casting_workspace_id}`)).data : (await api<Workspace>('/api/v1/workspaces', mutation('POST', { project_id: project.id, initial_output: 'selection' }))).data;
       router.push(`/projects/${project.id}/casting/${workspace.id}/project`);
-    } catch (reason) { setError(errorMessage(reason)); setOpening(null); }
-  }
-
-  async function loadMore() {
-    if (!cursor) return;
-    setLoadingMore(true);
-    try {
-      const result = await api<Project[]>(`/api/v1/projects?q=${encodeURIComponent(query)}&limit=25&cursor=${encodeURIComponent(cursor)}`);
-      setProjects(previous => [...previous, ...result.data]); setCursor(result.page?.next_cursor ?? null);
-    } catch (reason) { setError(errorMessage(reason)); }
-    finally { setLoadingMore(false); }
+    } catch (reason) { setOpenError(errorMessage(reason)); setOpening(null); }
   }
 
   const visible = projects.filter(project => filter === 'all' || (filter === 'started') === Boolean(project.casting_workspace_id));
@@ -80,14 +61,14 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
   const lastWorkspace = recent[0];
   const filtersPanel = <>
     <div className="panel-section"><h3 className="panel-eyebrow">Show</h3>
-      <div className="segmented segmented-vertical" role="group" aria-label="Filter loaded projects"><SegmentIndicator />{filters.map(item => <button key={item.value} type="button" aria-pressed={filter === item.value} aria-describedby={loading ? undefined : `${countId}-${item.value}`} onClick={() => setFilter(item.value)}><Icon name={item.icon} /><span className="segment-label">{item.label}</span>{!loading && <><span className="segment-count" aria-hidden="true">{counts[item.value]}</span><span id={`${countId}-${item.value}`} hidden>{counts[item.value]} loaded</span></>}</button>)}</div>
+      <div className="segmented segmented-vertical" role="group" aria-label="Filter loaded projects"><SegmentIndicator />{filters.map(item => <button key={item.value} type="button" aria-pressed={filter === item.value} aria-describedby={initial ? undefined : `${countId}-${item.value}`} onClick={() => setFilter(item.value)}><Icon name={item.icon} /><span className="segment-label">{item.label}</span>{!initial && <><span className="segment-count" aria-hidden="true">{counts[item.value]}</span><span id={`${countId}-${item.value}`} hidden>{counts[item.value]} loaded</span></>}</button>)}</div>
       {cursor && <p className="small muted">Counts cover the projects loaded so far.</p>}
     </div>
     {recent.length > 0 && <div className="panel-section"><h3 className="panel-eyebrow">Recently opened</h3><ul className="panel-links">{recent.map(item => <li key={item.workspaceId}><Link href={item.href}><Icon name="history" /><span dir="auto">{item.name}</span></Link></li>)}</ul></div>}
     <div className="section-note"><Icon name="lock" /><p>{central ? 'Access follows your Everyone account permissions. New projects save to the shared central records.' : 'Project access follows your acting user. This development environment contains synthetic projects only.'}</p></div>
   </>;
   return <PageFrame className="projects-page" panel={{ title: 'Filters', subtitle: central ? 'Shared central project records' : 'Development project records', label: 'Project filters', body: filtersPanel, filters: { count: filter === 'all' ? 0 : 1 } }}
-    right={selected && !loading ? <ProjectPanel key={selected.id} project={selected} central={central} opening={opening === selected.id} disabled={blocked(selected)} onOpen={() => open(selected)} onClose={() => setDetailsOpen(false)} /> : undefined}>
+    right={selected && !initial ? <ProjectPanel key={selected.id} project={selected} central={central} opening={opening === selected.id} disabled={blocked(selected)} onOpen={() => open(selected)} onClose={() => setDetailsOpen(false)} /> : undefined}>
     <header className="page-heading"><div><h1>Projects</h1><p>{central ? 'Shared Everyone projects and their presentations.' : 'Prepare presentations from your development projects.'}</p></div>{canCreateProject && <button type="button" className="button button-primary" onClick={() => setCreating(true)}>{pendingIntent ? 'Resume project creation' : 'New project'}<Icon name="plus" /></button>}</header>
     <div className="quick-actions">
       {lastWorkspace && <Link className="quick-action" href={lastWorkspace.href}><span className="quick-action-icon"><Icon name="board" /></span><span><strong>Resume last workspace</strong><span dir="auto">{lastWorkspace.name}</span></span></Link>}
@@ -95,12 +76,13 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
       <Link className="quick-action" href="/presentations"><span className="quick-action-icon"><Icon name="slides" /></span><span><strong>Presentations</strong><span>Saved versions and review links</span></span></Link>
     </div>
     <div className="page-toolbar">
-      <label className="search-field"><Icon name="search" /><span className="sr-only">Search projects or clients</span><input type="search" placeholder="Search projects or clients" value={query} onChange={event => setQuery(event.target.value)} /></label>
+      <SearchField label="Search projects or clients" placeholder="Search projects or clients" value={query} onValueChange={setQuery} busy={loading} />
       <PanelToggle />
     </div>
     <section aria-label="Project list" className="stack">
-      {error && <ErrorNotice message={error} retry={() => setRefresh(value => value + 1)} />}
-      {loading ? <Loading label="Finding your projects…" /> : visible.length ? <ul ref={stagger} className="project-grid">{visible.map(project => { const current = selected?.id === project.id; const planned = plannedPresentation(project.presentation_type);
+      {error && <ErrorNotice message={error} retry={() => { setOpenError(''); list.reload(); }} />}
+      <p className="sr-only" role="status" aria-live="polite">{loading ? 'Searching projects…' : initial ? '' : `${visible.length} ${visible.length === 1 ? 'project' : 'projects'} shown`}</p>
+      {initial || (loading && !visible.length) ? <Loading label="Finding your projects…" /> : visible.length ? <ul ref={stagger} className="project-grid">{visible.map(project => { const current = selected?.id === project.id; const planned = plannedPresentation(project.presentation_type);
         return <li key={project.id} className={`project-card${current ? ' is-selected' : ''}`}>
           <button type="button" className="project-card-cover" aria-pressed={current} onClick={() => { setSelectedId(project.id); setDetailsOpen(true); }}>
             <span className="sr-only">Show details for {project.name}</span><CoverThumb title={project.name} subtitle={planned ? 'Planned module' : project.casting_workspace_id ? 'Casting in progress' : 'Casting not started'} client={project.client_name} tone={planned ? 'muted' : 'default'} />
@@ -111,8 +93,8 @@ export function ProjectList({ actor, onDirtyChange }: { actor: Actor; onDirtyCha
           </div>
           <button className={`button button-small project-card-action${current ? ' button-primary' : ''}`} onClick={() => open(project)} disabled={blocked(project)}>{opening === project.id ? 'Opening…' : openLabel(project)}<Icon name="arrow" /></button>
         </li>; })}</ul>
-        : <div className="empty-state"><Icon name="projects" /><h2>{query ? 'No projects match your search.' : projects.length ? 'No projects in this view.' : 'No accessible projects.'}</h2><p>{query ? 'Try another project or client name.' : projects.length ? 'Choose All to show every loaded project.' : canCreateProject ? 'Create a shared project to start preparing a presentation.' : 'Projects appear here when they are shared with your acting user.'}</p></div>}
-      {cursor && <div className="load-more"><button className="button" onClick={loadMore} disabled={loadingMore}>{loadingMore ? 'Loading…' : 'Load more projects'}</button></div>}
+        : <div className="empty-state"><Icon name="projects" /><h2>{term ? 'No projects match your search.' : projects.length ? 'No projects in this view.' : 'No accessible projects.'}</h2><p>{term ? 'Try another project or client name.' : projects.length ? 'Choose All to show every loaded project.' : canCreateProject ? 'Create a shared project to start preparing a presentation.' : 'Projects appear here when they are shared with your acting user.'}</p></div>}
+      {cursor && <div className="load-more"><button className="button" onClick={() => void list.loadMore()} disabled={loadingMore}>{loadingMore ? 'Loading…' : 'Load more projects'}</button></div>}
     </section>
     {creating && <NewProject key={actor.id} actorId={actor.id} pendingIntent={pendingIntent} onClose={() => setCreating(false)} onCreated={project => { setCreating(false); router.push(`/projects/${encodeURIComponent(project.id)}`); }} onDirtyChange={onDirtyChange} />}
   </PageFrame>;
