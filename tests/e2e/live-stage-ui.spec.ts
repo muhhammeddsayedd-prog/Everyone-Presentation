@@ -10,7 +10,7 @@ const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR
 const requirements = (age: string | null) => ({ age_range: age, gender_requirement: null, appearance_performance: null, languages: [], accents: [], skills: [], scene_references: [], shoot_dates: [], location: null, availability_requirements: null, other_instructions: null });
 const facts = (name: string, casting: string) => ({ name, casting_id: casting, age_or_range: '41', stated_gender: null, height_measurements: '182 cm', languages: ['Arabic'], accents: [], skills_experience: 'Commercials', city: 'Cairo', previous_projects_roles: null, classification: null });
 
-interface Options { failRoles?: number; failProfile?: number; strict?: boolean; noEditorialSeries?: boolean }
+interface Options { failRoles?: number; failProfile?: number; strict?: boolean; noEditorialSeries?: boolean; captioned?: boolean }
 async function workspace(page: Page, options: Options = {}) {
   let revision = 3; let rowVersion = 4; let failRoles = options.failRoles ?? 0; let failProfile = options.failProfile ?? 0;
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message)); const reads = { roles: 0 };
@@ -40,8 +40,8 @@ async function workspace(page: Page, options: Options = {}) {
       { id: PL2, workspace_id: W, candidate_id: C2, selected_candidate_media_id: null, selected_frame_asset_ids: [], availability: null, fresh_material_required: false, media_confirmed: false, internal_notes: null, row_version: 1 }]);
     if (method === 'GET' && path === `/api/v1/workspaces/${W}/assignments`) return list(assignments);
     // A 1.3.0 series and an earlier-template one: the stage offers 1.3.0/1.4.0 series and draws each in its own template.
-    if (method === 'GET' && path === '/api/v1/presentation-series') return list(options.noEditorialSeries ? [series(SER11, 'Client selection', '1.1.0')] : [series(SER12, 'Editorial selection', '1.3.0'), series(SER11, 'Client selection', '1.1.0')]);
-    if (method === 'GET' && path === '/api/v1/settings') return ok({ template_version: options.noEditorialSeries ? '1.1.0' : '1.3.0', default_timezone: 'Africa/Cairo', row_version: 1 });
+    if (method === 'GET' && path === '/api/v1/presentation-series') return list(options.captioned ? [series(id(19), 'Captioned selection', '1.4.1'), series(SER12, 'Editorial selection', '1.3.0')] : options.noEditorialSeries ? [series(SER11, 'Client selection', '1.1.0')] : [series(SER12, 'Editorial selection', '1.3.0'), series(SER11, 'Client selection', '1.1.0')]);
+    if (method === 'GET' && path === '/api/v1/settings') return ok({ template_version: options.captioned ? '1.4.1' : options.noEditorialSeries ? '1.1.0' : '1.3.0', default_timezone: 'Africa/Cairo', row_version: 1 });
     if (method === 'GET' && path === `/api/v1/candidates/${C1}/media`) return list([{ id: M1, candidate_id: C1, source_asset_id: V1, preview_asset_id: null, transcript_asset_id: null, original_transcript: null, languages: ['ar'],
       available_frames: [F1, F2].map((asset_id, n) => ({ asset_id, source_asset_id: V1, timestamp_ms: 1000 * (n + 1), width: 1080, height: 1350, quality_flags: [] })), selected_frame_asset_ids: [F1, F2], processing_issues: [], row_version: 1 }]);
     if (method === 'GET' && path.startsWith('/api/v1/candidates/') && path.endsWith('/media')) return list([]);
@@ -218,12 +218,12 @@ test('a remote change to another record appears on its slide while an unsaved ed
   expect(model.writes).toEqual([]); expect(model.errors).toEqual([]);
 });
 
-test('with an earlier Studio default and no editorial series the stage draws 1.4.0 and says generation waits for Settings', async ({ page }) => {
+test('with an earlier Studio default and no editorial series the stage draws 1.4.1 and says generation waits for Settings', async ({ page }) => {
   const model = await workspace(page, { noEditorialSeries: true }); await page.goto(`${base}/organize`);
   await expect(strip(page).getByRole('button')).toHaveCount(5);
   await expect(page.locator('.stage-frame .ef-slide[data-layout="cover_floward"]')).toHaveCount(1);
-  await expect(page.getByLabel('Preview as').locator('option')).toHaveText(['No saved series · Everyone Film Editorial 1.4.0']);
-  await expect(stage(page).getByText(/^The Studio default is still Everyone Casting 1\.1\.0 \(earlier template\)\. Generating with Everyone Film Editorial 1\.4\.0 starts once a Studio manager selects it in Settings\./u)).toBeVisible();
+  await expect(page.getByLabel('Preview as').locator('option')).toHaveText(['No saved series · Everyone Film Editorial 1.4.1']);
+  await expect(stage(page).getByText(/^The Studio default is still Everyone Casting 1\.1\.0 \(earlier template\)\. Generating with Everyone Film Editorial 1\.4\.1 starts once a Studio manager selects it in Settings\./u)).toBeVisible();
   expect(model.errors).toEqual([]);
 });
 
@@ -260,5 +260,19 @@ test('the 1.3.0 slot page shows a slot\'s people together and draws no missing f
   await expect(page.locator('.stage-frame .ef-slide[data-layout="cast_group_detail"]')).toHaveCount(1);
   await expect(page.locator('.stage-frame .ef-slide').getByText('Not provided')).toHaveCount(0);
   await expect(page.locator('.stage-frame .ef-slide').getByText('Synthetic Actor Two', { exact: true })).toHaveCount(1);
+  expect(model.errors).toEqual([]);
+});
+
+test('a 1.4.1 series draws the Floward portrait pages with only each person\'s name, age and height under the portrait', async ({ page }) => {
+  const model = await workspace(page, { captioned: true }); await page.goto(`${base}/organize`);
+  await expect(page.getByLabel('Preview as')).toHaveValue(id(19));
+  await expect(stage(page).getByText(/Draft preview in Everyone Film Editorial 1\.4\.1/)).toBeVisible();
+  // Father: a Main | Backup page (Actor One, Backup silhouette without a caption), then Actor Two's option page.
+  await strip(page).getByRole('button', { name: 'Slide 2 of 5: Synthetic Actor One' }).click();
+  const shown = page.locator('.stage-frame .ef-slide[data-layout="cast_main_backup"]');
+  await expect(shown).toHaveCount(1);
+  await expect(shown.locator('[data-fit-field="presentation.caption_name"]')).toHaveText(['Synthetic Actor One']);
+  await expect(shown.locator('[data-fit-field="presentation.caption_details"]')).toHaveText(['41 | 182 cm']);
+  for (const absent of ['Cairo', 'Commercials', 'Arabic', 'Not provided']) await expect(shown.getByText(absent)).toHaveCount(0);
   expect(model.errors).toEqual([]);
 });
