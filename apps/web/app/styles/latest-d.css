@@ -50,7 +50,7 @@
   .cast-detail-type { margin: 4px 0 0; font-size: var(--ui-text-title); font-weight: var(--weight-medium); letter-spacing: -0.02em; }
   .cast-detail-body { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: var(--space-5); align-items: start; }
   .cast-detail-portrait { position: relative; aspect-ratio: 1 / 1.05; overflow: hidden; border-radius: var(--ui-radius-24); background: var(--bi-card-bg); }
-  .cast-detail-portrait .library-portrait-initial { font-size: 64px; }
+  .cast-detail-portrait .library-portrait-initial { font-size: var(--ui-text-display); }
   .cast-detail-identity { display: grid; gap: var(--space-3); min-width: 0; }
   .cast-detail-name { margin: 0; font-size: var(--ui-text-title); font-weight: var(--weight-medium); letter-spacing: -0.02em; overflow-wrap: anywhere; }
   .cast-detail-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin: 0; }
@@ -77,11 +77,18 @@
   }
 
   /* ---------- Candidate profile ---------- */
-  .candidate-profile .profile-hero { grid-template-columns: 240px minmax(0, 1fr); gap: var(--space-6); align-items: stretch; padding: 22px; border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
+  .candidate-profile .profile-hero { grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-6); align-items: stretch; padding: 20px; border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
   .candidate-profile .profile-hero-portrait { align-self: start; width: 100%; border: 0; border-radius: var(--ui-radius-24); box-shadow: none; }
-  .candidate-profile .profile-hero-identity { align-content: center; gap: 10px; }
-  .candidate-profile .profile-hero-identity h1 { font-size: var(--ui-text-title-lg); font-weight: var(--weight-medium); letter-spacing: var(--ui-tracking-display); line-height: 1.05; }
+  /* Identity runs top to bottom beside the portrait: status chips, name, facts line, then the review state at the foot. */
+  .candidate-profile .profile-hero-identity { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0; padding-block: 4px; }
+  .candidate-profile .profile-hero-identity h1 { font-size: var(--ui-text-stat); font-weight: var(--weight-medium); letter-spacing: var(--ui-tracking-stat); line-height: var(--ui-leading-stat); }
   .candidate-profile .profile-hero-identity > p:not(.small) { color: var(--color-text-secondary); }
+  .profile-hero-status { display: flex; align-items: center; gap: var(--space-3) var(--space-4); flex-wrap: wrap; margin-top: auto; padding-top: var(--space-4); border-top: 1px solid var(--bi-line); align-self: stretch; }
+  .profile-confirmed { display: inline-flex; align-items: center; gap: 6px; margin: 0; }
+  .profile-confirmed svg { width: 14px; height: 14px; flex: none; color: var(--color-accent-text); }
+  /* The supplied-facts panel grows with its facts beside the profile instead of scrolling inside the paper. */
+  .page-frame.candidate-profile > .config-panel:not([data-overlay]) { position: relative; top: auto; height: auto; align-self: start; }
+  .page-frame.candidate-profile > .config-panel:not([data-overlay]) > .config-panel-body { flex: none; overflow: visible; }
   .candidate-profile .section-heading { justify-content: flex-start; align-items: flex-start; gap: var(--space-4); }
   .candidate-profile .section-heading > div:not(.section-icon) { flex: 1; min-width: 0; }
   .section-icon { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border: 1px solid var(--color-border-strong); border-radius: 50%; color: var(--color-text-primary); }
@@ -143,7 +150,7 @@
   .job-bar-waiting_for_input > span { background: var(--color-warning); }
   .job-bar-failed > span { background: var(--color-danger); }
   .job-bar-cancelled > span, .job-bar-queued > span { background: var(--color-text-muted); }
-  .job-bar-running > span { background-color: var(--color-accent); background-image: repeating-linear-gradient(-45deg, transparent 0 6px, color-mix(in srgb, var(--brand-black) 18%, transparent) 6px 12px); background-size: 17px 17px; }
+  .job-bar-running > span { background-color: var(--color-info); background-image: repeating-linear-gradient(-45deg, transparent 0 6px, color-mix(in srgb, var(--brand-black) 18%, transparent) 6px 12px); background-size: 17px 17px; }
   @media (prefers-reduced-motion: no-preference) { .job-bar-running > span { animation: job-bar-stripes 900ms linear infinite; } }
 
   .processing-page .processing-groups { gap: var(--space-6); }
@@ -158,11 +165,18 @@
   .processing-batch { padding: 26px; border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
   .processing-group .batch-strip { gap: 4px; flex-wrap: nowrap; }
   .processing-group .batch-cell { flex: 1 1 0; min-width: 6px; height: 12px; border-radius: var(--radius-full); }
+  /* In progress reads blue (info); queued is a neutral track, not an outline that looks like an empty slot. */
+  .processing-group .batch-running { background: var(--color-info); }
+  .processing-group .batch-queued { background: var(--color-surface-3); box-shadow: inset 0 0 0 1px var(--color-border-strong); }
   .processing-project { padding: 14px 20px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-20); }
   .processing-project > summary { cursor: pointer; font-weight: var(--weight-medium); }
   .processing-jobs { display: grid; gap: 10px; }
   .processing-jobs > li { grid-template-columns: auto minmax(0, 1fr) minmax(180px, .7fr); align-items: center; gap: var(--space-4); padding: 16px 20px; border: 1px solid var(--bi-card-line); border-radius: var(--ui-radius-24); background: var(--bi-card-bg); transition: border-color var(--duration-fast) var(--ease-standard); }
   .processing-jobs > li:hover { border-color: var(--color-border-strong); }
+  /* Title, stage and progress sit as one tight block. */
+  .processing-jobs > li > div:not(.processing-job-state) { display: grid; gap: 4px; align-content: center; justify-items: start; min-width: 0; }
+  .processing-jobs > li > div:not(.processing-job-state) > * { margin: 0; }
+  .processing-jobs > li > div:not(.processing-job-state) > .processing-progress { justify-self: stretch; }
   .job-kind-icon { width: 44px; height: 44px; }
   .processing-job-link { font-size: var(--ui-text-row-title); font-weight: var(--weight-medium); color: var(--color-text-primary); }
   .processing-job-state { display: grid; justify-items: end; gap: 4px; text-align: right; }
@@ -191,6 +205,14 @@
   .settings-nav-icon svg { color: var(--bi-ink); }
   .settings-nav span:not(.settings-nav-icon) { flex: 1; }
   .settings-nav .settings-nav-go { color: var(--bi-ink-3); }
+  /* The section being read: an ink pill with a green icon disc (mockup 17-settings). */
+  .settings-nav a[aria-current] { background: var(--bi-ink); color: var(--brand-white); box-shadow: none; }
+  .settings-nav a[aria-current] .settings-nav-icon { background: var(--color-accent); }
+  .settings-nav a[aria-current] .settings-nav-icon svg { color: var(--color-text-on-accent); }
+  .settings-nav a[aria-current] .settings-nav-go { color: var(--brand-white); }
+  .settings-nav a[aria-current]:focus-visible { outline-offset: 3px; }
+  /* Sized to the nav (no stretch of empty paper); still sticky beside the long settings column. */
+  .page-frame:is(.settings-page, .project-overview) > .config-panel:not([data-overlay]) { height: auto; max-height: calc(100vh - var(--topbar-height) - var(--space-6)); align-self: start; }
   .settings-page .settings-section.editor-section, .settings-page #studio-defaults > .editor-section { padding: 28px; border: 0; border-radius: var(--ui-radius-32); background: var(--bi-card-bg); }
   .settings-page .section-heading { justify-content: flex-start; align-items: flex-start; gap: var(--space-4); }
   .settings-page .section-heading > div { flex: 1; min-width: 0; }
@@ -213,7 +235,11 @@
     .settings-page .settings-section.editor-section, .settings-page #studio-defaults > .editor-section { padding: 18px; border-radius: var(--ui-radius-24); }
     .settings-page .connection-list { grid-template-columns: minmax(0, 1fr); }
     .settings-page .connection-list > div:nth-child(odd) { border-right: 0; }
-    .settings-page .preset-row { flex-wrap: wrap; padding: 12px 14px; }
+    /* Phone: the label takes what is left and wraps inside itself; scope chip and actions stay together on the right. */
+    .settings-page .preset-row { flex-wrap: nowrap; gap: var(--space-3); padding: 12px 10px 12px 16px; }
+    .settings-page .preset-row > div:first-child { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+    .settings-page .preset-actions { flex: none; gap: 4px; }
+    .settings-page .preset-entry:has(.preset-row .field) .preset-row { flex-wrap: wrap; }
   }
 }
 @keyframes job-bar-stripes { to { background-position: 17px 0; } }

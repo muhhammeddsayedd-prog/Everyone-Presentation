@@ -87,11 +87,14 @@ export function CandidateDetailView({candidateId,actor,onDirtyChange}:{candidate
       <div className="profile-hero">
         <div className="profile-hero-portrait"><CandidatePortrait candidateId={candidateId} name={candidate.facts.name} size="large"/></div>
         <header className="profile-hero-identity">
-          <div className="cluster">{candidate.review_status==='reviewed'?<span className="badge badge-dot badge-ok">Reviewed</span>:<span className="badge badge-dot badge-warn">Not reviewed</span>}{candidate.archived&&<span className="badge">Archived</span>}</div>
+          <div className="cluster">{candidate.review_status==='reviewed'?<span className="badge badge-dot badge-ok">Reviewed</span>:<span className="badge badge-dot badge-warn">Not reviewed</span>}{candidate.archived&&<span className="badge">Archived</span>}{candidate.facts.classification&&<span className="badge badge-outline" dir="auto">{candidate.facts.classification}</span>}{candidate.facts.casting_id&&<span className="badge badge-outline" dir="auto">{candidate.facts.casting_id}</span>}</div>
           <h1 dir="auto">{candidate.facts.name??'Name not provided'}</h1>
           <p>Shared facts · {candidate.review_status==='reviewed'?'Reviewed':'Unreviewed'}{candidate.archived?' · Archived':''}</p>
-          {candidate.reviewed_at&&<p className="small muted">Confirmed <StudioDateTime value={candidate.reviewed_at} dateOnly /></p>}
-          {canReview&&!candidate.archived&&<div className="button-row"><button className="button button-primary" disabled={busy||editing||anyMediaDirty||candidate.review_status==='reviewed'} onClick={()=>void save(`/api/v1/candidates/${candidateId}/reviewed`,'POST',{row_version:candidate.row_version},'Facts confirmed as Reviewed.')}><Icon name="check"/>Confirm Reviewed</button></div>}
+          {/* Reviewed reads as a settled state; the confirm action shows only while there is something to confirm. */}
+          {(candidate.reviewed_at||(canReview&&!candidate.archived&&candidate.review_status!=='reviewed'))&&<div className="profile-hero-status">
+            {candidate.reviewed_at&&<p className="small muted profile-confirmed"><Icon name="check"/>Confirmed <StudioDateTime value={candidate.reviewed_at} dateOnly /></p>}
+            {canReview&&!candidate.archived&&candidate.review_status!=='reviewed'&&<button className="button button-primary" disabled={busy||editing||anyMediaDirty} onClick={()=>void save(`/api/v1/candidates/${candidateId}/reviewed`,'POST',{row_version:candidate.row_version},'Facts confirmed as Reviewed.')}><Icon name="check"/>Confirm Reviewed</button>}
+          </div>}
         </header>
       </div>
       {error&&<ErrorNotice message={error} retry={retryRead}/>} {message&&<div className="notice" role="status"><p>{message}</p></div>}

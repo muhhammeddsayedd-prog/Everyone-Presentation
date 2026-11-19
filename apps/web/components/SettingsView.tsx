@@ -32,8 +32,24 @@ export function SettingsView({ actor, onDirtyChange = noDirtyChange }: { actor: 
     finally { setBusy(false); }
   }
   const sections = [{ id: 'audience-presets', label: 'Audience presets', icon: 'people' as const }, ...(central && canManage ? [{ id: 'studio-defaults', label: 'Studio defaults', icon: 'settings' as const }] : []), { id: 'connections', label: 'Connections', icon: 'link' as const }];
+  const sectionIds = sections.map(item => item.id).join(' ');
+  // The section nav marks the section being read: the last one whose top has passed the upper third of the view.
+  const [currentSection, setCurrentSection] = useState('audience-presets');
+  useEffect(() => {
+    const ids = sectionIds.split(' ');
+    function update() {
+      const line = window.innerHeight / 3; let next = ids[0];
+      for (const id of ids) { const top = document.getElementById(id)?.getBoundingClientRect().top; if (top !== undefined && top <= line) next = id; }
+      // At the bottom of the page the last section is the one in view, even when it is short.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) next = ids[ids.length - 1];
+      setCurrentSection(next);
+    }
+    update();
+    window.addEventListener('scroll', update, { passive: true }); window.addEventListener('resize', update);
+    return () => { window.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
+  }, [sectionIds, loading]);
   const panelBody = <>
-    <nav aria-label="Settings sections"><ul className="panel-links settings-nav">{sections.map(item => <li key={item.id}><a href={`#${item.id}`}><span className="settings-nav-icon"><Icon name={item.icon} /></span><span>{item.label}</span><Icon name="chevron-right" className="settings-nav-go" /></a></li>)}</ul></nav>
+    <nav aria-label="Settings sections"><ul className="panel-links settings-nav">{sections.map(item => <li key={item.id}><a href={`#${item.id}`} aria-current={currentSection === item.id ? 'location' : undefined} onClick={() => setCurrentSection(item.id)}><span className="settings-nav-icon"><Icon name={item.icon} /></span><span>{item.label}</span><Icon name="chevron-right" className="settings-nav-go" /></a></li>)}</ul></nav>
     <div className="section-note"><Icon name="lock" /><p>{canManage ? 'Settings change future presentation work only. Saved versions are never changed.' : 'You can view these settings. Changing them requires settings permission.'}</p></div>
   </>;
   return <PageFrame className="settings-page" panel={{ title: 'Sections', subtitle: 'Studio-wide configuration', label: 'Settings sections panel', body: panelBody }}>
