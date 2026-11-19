@@ -8,6 +8,7 @@ import { settingsDto } from '../../../packages/domain/src/settings';
 import { api, errorMessage } from './api';
 import { ErrorNotice, Loading } from './Feedback';
 import { useReviewMutation } from './review-client';
+import { Icon } from './Icon';
 
 export function SettingsDefaults({ onDirtyChange, intro }: { onDirtyChange: (value: boolean) => void; intro?: ReactNode }) {
   const [settings, setSettings] = useState<Settings | null>(null); const [presets, setPresets] = useState<AudiencePreset[]>([]);
@@ -26,7 +27,7 @@ export function SettingsDefaults({ onDirtyChange, intro }: { onDirtyChange: (val
   }, [refresh]);
   function reload() { setLoading(true); setNotice(''); setRefresh(value => value + 1); }
   return <section className="editor-section" aria-labelledby="studio-defaults-heading">
-    <div className="section-heading"><div><h2 id="studio-defaults-heading">Studio defaults</h2><p>Defaults for future work. Saved presentations keep their original content.</p></div></div>
+    <div className="section-heading"><span className="section-icon" aria-hidden="true"><Icon name="settings" /></span><div><h2 id="studio-defaults-heading">Studio defaults</h2><p>Defaults for future work. Saved presentations keep their original content.</p></div></div>
     {intro}
     {notice && <p role="status">{notice}</p>}
     {error && <ErrorNotice message={error} retry={reload} />}
@@ -69,7 +70,7 @@ function DefaultsEditor({ settings, presets, onDirtyChange, onReload, onSaved }:
         {[...new Set([settings.template_version, CURRENT_TEMPLATE])].map(version => <option key={version} value={version}>{templateName(version)}</option>)}
       </select>
       <p id="studio-template-help" className="small muted">New series use this template once it is saved here. {templateName(CURRENT_TEMPLATE)} is the template offered for new series: cast pages with portraits (Main and Backup labelled, options side by side), each person&apos;s name, age and height under their portrait (only what was provided), scene dividers and highlighted notes; other candidate facts stay in the app. Series and saved versions made with an earlier template, including 1.4.0 and 1.3.0, keep it and stay readable.</p>
-      {template !== CURRENT_TEMPLATE && <p className="small">The saved default is an earlier template. Choose {templateName(CURRENT_TEMPLATE)} and save.</p>}</div>
+      {template !== CURRENT_TEMPLATE && <p className="small text-warn">The saved default is an earlier template. Choose {templateName(CURRENT_TEMPLATE)} and save.</p>}</div>
     {audienceSupported && <div className="field"><label htmlFor="studio-default-audience">Default review audience</label>
       <select id="studio-default-audience" aria-describedby="studio-audience-help" value={audience} disabled={write.locked} onChange={event => setAudience(event.target.value)}>
         <option value="">Not set</option>
@@ -82,7 +83,7 @@ function DefaultsEditor({ settings, presets, onDirtyChange, onReload, onSaved }:
       {Object.entries(settings.models).map(([name, model]) => <div key={name}><dt>{`${name.charAt(0).toUpperCase()}${name.slice(1).replaceAll('_', ' ')}`} model</dt><dd>{model}</dd></div>)}
     </dl>
     {write.error && <ErrorNotice message={write.error} />}
-    <div className="action-row"><button className="button" type="submit" disabled={write.locked || !dirty || !timezone.trim()}>{write.busy ? 'Saving...' : 'Save defaults'}</button>
+    <div className="action-row"><button className="button button-primary" type="submit" disabled={write.locked || !dirty || !timezone.trim()}>{write.busy ? 'Saving...' : 'Save defaults'}</button>
       {write.uncertain && <button className="button" type="button" disabled={write.busy} onClick={() => void save(true)}>Confirm same save</button>}
       <button className="button button-quiet" type="button" disabled={write.locked} onClick={onReload}>Reload saved defaults</button>
     </div>
